@@ -5,10 +5,9 @@
  */
 package Vista;
 
-import Bo.BoHuesped;
-import Modelo.Huesped;
+
 import java.util.Date;
-import javax.swing.JOptionPane;
+
 
 /**
  *
@@ -18,8 +17,9 @@ public class FrmRegistroHuesped extends javax.swing.JFrame {
 
     /**
      * Creates new form FrmRegistroHuesped
-     */
+     */  Bo.BoHuesped bo;
     public FrmRegistroHuesped() {
+
         initComponents();
         this.setLocationRelativeTo(null);
         this.setResizable(false);
@@ -245,7 +245,7 @@ public class FrmRegistroHuesped extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistroActionPerformed
-        Bo.BoHuesped bo = new BoHuesped();
+      
         String cedula = txtCedula.getText();
         String nombre = txtNombreCompleto.getText();
         String genero = cboGenero.getSelectedItem().toString();
@@ -256,12 +256,6 @@ public class FrmRegistroHuesped extends javax.swing.JFrame {
         String contrasena = txtPassword.getText();
         String tipo = "ordinario";
         String estado = "sin multa";
-
-        //   int id, String cedula, String nombrecompleto, String genero, String correo, String telefono, Date fechanacimiento, String nacionalidad, String contrasena, String tipo, String estado
-        Huesped h = new Huesped(0, cedula, nombre, genero, correo, telefono, fechaNacimiento, nacionalida, contrasena, tipo, estado);
-        if (bo.guardarHuesped(h)) {
-            JOptionPane.showMessageDialog(null, "se guardó el huesped");
-        }
 
 
     }//GEN-LAST:event_btnRegistroActionPerformed
