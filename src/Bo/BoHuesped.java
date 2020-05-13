@@ -47,11 +47,11 @@ public class BoHuesped {
             conca+="estado error "+state+" \n";
            
             String mensaje=ex.getMessage();
-            conca+="mensaje error tamano "+mensaje.length()+" \n";
+            conca+="mensaje error tamano "+mensaje+" \n";
          
             
             String x="prueba";
-            conca+="mensaje error filtrado "+x+" \n";
+            conca+="mensaje error filtrado "+extraerVariable(mensaje)+" \n";
             JOptionPane.showMessageDialog(null, conca);
             
             
