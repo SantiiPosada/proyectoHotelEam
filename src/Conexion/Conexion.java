@@ -22,6 +22,7 @@ public class Conexion {
         } catch (ClassNotFoundException ex) {
             System.err.println("Hubo un error al buscar la clase");
         } catch (SQLException ex) {
+           ex.printStackTrace();
             System.err.println("Hubo un error al conectar");
         }
         return con;

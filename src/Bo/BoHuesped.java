@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -22,7 +23,7 @@ public class BoHuesped {
     public boolean guardarHuesped(Huesped huesped) {
         boolean desicion = false;
         try (Connection con = Conexion.getConnection()) {
-            PreparedStatement pstmt = con.prepareStatement("INSERT into huesped (cedula,nombreCompleto,genero,correo,telefono,fechaNacimiento,nacionalidad,contrasena,tipo,estado) values (?,?,?,?,?,?,?,?,?,?)");
+            PreparedStatement pstmt = con.prepareStatement("INSERT INTO huesped (cedula,nombreCompleto,genero,correo,telefono,fechaNacimiento,nacionalidad,contrasena,tipo,estado) values (?,?,?,?,?,?,?,?,?,?)");
 
             pstmt.setString(1, huesped.getCedula());
             pstmt.setString(2, huesped.getNombrecompleto());
@@ -39,12 +40,36 @@ public class BoHuesped {
         } catch (SQLException ex) {
            // ex.printStackTrace();
               System.err.println("Hubo un error al insertar");
+              String conca="";
             int codigo=ex.getErrorCode();
+            conca+="codigo error "+codigo+" \n";
             String state=ex.getSQLState();
+            conca+="estado error "+state+" \n";
+           
             String mensaje=ex.getMessage();
+            conca+="mensaje error tamano "+mensaje.length()+" \n";
+         
+            
+            String x="prueba";
+            conca+="mensaje error filtrado "+x+" \n";
+            JOptionPane.showMessageDialog(null, conca);
+            
+            
             desicion = false;
         }
         return desicion;
+    }
+    
+    public String extraerVariable(String variable){
+      
+        JOptionPane.showMessageDialog(null, "tamano mensaje "+variable.length());
+        String x="";
+    int inicio=variable.indexOf(".");
+    int fin=variable.indexOf("'",inicio+1);
+    
+    x=variable.substring(inicio,fin);
+    
+    return x;
     }
 
 //    public Estudiante buscarEstudiante(int idEstudiante) {
