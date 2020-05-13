@@ -50,7 +50,7 @@ public class BoHuesped {
             conca+="mensaje error  "+mensaje+" \n";
          
             
-            String x="prueba";
+        //    String x="prueba";
             conca+="mensaje error filtrado "+extraerVariable(mensaje)+" \n";
             JOptionPane.showMessageDialog(null, conca);
             
@@ -67,7 +67,7 @@ public class BoHuesped {
     int inicio=variable.indexOf(".");
     int fin=variable.indexOf("'",inicio+1);
     
-    x=variable.substring(inicio,fin);
+    x=variable.substring(inicio+1,fin);
     
     return x;
     }
