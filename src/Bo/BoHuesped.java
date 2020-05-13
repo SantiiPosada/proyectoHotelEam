@@ -47,7 +47,7 @@ public class BoHuesped {
             conca+="estado error "+state+" \n";
            
             String mensaje=ex.getMessage();
-            conca+="mensaje error tamano "+mensaje+" \n";
+            conca+="mensaje error  "+mensaje+" \n";
          
             
             String x="prueba";
