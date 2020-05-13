@@ -9,7 +9,9 @@ import Modelo.Recepcionista;
 import java.sql.Connection;
 import Conexion.Conexion;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  *
@@ -40,48 +42,48 @@ public class DAORecepcionista {
         return desicion;
     }
 
-    public Recepcionista buscarRecepcionista(int iddocente) {
-        Docente docente = new Docente();
-        try (Connection con = conexion.getConnetion()) {
-            PreparedStatement pstmt = con.prepareStatement("SELECT idDocente,Cedula,Nombre,Apellido,Direccion,Telefono,Correo,Fecha_nacimiento FROM Docente"
-                    + " " + "WHERE idDocente=?");
-            pstmt.setInt(1, iddocente);
+    public Recepcionista buscarRecepcionista(int id) {
+        Recepcionista recepcionista = new Recepcionista();
+        try (Connection con = Conexion.getConnection()) {
+            PreparedStatement pstmt = con.prepareStatement("SELECT id,cedula,nombreCompleto,genero,correo,telefono,fechaNacimiento,contrasena FROM recepcionista"
+                    + " " + "WHERE id=?");
+            pstmt.setInt(1, id);
             //Resultset guarda los datos de la busqueda
             ResultSet respuesta = pstmt.executeQuery();
             if (respuesta.next()) {
 
-                docente.setId(respuesta.getInt("idDocente"));
-                docente.setCedula(respuesta.getString("Cedula"));
-                docente.setNombre(respuesta.getString("Nombre"));
-                docente.setApellido(respuesta.getString("Apellido"));
-                docente.setDireccion(respuesta.getString("Direccion"));
-                docente.setTelefono(respuesta.getString("Telefono"));
-                docente.setCorreo(respuesta.getString("Correo"));
-                docente.setFecha_nacimiento(respuesta.getDate("Fecha_nacimiento"));
-                return docente;
+                recepcionista.setId(respuesta.getInt("id"));
+                recepcionista.setCedula(respuesta.getString("cedula"));
+                recepcionista.setNombrecompleto(respuesta.getString("nombreCompleto"));
+                recepcionista.setGenero(respuesta.getString("genero"));
+                recepcionista.setCorreo(respuesta.getString("correo"));
+                recepcionista.setTelefono(respuesta.getString("telefono"));
+                recepcionista.setFechanacimiento(respuesta.getDate("fechaNacimiento"));
+                recepcionista.setContrasena(respuesta.getString("contrasena"));
+                return recepcionista;
             }
         } catch (SQLException ex) {
-            docente = null;
+            recepcionista = null;
             ex.printStackTrace();
 
         }
         return null;
     }
 
-    public boolean modificarDocente(Docente docente) {
+    public boolean modificarRecepcionista(Recepcionista recepcionista) {
         boolean desicion = false;
-        try (Connection con = conexion.getConnetion()) {
-            PreparedStatement pstmt = con.prepareStatement("UPDATE Docente SET  idDocente=?, Cedula=?, Nombre=?, Apellido=?, Direccion=?, Telefono=?, Correo=?, Fecha_nacimiento=? WHERE idDocente=?");//preparar la sentencia sql(modificar,agregar,eliminar,etc) se llena de izquierda a derecha de 1 en 1(1,2,3)
+        try (Connection con = Conexion.getConnection()) {
+            PreparedStatement pstmt = con.prepareStatement("UPDATE recepcionista SET  id=?, cedula=?, nombreCompleto=?, genero=?, correo=?, telefono=?, fechaNacimiento=?, contrasena=? WHERE id=?");//preparar la sentencia sql(modificar,agregar,eliminar,etc) se llena de izquierda a derecha de 1 en 1(1,2,3)
 
-            pstmt.setInt(1, docente.getId());
-            pstmt.setString(2, docente.getCedula());
-            pstmt.setString(3, docente.getNombre());//posicion 2=nombre Valor
-            pstmt.setString(4, docente.getApellido());//posicion 3=salario valor
-            pstmt.setString(5, docente.getDireccion());
-            pstmt.setString(6, docente.getTelefono());
-            pstmt.setString(7, docente.getCorreo());
-            pstmt.setDate(8, convertirDeDateUtilaDateSql(docente.getFecha_nacimiento()));
-            pstmt.setInt(9, docente.getId());
+            pstmt.setInt(1, recepcionista.getId());
+            pstmt.setString(2, recepcionista.getCedula());
+            pstmt.setString(3, recepcionista.getNombrecompleto());//posicion 2=nombre Valor
+            pstmt.setString(4, recepcionista.getGenero());
+            pstmt.setString(5, recepcionista.getCorreo());
+            pstmt.setString(6, recepcionista.getTelefono());
+            pstmt.setDate(7, convertirDeDateUtilaDateSql(recepcionista.getFechanacimiento()));
+            pstmt.setString(8, recepcionista.getContrasena());
+            pstmt.setInt(9, recepcionista.getId());
             //pstm.setDate(6,Date.valueOf(txtFecha.getText()));
             int res = pstmt.executeUpdate();//retorna 0,1 o fallo al insertar
 
@@ -99,42 +101,41 @@ public class DAORecepcionista {
         return desicion;
     }
 
-    public ArrayList<Docente> listarDocente() {
-        try (Connection con = conexion.getConnetion()) {
+    public ArrayList<Recepcionista> listarRecepcionista() {
+        try (Connection con = Conexion.getConnection()) {
 
-            PreparedStatement pstmt = con.prepareStatement("SELECT idDocente,Cedula,Nombre,Apellido,Direccion,Telefono,Correo,Fecha_nacimiento FROM Docente");
+            PreparedStatement pstmt = con.prepareStatement("SELECT id,cedula,nombreCompleto,genero,correo,telefono,fechaNacimiento,contrasena FROM recepcionista");
 
             // pstmt.setInt(1, id);
             ResultSet respuesta = pstmt.executeQuery();//Me va a traer todo lo que venga como resultado
-            ArrayList<Docente> ListaDocente = new ArrayList<>();
+            ArrayList<Recepcionista> listarecepcionista = new ArrayList<>();
 
             boolean condicion = true;
             while (condicion == true) {
                 if (respuesta.next()) {//si respuesta.next(revisa si hay un elemtento,salta al siguiente reistro) devuelve true=si encontro algo o false si no lo encontró
-                    Docente docente = new Docente();
+                    Recepcionista recepcionista = new Recepcionista();
 
-                    docente.setId(respuesta.getInt("idDocente"));
-                    docente.setCedula(respuesta.getString("Cedula"));
-                    docente.setNombre(respuesta.getString("Nombre"));
-                    docente.setApellido(respuesta.getString("Apellido"));
-                    docente.setDireccion(respuesta.getString("Direccion"));
-                    docente.setTelefono(respuesta.getString("Telefono"));
-                    docente.setCorreo(respuesta.getString("Correo"));
-                    docente.setFecha_nacimiento(respuesta.getDate("Fecha_nacimiento"));
-
-                    ListaDocente.add(docente);
+                    recepcionista.setId(respuesta.getInt("idDocente"));
+                    recepcionista.setCedula(respuesta.getString("Cedula"));
+                    recepcionista.setNombrecompleto(respuesta.getString("nombreCompleto"));
+                    recepcionista.setGenero(respuesta.getString("genero"));
+                    recepcionista.setCorreo(respuesta.getString("correo"));
+                    recepcionista.setTelefono(respuesta.getString("telefono"));
+                    recepcionista.setFechanacimiento(respuesta.getDate("fechaNacimiento"));
+                    recepcionista.setContrasena(respuesta.getString("contrasena"));
+                    listarecepcionista.add(recepcionista);
 
                 } else {
                     condicion = false;
                 }
             }
 
-            return ListaDocente;
+            return listarecepcionista;
         } catch (SQLException e) {
             e.printStackTrace();
             System.err.println("Hubo un error al buscar");
         }
-        return listarDocente();
+        return listarRecepcionista();
     }
 
     private java.sql.Date convertirDeDateUtilaDateSql(java.util.Date uDate) {
