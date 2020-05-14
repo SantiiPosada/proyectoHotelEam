@@ -5,10 +5,21 @@
  */
 package Fabrica;
 
+import Dao.FactoryDAOJDBC;
+import Definiciones.IFabricaDAO;
+
 /**
  *
  * @author mateo
  */
 public class FactoryDAO {
-    
+
+    /**
+     * Método que retorna la fábrica del medio de persistencia que se va a usar
+     *
+     * @return una abstracción del medio de persistencia
+     */
+    public static IFabricaDAO getFabrica() {
+        return new FactoryDAOJDBC();
+    }
 }

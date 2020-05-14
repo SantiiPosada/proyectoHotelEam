@@ -8,6 +8,7 @@ package Dao;
 import Modelo.Recepcionista;
 import java.sql.Connection;
 import Conexion.Conexion;
+import Definiciones.IDAORecepcionista;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,8 +18,9 @@ import java.util.ArrayList;
  *
  * @author mateo
  */
-public class DAORecepcionista {
+public class DAORecepcionista implements IDAORecepcionista {
 
+    @Override
     public boolean guardarRecepcionista(Recepcionista recepcionista) {
         boolean desicion = false;
         try (Connection con = Conexion.getConnection()) {
@@ -42,6 +44,7 @@ public class DAORecepcionista {
         return desicion;
     }
 
+    @Override
     public Recepcionista buscarRecepcionista(int id) {
         Recepcionista recepcionista = new Recepcionista();
         try (Connection con = Conexion.getConnection()) {
@@ -70,6 +73,7 @@ public class DAORecepcionista {
         return null;
     }
 
+    @Override
     public boolean modificarRecepcionista(Recepcionista recepcionista) {
         boolean desicion = false;
         try (Connection con = Conexion.getConnection()) {
@@ -101,6 +105,7 @@ public class DAORecepcionista {
         return desicion;
     }
 
+    @Override
     public ArrayList<Recepcionista> listarRecepcionista() {
         try (Connection con = Conexion.getConnection()) {
 

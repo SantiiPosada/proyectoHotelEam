@@ -10,7 +10,12 @@ package Definiciones;
  * @author brian
  */
 public interface IFabricaDAO {
-    
-  
-    
+
+    /**
+     * Metodo para la creacion de un DAORecepcionista
+     *
+     * @return Abstraccion de DAORecepcionista
+     */
+    public IDAORecepcionista crearDAORecepcionista();
+
 }
