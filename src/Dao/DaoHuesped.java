@@ -18,7 +18,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -46,12 +45,10 @@ public class DaoHuesped implements IDAOHuesped {
             desicion = true;
         } catch (SQLException ex) {
             //   ex.printStackTrace();
-            JOptionPane.showMessageDialog(null, ex.getMessage() + " variable del error " + extraerVariable(ex.getMessage(), extraerDosUltimasLetras(ex.getMessage())));
-
             int codigo = ex.getErrorCode();
             if (codigo == 1062) {
                 String variable = extraerVariable(ex.getMessage(), extraerDosUltimasLetras(ex.getMessage()));
-                 switch (variable) {
+                switch (variable) {
                     case "huesped.cedul":
                         throw new CedulaException();
                     case "huesped.corre":
@@ -168,7 +165,7 @@ public class DaoHuesped implements IDAOHuesped {
             //ex.printStackTrace();
             int codigo = ex.getErrorCode();
             if (codigo == 1062) {
-                String variable = extraerVariable(ex.getMessage(), "o'");
+                String variable = extraerVariable(ex.getMessage(), extraerDosUltimasLetras(ex.getMessage()));
                 switch (variable) {
                     case "huesped.cedul":
                         throw new CedulaException();
@@ -179,6 +176,7 @@ public class DaoHuesped implements IDAOHuesped {
                     default:
                         break;
                 }
+
             } else if (codigo == 1048) {
                 throw new DatosIncompletosException();
             }
@@ -207,7 +205,6 @@ public class DaoHuesped implements IDAOHuesped {
      * @param variable cadena de texto
      * @return dos ultimos datos de la cadena de texto
      */
-
     private String extraerDosUltimasLetras(String variable) {
         int tamano = variable.length();
         return variable.substring((tamano - 2), tamano);
