@@ -197,7 +197,7 @@ public class DaoHuesped implements IDAOHuesped {
     private String extraerVariable(String variable) {
         int inicio = variable.indexOf("key '");
         int fin = variable.indexOf("'", inicio + 1);
-        return variable.substring(inicio + 1, fin);
+        return variable.substring(inicio, fin);
     }
 
     /**
