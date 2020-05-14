@@ -136,7 +136,7 @@
                                       <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
                                   </Group>
                                   <Component id="jButton17" min="-2" pref="97" max="-2" attributes="0"/>
-                                  <Component id="jButton21" min="-2" pref="97" max="-2" attributes="0"/>
+                                  <Component id="btnRecepcionista" min="-2" pref="97" max="-2" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="1" attributes="0">
                                   <Component id="jButton18" min="-2" pref="97" max="-2" attributes="0"/>
@@ -204,7 +204,7 @@
                       </Group>
                       <Group type="102" attributes="0">
                           <EmptySpace pref="231" max="32767" attributes="0"/>
-                          <Component id="jButton21" min="-2" pref="93" max="-2" attributes="0"/>
+                          <Component id="btnRecepcionista" min="-2" pref="93" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -517,7 +517,7 @@
             <Property name="text" type="java.lang.String" value="Habitacion"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton21">
+        <Component class="javax.swing.JButton" name="btnRecepcionista">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/Imagenes/trabajadores.jpg"/>
@@ -527,7 +527,7 @@
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton21ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRecepcionistaActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel13">

@@ -24,7 +24,7 @@ public class DAORecepcionista implements IDAORecepcionista {
     public boolean guardarRecepcionista(Recepcionista recepcionista) {
         boolean desicion = false;
         try (Connection con = Conexion.getConnection()) {
-            PreparedStatement pstmt = con.prepareStatement("INSERT INTO recepcionista" + " (id,cedula,nombreCompleto,genero,correo,telefono,fechaNacimiento,contrasena) values(?,?,?,?,?,?,?,?)");
+            PreparedStatement pstmt = con.prepareStatement("INSERT INTO recepcionista" + " (id,cedula,nombreCompleto,genero,correo,telefono,fechaNacimiento,contrasena,estado) values(?,?,?,?,?,?,?,?,?)");
             pstmt.setInt(1, recepcionista.getId());
             pstmt.setString(2, recepcionista.getCedula());
             pstmt.setString(3, recepcionista.getNombrecompleto());
@@ -33,6 +33,7 @@ public class DAORecepcionista implements IDAORecepcionista {
             pstmt.setString(6, recepcionista.getTelefono());
             pstmt.setDate(7, convertirDeDateUtilaDateSql(recepcionista.getFechanacimiento()));
             pstmt.setString(8, recepcionista.getContrasena());
+            pstmt.setString(9, recepcionista.getEstado());
             pstmt.executeUpdate();
             desicion = true;
         } catch (SQLException ex) {
@@ -48,7 +49,7 @@ public class DAORecepcionista implements IDAORecepcionista {
     public Recepcionista buscarRecepcionista(int id) {
         Recepcionista recepcionista = new Recepcionista();
         try (Connection con = Conexion.getConnection()) {
-            PreparedStatement pstmt = con.prepareStatement("SELECT id,cedula,nombreCompleto,genero,correo,telefono,fechaNacimiento,contrasena FROM recepcionista"
+            PreparedStatement pstmt = con.prepareStatement("SELECT id,cedula,nombreCompleto,genero,correo,telefono,fechaNacimiento,contrasena,estado FROM recepcionista"
                     + " " + "WHERE id=?");
             pstmt.setInt(1, id);
             //Resultset guarda los datos de la busqueda
@@ -63,6 +64,7 @@ public class DAORecepcionista implements IDAORecepcionista {
                 recepcionista.setTelefono(respuesta.getString("telefono"));
                 recepcionista.setFechanacimiento(respuesta.getDate("fechaNacimiento"));
                 recepcionista.setContrasena(respuesta.getString("contrasena"));
+                recepcionista.setEstado(respuesta.getString("estado"));
                 return recepcionista;
             }
         } catch (SQLException ex) {
@@ -77,7 +79,7 @@ public class DAORecepcionista implements IDAORecepcionista {
     public boolean modificarRecepcionista(Recepcionista recepcionista) {
         boolean desicion = false;
         try (Connection con = Conexion.getConnection()) {
-            PreparedStatement pstmt = con.prepareStatement("UPDATE recepcionista SET  id=?, cedula=?, nombreCompleto=?, genero=?, correo=?, telefono=?, fechaNacimiento=?, contrasena=? WHERE id=?");//preparar la sentencia sql(modificar,agregar,eliminar,etc) se llena de izquierda a derecha de 1 en 1(1,2,3)
+            PreparedStatement pstmt = con.prepareStatement("UPDATE recepcionista SET  id=?, cedula=?, nombreCompleto=?, genero=?, correo=?, telefono=?, fechaNacimiento=?, contrasena=?, estado=? WHERE id=?");//preparar la sentencia sql(modificar,agregar,eliminar,etc) se llena de izquierda a derecha de 1 en 1(1,2,3)
 
             pstmt.setInt(1, recepcionista.getId());
             pstmt.setString(2, recepcionista.getCedula());
@@ -87,7 +89,8 @@ public class DAORecepcionista implements IDAORecepcionista {
             pstmt.setString(6, recepcionista.getTelefono());
             pstmt.setDate(7, convertirDeDateUtilaDateSql(recepcionista.getFechanacimiento()));
             pstmt.setString(8, recepcionista.getContrasena());
-            pstmt.setInt(9, recepcionista.getId());
+            pstmt.setString(9, recepcionista.getEstado());
+            pstmt.setInt(10, recepcionista.getId());
             //pstm.setDate(6,Date.valueOf(txtFecha.getText()));
             int res = pstmt.executeUpdate();//retorna 0,1 o fallo al insertar
 
@@ -109,7 +112,7 @@ public class DAORecepcionista implements IDAORecepcionista {
     public ArrayList<Recepcionista> listarRecepcionista() {
         try (Connection con = Conexion.getConnection()) {
 
-            PreparedStatement pstmt = con.prepareStatement("SELECT id,cedula,nombreCompleto,genero,correo,telefono,fechaNacimiento,contrasena FROM recepcionista");
+            PreparedStatement pstmt = con.prepareStatement("SELECT id,cedula,nombreCompleto,genero,correo,telefono,fechaNacimiento,contrasena,estado FROM recepcionista");
 
             // pstmt.setInt(1, id);
             ResultSet respuesta = pstmt.executeQuery();//Me va a traer todo lo que venga como resultado
@@ -128,6 +131,7 @@ public class DAORecepcionista implements IDAORecepcionista {
                     recepcionista.setTelefono(respuesta.getString("telefono"));
                     recepcionista.setFechanacimiento(respuesta.getDate("fechaNacimiento"));
                     recepcionista.setContrasena(respuesta.getString("contrasena"));
+                    recepcionista.setEstado(respuesta.getString("estado"));
                     listarecepcionista.add(recepcionista);
 
                 } else {

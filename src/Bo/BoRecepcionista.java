@@ -54,7 +54,7 @@ public class BoRecepcionista {
 
         VerificarCedulaExistente(cedula);
 
-        Recepcionista recepcionista = new Recepcionista(id, cedula, nombrecompleto, genero, correo, telefono, fechanacimiento, contrasena);
+        Recepcionista recepcionista = new Recepcionista(id, cedula, nombrecompleto, genero, correo, telefono, fechanacimiento, contrasena, "Disponible");
 
         boolean condicionrecepcionista = daoRecepcionista.guardarRecepcionista(recepcionista);
 
@@ -100,7 +100,25 @@ public class BoRecepcionista {
 
         verificarDatos(id, cedula, nombrecompleto, genero, correo, telefono, fechanacimiento, contrasena);
 
-        Recepcionista recepcionistanuevo = new Recepcionista(id, cedula, nombrecompleto, genero, correo, telefono, fechanacimiento, contrasena);
+        Recepcionista recepcionistanuevo = new Recepcionista(id, cedula, nombrecompleto, genero, correo, telefono, fechanacimiento, contrasena, "Disponible");
+
+        boolean condicionRecepcionista = daoRecepcionista.modificarRecepcionista(recepcionistanuevo);
+
+        if (condicionRecepcionista == true) {
+
+        } else {
+
+            throw new ModificarRecepcionistaException();
+
+        }
+
+    }
+
+    public void EliminarRecepcionista(int id, String cedula, String nombrecompleto, String genero, String correo, String telefono, Date fechanacimiento, String contrasena) throws DatosIncompletosException, CorreoException, ModificarRecepcionistaException {
+
+        verificarDatos(id, cedula, nombrecompleto, genero, correo, telefono, fechanacimiento, contrasena);
+
+        Recepcionista recepcionistanuevo = new Recepcionista(id, cedula, nombrecompleto, genero, correo, telefono, fechanacimiento, contrasena, "No Disponible");
 
         boolean condicionRecepcionista = daoRecepcionista.modificarRecepcionista(recepcionistanuevo);
 
@@ -122,12 +140,12 @@ public class BoRecepcionista {
     public DefaultTableModel listarElementos() {
         ArrayList<Recepcionista> listarecepcionista = listarRecepcionistas();
 
-        String nombreColumnas[] = {"Id", "Cedula", "Nombre Completo", "Genero", "Correo", "Telefono", "Fecha Nacimiento", "Contraseña"};
+        String nombreColumnas[] = {"Id", "Cedula", "Nombre Completo", "Genero", "Correo", "Telefono", "Fecha Nacimiento", "Contrasena", "Estado"};
         DefaultTableModel modelo = new DefaultTableModel(new Object[][]{}, nombreColumnas) {
             @Override
             public boolean isCellEditable(int filas, int columnas) {
                 switch (columnas) {
-                    case 8:
+                    case 9:
                         return true;
                     default:
                         return false;
@@ -138,7 +156,9 @@ public class BoRecepcionista {
         listarecepcionista.forEach((Recepcionista) -> {
 
             String fecha = formato.format(Recepcionista.getFechanacimiento());
-            modelo.addRow(new Object[]{Recepcionista.getId(), Recepcionista.getCedula(), Recepcionista.getNombrecompleto(), Recepcionista.getGenero(), Recepcionista.getCorreo(), Recepcionista.getTelefono(), fecha, Recepcionista.getContrasena()});
+            if (Recepcionista.getEstado().equalsIgnoreCase("Disponible")) {
+                modelo.addRow(new Object[]{Recepcionista.getId(), Recepcionista.getCedula(), Recepcionista.getNombrecompleto(), Recepcionista.getGenero(), Recepcionista.getCorreo(), Recepcionista.getTelefono(), fecha, Recepcionista.getContrasena(), Recepcionista.getEstado()});
+            }
 
         });
 
@@ -152,12 +172,12 @@ public class BoRecepcionista {
 
         String nombre = "";
         ArrayList<Recepcionista> listarecepcionistas = listarRecepcionistas();
-        String nombreColumnas[] = {"Id", "Cedula", "Nombre Completo", "Genero", "Correo", "Telefono", "Fecha Nacimiento", "Contraseña"};
+        String nombreColumnas[] = {"Id", "Cedula", "Nombre Completo", "Genero", "Correo", "Telefono", "Fecha Nacimiento", "Contrasena", "Estado"};
         DefaultTableModel modelo = new DefaultTableModel(new Object[][]{}, nombreColumnas) {
             @Override
             public boolean isCellEditable(int filas, int columnas) {
                 switch (columnas) {
-                    case 8:
+                    case 9:
                         return true;
                     default:
                         return false;
@@ -180,7 +200,7 @@ public class BoRecepcionista {
                 listarecepcionistas.forEach((Recepcionista) -> {
                     if (Recepcionista.getId() == Integer.parseInt(accion)) {
                         String fecha = formato.format(Recepcionista.getFechanacimiento());
-                        modelo.addRow(new Object[]{Recepcionista.getId(), Recepcionista.getCedula(), Recepcionista.getNombrecompleto(), Recepcionista.getGenero(), Recepcionista.getCorreo(), Recepcionista.getTelefono(), fecha, Recepcionista.getContrasena()});
+                        modelo.addRow(new Object[]{Recepcionista.getId(), Recepcionista.getCedula(), Recepcionista.getNombrecompleto(), Recepcionista.getGenero(), Recepcionista.getCorreo(), Recepcionista.getTelefono(), fecha, Recepcionista.getContrasena(), Recepcionista.getEstado()});
 
                     }
 
@@ -191,7 +211,7 @@ public class BoRecepcionista {
                 listarecepcionistas.forEach((Recepcionista) -> {
                     if (Recepcionista.getCedula().equalsIgnoreCase(accion)) {
                         String fecha = formato.format(Recepcionista.getFechanacimiento());
-                        modelo.addRow(new Object[]{Recepcionista.getId(), Recepcionista.getCedula(), Recepcionista.getNombrecompleto(), Recepcionista.getGenero(), Recepcionista.getCorreo(), Recepcionista.getTelefono(), fecha, Recepcionista.getContrasena()});
+                        modelo.addRow(new Object[]{Recepcionista.getId(), Recepcionista.getCedula(), Recepcionista.getNombrecompleto(), Recepcionista.getGenero(), Recepcionista.getCorreo(), Recepcionista.getTelefono(), fecha, Recepcionista.getContrasena(), Recepcionista.getEstado()});
 
                     }
 
@@ -202,7 +222,7 @@ public class BoRecepcionista {
                 listarecepcionistas.forEach((Recepcionista) -> {
                     if (Recepcionista.getNombrecompleto().equalsIgnoreCase(accion)) {
                         String fecha = formato.format(Recepcionista.getFechanacimiento());
-                        modelo.addRow(new Object[]{Recepcionista.getId(), Recepcionista.getCedula(), Recepcionista.getNombrecompleto(), Recepcionista.getGenero(), Recepcionista.getCorreo(), Recepcionista.getTelefono(), fecha, Recepcionista.getContrasena()});
+                        modelo.addRow(new Object[]{Recepcionista.getId(), Recepcionista.getCedula(), Recepcionista.getNombrecompleto(), Recepcionista.getGenero(), Recepcionista.getCorreo(), Recepcionista.getTelefono(), fecha, Recepcionista.getContrasena(), Recepcionista.getEstado()});
 
                     }
 
@@ -214,7 +234,7 @@ public class BoRecepcionista {
                 listarecepcionistas.forEach((Recepcionista) -> {
                     if (Recepcionista.getGenero().equalsIgnoreCase(accion)) {
                         String fecha = formato.format(Recepcionista.getFechanacimiento());
-                        modelo.addRow(new Object[]{Recepcionista.getId(), Recepcionista.getCedula(), Recepcionista.getNombrecompleto(), Recepcionista.getGenero(), Recepcionista.getCorreo(), Recepcionista.getTelefono(), fecha, Recepcionista.getContrasena()});
+                        modelo.addRow(new Object[]{Recepcionista.getId(), Recepcionista.getCedula(), Recepcionista.getNombrecompleto(), Recepcionista.getGenero(), Recepcionista.getCorreo(), Recepcionista.getTelefono(), fecha, Recepcionista.getContrasena(), Recepcionista.getEstado()});
 
                     }
 
@@ -225,7 +245,7 @@ public class BoRecepcionista {
                 listarecepcionistas.forEach((Recepcionista) -> {
                     if (Recepcionista.getCorreo().equalsIgnoreCase(accion)) {
                         String fecha = formato.format(Recepcionista.getFechanacimiento());
-                        modelo.addRow(new Object[]{Recepcionista.getId(), Recepcionista.getCedula(), Recepcionista.getNombrecompleto(), Recepcionista.getGenero(), Recepcionista.getCorreo(), Recepcionista.getTelefono(), fecha, Recepcionista.getContrasena()});
+                        modelo.addRow(new Object[]{Recepcionista.getId(), Recepcionista.getCedula(), Recepcionista.getNombrecompleto(), Recepcionista.getGenero(), Recepcionista.getCorreo(), Recepcionista.getTelefono(), fecha, Recepcionista.getContrasena(), Recepcionista.getEstado()});
 
                     }
 
@@ -236,7 +256,7 @@ public class BoRecepcionista {
                 listarecepcionistas.forEach((Recepcionista) -> {
                     if (Recepcionista.getTelefono().equalsIgnoreCase(accion)) {
                         String fecha = formato.format(Recepcionista.getFechanacimiento());
-                        modelo.addRow(new Object[]{Recepcionista.getId(), Recepcionista.getCedula(), Recepcionista.getNombrecompleto(), Recepcionista.getGenero(), Recepcionista.getCorreo(), Recepcionista.getTelefono(), fecha, Recepcionista.getContrasena()});
+                        modelo.addRow(new Object[]{Recepcionista.getId(), Recepcionista.getCedula(), Recepcionista.getNombrecompleto(), Recepcionista.getGenero(), Recepcionista.getCorreo(), Recepcionista.getTelefono(), fecha, Recepcionista.getContrasena(), Recepcionista.getEstado()});
 
                     }
 
@@ -247,18 +267,28 @@ public class BoRecepcionista {
                     String fecha = formato.format(Recepcionista.getFechanacimiento());
                     if (fecha.equals(accion)) {
 
-                        modelo.addRow(new Object[]{Recepcionista.getId(), Recepcionista.getCedula(), Recepcionista.getNombrecompleto(), Recepcionista.getGenero(), Recepcionista.getCorreo(), Recepcionista.getTelefono(), fecha, Recepcionista.getContrasena()});
+                        modelo.addRow(new Object[]{Recepcionista.getId(), Recepcionista.getCedula(), Recepcionista.getNombrecompleto(), Recepcionista.getGenero(), Recepcionista.getCorreo(), Recepcionista.getTelefono(), fecha, Recepcionista.getContrasena(), Recepcionista.getEstado()});
 
                     }
 
                 });
                 return modelo;
 
-            case "Contraseña":
+            case "Contrasena":
                 listarecepcionistas.forEach((Recepcionista) -> {
                     if (Recepcionista.getContrasena().equalsIgnoreCase(accion)) {
                         String fecha = formato.format(Recepcionista.getFechanacimiento());
-                        modelo.addRow(new Object[]{Recepcionista.getId(), Recepcionista.getCedula(), Recepcionista.getNombrecompleto(), Recepcionista.getGenero(), Recepcionista.getCorreo(), Recepcionista.getTelefono(), fecha, Recepcionista.getContrasena()});
+                        modelo.addRow(new Object[]{Recepcionista.getId(), Recepcionista.getCedula(), Recepcionista.getNombrecompleto(), Recepcionista.getGenero(), Recepcionista.getCorreo(), Recepcionista.getTelefono(), fecha, Recepcionista.getContrasena(), Recepcionista.getEstado()});
+
+                    }
+
+                });
+                return modelo;
+            case "Estado":
+                listarecepcionistas.forEach((Recepcionista) -> {
+                    if (Recepcionista.getEstado().equalsIgnoreCase(accion)) {
+                        String fecha = formato.format(Recepcionista.getFechanacimiento());
+                        modelo.addRow(new Object[]{Recepcionista.getId(), Recepcionista.getCedula(), Recepcionista.getNombrecompleto(), Recepcionista.getGenero(), Recepcionista.getCorreo(), Recepcionista.getTelefono(), fecha, Recepcionista.getContrasena(), Recepcionista.getEstado()});
 
                     }
 

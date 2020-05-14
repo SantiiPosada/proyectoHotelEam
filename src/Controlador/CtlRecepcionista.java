@@ -21,15 +21,15 @@ import javax.swing.table.DefaultTableModel;
  * @author mateo
  */
 public class CtlRecepcionista {
-    
+
     BoRecepcionista bo;
-    
+
     public CtlRecepcionista() {
         bo = new BoRecepcionista();
     }
-    
+
     public void guardarRecepcionista(int id, String cedula, String nombrecompleto, String genero, String correo, String telefono, Date fechanacimiento, String contrasena) throws DatosIncompletosException, CorreoException, CedulaException, GuardarRecepcionistaException {
-        
+
         bo.guardarRecepcionista(id, cedula, nombrecompleto, genero, correo, telefono, fechanacimiento, contrasena);
     }
 
@@ -37,16 +37,21 @@ public class CtlRecepcionista {
         return bo.buscarRecepcionista(id);
     }
 
-    public void modificarEstudiante(int id, String cedula, String nombrecompleto, String genero, String correo, String telefono, Date fechanacimiento, String contrasena) throws DatosIncompletosException, CorreoException, ModificarRecepcionistaException {
-        
+    public void modificarRecepcionista(int id, String cedula, String nombrecompleto, String genero, String correo, String telefono, Date fechanacimiento, String contrasena) throws DatosIncompletosException, CorreoException, ModificarRecepcionistaException {
+
         bo.modificarRecepcionista(id, cedula, nombrecompleto, genero, correo, telefono, fechanacimiento, contrasena);
-        
+
     }
+
+    public void EliminarRecepcionista(int id, String cedula, String nombrecompleto, String genero, String correo, String telefono, Date fechanacimiento, String contrasena) throws DatosIncompletosException, CorreoException, ModificarRecepcionistaException {
+        bo.EliminarRecepcionista(id, cedula, nombrecompleto, genero, correo, telefono, fechanacimiento, contrasena);
+    }
+
     public DefaultTableModel listarElementos() {
         return bo.listarElementos();
     }
 
-    public DefaultTableModel filtrar(String opcion, String accion) throws DatosIncompletosException,NumberFormatException, ComboBoxException {
-            return bo.filtrar(opcion, accion);
-        }
+    public DefaultTableModel filtrar(String opcion, String accion) throws DatosIncompletosException, NumberFormatException, ComboBoxException {
+        return bo.filtrar(opcion, accion);
+    }
 }

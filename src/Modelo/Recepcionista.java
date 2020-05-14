@@ -20,6 +20,7 @@ public class Recepcionista {
     private String telefono;
     private Date fechanacimiento;
     private String contrasena;
+    private String estado;
 
     public Recepcionista() {
         this.id = 0;
@@ -30,9 +31,10 @@ public class Recepcionista {
         this.telefono = null;
         this.fechanacimiento = null;
         this.contrasena = null;
+        this.estado = null;
     }
 
-    public Recepcionista(int id, String cedula, String nombrecompleto, String genero, String correo, String telefono, Date fechanacimiento, String contrasena) {
+    public Recepcionista(int id, String cedula, String nombrecompleto, String genero, String correo, String telefono, Date fechanacimiento, String contrasena, String estado) {
         this.id = id;
         this.cedula = cedula;
         this.nombrecompleto = nombrecompleto;
@@ -41,6 +43,7 @@ public class Recepcionista {
         this.telefono = telefono;
         this.fechanacimiento = fechanacimiento;
         this.contrasena = contrasena;
+        this.estado = estado;
     }
 
     public int getId() {
@@ -105,6 +108,14 @@ public class Recepcionista {
 
     public void setContrasena(String contrasena) {
         this.contrasena = contrasena;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 
 }
