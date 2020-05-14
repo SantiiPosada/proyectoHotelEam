@@ -45,12 +45,15 @@ public class DaoHuesped {
             int codigo = ex.getErrorCode();
             if (codigo == 1062) {
                 String variable = extraerVariable(ex.getMessage());
-                if (variable.equals("cedula")) {
-                    throw new CedulaException();
-                } else if (variable.equals("correo")) {
-                    throw new CorreoException();
-                } else if (variable.equals("telefono")) {
-                    throw new TelefonoException();
+                switch (variable) {
+                    case "cedula":
+                        throw new CedulaException();
+                    case "correo":
+                        throw new CorreoException();
+                    case "telefono":
+                        throw new TelefonoException();
+                    default:
+                        break;
                 }
 
             } else if (codigo == 1048) {
@@ -131,41 +134,55 @@ public class DaoHuesped {
         }
         return null;
     }
-    
-//        public boolean modificarEstudiante(Huesped huesped) {
-//        boolean desicion = false;
-//        try (Connection con = Conexion.getConnection()) {
-//            PreparedStatement pstmt = con.prepareStatement("UPDATE Estudiante SET  idEstudiante=?, Cedula=?, Nombre=?, Apellido=?, Direccion=?, Telefono=?, Correo=?, Fecha_nacimiento=? WHERE idEstudiante=?");//preparar la sentencia sql(modificar,agregar,eliminar,etc) se llena de izquierda a derecha de 1 en 1(1,2,3)
-//
-//            pstmt.setInt(1, estudiante.getId());
-//            pstmt.setString(2, estudiante.getCedula());//posicion 2=nombre Valor
-//            pstmt.setString(3, estudiante.getNombre());//posicion 2=nombre Valor
-//            pstmt.setString(4, estudiante.getApellido());
-//            pstmt.setString(5, estudiante.getDireccion());
-//            pstmt.setString(6, estudiante.getTelefono());
-//            pstmt.setString(7, estudiante.getCorreo());
-//            pstmt.setDate(8, convertirDeDateUtilaDateSql(estudiante.getFecha_nacimiento()));
-//            pstmt.setInt(9, estudiante.getId());
-//            int res = pstmt.executeUpdate();//retorna 0,1 o fallo al insertar
-//
-//            if (res > 0) {
-//                desicion = true;
-//            } else {
-//                desicion = false;
-//
-//            }
-//
-//        } catch (SQLException e) {
-//            desicion = false;
-//            e.printStackTrace();
-//
-//        }
-//
-//        return desicion;
-//    }
-    
-    
-    
+
+    public boolean modificarEstudiante(Huesped huesped) throws CedulaException, CorreoException, TelefonoException, DatosIncompletosException {
+        boolean desicion = false;
+        try (Connection con = Conexion.getConnection()) {
+            PreparedStatement pstmt = con.prepareStatement("UPDATE huesped SET  cedula=?, nombreCompleto=?, genero=?, correo=?, telefono=?, fechaNacimiento=?, nacionalidad=?, contrasena=?,tipo=?,estado=? WHERE id=?");//preparar la sentencia sql(modificar,agregar,eliminar,etc) se llena de izquierda a derecha de 1 en 1(1,2,3)
+
+            pstmt.setString(1, huesped.getCedula());
+            pstmt.setString(2, huesped.getNombrecompleto());
+            pstmt.setString(3, huesped.getGenero());
+            pstmt.setString(4, huesped.getCorreo());
+            pstmt.setString(5, huesped.getTelefono());
+            pstmt.setDate(6, convertirDeDateUtilaDateSql(huesped.getFechanacimiento()));
+            pstmt.setString(7, huesped.getNacionalidad());
+            pstmt.setString(8, huesped.getContrasena());
+            pstmt.setString(9, huesped.getTipo());
+            pstmt.setString(10, huesped.getEstado());
+            pstmt.setInt(11, huesped.getId());
+            int res = pstmt.executeUpdate();
+
+            if (res > 0) {
+                desicion = true;
+            } else {
+                desicion = false;
+
+            }
+
+        } catch (SQLException ex) {
+            //ex.printStackTrace();
+            int codigo = ex.getErrorCode();
+            if (codigo == 1062) {
+                String variable = extraerVariable(ex.getMessage());
+                switch (variable) {
+                    case "cedula":
+                        throw new CedulaException();
+                    case "correo":
+                        throw new CorreoException();
+                    case "telefono":
+                        throw new TelefonoException();
+                    default:
+                        break;
+                }
+            } else if (codigo == 1048) {
+                throw new DatosIncompletosException();
+            }
+            desicion = false;
+        }
+
+        return desicion;
+    }
 
     /**
      * metodo extraer la variable que tuvo el codigo de error 1062
@@ -178,9 +195,6 @@ public class DaoHuesped {
         int fin = variable.indexOf("'", inicio + 1);
         return variable.substring(inicio + 1, fin);
     }
-
-
-
 
     /**
      * metodo que permite pasar la fecha de tipo java.util.Date a java.sql.Date
