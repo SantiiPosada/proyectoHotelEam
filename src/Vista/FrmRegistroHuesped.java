@@ -5,9 +5,17 @@
  */
 package Vista;
 
-
+import Bo.BoHuesped;
+import Dao.DaoHuesped;
+import Excepcion.CedulaException;
+import Excepcion.CorreoException;
+import Excepcion.DatosIncompletosException;
+import Excepcion.TelefonoException;
+import Modelo.Huesped;
 import java.util.Date;
-
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -17,9 +25,11 @@ public class FrmRegistroHuesped extends javax.swing.JFrame {
 
     /**
      * Creates new form FrmRegistroHuesped
-     */  Bo.BoHuesped bo;
-    public FrmRegistroHuesped() {
+     */
+    Dao.DaoHuesped bo;
 
+    public FrmRegistroHuesped() {
+        bo = new DaoHuesped();
         initComponents();
         this.setLocationRelativeTo(null);
         this.setResizable(false);
@@ -245,18 +255,24 @@ public class FrmRegistroHuesped extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistroActionPerformed
-      
-        String cedula = txtCedula.getText();
-        String nombre = txtNombreCompleto.getText();
-        String genero = cboGenero.getSelectedItem().toString();
-        String correo = txtCorreo.getText();
-        String telefono = txtTelefono.getText();
-        Date fechaNacimiento = dateFechaNacimiento.getDate();
-        String nacionalida = cboNacionalidad.getSelectedItem().toString();
-        String contrasena = txtPassword.getText();
-        String tipo = "ordinario";
-        String estado = "sin multa";
 
+        try {
+            String cedula = txtCedula.getText();
+            String nombre = txtNombreCompleto.getText();
+            String genero = cboGenero.getSelectedItem().toString();
+            String correo = txtCorreo.getText();
+            String telefono = txtTelefono.getText();
+            Date fechaNacimiento = dateFechaNacimiento.getDate();
+            String nacionalida = cboNacionalidad.getSelectedItem().toString();
+            String contrasena = txtPassword.getText();
+            String tipo = "ordinario";
+            String estado = "sin multa";
+            Huesped h=new Huesped(0, cedula, nombre, genero, correo, telefono, fechaNacimiento, nacionalida, contrasena, tipo, estado);
+            bo.guardarHuesped(h);
+            JOptionPane.showMessageDialog(null, "Se guardó el huesoed correctamente");
+        } catch (CedulaException | CorreoException | DatosIncompletosException | TelefonoException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+        }
 
     }//GEN-LAST:event_btnRegistroActionPerformed
 
