@@ -6,18 +6,24 @@
 package Dao;
 
 import Conexion.Conexion;
+import Excepcion.CedulaException;
+import Excepcion.CorreoException;
+import Excepcion.DatosIncompletosException;
+import Excepcion.TelefonoException;
 import Modelo.Huesped;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
-import javax.swing.JOptionPane;
+import java.util.ArrayList;
 
 /**
  *
  * @author santiago
  */
 public class DaoHuesped {
-    public boolean guardarHuesped(Huesped huesped) {
+
+    public boolean guardarHuesped(Huesped huesped) throws CedulaException, CorreoException, DatosIncompletosException, TelefonoException {
         boolean desicion = false;
         try (Connection con = Conexion.getConnection()) {
             PreparedStatement pstmt = con.prepareStatement("INSERT INTO huesped (cedula,nombreCompleto,genero,correo,telefono,fechaNacimiento,nacionalidad,contrasena,tipo,estado) values (?,?,?,?,?,?,?,?,?,?)");
@@ -35,65 +41,69 @@ public class DaoHuesped {
             pstmt.executeUpdate();
             desicion = true;
         } catch (SQLException ex) {
-           // ex.printStackTrace();
-              System.err.println("Hubo un error al insertar");
-              String conca="";
-            int codigo=ex.getErrorCode();
-            conca+="codigo error "+codigo+" \n";
-            String state=ex.getSQLState();
-            conca+="estado error "+state+" \n";
-           
-            String mensaje=ex.getMessage();
-            conca+="mensaje error  "+mensaje+" \n";
-         
-            
-          //  String x="prueba";
-            conca+="mensaje error filtrado "+extraerVariable(mensaje)+" \n";
-            JOptionPane.showMessageDialog(null, conca);
-            
-            
+            // ex.printStackTrace();
+            int codigo = ex.getErrorCode();
+            if (codigo == 1062) {
+                String variable = extraerVariable(ex.getMessage());
+                if (variable.equals("cedula")) {
+                    throw new CedulaException();
+                } else if (variable.equals("correo")) {
+                    throw new CorreoException();
+                } else if (variable.equals("telefono")) {
+                    throw new TelefonoException();
+                }
+
+            } else if (codigo == 1048) {
+                throw new DatosIncompletosException();
+            }
+
             desicion = false;
         }
         return desicion;
     }
+
+    public Huesped buscarEstudiante(String cedula) {
+        Huesped huesped = new Huesped();
+        try (Connection con = Conexion.getConnection()) {
+            PreparedStatement pstmt = con.prepareStatement("SELECT  id,cedula,nombreCompleto,genero,correo,telefono,fechaNacimiento,nacionalidad,contrasena,tipo,estado FROM huesped where cedula=?");
+            pstmt.setString(1, cedula);
+            //Resultset guarda los datos de la busqueda
+            ResultSet respuesta = pstmt.executeQuery();
+            if (respuesta.next()) {
+
+                huesped.setId(respuesta.getInt("id"));
+                huesped.setCedula(respuesta.getString("cedula"));
+                huesped.setNombrecompleto(respuesta.getString("nombreCompleto"));
+                huesped.setGenero(respuesta.getString("genero"));
+                huesped.setCorreo(respuesta.getString("correo"));
+                huesped.setTelefono(respuesta.getString("telefono"));
+                huesped.setFechanacimiento(respuesta.getDate("fechaNacimiento"));
+                huesped.setNacionalidad(respuesta.getString("nacionalidad"));
+                huesped.setContrasena(respuesta.getString("contrasena"));
+                huesped.setTipo(respuesta.getString("tipo"));
+                huesped.setEstado(respuesta.getString("estado"));
+                return huesped;
+            }
+        } catch (SQLException ex) {
+            huesped = null;
+            ex.printStackTrace();
+
+        }
+        return null;
+    }
+
     /**
-     * metodo extraer la  variable que tuvo el codigo de error 1062
+     * metodo extraer la variable que tuvo el codigo de error 1062
+     *
      * @param variable mensaje de error de sql (ex.getMessage())
      * @return nombre de la veriable que tiene el error
      */
-    private String extraerVariable(String variable){
-    int inicio=variable.indexOf(".");
-    int fin=variable.indexOf("'",inicio+1);
-    return variable.substring(inicio+1,fin);
+    private String extraerVariable(String variable) {
+        int inicio = variable.indexOf(".");
+        int fin = variable.indexOf("'", inicio + 1);
+        return variable.substring(inicio + 1, fin);
     }
 
-//    public Estudiante buscarEstudiante(int idEstudiante) {
-//        Estudiante estudiante = new Estudiante();
-//        try (Connection con = conexion.getConnetion()) {
-//            PreparedStatement pstmt = con.prepareStatement("SELECT idEstudiante,Cedula,Nombre,Apellido,Direccion,Telefono,Correo,Fecha_nacimiento FROM Estudiante"
-//                    + " " + "WHERE idEstudiante=?");
-//            pstmt.setInt(1, idEstudiante);
-//            //Resultset guarda los datos de la busqueda
-//            ResultSet respuesta = pstmt.executeQuery();
-//            if (respuesta.next()) {
-//
-//                estudiante.setId(respuesta.getInt("idEstudiante"));
-//                estudiante.setCedula(respuesta.getString("Cedula"));
-//                estudiante.setNombre(respuesta.getString("Nombre"));
-//                estudiante.setApellido(respuesta.getString("Apellido"));
-//                estudiante.setDireccion(respuesta.getString("Direccion"));
-//                estudiante.setTelefono(respuesta.getString("Telefono"));
-//                estudiante.setCorreo(respuesta.getString("Correo"));
-//                estudiante.setFecha_nacimiento(respuesta.getDate("Fecha_nacimiento"));
-//                return estudiante;
-//            }
-//        } catch (SQLException ex) {
-//            estudiante = null;
-//            ex.printStackTrace();
-//
-//        }
-//        return null;
-//    }
 //
 //    public boolean modificarEstudiante(Estudiante estudiante) {
 //        boolean desicion = false;
@@ -164,9 +174,9 @@ public class DaoHuesped {
 //        }
 //        return null;
 //    }
-
     /**
      * metodo que permite pasar la fecha de tipo java.util.Date a java.sql.Date
+     *
      * @param uDate fecha de tipo java.util.Date que se desee cambiar a
      * java.sql.Date
      * @return la fecha lista para ser guardada en mySql
