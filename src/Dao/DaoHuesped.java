@@ -170,11 +170,11 @@ public class DaoHuesped implements IDAOHuesped {
             if (codigo == 1062) {
                 String variable = extraerVariable(ex.getMessage());
                 switch (variable) {
-                    case "cedula":
+                    case "huesped.cedula":
                         throw new CedulaException();
-                    case "correo":
+                    case "huesped.correo":
                         throw new CorreoException();
-                    case "telefono":
+                    case "huesped.telefono":
                         throw new TelefonoException();
                     default:
                         break;
@@ -195,9 +195,9 @@ public class DaoHuesped implements IDAOHuesped {
      * @return nombre de la variable que tiene el error
      */
     private String extraerVariable(String variable) {
-        int inicio = variable.indexOf("'");
+        int inicio = variable.indexOf("key'");
         int fin = variable.indexOf("'", inicio + 1);
-        return variable.substring(inicio + 3, fin);
+        return variable.substring(inicio + 1, fin);
     }
 
     /**
