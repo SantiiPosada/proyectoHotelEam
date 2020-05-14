@@ -123,8 +123,8 @@ public class DAORecepcionista implements IDAORecepcionista {
                 if (respuesta.next()) {//si respuesta.next(revisa si hay un elemtento,salta al siguiente reistro) devuelve true=si encontro algo o false si no lo encontró
                     Recepcionista recepcionista = new Recepcionista();
 
-                    recepcionista.setId(respuesta.getInt("idDocente"));
-                    recepcionista.setCedula(respuesta.getString("Cedula"));
+                    recepcionista.setId(respuesta.getInt("id"));
+                    recepcionista.setCedula(respuesta.getString("cedula"));
                     recepcionista.setNombrecompleto(respuesta.getString("nombreCompleto"));
                     recepcionista.setGenero(respuesta.getString("genero"));
                     recepcionista.setCorreo(respuesta.getString("correo"));
