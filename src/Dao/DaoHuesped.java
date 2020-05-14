@@ -216,8 +216,12 @@ public class DaoHuesped implements IDAOHuesped {
      * @param uDate fecha de tipo java.util.Date que se desee cambiar a
      * java.sql.Date
      * @return la fecha lista para ser guardada en mySql
+     * @throws DatosIncompletosException si la fecha es null
      */
-    private java.sql.Date convertirDeDateUtilaDateSql(java.util.Date uDate) {
+    private java.sql.Date convertirDeDateUtilaDateSql(java.util.Date uDate) throws DatosIncompletosException {
+        if (uDate == null) {
+            throw new DatosIncompletosException();
+        }
         java.sql.Date sDate = new java.sql.Date(uDate.getTime());
         return sDate;
 
