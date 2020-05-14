@@ -46,11 +46,11 @@ public class DaoHuesped implements IDAOHuesped {
             desicion = true;
         } catch (SQLException ex) {
           //   ex.printStackTrace();
-             JOptionPane.showMessageDialog(null, ex.getMessage()+" variable del error "+extraerVariable(ex.getMessage()));
+             JOptionPane.showMessageDialog(null, ex.getMessage()+" variable del error "+extraerVariable(ex.getMessage(),"o'"));
              
             int codigo = ex.getErrorCode();
             if (codigo == 1062) {
-                String variable = extraerVariable(ex.getMessage());
+                String variable = extraerVariable(ex.getMessage(),"o'");
                 switch (variable) {
                     case "cedula":
                         throw new CedulaException();
@@ -168,7 +168,7 @@ public class DaoHuesped implements IDAOHuesped {
             //ex.printStackTrace();
             int codigo = ex.getErrorCode();
             if (codigo == 1062) {
-                String variable = extraerVariable(ex.getMessage());
+                String variable = extraerVariable(ex.getMessage(),"o'");
                 switch (variable) {
                     case "huesped.cedula":
                         throw new CedulaException();
@@ -194,10 +194,10 @@ public class DaoHuesped implements IDAOHuesped {
      * @param variable mensaje de error de sql (ex.getMessage())
      * @return nombre de la variable que tiene el error
      */
-    private String extraerVariable(String variable) {
+    private String extraerVariable(String variable,String termina) {
         int inicio = variable.indexOf("key '");
-        int fin = variable.indexOf("'", inicio + 1);
-        return variable.substring(inicio+5, fin);
+        int fin = variable.indexOf(termina, inicio + 1);
+        return variable.substring(inicio+1, fin);
     }
 
     /**

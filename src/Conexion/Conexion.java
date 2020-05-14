@@ -20,7 +20,7 @@ public class Conexion {
             //AGREGAR LIBRERIA JDBC
             con = DriverManager.getConnection(db, user, password);
         } catch (ClassNotFoundException ex) {
-            System.err.println("Hubo un error al buscar la clase");
+          //  System.err.println("Hubo un error al buscar la clase");
         } catch (SQLException ex) {
           //  ex.printStackTrace();
             System.err.println("Hubo un error al conectar");
