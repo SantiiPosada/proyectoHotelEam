@@ -6,6 +6,8 @@
 package Dao;
 
 import Conexion.Conexion;
+import Definiciones.IDAOHuesped;
+import Excepcion.BuscarHuespedException;
 import Excepcion.CedulaException;
 import Excepcion.CorreoException;
 import Excepcion.DatosIncompletosException;
@@ -21,8 +23,9 @@ import java.util.ArrayList;
  *
  * @author santiago
  */
-public class DaoHuesped {
+public class DaoHuesped implements IDAOHuesped {
 
+    @Override
     public boolean guardarHuesped(Huesped huesped) throws CedulaException, CorreoException, DatosIncompletosException, TelefonoException {
         boolean desicion = false;
         try (Connection con = Conexion.getConnection()) {
@@ -65,7 +68,8 @@ public class DaoHuesped {
         return desicion;
     }
 
-    public Huesped buscarEstudiante(String cedula) throws DatosIncompletosException {
+    @Override
+    public Huesped buscarHuesped(String cedula)throws BuscarHuespedException   {
         Huesped huesped = new Huesped();
         try (Connection con = Conexion.getConnection()) {
             PreparedStatement pstmt = con.prepareStatement("SELECT  id,cedula,nombreCompleto,genero,correo,telefono,fechaNacimiento,nacionalidad,contrasena,tipo,estado FROM huesped where cedula=?");
@@ -89,13 +93,14 @@ public class DaoHuesped {
             }
         } catch (SQLException ex) {
             huesped = null;
-            throw new DatosIncompletosException();
+            throw new BuscarHuespedException();
 
         }
         return null;
     }
 
-    public ArrayList<Huesped> listarEstudiante() {
+    @Override
+    public ArrayList<Huesped> listarHuesped() {
         try (Connection con = Conexion.getConnection()) {
 
             PreparedStatement pstmt = con.prepareStatement("SELECT  id,cedula,nombreCompleto,genero,correo,telefono,fechaNacimiento,nacionalidad,contrasena,tipo,estado FROM huesped");
@@ -135,7 +140,8 @@ public class DaoHuesped {
         return null;
     }
 
-    public boolean modificarEstudiante(Huesped huesped) throws CedulaException, CorreoException, TelefonoException, DatosIncompletosException {
+    @Override
+    public boolean modificarHuesped(Huesped huesped) throws CedulaException, CorreoException, TelefonoException, DatosIncompletosException {
         boolean desicion = false;
         try (Connection con = Conexion.getConnection()) {
             PreparedStatement pstmt = con.prepareStatement("UPDATE huesped SET  cedula=?, nombreCompleto=?, genero=?, correo=?, telefono=?, fechaNacimiento=?, nacionalidad=?, contrasena=?,tipo=?,estado=? WHERE id=?");//preparar la sentencia sql(modificar,agregar,eliminar,etc) se llena de izquierda a derecha de 1 en 1(1,2,3)
@@ -185,7 +191,7 @@ public class DaoHuesped {
     }
 
     /**
-     * metodo extraer la variable que tuvo el codigo de error 1062
+     * Método extraer la variable que tuvo el codigo de error 1062
      *
      * @param variable mensaje de error de sql (ex.getMessage())
      * @return nombre de la veriable que tiene el error

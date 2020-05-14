@@ -5,6 +5,7 @@
  */
 package Dao;
 
+import Definiciones.IDAOHuesped;
 import Definiciones.IDAORecepcionista;
 import Definiciones.IFabricaDAO;
 
@@ -18,5 +19,11 @@ public class FactoryDAOJDBC implements IFabricaDAO {
     public IDAORecepcionista crearDAORecepcionista() {
         return new DAORecepcionista();
     }
+
+    @Override
+    public IDAOHuesped crearDAOHuesped() {
+         return new DaoHuesped();
+    }
+    
 
 }

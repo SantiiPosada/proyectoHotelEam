@@ -17,5 +17,9 @@ public interface IFabricaDAO {
      * @return Abstraccion de DAORecepcionista
      */
     public IDAORecepcionista crearDAORecepcionista();
-
+/**
+ * Metodó para la creación de un DAOHuesped
+ * @return Abstraccion de DAOHuesped
+ */
+    public IDAOHuesped crearDAOHuesped();
 }
