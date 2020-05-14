@@ -45,7 +45,7 @@ public class DaoHuesped implements IDAOHuesped {
             pstmt.executeUpdate();
             desicion = true;
         } catch (SQLException ex) {
-             ex.printStackTrace();
+          //   ex.printStackTrace();
              JOptionPane.showMessageDialog(null, ex.getMessage()+" variable del error "+extraerVariable(ex.getMessage()));
              
             int codigo = ex.getErrorCode();
@@ -137,7 +137,7 @@ public class DaoHuesped implements IDAOHuesped {
 
             return listar;
         } catch (SQLException e) {
-            e.printStackTrace();
+           // e.printStackTrace();
             System.err.println("Hubo un error al listar");
         }
         return null;
