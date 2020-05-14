@@ -9,6 +9,7 @@ import Definiciones.IDAOHuesped;
 import Excepcion.BuscarHuespedException;
 import Excepcion.CedulaException;
 import Excepcion.CorreoException;
+import Excepcion.CorreoFormatoException;
 import Excepcion.DatosIncompletosException;
 import Excepcion.GuardarHuespedException;
 import Excepcion.ModificarHuespedException;
@@ -40,7 +41,7 @@ public class BoHuesped {
                 + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
     }
 
-    public void guardar(String cedula, String nombrecompleto, String genero, String correo, String telefono, Date fechanacimiento, String nacionalidad, String contrasena, String tipo, String estado) throws CorreoException, DatosIncompletosException, CedulaException, TelefonoException, GuardarHuespedException {
+    public void guardar(String cedula, String nombrecompleto, String genero, String correo, String telefono, Date fechanacimiento, String nacionalidad, String contrasena, String tipo, String estado) throws CorreoException, DatosIncompletosException, CedulaException, TelefonoException, GuardarHuespedException, CorreoFormatoException {
         verificarCorreo(correo);
         Huesped huesped = new Huesped(0, cedula, nombrecompleto, genero, correo, telefono, fechanacimiento, nacionalidad, contrasena, tipo, estado);
         if (!dao.guardarHuesped(huesped)) {
@@ -56,7 +57,7 @@ public class BoHuesped {
         return huesped;
     }
 
-    public void modificar(String cedula, String nombrecompleto, String genero, String correo, String telefono, Date fechanacimiento, String nacionalidad, String contrasena, String tipo, String estado) throws CorreoException, DatosIncompletosException, BuscarHuespedException, CedulaException, TelefonoException, ModificarHuespedException {
+    public void modificar(String cedula, String nombrecompleto, String genero, String correo, String telefono, Date fechanacimiento, String nacionalidad, String contrasena, String tipo, String estado) throws CorreoException, DatosIncompletosException, BuscarHuespedException, CedulaException, TelefonoException, ModificarHuespedException, CorreoFormatoException {
         verificarCorreo(correo);
         Huesped huesped = new Huesped(buscar(cedula).getId(), cedula, nombrecompleto, genero, correo, telefono, fechanacimiento, nacionalidad, contrasena, tipo, estado);
         if (!dao.modificarHuesped(huesped)) {
@@ -84,14 +85,14 @@ public class BoHuesped {
         return informacion;
     }
 
-    private void verificarCorreo(String correo) throws CorreoException, DatosIncompletosException {
+    private void verificarCorreo(String correo) throws  DatosIncompletosException, CorreoFormatoException {
         if (correo == null) {
             throw new DatosIncompletosException();
         }
         Matcher mather = pattern.matcher(correo);
         if (mather.find()) {
         } else {
-            throw new CorreoException();
+            throw new CorreoFormatoException();
         }
     }
 }

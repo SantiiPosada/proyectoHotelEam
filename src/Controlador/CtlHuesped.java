@@ -9,6 +9,7 @@ import Bo.BoHuesped;
 import Excepcion.BuscarHuespedException;
 import Excepcion.CedulaException;
 import Excepcion.CorreoException;
+import Excepcion.CorreoFormatoException;
 import Excepcion.DatosIncompletosException;
 import Excepcion.GuardarHuespedException;
 import Excepcion.ModificarHuespedException;
@@ -31,7 +32,7 @@ public class CtlHuesped {
         bo = new BoHuesped();
     }
 
-    public void guardar(String cedula, String nombrecompleto, String genero, String correo, String telefono, Date fechanacimiento, String nacionalidad, String contrasena, String tipo, String estado) throws CorreoException, DatosIncompletosException, CedulaException, TelefonoException, GuardarHuespedException {
+    public void guardar(String cedula, String nombrecompleto, String genero, String correo, String telefono, Date fechanacimiento, String nacionalidad, String contrasena, String tipo, String estado) throws CorreoException, DatosIncompletosException, CedulaException, TelefonoException, GuardarHuespedException, CorreoFormatoException {
         bo.guardar(cedula, nombrecompleto, genero, correo, telefono, fechanacimiento, nacionalidad, contrasena, tipo, estado);
     }
 
@@ -39,7 +40,7 @@ public class CtlHuesped {
         return bo.buscar(cedula);
     }
 
-    public void modificar(String cedula, String nombrecompleto, String genero, String correo, String telefono, Date fechanacimiento, String nacionalidad, String contrasena, String tipo, String estado) throws CorreoException, DatosIncompletosException, BuscarHuespedException, CedulaException, TelefonoException, ModificarHuespedException {
+    public void modificar(String cedula, String nombrecompleto, String genero, String correo, String telefono, Date fechanacimiento, String nacionalidad, String contrasena, String tipo, String estado) throws CorreoException, DatosIncompletosException, BuscarHuespedException, CedulaException, TelefonoException, ModificarHuespedException, CorreoFormatoException {
         bo.modificar(cedula, nombrecompleto, genero, correo, telefono, fechanacimiento, nacionalidad, contrasena, tipo, estado);
     }
 

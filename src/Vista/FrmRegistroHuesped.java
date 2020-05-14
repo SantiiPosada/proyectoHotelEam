@@ -8,12 +8,14 @@ package Vista;
 import Controlador.CtlHuesped;
 import Excepcion.CedulaException;
 import Excepcion.CorreoException;
+import Excepcion.CorreoFormatoException;
 import Excepcion.DatosIncompletosException;
 import Excepcion.GuardarHuespedException;
 import Excepcion.TelefonoException;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-
 
 /**
  *
@@ -24,7 +26,7 @@ public class FrmRegistroHuesped extends javax.swing.JFrame {
     /**
      * declaracion de variables
      */
-  private final  CtlHuesped controlador;
+    private final CtlHuesped controlador;
 
     public FrmRegistroHuesped() {
         controlador = new CtlHuesped();
@@ -266,9 +268,9 @@ public class FrmRegistroHuesped extends javax.swing.JFrame {
             String tipo = "regular";
             String estado = "sin multa";
             controlador.guardar(cedula, nombre, genero, correo, telefono, fechaNacimiento, nacionalida, contrasena, tipo, estado);
-            JOptionPane.showMessageDialog(null, "Se guardó el huesped "+nombre+ " correctamente");
-        } catch (CedulaException | CorreoException | DatosIncompletosException | TelefonoException | GuardarHuespedException ex) {
-             JOptionPane.showMessageDialog(null, ex.getMessage());
+            JOptionPane.showMessageDialog(null, "Se guardó el huesped " + nombre + " correctamente");
+        } catch (CedulaException | CorreoException | DatosIncompletosException | TelefonoException | GuardarHuespedException | CorreoFormatoException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
         }
     }//GEN-LAST:event_btnRegistroActionPerformed
 

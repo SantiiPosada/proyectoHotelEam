@@ -18,6 +18,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -44,7 +45,8 @@ public class DaoHuesped implements IDAOHuesped {
             pstmt.executeUpdate();
             desicion = true;
         } catch (SQLException ex) {
-            // ex.printStackTrace();
+             ex.printStackTrace();
+             JOptionPane.showMessageDialog(null, ex.getMessage());
             int codigo = ex.getErrorCode();
             if (codigo == 1062) {
                 String variable = extraerVariable(ex.getMessage());
