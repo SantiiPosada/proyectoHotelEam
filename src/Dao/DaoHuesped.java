@@ -45,18 +45,18 @@ public class DaoHuesped implements IDAOHuesped {
             pstmt.executeUpdate();
             desicion = true;
         } catch (SQLException ex) {
-          //   ex.printStackTrace();
-             JOptionPane.showMessageDialog(null, ex.getMessage()+" variable del error "+extraerVariable(ex.getMessage(),"o'"));
-             
+            //   ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, ex.getMessage() + " variable del error " + extraerVariable(ex.getMessage(), extraerDosUltimasLetras(ex.getMessage())));
+
             int codigo = ex.getErrorCode();
             if (codigo == 1062) {
-                String variable = extraerVariable(ex.getMessage(),"o'");
-                switch (variable) {
-                    case "cedula":
+                String variable = extraerVariable(ex.getMessage(), extraerDosUltimasLetras(ex.getMessage()));
+                 switch (variable) {
+                    case "huesped.cedul":
                         throw new CedulaException();
-                    case "correo":
+                    case "huesped.corre":
                         throw new CorreoException();
-                    case "telefono":
+                    case "huesped.telefon":
                         throw new TelefonoException();
                     default:
                         break;
@@ -72,7 +72,7 @@ public class DaoHuesped implements IDAOHuesped {
     }
 
     @Override
-    public Huesped buscarHuesped(String cedula)throws BuscarHuespedException   {
+    public Huesped buscarHuesped(String cedula) throws BuscarHuespedException {
         Huesped huesped = new Huesped();
         try (Connection con = Conexion.getConnection()) {
             PreparedStatement pstmt = con.prepareStatement("SELECT  id,cedula,nombreCompleto,genero,correo,telefono,fechaNacimiento,nacionalidad,contrasena,tipo,estado FROM huesped where cedula=?");
@@ -137,7 +137,7 @@ public class DaoHuesped implements IDAOHuesped {
 
             return listar;
         } catch (SQLException e) {
-           // e.printStackTrace();
+            // e.printStackTrace();
             System.err.println("Hubo un error al listar");
         }
         return null;
@@ -168,13 +168,13 @@ public class DaoHuesped implements IDAOHuesped {
             //ex.printStackTrace();
             int codigo = ex.getErrorCode();
             if (codigo == 1062) {
-                String variable = extraerVariable(ex.getMessage(),"o'");
+                String variable = extraerVariable(ex.getMessage(), "o'");
                 switch (variable) {
-                    case "huesped.cedula":
+                    case "huesped.cedul":
                         throw new CedulaException();
-                    case "huesped.correo":
+                    case "huesped.corre":
                         throw new CorreoException();
-                    case "huesped.telefono":
+                    case "huesped.telefon":
                         throw new TelefonoException();
                     default:
                         break;
@@ -192,12 +192,25 @@ public class DaoHuesped implements IDAOHuesped {
      * Método extraer la variable que tuvo el codigo de error 1062
      *
      * @param variable mensaje de error de sql (ex.getMessage())
+     * @param termina dos ultimos datos que terminar del mensaje del error
      * @return nombre de la variable que tiene el error
      */
-    private String extraerVariable(String variable,String termina) {
+    private String extraerVariable(String variable, String termina) {
         int inicio = variable.indexOf("key '");
         int fin = variable.indexOf(termina, inicio + 1);
-        return variable.substring(inicio+5, fin);
+        return variable.substring(inicio + 5, fin);
+    }
+
+    /**
+     * Método para extraer las dos ultmias letras de una cadena de texto
+     *
+     * @param variable cadena de texto
+     * @return dos ultimos datos de la cadena de texto
+     */
+
+    private String extraerDosUltimasLetras(String variable) {
+        int tamano = variable.length();
+        return variable.substring((tamano - 2), tamano);
     }
 
     /**
