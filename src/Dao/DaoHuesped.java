@@ -195,9 +195,9 @@ public class DaoHuesped implements IDAOHuesped {
      * @return nombre de la variable que tiene el error
      */
     private String extraerVariable(String variable) {
-        int inicio = variable.indexOf(".");
+        int inicio = variable.indexOf("'");
         int fin = variable.indexOf("'", inicio + 1);
-        return variable.substring(inicio + 1, fin);
+        return variable.substring(inicio + 3, fin);
     }
 
     /**
