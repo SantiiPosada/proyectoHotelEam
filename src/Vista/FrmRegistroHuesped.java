@@ -5,31 +5,29 @@
  */
 package Vista;
 
-import Bo.BoHuesped;
-import Dao.DaoHuesped;
+import Controlador.CtlHuesped;
 import Excepcion.CedulaException;
 import Excepcion.CorreoException;
 import Excepcion.DatosIncompletosException;
+import Excepcion.GuardarHuespedException;
 import Excepcion.TelefonoException;
-import Modelo.Huesped;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+
 
 /**
  *
- * @author mateo
+ * @author santiago posada
  */
 public class FrmRegistroHuesped extends javax.swing.JFrame {
 
     /**
-     * Creates new form FrmRegistroHuesped
+     * declaracion de variables
      */
-    Dao.DaoHuesped bo;
+  private final  CtlHuesped controlador;
 
     public FrmRegistroHuesped() {
-        bo = new DaoHuesped();
+        controlador = new CtlHuesped();
         initComponents();
         this.setLocationRelativeTo(null);
         this.setResizable(false);
@@ -49,7 +47,7 @@ public class FrmRegistroHuesped extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList<>();
         jPanel1 = new javax.swing.JPanel();
-        btnCancelar = new javax.swing.JButton();
+        BtnVolver = new javax.swing.JButton();
         btnRegistro = new javax.swing.JButton();
         lblNacionalidad = new javax.swing.JLabel();
         lblContrasena = new javax.swing.JLabel();
@@ -82,12 +80,12 @@ public class FrmRegistroHuesped extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setForeground(new java.awt.Color(0, 0, 0));
 
-        btnCancelar.setBackground(new java.awt.Color(255, 255, 255));
-        btnCancelar.setForeground(new java.awt.Color(0, 0, 0));
-        btnCancelar.setText("CANCELAR");
-        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+        BtnVolver.setBackground(new java.awt.Color(255, 255, 255));
+        BtnVolver.setForeground(new java.awt.Color(0, 0, 0));
+        BtnVolver.setText("VOLVER");
+        BtnVolver.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCancelarActionPerformed(evt);
+                BtnVolverActionPerformed(evt);
             }
         });
 
@@ -157,7 +155,7 @@ public class FrmRegistroHuesped extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(btnRegistro)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(BtnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(97, 97, 97))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -236,7 +234,7 @@ public class FrmRegistroHuesped extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnRegistro)
-                    .addComponent(btnCancelar))
+                    .addComponent(BtnVolver))
                 .addContainerGap())
         );
 
@@ -257,30 +255,28 @@ public class FrmRegistroHuesped extends javax.swing.JFrame {
     private void btnRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistroActionPerformed
 
         try {
-            String cedula = txtCedula.getText();
-            String nombre = txtNombreCompleto.getText();
-            String genero = cboGenero.getSelectedItem().toString();
-            String correo = txtCorreo.getText();
-            String telefono = txtTelefono.getText();
+            String cedula = controlador.obtenerDatoJtextFile(txtCedula);
+            String nombre = controlador.obtenerDatoJtextFile(txtNombreCompleto);
+            String genero = controlador.obtenerDatoJComboBox(cboGenero);
+            String correo = controlador.obtenerDatoJtextFile(txtCorreo);
+            String telefono = controlador.obtenerDatoJtextFile(txtTelefono);
             Date fechaNacimiento = dateFechaNacimiento.getDate();
-            String nacionalida = cboNacionalidad.getSelectedItem().toString();
-            String contrasena = txtPassword.getText();
-            String tipo = "ordinario";
+            String nacionalida = controlador.obtenerDatoJComboBox(cboNacionalidad);
+            String contrasena = controlador.obtenerDatoJtextFile(txtPassword);
+            String tipo = "regular";
             String estado = "sin multa";
-            Huesped h=new Huesped(0, cedula, nombre, genero, correo, telefono, fechaNacimiento, nacionalida, contrasena, tipo, estado);
-            bo.guardarHuesped(h);
-            JOptionPane.showMessageDialog(null, "Se guardó el huesoed correctamente");
-        } catch (CedulaException | CorreoException | DatosIncompletosException | TelefonoException ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage());
+            controlador.guardar(cedula, nombre, genero, correo, telefono, fechaNacimiento, nacionalida, contrasena, tipo, estado);
+            JOptionPane.showMessageDialog(null, "Se guardó el huesped "+nombre+ " correctamente");
+        } catch (CedulaException | CorreoException | DatosIncompletosException | TelefonoException | GuardarHuespedException ex) {
+             JOptionPane.showMessageDialog(null, ex.getMessage());
         }
-
     }//GEN-LAST:event_btnRegistroActionPerformed
 
-    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+    private void BtnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnVolverActionPerformed
         FrmLogin login = new FrmLogin();
         login.setVisible(true);
         this.dispose();
-    }//GEN-LAST:event_btnCancelarActionPerformed
+    }//GEN-LAST:event_BtnVolverActionPerformed
 
     private void txtCedulaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCedulaKeyTyped
         char c = evt.getKeyChar();
@@ -346,7 +342,7 @@ public class FrmRegistroHuesped extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton BtnVolver;
     private javax.swing.JButton btnRegistro;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox<String> cboGenero;

@@ -159,12 +159,7 @@ public class DaoHuesped implements IDAOHuesped {
             pstmt.setInt(11, huesped.getId());
             int res = pstmt.executeUpdate();
 
-            if (res > 0) {
-                desicion = true;
-            } else {
-                desicion = false;
-
-            }
+            desicion = res > 0;
 
         } catch (SQLException ex) {
             //ex.printStackTrace();
@@ -194,7 +189,7 @@ public class DaoHuesped implements IDAOHuesped {
      * Método extraer la variable que tuvo el codigo de error 1062
      *
      * @param variable mensaje de error de sql (ex.getMessage())
-     * @return nombre de la veriable que tiene el error
+     * @return nombre de la variable que tiene el error
      */
     private String extraerVariable(String variable) {
         int inicio = variable.indexOf(".");
