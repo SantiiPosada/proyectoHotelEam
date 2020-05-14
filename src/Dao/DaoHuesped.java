@@ -46,7 +46,7 @@ public class DaoHuesped implements IDAOHuesped {
             desicion = true;
         } catch (SQLException ex) {
              ex.printStackTrace();
-             JOptionPane.showMessageDialog(null, ex.getMessage()+"variable del error "+extraerVariable(ex.getMessage()));
+             JOptionPane.showMessageDialog(null, ex.getMessage()+" variable del error "+extraerVariable(ex.getMessage()));
              
             int codigo = ex.getErrorCode();
             if (codigo == 1062) {
