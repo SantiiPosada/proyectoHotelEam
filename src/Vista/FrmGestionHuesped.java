@@ -20,18 +20,18 @@ import javax.swing.JOptionPane;
  *
  * @author mateo
  */
-public class FrmGestionRecepcionista extends javax.swing.JFrame {
+public class FrmGestionHuesped extends javax.swing.JFrame {
 
     CtlRecepcionista controlador;
 
-    public FrmGestionRecepcionista() {
+    public FrmGestionHuesped() {
         initComponents();
         this.setLocationRelativeTo(null);
         txtId.setEnabled(false);
         controlador = new CtlRecepcionista();
         btnCancelar.setEnabled(true);
         btnModificar.setEnabled(false);
-        listar();
+       // listar();
     }
 
     /**
@@ -49,7 +49,7 @@ public class FrmGestionRecepcionista extends javax.swing.JFrame {
         lblCedula = new javax.swing.JLabel();
         txtCedula = new javax.swing.JTextField();
         lblNombreCompleto = new javax.swing.JLabel();
-        txtFiltrar = new javax.swing.JTextField();
+        txtTelefono = new javax.swing.JTextField();
         lblGenero = new javax.swing.JLabel();
         CbxGenero = new javax.swing.JComboBox<>();
         lblCorreo = new javax.swing.JLabel();
@@ -63,8 +63,8 @@ public class FrmGestionRecepcionista extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        JtblRecepcionista = new javax.swing.JTable();
-        lblRecepcion = new javax.swing.JLabel();
+        JtblHuespedes = new javax.swing.JTable();
+        lblHuespedes = new javax.swing.JLabel();
         btnSalir = new javax.swing.JButton();
         btnRegistrar = new javax.swing.JButton();
         btnModificar = new javax.swing.JButton();
@@ -76,7 +76,9 @@ public class FrmGestionRecepcionista extends javax.swing.JFrame {
         btnFiltrar = new javax.swing.JButton();
         btnActualizar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
-        txtTelefono = new javax.swing.JTextField();
+        lblNacionalidad = new javax.swing.JLabel();
+        cboNacionalidad = new javax.swing.JComboBox<>();
+        txtFiltrar = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -107,11 +109,11 @@ public class FrmGestionRecepcionista extends javax.swing.JFrame {
         lblNombreCompleto.setForeground(new java.awt.Color(0, 0, 0));
         lblNombreCompleto.setText("Nombre Completo :");
 
-        txtFiltrar.setBackground(new java.awt.Color(255, 255, 255));
-        txtFiltrar.setForeground(new java.awt.Color(0, 0, 0));
-        txtFiltrar.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtTelefono.setBackground(new java.awt.Color(255, 255, 255));
+        txtTelefono.setForeground(new java.awt.Color(0, 0, 0));
+        txtTelefono.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtFiltrarKeyTyped(evt);
+                txtTelefonoKeyTyped(evt);
             }
         });
 
@@ -156,28 +158,28 @@ public class FrmGestionRecepcionista extends javax.swing.JFrame {
         txtContrasena.setBackground(new java.awt.Color(255, 255, 255));
         txtContrasena.setForeground(new java.awt.Color(0, 0, 0));
 
-        JtblRecepcionista.setBackground(new java.awt.Color(255, 255, 255));
-        JtblRecepcionista.setForeground(new java.awt.Color(0, 0, 0));
-        JtblRecepcionista.setModel(new javax.swing.table.DefaultTableModel(
+        JtblHuespedes.setBackground(new java.awt.Color(255, 255, 255));
+        JtblHuespedes.setForeground(new java.awt.Color(0, 0, 0));
+        JtblHuespedes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Id", "Cedula", "Nombre Completo", "Genero", "Correo", "Telefono", "Fecha Nacimiento", "Contrasena", "Estado"
+                "Id", "Cedula", "Nombre Completo", "Genero", "Correo", "Telefono", "Fecha Nacimiento", "Nacionalidad", "Contrasena", "Tipo", "Estado"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane2.setViewportView(JtblRecepcionista);
+        jScrollPane2.setViewportView(JtblHuespedes);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -194,7 +196,7 @@ public class FrmGestionRecepcionista extends javax.swing.JFrame {
 
         jScrollPane1.setViewportView(jPanel2);
 
-        lblRecepcion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/recepcion.jpg"))); // NOI18N
+        lblHuespedes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/personas.jpg"))); // NOI18N
 
         btnSalir.setBackground(new java.awt.Color(255, 255, 255));
         btnSalir.setForeground(new java.awt.Color(0, 0, 0));
@@ -245,14 +247,14 @@ public class FrmGestionRecepcionista extends javax.swing.JFrame {
 
         lblTitulo.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
         lblTitulo.setForeground(new java.awt.Color(0, 0, 0));
-        lblTitulo.setText("GESTION RECEPCIONISTA");
+        lblTitulo.setText("GESTION DE HUESPEDES");
 
         lblFiltrar.setForeground(new java.awt.Color(0, 0, 0));
         lblFiltrar.setText("Filtrar tabla por :");
 
         CbxFiltrar.setBackground(new java.awt.Color(255, 255, 255));
         CbxFiltrar.setForeground(new java.awt.Color(0, 0, 0));
-        CbxFiltrar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "Id", "Cedula", "Nombre Completo", "Genero", "Correo", "Telefono", "Fecha Nacimiento", "Contrasena", "Estado" }));
+        CbxFiltrar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "Id", "Cedula", "Nombre Completo", "Genero", "Correo", "Telefono", "Fecha Nacimiento", "Nacionalidad", "Contrasena", "Tipo", "Estado" }));
 
         btnFiltrar.setBackground(new java.awt.Color(255, 255, 255));
         btnFiltrar.setForeground(new java.awt.Color(0, 0, 0));
@@ -281,11 +283,18 @@ public class FrmGestionRecepcionista extends javax.swing.JFrame {
             }
         });
 
-        txtTelefono.setBackground(new java.awt.Color(255, 255, 255));
-        txtTelefono.setForeground(new java.awt.Color(0, 0, 0));
-        txtTelefono.addKeyListener(new java.awt.event.KeyAdapter() {
+        lblNacionalidad.setForeground(new java.awt.Color(0, 0, 0));
+        lblNacionalidad.setText("Nacionalidad :");
+
+        cboNacionalidad.setBackground(new java.awt.Color(255, 255, 255));
+        cboNacionalidad.setForeground(new java.awt.Color(0, 0, 0));
+        cboNacionalidad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "Afganistán", "Akrotiri", "Albania", "Alemania", "Andorra", "Angola", "Anguila", "Antártida", "Antigua y Barbuda", "Arabia Saudí", "Arctic Ocean", "Argelia", "Argentina", "Armenia", "Aruba", "Ashmore and Cartier Islands", "Atlantic Ocean", "Australia", "Austria", "Azerbaiyán", "Bahamas", "Bahráin", "Bangladesh", "Barbados", "Bélgica", "Belice", "Benín", "Bermudas", "Bielorrusia", "Birmania; Myanmar", "Bolivia", "Bosnia y Hercegovina", "Botsuana", "Brasil", "Brunéi", "Bulgaria", "Burkina Faso", "Burundi", "Bután", "Cabo Verde", "Camboya", "Camerún", "Canadá", "Chad", "Chile", "China", "Chipre", "Clipperton Island", "Colombia", "Comoras", "Congo", "Coral Sea Islands", "Corea del Norte", "Corea del Sur", "Costa de Marfil", "Costa Rica", "Croacia", "Cuba", "Curacao", "Dhekelia", "Dinamarca", "Dominica", "Ecuador", "Egipto", "El Salvador", "El Vaticano", "Emiratos Árabes Unidos", "Eritrea", "Eslovaquia", "Eslovenia", "España", "Estados Unidos", "Estonia", "Etiopía", "Filipinas", "Finlandia", "Fiyi", "Francia", "Gabón", "Gambia", "Gaza Strip", "Georgia", "Ghana", "Gibraltar", "Granada", "Grecia", "Groenlandia", "Guam", "Guatemala", "Guernsey", "Guinea", "Guinea Ecuatorial", "Guinea-Bissau", "Guyana", "Haití", "Honduras", "Hong Kong", "Hungría", "India", "Indian Ocean", "Indonesia", "Irán", "Iraq", "Irlanda", "Isla Bouvet", "Isla Christmas", "Isla Norfolk", "Islandia", "Islas Caimán", "Islas Cocos", "Islas Cook", "Islas Feroe", "Islas Georgia del Sur y Sandwich del Sur", "Islas Heard y McDonald", "Islas Malvinas", "Islas Marianas del Norte", "Islas Marshall", "Islas Pitcairn", "Islas Salomón", "Islas Turcas y Caicos", "Islas Vírgenes Americanas", "Islas Vírgenes Británicas", "Israel", "Italia", "Jamaica", "Jan Mayen", "Japón", "Jersey", "Jordania", "Kazajistán", "Kenia", "Kirguizistán", "Kiribati", "Kosovo", "Kuwait", "Laos", "Lesoto", "Letonia", "Líbano", "Liberia", "Libia", "Liechtenstein", "Lituania", "Luxemburgo", "Macao", "Macedonia", "Madagascar", "Malasia", "Malaui", "Maldivas", "Malí", "Malta", "Man, Isle of", "Marruecos", "Mauricio", "Mauritania", "México", "Micronesia", "Moldavia", "Mónaco", "Mongolia", "Montenegro", "Montserrat", "Mozambique", "Mundo", "Namibia", "Nauru", "Navassa Island", "Nepal", "Nicaragua", "Níger", "Nigeria", "Niue", "Noruega", "Nueva Caledonia", "Nueva Zelanda", "Omán", "Pacific Ocean", "Países Bajos", "Pakistán", "Palaos", "Panamá", "Papúa-Nueva Guinea", "Paracel Islands", "Paraguay", "Perú", "Polinesia Francesa", "Polonia", "Portugal", "Puerto Rico", "Qatar", "Reino Unido", "República Centroafricana", "República Democrática del Congo", "República Dominicana", "Ruanda", "Rumania", "Rusia", "Sáhara Occidental", "Samoa", "Samoa Americana", "San Bartolomé", "San Cristóbal y Nieves", "San Marino", "San Martín", "San Pedro y Miquelón", "San Vicente y las Granadinas", "Santa Helena", "Santa Lucía", "Santo Tomé y Príncipe", "Senegal", "Serbia", "Seychelles", "Sierra Leona", "Singapur", "Sint Maarten", "Siria", "Somalia", "Southern Ocean", "Spratly Islands", "Sri Lanka", "Suazilandia", "Sudáfrica", "Sudán", "Sudán del Sur", "Suecia", "Suiza", "Surinam", "Svalbard y Jan Mayen", "Tailandia", "Taiwán", "Tanzania", "Tayikistán", "Territorio Británico del Océano Indico", "Territorios Australes Franceses", "Timor Oriental", "Togo", "Tokelau", "Tonga", "Trinidad y Tobago", "Túnez", "Turkmenistán", "Turquía", "Tuvalu", "Ucrania", "Uganda", "Unión Europea", "Uruguay", "Uzbekistán", "Vanuatu", "Venezuela", "Vietnam", "Wake Island", "Wallis y Futuna", "West Bank", "Yemen", "Yibuti", "Zambia", "Zimbabue" }));
+
+        txtFiltrar.setBackground(new java.awt.Color(255, 255, 255));
+        txtFiltrar.setForeground(new java.awt.Color(0, 0, 0));
+        txtFiltrar.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtTelefonoKeyTyped(evt);
+                txtFiltrarKeyTyped(evt);
             }
         });
 
@@ -311,14 +320,15 @@ public class FrmGestionRecepcionista extends javax.swing.JFrame {
                                     .addComponent(lblContrasena)
                                     .addComponent(lblCorreo))
                                 .addGap(30, 30, 30)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jDtcFechaNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(CbxGenero, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtNombreCompleto, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtCedula, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtCorreo, javax.swing.GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE)
+                                    .addComponent(jDtcFechaNacimiento, javax.swing.GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE)
+                                    .addComponent(txtTelefono, javax.swing.GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE)
+                                    .addComponent(CbxGenero, 0, 203, Short.MAX_VALUE)
+                                    .addComponent(txtNombreCompleto, javax.swing.GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE)
+                                    .addComponent(txtContrasena, javax.swing.GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE)
+                                    .addComponent(txtCedula, javax.swing.GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE)
+                                    .addComponent(cboNacionalidad, 0, 0, Short.MAX_VALUE)))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(lblId)
                                 .addGap(120, 120, 120)
@@ -326,7 +336,7 @@ public class FrmGestionRecepcionista extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(109, 109, 109)
-                                .addComponent(lblRecepcion, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lblHuespedes, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -345,15 +355,20 @@ public class FrmGestionRecepcionista extends javax.swing.JFrame {
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(CbxFiltrar, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(txtFiltrar, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addContainerGap(24, Short.MAX_VALUE))))))
+                                        .addComponent(txtFiltrar, javax.swing.GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE)))
+                                .addGap(24, 24, 24))))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lblTitulo)
                 .addGap(280, 280, 280))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(401, 401, 401)
-                .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(401, 401, 401)
+                        .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(lblNacionalidad)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -391,19 +406,24 @@ public class FrmGestionRecepcionista extends javax.swing.JFrame {
                                     .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(lblRecepcion, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(lblHuespedes, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblFechaNacimiento)
                             .addComponent(jDtcFechaNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(29, 29, 29)
+                        .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblContrasena)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(txtContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(lblFiltrar)
-                                .addComponent(CbxFiltrar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(txtFiltrar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(lblNacionalidad)
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblContrasena)
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(txtContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(lblFiltrar)
+                                        .addComponent(CbxFiltrar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(txtFiltrar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(cboNacionalidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(89, 89, 89)
                         .addComponent(btnRegistrar)
@@ -449,7 +469,7 @@ public class FrmGestionRecepcionista extends javax.swing.JFrame {
             String nombrecompleto = txtNombreCompleto.getText();
             String genero = CbxGenero.getSelectedItem().toString();
             String correo = txtCorreo.getText();
-            String telefono = txtFiltrar.getText();
+            String telefono = txtTelefono.getText();
             Date Fechanacimiento = jDtcFechaNacimiento.getDate();
             String constrasena = txtContrasena.getText();
             controlador.EliminarRecepcionista(id, cedula, nombrecompleto, genero, correo, telefono, Fechanacimiento, constrasena);
@@ -500,18 +520,18 @@ public class FrmGestionRecepcionista extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtCorreoKeyTyped
 
-    private void txtFiltrarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFiltrarKeyTyped
+    private void txtTelefonoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTelefonoKeyTyped
         char c = evt.getKeyChar();
         if (c < '0' || c > '9') {
             evt.consume();
         }
-    }//GEN-LAST:event_txtFiltrarKeyTyped
+    }//GEN-LAST:event_txtTelefonoKeyTyped
 
     private void btnFiltrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltrarActionPerformed
         try {
             String opcion = CbxFiltrar.getSelectedItem().toString();
             String accion = txtFiltrar.getText();
-            JtblRecepcionista.setModel(controlador.filtrar(opcion, accion));
+            JtblHuespedes.setModel(controlador.filtrar(opcion, accion));
 
         } catch (ComboBoxException | DatosIncompletosException e) {
             imprimir(e.getMessage());
@@ -531,7 +551,7 @@ public class FrmGestionRecepcionista extends javax.swing.JFrame {
         String nombrecompleto = txtNombreCompleto.getText();
         String genero = CbxGenero.getSelectedItem().toString();
         String correo = txtCorreo.getText();
-        String telefono = txtFiltrar.getText();
+        String telefono = txtTelefono.getText();
         Date Fechanacimiento = jDtcFechaNacimiento.getDate();
         String constrasena = txtContrasena.getText();
 
@@ -583,7 +603,7 @@ public class FrmGestionRecepcionista extends javax.swing.JFrame {
             String nombrecompleto = txtNombreCompleto.getText();
             String genero = CbxGenero.getSelectedItem().toString();
             String correo = txtCorreo.getText();
-            String telefono = txtFiltrar.getText();
+            String telefono = txtTelefono.getText();
             Date Fechanacimiento = jDtcFechaNacimiento.getDate();
             String constrasena = txtContrasena.getText();
             controlador.modificarRecepcionista(id, cedula, nombrecompleto, genero, correo, telefono, Fechanacimiento, constrasena);
@@ -600,9 +620,9 @@ public class FrmGestionRecepcionista extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnModificarActionPerformed
 
-    private void txtTelefonoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTelefonoKeyTyped
+    private void txtFiltrarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFiltrarKeyTyped
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtTelefonoKeyTyped
+    }//GEN-LAST:event_txtFiltrarKeyTyped
 
     /**
      * @param args the command line arguments
@@ -621,20 +641,21 @@ public class FrmGestionRecepcionista extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrmGestionRecepcionista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmGestionHuesped.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrmGestionRecepcionista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmGestionHuesped.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrmGestionRecepcionista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmGestionHuesped.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrmGestionRecepcionista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmGestionHuesped.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FrmGestionRecepcionista().setVisible(true);
+                new FrmGestionHuesped().setVisible(true);
             }
         });
     }
@@ -649,14 +670,14 @@ public class FrmGestionRecepcionista extends javax.swing.JFrame {
         txtNombreCompleto.setText("");
         CbxGenero.setSelectedItem("");
         txtCorreo.setText("");
-        txtFiltrar.setText("");
+        txtTelefono.setText("");
         jDtcFechaNacimiento.setDate(null);
         txtContrasena.setText("");
     }
 
     public void listar() {
 
-        JtblRecepcionista.setModel(controlador.listarElementos());
+        JtblHuespedes.setModel(controlador.listarElementos());
     }
 
     private void cargarInformacion(Recepcionista recepcionista) {
@@ -666,14 +687,14 @@ public class FrmGestionRecepcionista extends javax.swing.JFrame {
         txtNombreCompleto.setText(recepcionista.getNombrecompleto());
         CbxGenero.setSelectedItem(recepcionista.getGenero().toString());
         txtCorreo.setText(recepcionista.getCorreo());
-        txtFiltrar.setText(recepcionista.getTelefono());
+        txtTelefono.setText(recepcionista.getTelefono());
         jDtcFechaNacimiento.setDate(recepcionista.getFechanacimiento());
         txtContrasena.setText(recepcionista.getContrasena());
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> CbxFiltrar;
     private javax.swing.JComboBox<String> CbxGenero;
-    private javax.swing.JTable JtblRecepcionista;
+    private javax.swing.JTable JtblHuespedes;
     private javax.swing.JButton btnActualizar;
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnCancelar;
@@ -682,6 +703,7 @@ public class FrmGestionRecepcionista extends javax.swing.JFrame {
     private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnRegistrar;
     private javax.swing.JButton btnSalir;
+    private javax.swing.JComboBox<String> cboNacionalidad;
     private com.toedter.calendar.JDateChooser jDtcFechaNacimiento;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -693,9 +715,10 @@ public class FrmGestionRecepcionista extends javax.swing.JFrame {
     private javax.swing.JLabel lblFechaNacimiento;
     private javax.swing.JLabel lblFiltrar;
     private javax.swing.JLabel lblGenero;
+    private javax.swing.JLabel lblHuespedes;
     private javax.swing.JLabel lblId;
+    private javax.swing.JLabel lblNacionalidad;
     private javax.swing.JLabel lblNombreCompleto;
-    private javax.swing.JLabel lblRecepcion;
     private javax.swing.JLabel lblTelefono;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JTextField txtCedula;
