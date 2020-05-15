@@ -24,7 +24,7 @@ public class FrmLogin extends javax.swing.JFrame {
     /**
      * Creates new form FrmLog
      */
-    private CtlLogIn controlador;
+    private final CtlLogIn controlador;
 
     public FrmLogin() {
         controlador = new CtlLogIn();
