@@ -17,6 +17,8 @@ import Excepcion.ModificarRecepcionistaException;
 import Excepcion.TelefonoException;
 import Modelo.Recepcionista;
 import java.util.Date;
+import javax.swing.JComboBox;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -36,7 +38,7 @@ public class CtlRecepcionista {
         bo.guardarRecepcionista(id, cedula, nombrecompleto, genero, correo, telefono, fechanacimiento, contrasena);
     }
 
-    public Recepcionista buscarRecepcionista(String cedula) throws BuscarRecepcionistaException {
+    public Recepcionista buscarRecepcionista(String cedula) throws BuscarRecepcionistaException, DatosIncompletosException {
         return bo.buscarRecepcionista(cedula);
     }
 
@@ -46,8 +48,16 @@ public class CtlRecepcionista {
 
     }
 
-    public void EliminarRecepcionista(int id, String cedula, String nombrecompleto, String genero, String correo, String telefono, Date fechanacimiento, String contrasena) throws DatosIncompletosException, CorreoException, ModificarRecepcionistaException, CedulaException, TelefonoException {
+    public void EliminarRecepcionista(int id, String cedula, String nombrecompleto, String genero, String correo, String telefono, Date fechanacimiento, String contrasena) throws DatosIncompletosException, CorreoException, ModificarRecepcionistaException, CedulaException, TelefonoException, BuscarRecepcionistaException {
         bo.EliminarRecepcionista(id, cedula, nombrecompleto, genero, correo, telefono, fechanacimiento, contrasena);
+    }
+
+    public String obtenerDatoJtextFile(JTextField x) {
+        return bo.obtenerDatoJtextFile(x);
+    }
+
+    public String obtenerDatoJComboBox(JComboBox x) {
+        return bo.obtenerDatoJComboBox(x);
     }
 
     public DefaultTableModel listarElementos() {

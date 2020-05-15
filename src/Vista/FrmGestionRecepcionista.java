@@ -28,6 +28,8 @@ public class FrmGestionRecepcionista extends javax.swing.JFrame {
 
     private CtlRecepcionista controlador;
     private Administrador administrador;
+    private String tipo;
+    private String estado;
 
     public FrmGestionRecepcionista() {
         initComponents();
@@ -35,12 +37,15 @@ public class FrmGestionRecepcionista extends javax.swing.JFrame {
 
     public FrmGestionRecepcionista(Administrador administrador) {
         controlador = new CtlRecepcionista();
-        this.administrador=administrador;
+        this.administrador = administrador;
         initComponents();
         this.setLocationRelativeTo(null);
+        this.setResizable(false);
+
         txtId.setEnabled(false);
         btnCancelar.setEnabled(true);
         btnModificar.setEnabled(false);
+        JtblRecepcionista.setEnabled(true);
         listar();
     }
 
@@ -468,7 +473,7 @@ public class FrmGestionRecepcionista extends javax.swing.JFrame {
             btnBuscar.setEnabled(true);
             btnEliminar.setEnabled(false);
             txtCedula.setEnabled(true);
-        } catch (DatosIncompletosException | CorreoException | ModificarRecepcionistaException | CedulaException | TelefonoException e) {
+        } catch (DatosIncompletosException | CorreoException | ModificarRecepcionistaException | CedulaException | TelefonoException | BuscarRecepcionistaException e) {
             imprimir(e.getMessage());
         }
     }//GEN-LAST:event_btnEliminarActionPerformed
@@ -519,8 +524,6 @@ public class FrmGestionRecepcionista extends javax.swing.JFrame {
 
         } catch (ComboBoxException | DatosIncompletosException e) {
             imprimir(e.getMessage());
-        } catch (NumberFormatException nfe) {
-            imprimir("Ingrese el codigo del recepcionista que desea filtrar correctamente (solo numeros)");
         }
     }//GEN-LAST:event_btnFiltrarActionPerformed
 
@@ -575,7 +578,7 @@ public class FrmGestionRecepcionista extends javax.swing.JFrame {
             } else {
                 imprimir("No se encuentra el recepcionista con la " + cedula);
             }
-        } catch (BuscarRecepcionistaException e) {
+        } catch (BuscarRecepcionistaException | DatosIncompletosException e) {
             imprimir(e.getMessage());
         }
     }//GEN-LAST:event_btnBuscarActionPerformed

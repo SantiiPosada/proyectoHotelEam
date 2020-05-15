@@ -89,7 +89,6 @@ public class DAORecepcionista implements IDAORecepcionista {
             }
         } catch (SQLException ex) {
             recepcionista = null;
-            ex.printStackTrace();
 
         }
         return null;
@@ -99,18 +98,17 @@ public class DAORecepcionista implements IDAORecepcionista {
     public boolean modificarRecepcionista(Recepcionista recepcionista) throws CedulaException, CorreoException, DatosIncompletosException, TelefonoException {
         boolean desicion = false;
         try (Connection con = Conexion.getConnection()) {
-            PreparedStatement pstmt = con.prepareStatement("UPDATE recepcionista SET  id=?, cedula=?, nombreCompleto=?, genero=?, correo=?, telefono=?, fechaNacimiento=?, contrasena=?, estado=? WHERE id=?");//preparar la sentencia sql(modificar,agregar,eliminar,etc) se llena de izquierda a derecha de 1 en 1(1,2,3)
+            PreparedStatement pstmt = con.prepareStatement("UPDATE recepcionista SET  cedula=?, nombreCompleto=?, genero=?, correo=?, telefono=?, fechaNacimiento=?, contrasena=?, estado=? WHERE id=?");//preparar la sentencia sql(modificar,agregar,eliminar,etc) se llena de izquierda a derecha de 1 en 1(1,2,3)
 
-            pstmt.setInt(1, recepcionista.getId());
-            pstmt.setString(2, recepcionista.getCedula());
-            pstmt.setString(3, recepcionista.getNombrecompleto());//posicion 2=nombre Valor
-            pstmt.setString(4, recepcionista.getGenero());
-            pstmt.setString(5, recepcionista.getCorreo());
-            pstmt.setString(6, recepcionista.getTelefono());
-            pstmt.setDate(7, convertirDeDateUtilaDateSql(recepcionista.getFechanacimiento()));
-            pstmt.setString(8, recepcionista.getContrasena());
-            pstmt.setString(9, recepcionista.getEstado());
-            pstmt.setInt(10, recepcionista.getId());
+            pstmt.setString(1, recepcionista.getCedula());
+            pstmt.setString(2, recepcionista.getNombrecompleto());//posicion 2=nombre Valor
+            pstmt.setString(3, recepcionista.getGenero());
+            pstmt.setString(4, recepcionista.getCorreo());
+            pstmt.setString(5, recepcionista.getTelefono());
+            pstmt.setDate(6, convertirDeDateUtilaDateSql(recepcionista.getFechanacimiento()));
+            pstmt.setString(7, recepcionista.getContrasena());
+            pstmt.setString(8, recepcionista.getEstado());
+            pstmt.setInt(9, recepcionista.getId());
             int res = pstmt.executeUpdate();//retorna 0,1 o fallo al insertar
 
             desicion = res > 0;
@@ -171,7 +169,7 @@ public class DAORecepcionista implements IDAORecepcionista {
 
             return listarecepcionista;
         } catch (SQLException e) {
-            e.printStackTrace();
+            //  e.printStackTrace();
             System.err.println("Hubo un error al buscar");
         }
         return listarRecepcionista();

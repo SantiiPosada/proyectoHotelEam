@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.swing.JComboBox;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -87,7 +89,10 @@ public class BoRecepcionista {
 
     }
 
-    public Recepcionista buscarRecepcionista(String cedula) throws BuscarRecepcionistaException {
+    public Recepcionista buscarRecepcionista(String cedula) throws BuscarRecepcionistaException, DatosIncompletosException {
+        if (cedula == null) {
+            throw new DatosIncompletosException();
+        }
         Recepcionista recepcionista = daoRecepcionista.buscarRecepcionista(cedula);
         if (recepcionista == null) {
             throw new BuscarRecepcionistaException();
@@ -111,9 +116,9 @@ public class BoRecepcionista {
 
     }
 
-    public void EliminarRecepcionista(int id, String cedula, String nombrecompleto, String genero, String correo, String telefono, Date fechanacimiento, String contrasena) throws DatosIncompletosException, CorreoException, ModificarRecepcionistaException, CedulaException, TelefonoException {
+    public void EliminarRecepcionista(int id, String cedula, String nombrecompleto, String genero, String correo, String telefono, Date fechanacimiento, String contrasena) throws DatosIncompletosException, CorreoException, ModificarRecepcionistaException, CedulaException, TelefonoException, BuscarRecepcionistaException {
 
-        Recepcionista recepcionistanuevo = new Recepcionista(id, cedula, nombrecompleto, genero, correo, telefono, fechanacimiento, contrasena, "No Disponible");
+        Recepcionista recepcionistanuevo = new Recepcionista(buscarRecepcionista(cedula).getId(), cedula, nombrecompleto, genero, correo, telefono, fechanacimiento, contrasena, "No Disponible");
 
         boolean condicionRecepcionista = daoRecepcionista.modificarRecepcionista(recepcionistanuevo);
 
@@ -130,6 +135,22 @@ public class BoRecepcionista {
     public ArrayList<Recepcionista> listarRecepcionistas() {
         return daoRecepcionista.listarRecepcionista();
 
+    }
+
+    public String obtenerDatoJtextFile(JTextField x) {
+        String informacion = x.getText();
+        if (informacion.equals("")) {
+            informacion = null;
+        }
+        return informacion;
+    }
+
+    public String obtenerDatoJComboBox(JComboBox x) {
+        String informacion = x.getSelectedItem().toString();
+        if (informacion.equals("Seleccione")) {
+            informacion = null;
+        }
+        return informacion;
     }
 
     public DefaultTableModel listarElementos() {
