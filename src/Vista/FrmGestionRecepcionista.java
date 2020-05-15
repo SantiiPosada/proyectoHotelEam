@@ -6,12 +6,15 @@
 package Vista;
 
 import Controlador.CtlRecepcionista;
+import Excepcion.BuscarRecepcionistaException;
 import Excepcion.CedulaException;
 import Excepcion.ComboBoxException;
 import Excepcion.CorreoException;
+import Excepcion.CorreoFormatoException;
 import Excepcion.DatosIncompletosException;
 import Excepcion.GuardarRecepcionistaException;
 import Excepcion.ModificarRecepcionistaException;
+import Excepcion.TelefonoException;
 import Modelo.Recepcionista;
 import java.util.Date;
 import javax.swing.JOptionPane;
@@ -461,7 +464,7 @@ public class FrmGestionRecepcionista extends javax.swing.JFrame {
             btnBuscar.setEnabled(true);
             btnEliminar.setEnabled(false);
             txtCedula.setEnabled(true);
-        } catch (DatosIncompletosException | CorreoException | ModificarRecepcionistaException e) {
+        } catch (DatosIncompletosException | CorreoException | ModificarRecepcionistaException | CedulaException | TelefonoException e) {
             imprimir(e.getMessage());
         }
     }//GEN-LAST:event_btnEliminarActionPerformed
@@ -501,10 +504,7 @@ public class FrmGestionRecepcionista extends javax.swing.JFrame {
     }//GEN-LAST:event_txtCorreoKeyTyped
 
     private void txtFiltrarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFiltrarKeyTyped
-        char c = evt.getKeyChar();
-        if (c < '0' || c > '9') {
-            evt.consume();
-        }
+
     }//GEN-LAST:event_txtFiltrarKeyTyped
 
     private void btnFiltrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltrarActionPerformed
@@ -531,7 +531,7 @@ public class FrmGestionRecepcionista extends javax.swing.JFrame {
         String nombrecompleto = txtNombreCompleto.getText();
         String genero = CbxGenero.getSelectedItem().toString();
         String correo = txtCorreo.getText();
-        String telefono = txtFiltrar.getText();
+        String telefono = txtTelefono.getText();
         Date Fechanacimiento = jDtcFechaNacimiento.getDate();
         String constrasena = txtContrasena.getText();
 
@@ -540,7 +540,7 @@ public class FrmGestionRecepcionista extends javax.swing.JFrame {
             imprimir("Se Registro Recepcionista " + nombrecompleto + " correctamente");
             limpiar();
             listar();
-        } catch (DatosIncompletosException | CorreoException | CedulaException | GuardarRecepcionistaException e) {
+        } catch (CorreoException | DatosIncompletosException | CorreoFormatoException | CedulaException | GuardarRecepcionistaException | TelefonoException e) {
             imprimir(e.getMessage());
         }
 
@@ -557,11 +557,11 @@ public class FrmGestionRecepcionista extends javax.swing.JFrame {
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         try {
-            int id = Integer.parseInt(JOptionPane.showInputDialog("ingrese Id del Recepcionista"));
+            String cedula = JOptionPane.showInputDialog("ingrese la cedula del Recepcionista");
 
-            Recepcionista recepcionista = controlador.buscarRecepcionista(id);
+            Recepcionista recepcionista = controlador.buscarRecepcionista(cedula);
             if (recepcionista != null) {
-                imprimir("Se encontro el recepcionista de codigo " + id + " nombre " + recepcionista.getNombrecompleto() + " correctamente");
+                imprimir("Se encontro el recepcionista de cedula " + cedula + " nombre " + recepcionista.getNombrecompleto() + " correctamente");
                 cargarInformacion(recepcionista);
                 btnRegistrar.setEnabled(false);
                 btnEliminar.setEnabled(true);
@@ -569,10 +569,10 @@ public class FrmGestionRecepcionista extends javax.swing.JFrame {
                 btnBuscar.setEnabled(false);
                 txtCedula.setEnabled(false);
             } else {
-                imprimir("No se encuentra el recepcionista de codigo " + id);
+                imprimir("No se encuentra el recepcionista con la " + cedula);
             }
-        } catch (NumberFormatException e) {
-            imprimir("Ingrese el codigo correctamente");
+        } catch (BuscarRecepcionistaException e) {
+            imprimir(e.getMessage());
         }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
@@ -595,13 +595,16 @@ public class FrmGestionRecepcionista extends javax.swing.JFrame {
             btnBuscar.setEnabled(true);
             btnEliminar.setEnabled(false);
             txtCedula.setEnabled(true);
-        } catch (DatosIncompletosException | CorreoException | ModificarRecepcionistaException e) {
+        } catch (DatosIncompletosException | CorreoException | ModificarRecepcionistaException | CedulaException | TelefonoException | CorreoFormatoException | BuscarRecepcionistaException e) {
             imprimir(e.getMessage());
         }
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void txtTelefonoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTelefonoKeyTyped
-        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        if (c < '0' || c > '9') {
+            evt.consume();
+        }
     }//GEN-LAST:event_txtTelefonoKeyTyped
 
     /**
@@ -649,7 +652,7 @@ public class FrmGestionRecepcionista extends javax.swing.JFrame {
         txtNombreCompleto.setText("");
         CbxGenero.setSelectedItem("");
         txtCorreo.setText("");
-        txtFiltrar.setText("");
+        txtTelefono.setText("");
         jDtcFechaNacimiento.setDate(null);
         txtContrasena.setText("");
     }
@@ -666,7 +669,7 @@ public class FrmGestionRecepcionista extends javax.swing.JFrame {
         txtNombreCompleto.setText(recepcionista.getNombrecompleto());
         CbxGenero.setSelectedItem(recepcionista.getGenero().toString());
         txtCorreo.setText(recepcionista.getCorreo());
-        txtFiltrar.setText(recepcionista.getTelefono());
+        txtTelefono.setText(recepcionista.getTelefono());
         jDtcFechaNacimiento.setDate(recepcionista.getFechanacimiento());
         txtContrasena.setText(recepcionista.getContrasena());
     }
