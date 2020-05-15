@@ -80,6 +80,7 @@ public class DAOLogIn implements IDAOLogIn {
         return null;
     }
 
+    @Override
     public Administrador LogInAdministrador(String cedula, String contrasena) {
         Administrador administrador = new Administrador();
         try (Connection con = Conexion.getConnection()) {

@@ -10,8 +10,9 @@ import Excepcion.DatosIncompletosException;
 import Excepcion.LogInAdministradorException;
 import Excepcion.LogInHuespedException;
 import Excepcion.LogInRecepcionistaException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import Modelo.Administrador;
+import Modelo.Huesped;
+import Modelo.Recepcionista;
 import javax.swing.JOptionPane;
 
 /**
@@ -188,7 +189,19 @@ public class FrmLogin extends javax.swing.JFrame {
 
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
         try {
-            String x = controlador.IniciarSesion(controlador.obtenerDatoJtextFile(txtCedula), controlador.obtenerDatoJtextFile(txtContrasena), controlador.obtenerDatoJComboBox(cboTipoUsuario));
+            Object usuario = controlador.IniciarSesion(controlador.obtenerDatoJtextFile(txtCedula), controlador.obtenerDatoJtextFile(txtContrasena), controlador.obtenerDatoJComboBox(cboTipoUsuario));
+           
+            if(usuario instanceof Huesped){
+                JOptionPane.showMessageDialog(null, "Encontró el huesped "+((Huesped) usuario).getNombrecompleto());
+                FrmMenuHuesped vista =new FrmMenuHuesped((Huesped) usuario);
+                vista.setVisible(true);
+                this.dispose();
+            }else if(usuario instanceof Administrador){
+                  JOptionPane.showMessageDialog(null, "Encontró el asministrador");
+            }else if(usuario instanceof Recepcionista){
+                  JOptionPane.showMessageDialog(null, "Encontró el recepcionista");
+            }
+            
         } catch (DatosIncompletosException | LogInAdministradorException | LogInHuespedException | LogInRecepcionistaException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
         }

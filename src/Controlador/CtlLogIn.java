@@ -44,7 +44,7 @@ public class CtlLogIn {
     public String obtenerDatoJComboBox(JComboBox x) {
         return bo.obtenerDatoJComboBox(x);
     }
-      public String IniciarSesion(String cedula,String contrasena,String tipoUsuario)throws DatosIncompletosException,LogInAdministradorException,LogInHuespedException,LogInRecepcionistaException{
+      public Object IniciarSesion(String cedula,String contrasena,String tipoUsuario)throws DatosIncompletosException,LogInAdministradorException,LogInHuespedException,LogInRecepcionistaException{
           return bo.IniciarSesion(cedula, contrasena, tipoUsuario);
       }
 }

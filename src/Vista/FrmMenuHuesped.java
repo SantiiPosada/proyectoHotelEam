@@ -5,6 +5,7 @@
  */
 package Vista;
 
+import Modelo.Huesped;
 import javax.swing.ImageIcon;
 
 /**
@@ -19,6 +20,12 @@ public class FrmMenuHuesped extends javax.swing.JFrame {
     public FrmMenuHuesped() {
         initComponents();
         this.setLocationRelativeTo(null);
+    }
+      public FrmMenuHuesped(Huesped huesped) {
+        initComponents();
+          cargarInfo(huesped);
+        this.setLocationRelativeTo(null);
+        this.setResizable(false);
     }
 
     /**
@@ -257,6 +264,11 @@ public class FrmMenuHuesped extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
+    private void cargarInfo(Huesped x){
+        lblCedula.setText("CEDULA: "+x.getCedula());
+        lblNombre.setText("NOMBRE COMPLETO: "+x.getNombrecompleto());
+    }
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

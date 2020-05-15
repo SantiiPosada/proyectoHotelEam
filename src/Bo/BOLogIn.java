@@ -30,28 +30,32 @@ public class BOLogIn {
 
     }
 
-    public void LogInHusped(String cedula, String contrasena) throws LogInHuespedException {
+    public Huesped LogInHusped(String cedula, String contrasena) throws LogInHuespedException {
         Huesped huesped = dao.LogInHuesped(cedula, contrasena);
 
         if (huesped == null) {
             throw new LogInHuespedException();
         }
+        return huesped;
     }
 
-    public void LogInRecepcionista(String cedula, String contrasena) throws LogInRecepcionistaException {
+    public Recepcionista LogInRecepcionista(String cedula, String contrasena) throws LogInRecepcionistaException {
         Recepcionista recepcionista = dao.LogInRecepcionista(cedula, contrasena);
         if (recepcionista == null) {
             throw new LogInRecepcionistaException();
         }
+        return recepcionista;
     }
 
-    public void LogInAdministrador(String cedula, String contrasena) throws LogInAdministradorException {
+    public Administrador LogInAdministrador(String cedula, String contrasena) throws LogInAdministradorException {
         Administrador administrador = dao.LogInAdministrador(cedula, contrasena);
         if (administrador == null) {
             throw new LogInAdministradorException();
         }
+        return administrador;
     }
-      public String obtenerDatoJtextFile(JTextField x) {
+
+    public String obtenerDatoJtextFile(JTextField x) {
         String informacion = x.getText();
         if (informacion.equals("")) {
             informacion = null;
@@ -66,13 +70,31 @@ public class BOLogIn {
         }
         return informacion;
     }
-    
-  public String IniciarSesion(String cedula,String contrasena,String tipoUsuario)throws DatosIncompletosException,LogInAdministradorException,LogInHuespedException,LogInRecepcionistaException{
-      
-      
-      
-      
-      return null;
-  }
+
+    public Object IniciarSesion(String cedula, String contrasena, String tipoUsuario) throws DatosIncompletosException, LogInAdministradorException, LogInHuespedException, LogInRecepcionistaException {
+
+        verificarDatos(cedula, contrasena, tipoUsuario);
+
+        switch (tipoUsuario) {
+            case "Huesped":
+               return  LogInHusped(cedula, contrasena);
+
+            case "Administrador":
+                return LogInAdministrador(cedula, contrasena);
+          
+            case "Recepcionista":
+                return LogInRecepcionista(cedula, contrasena);
+               
+            default:
+                break;
+        }
+        return null;
+    }
+
+    private void verificarDatos(String cedula, String contrasena, String tipoUsuario) throws DatosIncompletosException {
+        if (cedula == null || contrasena == null || tipoUsuario == null) {
+            throw new DatosIncompletosException();
+        }
+    }
 
 }
