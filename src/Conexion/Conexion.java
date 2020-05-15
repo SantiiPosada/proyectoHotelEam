@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 /**
- * @author mateo gomez y santiago posada <santi.posdada.3075@eam.edu.co>
+ * @author mateo gomez y santiago posada
  */
 public class Conexion {
 
@@ -22,7 +22,7 @@ public class Conexion {
         } catch (ClassNotFoundException ex) {
           //  System.err.println("Hubo un error al buscar la clase");
         } catch (SQLException ex) {
-           ex.printStackTrace();
+          // ex.printStackTrace();
             System.err.println("Hubo un error al conectar");
         }
         return con;
