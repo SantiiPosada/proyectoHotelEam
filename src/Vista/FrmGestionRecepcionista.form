@@ -52,33 +52,27 @@
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" attributes="0">
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="lblCedula" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="lblNombreCompleto" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="lblGenero" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="lblTelefono" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="lblFechaNacimiento" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="lblContrasena" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="lblCorreo" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace min="30" pref="30" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="txtCorreo" min="-2" pref="203" max="-2" attributes="0"/>
-                                      <Component id="jDtcFechaNacimiento" min="-2" pref="203" max="-2" attributes="0"/>
-                                      <Component id="CbxGenero" min="-2" pref="203" max="-2" attributes="0"/>
-                                      <Component id="txtNombreCompleto" alignment="0" min="-2" pref="203" max="-2" attributes="0"/>
-                                      <Component id="txtContrasena" alignment="0" min="-2" pref="203" max="-2" attributes="0"/>
-                                      <Component id="txtCedula" alignment="0" min="-2" pref="203" max="-2" attributes="0"/>
-                                      <Component id="txtTelefono" min="-2" pref="203" max="-2" attributes="0"/>
-                                  </Group>
-                              </Group>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Component id="lblId" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="120" max="-2" attributes="0"/>
-                                  <Component id="txtId" min="-2" pref="203" max="-2" attributes="0"/>
-                              </Group>
+                              <Component id="lblCedula" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblNombreCompleto" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblGenero" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblTelefono" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblFechaNacimiento" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblContrasena" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblCorreo" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblId" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
+                          <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="txtId" min="-2" pref="203" max="-2" attributes="0"/>
+                              <Component id="txtCorreo" min="-2" pref="203" max="-2" attributes="0"/>
+                              <Component id="jDtcFechaNacimiento" min="-2" pref="203" max="-2" attributes="0"/>
+                              <Component id="CbxGenero" min="-2" pref="203" max="-2" attributes="0"/>
+                              <Component id="txtNombreCompleto" alignment="0" min="-2" pref="203" max="-2" attributes="0"/>
+                              <Component id="txtContrasena" alignment="0" min="-2" pref="203" max="-2" attributes="0"/>
+                              <Component id="txtCedula" alignment="0" min="-2" pref="203" max="-2" attributes="0"/>
+                              <Component id="txtTelefono" min="-2" pref="203" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
                                   <EmptySpace min="-2" pref="109" max="-2" attributes="0"/>
