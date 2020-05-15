@@ -463,7 +463,7 @@ public class FrmGestionHuesped extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        try {
+     //   try {
             int id = Integer.parseInt(txtId.getText());
             String cedula = txtCedula.getText();
             String nombrecompleto = txtNombreCompleto.getText();
@@ -472,7 +472,7 @@ public class FrmGestionHuesped extends javax.swing.JFrame {
             String telefono = txtTelefono.getText();
             Date Fechanacimiento = jDtcFechaNacimiento.getDate();
             String constrasena = txtContrasena.getText();
-            controlador.EliminarRecepcionista(id, cedula, nombrecompleto, genero, correo, telefono, Fechanacimiento, constrasena);
+           // controlador.EliminarRecepcionista(id, cedula, nombrecompleto, genero, correo, telefono, Fechanacimiento, constrasena);
             imprimir("Se Elimino el recepcionista de codigo " + id + " nombre " + nombrecompleto + " correctamente");
             listar();
             limpiar();
@@ -481,9 +481,9 @@ public class FrmGestionHuesped extends javax.swing.JFrame {
             btnBuscar.setEnabled(true);
             btnEliminar.setEnabled(false);
             txtCedula.setEnabled(true);
-        } catch (DatosIncompletosException | CorreoException | ModificarRecepcionistaException e) {
-            imprimir(e.getMessage());
-        }
+       // } catch (DatosIncompletosException | CorreoException | ModificarRecepcionistaException e) {
+          //  imprimir(e.getMessage());
+      //  }
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
@@ -555,14 +555,14 @@ public class FrmGestionHuesped extends javax.swing.JFrame {
         Date Fechanacimiento = jDtcFechaNacimiento.getDate();
         String constrasena = txtContrasena.getText();
 
-        try {
-            controlador.guardarRecepcionista(0, cedula, nombrecompleto, genero, correo, telefono, Fechanacimiento, constrasena);
+     //   try {
+           // controlador.guardarRecepcionista(0, cedula, nombrecompleto, genero, correo, telefono, Fechanacimiento, constrasena);
             imprimir("Se Registro Recepcionista " + nombrecompleto + " correctamente");
             limpiar();
             listar();
-        } catch (DatosIncompletosException | CorreoException | CedulaException | GuardarRecepcionistaException e) {
-            imprimir(e.getMessage());
-        }
+     //   } catch (DatosIncompletosException | CorreoException | CedulaException | GuardarRecepcionistaException e) {
+          //  imprimir(e.getMessage());
+       // }
 
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
@@ -576,28 +576,28 @@ public class FrmGestionHuesped extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        try {
+       // try {
             int id = Integer.parseInt(JOptionPane.showInputDialog("ingrese Id del Recepcionista"));
 
-            Recepcionista recepcionista = controlador.buscarRecepcionista(id);
-            if (recepcionista != null) {
-                imprimir("Se encontro el recepcionista de codigo " + id + " nombre " + recepcionista.getNombrecompleto() + " correctamente");
-                cargarInformacion(recepcionista);
+         //   Recepcionista recepcionista = controlador.buscarRecepcionista(id);
+         //   if (recepcionista != null) {
+               // imprimir("Se encontro el recepcionista de codigo " + id + " nombre " + recepcionista.getNombrecompleto() + " correctamente");
+             //   cargarInformacion(recepcionista);
                 btnRegistrar.setEnabled(false);
                 btnEliminar.setEnabled(true);
                 btnModificar.setEnabled(true);
                 btnBuscar.setEnabled(false);
                 txtCedula.setEnabled(false);
-            } else {
+           // } else {
                 imprimir("No se encuentra el recepcionista de codigo " + id);
-            }
-        } catch (NumberFormatException e) {
+          //  }
+        //} catch (NumberFormatException e) {
             imprimir("Ingrese el codigo correctamente");
-        }
+        //}
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
-        try {
+       // try {
             int id = Integer.parseInt(txtId.getText());
             String cedula = txtCedula.getText();
             String nombrecompleto = txtNombreCompleto.getText();
@@ -606,7 +606,7 @@ public class FrmGestionHuesped extends javax.swing.JFrame {
             String telefono = txtTelefono.getText();
             Date Fechanacimiento = jDtcFechaNacimiento.getDate();
             String constrasena = txtContrasena.getText();
-            controlador.modificarRecepcionista(id, cedula, nombrecompleto, genero, correo, telefono, Fechanacimiento, constrasena);
+          //  controlador.modificarRecepcionista(id, cedula, nombrecompleto, genero, correo, telefono, Fechanacimiento, constrasena);
             imprimir("Se modifico el recepcionista de codigo " + id + " nombre " + nombrecompleto + " correctamente");
             listar();
             limpiar();
@@ -615,9 +615,9 @@ public class FrmGestionHuesped extends javax.swing.JFrame {
             btnBuscar.setEnabled(true);
             btnEliminar.setEnabled(false);
             txtCedula.setEnabled(true);
-        } catch (DatosIncompletosException | CorreoException | ModificarRecepcionistaException e) {
-            imprimir(e.getMessage());
-        }
+      //  } catch (DatosIncompletosException | CorreoException | ModificarRecepcionistaException e) {
+           // imprimir(e.getMessage());
+       // }
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void txtFiltrarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFiltrarKeyTyped

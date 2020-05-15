@@ -190,18 +190,24 @@ public class FrmLogin extends javax.swing.JFrame {
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
         try {
             Object usuario = controlador.IniciarSesion(controlador.obtenerDatoJtextFile(txtCedula), controlador.obtenerDatoJtextFile(txtContrasena), controlador.obtenerDatoJComboBox(cboTipoUsuario));
-           
-            if(usuario instanceof Huesped){
-                JOptionPane.showMessageDialog(null, "Encontró el huesped "+((Huesped) usuario).getNombrecompleto());
-                FrmMenuHuesped vista =new FrmMenuHuesped((Huesped) usuario);
+
+            if (usuario instanceof Huesped) {
+
+                FrmMenuHuesped vista = new FrmMenuHuesped((Huesped) usuario);
                 vista.setVisible(true);
+                JOptionPane.showMessageDialog(vista, "vienvenido seas " + ((Huesped) usuario).getNombrecompleto());
                 this.dispose();
-            }else if(usuario instanceof Administrador){
-                  JOptionPane.showMessageDialog(null, "Encontró el asministrador");
-            }else if(usuario instanceof Recepcionista){
-                  JOptionPane.showMessageDialog(null, "Encontró el recepcionista");
+
+            } else if (usuario instanceof Administrador) {
+                FrmAdministrador vista = new FrmAdministrador((Administrador) usuario);
+                vista.setVisible(true);
+                JOptionPane.showMessageDialog(vista, "vienvenido seas " + ((Administrador) usuario).getNombrecompleto());
+                this.dispose();
+                
+            } else if (usuario instanceof Recepcionista) {
+
             }
-            
+
         } catch (DatosIncompletosException | LogInAdministradorException | LogInHuespedException | LogInRecepcionistaException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
         }

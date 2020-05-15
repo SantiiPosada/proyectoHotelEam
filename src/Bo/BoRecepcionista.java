@@ -6,12 +6,15 @@
 package Bo;
 
 import Definiciones.IDAORecepcionista;
+import Excepcion.BuscarRecepcionistaException;
 import Excepcion.CedulaException;
 import Excepcion.ComboBoxException;
 import Excepcion.CorreoException;
+import Excepcion.CorreoFormatoException;
 import Excepcion.DatosIncompletosException;
 import Excepcion.GuardarRecepcionistaException;
 import Excepcion.ModificarRecepcionistaException;
+import Excepcion.TelefonoException;
 import Fabrica.FactoryDAO;
 import Modelo.Recepcionista;
 import java.text.DateFormat;
@@ -40,20 +43,8 @@ public class BoRecepcionista {
                 + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
     }
 
-    private void verificarDatos(int id, String cedula, String nombrecompleto, String genero, String correo, String telefono, Date fechanacimiento, String contrasena) throws DatosIncompletosException, CorreoException {
-
-        if (cedula.equals("") || nombrecompleto.equals("") || genero.equals("") || correo.equals("") || telefono.equals("") || fechanacimiento == null || contrasena.equals("")) {
-            throw new DatosIncompletosException();
-        }
+    public void guardarRecepcionista(int id, String cedula, String nombrecompleto, String genero, String correo, String telefono, Date fechanacimiento, String contrasena) throws DatosIncompletosException, CedulaException, GuardarRecepcionistaException, TelefonoException, CorreoFormatoException, CorreoException {
         verificarCorreo(correo);
-    }
-
-    public void guardarRecepcionista(int id, String cedula, String nombrecompleto, String genero, String correo, String telefono, Date fechanacimiento, String contrasena) throws DatosIncompletosException, CorreoException, CedulaException, GuardarRecepcionistaException {
-
-        verificarDatos(id, cedula, nombrecompleto, genero, correo, telefono, fechanacimiento, contrasena);
-
-        VerificarCedulaExistente(cedula);
-
         Recepcionista recepcionista = new Recepcionista(id, cedula, nombrecompleto, genero, correo, telefono, fechanacimiento, contrasena, "Disponible");
 
         boolean condicionrecepcionista = daoRecepcionista.guardarRecepcionista(recepcionista);
@@ -68,13 +59,17 @@ public class BoRecepcionista {
 
     }
 
-    public void verificarCorreo(String correo) throws CorreoException {
+    public void verificarCorreo(String correo) throws DatosIncompletosException, CorreoFormatoException {
+
+        if (correo == null) {
+            throw new DatosIncompletosException();
+        }
         Matcher mather = pattern.matcher(correo);
 
         if (mather.find()) {
 
         } else {
-            throw new CorreoException();
+            throw new CorreoFormatoException();
         }
 
     }
@@ -92,15 +87,17 @@ public class BoRecepcionista {
 
     }
 
-    public Recepcionista buscarRecepcionista(int id) {
-        return daoRecepcionista.buscarRecepcionista(id);
+    public Recepcionista buscarRecepcionista(String cedula) throws BuscarRecepcionistaException {
+        Recepcionista recepcionista = daoRecepcionista.buscarRecepcionista(cedula);
+        if (recepcionista == null) {
+            throw new BuscarRecepcionistaException();
+        }
+        return recepcionista;
     }
 
-    public void modificarRecepcionista(int id, String cedula, String nombrecompleto, String genero, String correo, String telefono, Date fechanacimiento, String contrasena) throws DatosIncompletosException, CorreoException, ModificarRecepcionistaException {
-
-        verificarDatos(id, cedula, nombrecompleto, genero, correo, telefono, fechanacimiento, contrasena);
-
-        Recepcionista recepcionistanuevo = new Recepcionista(id, cedula, nombrecompleto, genero, correo, telefono, fechanacimiento, contrasena, "Disponible");
+    public void modificarRecepcionista(int id, String cedula, String nombrecompleto, String genero, String correo, String telefono, Date fechanacimiento, String contrasena) throws DatosIncompletosException, CorreoException, ModificarRecepcionistaException, CedulaException, TelefonoException, CorreoFormatoException, BuscarRecepcionistaException {
+        verificarCorreo(correo);
+        Recepcionista recepcionistanuevo = new Recepcionista(buscarRecepcionista(cedula).getId(), cedula, nombrecompleto, genero, correo, telefono, fechanacimiento, contrasena, "Disponible");
 
         boolean condicionRecepcionista = daoRecepcionista.modificarRecepcionista(recepcionistanuevo);
 
@@ -114,9 +111,7 @@ public class BoRecepcionista {
 
     }
 
-    public void EliminarRecepcionista(int id, String cedula, String nombrecompleto, String genero, String correo, String telefono, Date fechanacimiento, String contrasena) throws DatosIncompletosException, CorreoException, ModificarRecepcionistaException {
-
-        verificarDatos(id, cedula, nombrecompleto, genero, correo, telefono, fechanacimiento, contrasena);
+    public void EliminarRecepcionista(int id, String cedula, String nombrecompleto, String genero, String correo, String telefono, Date fechanacimiento, String contrasena) throws DatosIncompletosException, CorreoException, ModificarRecepcionistaException, CedulaException, TelefonoException {
 
         Recepcionista recepcionistanuevo = new Recepcionista(id, cedula, nombrecompleto, genero, correo, telefono, fechanacimiento, contrasena, "No Disponible");
 

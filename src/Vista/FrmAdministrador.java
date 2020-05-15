@@ -5,6 +5,8 @@
  */
 package Vista;
 
+import Modelo.Administrador;
+
 /**
  *
  * @author mateo
@@ -17,6 +19,11 @@ public class FrmAdministrador extends javax.swing.JFrame {
     public FrmAdministrador() {
         initComponents();
         this.setLocationRelativeTo(null);
+    }
+      public FrmAdministrador(Administrador administrador) {
+        initComponents();
+        this.setLocationRelativeTo(null);
+        this.setResizable(false);
     }
 
     /**
@@ -397,13 +404,13 @@ public class FrmAdministrador extends javax.swing.JFrame {
     private void btnRecepcionistaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRecepcionistaActionPerformed
         FrmGestionRecepcionista recepcionista = new FrmGestionRecepcionista();
         recepcionista.setVisible(true);
-        dispose();
+      
     }//GEN-LAST:event_btnRecepcionistaActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
         FrmLogin login = new FrmLogin();
         login.setVisible(true);
-        dispose();
+       
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void btnHuespedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuespedActionPerformed

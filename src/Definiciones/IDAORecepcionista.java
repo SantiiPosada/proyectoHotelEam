@@ -5,6 +5,10 @@
  */
 package Definiciones;
 
+import Excepcion.CedulaException;
+import Excepcion.CorreoException;
+import Excepcion.DatosIncompletosException;
+import Excepcion.TelefonoException;
 import Modelo.Recepcionista;
 import java.util.ArrayList;
 
@@ -19,26 +23,41 @@ public interface IDAORecepcionista {
      *
      * @param recepcionista este parametro recibe un objeto de tipo
      * recepcionista
-     * @return un boolean con la condicion si se genero
+     * @return un boolean con la condicion si se genero throws CedulaException
+     * si la cedula del huesped ya se encuentra existente
+     * @throws Excepcion.CedulaException si la cedula del recepcionista ya se
+     * encuentra existente
+     * @throws CorreoException si el correo del recepcionista ya se encuentra
+     * existente
+     * @throws DatosIncompletosException si algunos de los datos son nulos
+     * @throws TelefonoException si el telefono del recepcionista ya se
+     * encuentra existente
      */
-    public boolean guardarRecepcionista(Recepcionista recepcionista);
+    public boolean guardarRecepcionista(Recepcionista recepcionista) throws CedulaException, CorreoException, DatosIncompletosException, TelefonoException;
 
     /**
      * Metodo para buscar recepcionista
      *
-     * @param id este parametro recibe el identificador del recepcionista que se
+     * @param cedula este parametro recibe la cedula del recepcionista que se
      * desea buscar
      * @return un objeto tipo recepcionista
      */
-    public Recepcionista buscarRecepcionista(int id);
+    public Recepcionista buscarRecepcionista(String cedula);
 
     /**
      * Metodo para modificar recepcionista
      *
      * @param recepcionista este parametro recibe un objeto tipo recepcionista
      * @return un boolean con la condicion si se genero
+     * @throws Excepcion.CedulaException si la cedula del recepcionista ya se
+     * encuentra existente
+     * @throws CorreoException si el correo del recepcionista ya se encuentra
+     * existente
+     * @throws DatosIncompletosException si algunos de los datos son nulos
+     * @throws TelefonoException si el telefono del recepcionista ya se
+     * encuentra existente
      */
-    public boolean modificarRecepcionista(Recepcionista recepcionista);
+    public boolean modificarRecepcionista(Recepcionista recepcionista) throws CedulaException, CorreoException, DatosIncompletosException, TelefonoException;
 
     /**
      * /**
