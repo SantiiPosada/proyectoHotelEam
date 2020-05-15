@@ -5,14 +5,18 @@
  */
 package Vista;
 
-import Controlador.CtlRecepcionista;
+import Controlador.CtlHuesped;
+import Excepcion.BuscarHuespedException;
 import Excepcion.CedulaException;
 import Excepcion.ComboBoxException;
 import Excepcion.CorreoException;
+import Excepcion.CorreoFormatoException;
 import Excepcion.DatosIncompletosException;
-import Excepcion.GuardarRecepcionistaException;
-import Excepcion.ModificarRecepcionistaException;
-import Modelo.Recepcionista;
+import Excepcion.GuardarHuespedException;
+import Excepcion.ModificarHuespedException;
+import Excepcion.TelefonoException;
+import Modelo.Administrador;
+import Modelo.Huesped;
 import java.util.Date;
 import javax.swing.JOptionPane;
 
@@ -22,16 +26,29 @@ import javax.swing.JOptionPane;
  */
 public class FrmGestionHuesped extends javax.swing.JFrame {
 
-    CtlRecepcionista controlador;
+    private CtlHuesped controlador;
+    private String Tipo;
+    private String Estado;
+    private Administrador administrador;
 
     public FrmGestionHuesped() {
         initComponents();
+
+    }
+
+    public FrmGestionHuesped(Administrador administrador) {
+        controlador = new CtlHuesped();
+        this.administrador = administrador;
+        initComponents();
         this.setLocationRelativeTo(null);
-        txtId.setEnabled(false);
-        controlador = new CtlRecepcionista();
+        this.setResizable(false);
+
         btnCancelar.setEnabled(true);
         btnModificar.setEnabled(false);
-       // listar();
+        btnCancelar.setEnabled(false);
+        btnModificar.setEnabled(false);
+        tblLista.setEnabled(true);
+        listar();
     }
 
     /**
@@ -44,26 +61,24 @@ public class FrmGestionHuesped extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        lblId = new javax.swing.JLabel();
-        txtId = new javax.swing.JTextField();
         lblCedula = new javax.swing.JLabel();
         txtCedula = new javax.swing.JTextField();
         lblNombreCompleto = new javax.swing.JLabel();
         txtTelefono = new javax.swing.JTextField();
         lblGenero = new javax.swing.JLabel();
-        CbxGenero = new javax.swing.JComboBox<>();
+        cboGenero = new javax.swing.JComboBox<>();
         lblCorreo = new javax.swing.JLabel();
         txtNombreCompleto = new javax.swing.JTextField();
         lblTelefono = new javax.swing.JLabel();
         txtCorreo = new javax.swing.JTextField();
         lblFechaNacimiento = new javax.swing.JLabel();
-        jDtcFechaNacimiento = new com.toedter.calendar.JDateChooser();
+        dateFechaNacimiento = new com.toedter.calendar.JDateChooser();
         lblContrasena = new javax.swing.JLabel();
-        txtContrasena = new javax.swing.JPasswordField();
+        txtPassword = new javax.swing.JPasswordField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        JtblHuespedes = new javax.swing.JTable();
+        tblLista = new javax.swing.JTable();
         lblHuespedes = new javax.swing.JLabel();
         btnSalir = new javax.swing.JButton();
         btnRegistrar = new javax.swing.JButton();
@@ -83,17 +98,6 @@ public class FrmGestionHuesped extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-
-        lblId.setForeground(new java.awt.Color(0, 0, 0));
-        lblId.setText("ID :");
-
-        txtId.setBackground(new java.awt.Color(255, 255, 255));
-        txtId.setForeground(new java.awt.Color(0, 0, 0));
-        txtId.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtIdKeyTyped(evt);
-            }
-        });
 
         lblCedula.setForeground(new java.awt.Color(0, 0, 0));
         lblCedula.setText("Cedula :");
@@ -120,9 +124,9 @@ public class FrmGestionHuesped extends javax.swing.JFrame {
         lblGenero.setForeground(new java.awt.Color(0, 0, 0));
         lblGenero.setText("Genero :");
 
-        CbxGenero.setBackground(new java.awt.Color(255, 255, 255));
-        CbxGenero.setForeground(new java.awt.Color(0, 0, 0));
-        CbxGenero.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "Masculino", "Femenino" }));
+        cboGenero.setBackground(new java.awt.Color(255, 255, 255));
+        cboGenero.setForeground(new java.awt.Color(0, 0, 0));
+        cboGenero.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "Masculino", "Femenino" }));
 
         lblCorreo.setForeground(new java.awt.Color(0, 0, 0));
         lblCorreo.setText("Correo :");
@@ -149,18 +153,18 @@ public class FrmGestionHuesped extends javax.swing.JFrame {
         lblFechaNacimiento.setForeground(new java.awt.Color(0, 0, 0));
         lblFechaNacimiento.setText("Fecha Nacimiento :");
 
-        jDtcFechaNacimiento.setBackground(new java.awt.Color(255, 255, 255));
-        jDtcFechaNacimiento.setForeground(new java.awt.Color(255, 255, 255));
+        dateFechaNacimiento.setBackground(new java.awt.Color(255, 255, 255));
+        dateFechaNacimiento.setForeground(new java.awt.Color(255, 255, 255));
 
         lblContrasena.setForeground(new java.awt.Color(0, 0, 0));
         lblContrasena.setText("Contraseña :");
 
-        txtContrasena.setBackground(new java.awt.Color(255, 255, 255));
-        txtContrasena.setForeground(new java.awt.Color(0, 0, 0));
+        txtPassword.setBackground(new java.awt.Color(255, 255, 255));
+        txtPassword.setForeground(new java.awt.Color(0, 0, 0));
 
-        JtblHuespedes.setBackground(new java.awt.Color(255, 255, 255));
-        JtblHuespedes.setForeground(new java.awt.Color(0, 0, 0));
-        JtblHuespedes.setModel(new javax.swing.table.DefaultTableModel(
+        tblLista.setBackground(new java.awt.Color(255, 255, 255));
+        tblLista.setForeground(new java.awt.Color(0, 0, 0));
+        tblLista.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null, null, null, null},
@@ -179,7 +183,7 @@ public class FrmGestionHuesped extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane2.setViewportView(JtblHuespedes);
+        jScrollPane2.setViewportView(tblLista);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -254,7 +258,7 @@ public class FrmGestionHuesped extends javax.swing.JFrame {
 
         CbxFiltrar.setBackground(new java.awt.Color(255, 255, 255));
         CbxFiltrar.setForeground(new java.awt.Color(0, 0, 0));
-        CbxFiltrar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "Id", "Cedula", "Nombre Completo", "Genero", "Correo", "Telefono", "Fecha Nacimiento", "Nacionalidad", "Contrasena", "Tipo", "Estado" }));
+        CbxFiltrar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "Cedula", "Nombre Completo", "Genero", "Correo", "Telefono", "Fecha Nacimiento", "Nacionalidad", "Contrasena", "Tipo", "Estado" }));
 
         btnFiltrar.setBackground(new java.awt.Color(255, 255, 255));
         btnFiltrar.setForeground(new java.awt.Color(0, 0, 0));
@@ -310,34 +314,29 @@ public class FrmGestionHuesped extends javax.swing.JFrame {
                         .addContainerGap())
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblCedula)
-                                    .addComponent(lblNombreCompleto)
-                                    .addComponent(lblGenero)
-                                    .addComponent(lblTelefono)
-                                    .addComponent(lblFechaNacimiento)
-                                    .addComponent(lblContrasena)
-                                    .addComponent(lblCorreo))
-                                .addGap(30, 30, 30)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(txtCorreo, javax.swing.GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE)
-                                    .addComponent(jDtcFechaNacimiento, javax.swing.GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE)
-                                    .addComponent(txtTelefono, javax.swing.GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE)
-                                    .addComponent(CbxGenero, 0, 203, Short.MAX_VALUE)
-                                    .addComponent(txtNombreCompleto, javax.swing.GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE)
-                                    .addComponent(txtContrasena, javax.swing.GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE)
-                                    .addComponent(txtCedula, javax.swing.GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE)
-                                    .addComponent(cboNacionalidad, 0, 0, Short.MAX_VALUE)))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(lblId)
-                                .addGap(120, 120, 120)
-                                .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(lblCedula)
+                            .addComponent(lblNombreCompleto)
+                            .addComponent(lblGenero)
+                            .addComponent(lblTelefono)
+                            .addComponent(lblFechaNacimiento)
+                            .addComponent(lblContrasena)
+                            .addComponent(lblCorreo))
+                        .addGap(30, 30, 30)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtCorreo, javax.swing.GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE)
+                            .addComponent(dateFechaNacimiento, javax.swing.GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE)
+                            .addComponent(txtTelefono, javax.swing.GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE)
+                            .addComponent(cboGenero, 0, 203, Short.MAX_VALUE)
+                            .addComponent(txtNombreCompleto, javax.swing.GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE)
+                            .addComponent(txtPassword, javax.swing.GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE)
+                            .addComponent(txtCedula, javax.swing.GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE)
+                            .addComponent(cboNacionalidad, 0, 0, Short.MAX_VALUE))
+                        .addGap(14, 14, 14)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(109, 109, 109)
-                                .addComponent(lblHuespedes, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(lblHuespedes, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(123, 123, 123)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(btnRegistrar, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -380,11 +379,7 @@ public class FrmGestionHuesped extends javax.swing.JFrame {
                         .addComponent(lblTitulo)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(12, 12, 12)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(lblId)
-                                    .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(13, 13, 13)
+                                .addGap(50, 50, 50)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(lblCedula)
                                     .addComponent(txtCedula, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -395,7 +390,7 @@ public class FrmGestionHuesped extends javax.swing.JFrame {
                                 .addGap(12, 12, 12)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(lblGenero)
-                                    .addComponent(CbxGenero, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(cboGenero, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(lblCorreo)
@@ -403,15 +398,16 @@ public class FrmGestionHuesped extends javax.swing.JFrame {
                                 .addGap(12, 12, 12)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(lblTelefono)
-                                    .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblFechaNacimiento)
+                                    .addComponent(dateFechaNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(lblHuespedes, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblFechaNacimiento)
-                            .addComponent(jDtcFechaNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
+                                .addComponent(lblHuespedes, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(24, 24, 24)))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(lblNacionalidad)
@@ -419,7 +415,7 @@ public class FrmGestionHuesped extends javax.swing.JFrame {
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(lblContrasena)
                                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(txtContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(lblFiltrar)
                                         .addComponent(CbxFiltrar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(txtFiltrar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))))
@@ -446,7 +442,7 @@ public class FrmGestionHuesped extends javax.swing.JFrame {
                 .addGap(45, 45, 45))
         );
 
-        txtContrasena.getAccessibleContext().setAccessibleName("");
+        txtPassword.getAccessibleContext().setAccessibleName("");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -463,41 +459,40 @@ public class FrmGestionHuesped extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-     //   try {
-            int id = Integer.parseInt(txtId.getText());
-            String cedula = txtCedula.getText();
-            String nombrecompleto = txtNombreCompleto.getText();
-            String genero = CbxGenero.getSelectedItem().toString();
-            String correo = txtCorreo.getText();
-            String telefono = txtTelefono.getText();
-            Date Fechanacimiento = jDtcFechaNacimiento.getDate();
-            String constrasena = txtContrasena.getText();
-           // controlador.EliminarRecepcionista(id, cedula, nombrecompleto, genero, correo, telefono, Fechanacimiento, constrasena);
-            imprimir("Se Elimino el recepcionista de codigo " + id + " nombre " + nombrecompleto + " correctamente");
+
+        try {
+            String cedula = controlador.obtenerDatoJtextFile(txtCedula);
+            String nombre = controlador.obtenerDatoJtextFile(txtNombreCompleto);
+            String genero = controlador.obtenerDatoJComboBox(cboGenero);
+            String correo = controlador.obtenerDatoJtextFile(txtCorreo);
+            String telefono = controlador.obtenerDatoJtextFile(txtTelefono);
+            Date fechaNacimiento = dateFechaNacimiento.getDate();
+            String nacionalida = controlador.obtenerDatoJComboBox(cboNacionalidad);
+            String contrasena = controlador.obtenerDatoJtextFile(txtPassword);
+            String tipo = Tipo;
+            String estado = "No Disponible";
+            controlador.modificar(cedula, nombre, genero, correo, telefono, fechaNacimiento, nacionalida, contrasena, tipo, estado);
+            imprimir("Se eliminó el huesped " + nombre + " correctamente");
             listar();
-            limpiar();
+            vaciarCampos();
             btnRegistrar.setEnabled(true);
             btnModificar.setEnabled(false);
             btnBuscar.setEnabled(true);
             btnEliminar.setEnabled(false);
             txtCedula.setEnabled(true);
-       // } catch (DatosIncompletosException | CorreoException | ModificarRecepcionistaException e) {
-          //  imprimir(e.getMessage());
-      //  }
+            btnCancelar.setEnabled(false);
+        } catch (DatosIncompletosException | CorreoException | BuscarHuespedException | CedulaException | TelefonoException | ModificarHuespedException | CorreoFormatoException ex) {
+            imprimir(ex.getMessage());
+        }
+
+
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
-        FrmAdministrador menuadministrador = new FrmAdministrador();
-        menuadministrador.setVisible(true);
-        dispose();
+        FrmAdministrador vista = new FrmAdministrador(administrador);
+        vista.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
-
-    private void txtIdKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtIdKeyTyped
-        char c = evt.getKeyChar();
-        if (c < '0' || c > '9') {
-            evt.consume();
-        }
-    }//GEN-LAST:event_txtIdKeyTyped
 
     private void txtCedulaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCedulaKeyTyped
         char c = evt.getKeyChar();
@@ -529,40 +524,40 @@ public class FrmGestionHuesped extends javax.swing.JFrame {
 
     private void btnFiltrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltrarActionPerformed
         try {
-            String opcion = CbxFiltrar.getSelectedItem().toString();
-            String accion = txtFiltrar.getText();
-            JtblHuespedes.setModel(controlador.filtrar(opcion, accion));
+            String opcion = controlador.obtenerDatoJComboBox(CbxFiltrar);
+            String accion = controlador.obtenerDatoJtextFile(txtFiltrar);
+            tblLista.setModel(controlador.filtrar(opcion, accion));
 
         } catch (ComboBoxException | DatosIncompletosException e) {
             imprimir(e.getMessage());
-        } catch (NumberFormatException nfe) {
-            imprimir("Ingrese el codigo del recepcionista que desea filtrar correctamente (solo numeros)");
         }
     }//GEN-LAST:event_btnFiltrarActionPerformed
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
         listar();
-        CbxFiltrar.setSelectedItem("Seleccione");
-        txtFiltrar.setText("");
+        CbxFiltrar.setSelectedIndex(0);
+        txtFiltrar.setText(null);
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
-        String cedula = txtCedula.getText();
-        String nombrecompleto = txtNombreCompleto.getText();
-        String genero = CbxGenero.getSelectedItem().toString();
-        String correo = txtCorreo.getText();
-        String telefono = txtTelefono.getText();
-        Date Fechanacimiento = jDtcFechaNacimiento.getDate();
-        String constrasena = txtContrasena.getText();
-
-     //   try {
-           // controlador.guardarRecepcionista(0, cedula, nombrecompleto, genero, correo, telefono, Fechanacimiento, constrasena);
-            imprimir("Se Registro Recepcionista " + nombrecompleto + " correctamente");
-            limpiar();
+        try {
+            String cedula = controlador.obtenerDatoJtextFile(txtCedula);
+            String nombre = controlador.obtenerDatoJtextFile(txtNombreCompleto);
+            String genero = controlador.obtenerDatoJComboBox(cboGenero);
+            String correo = controlador.obtenerDatoJtextFile(txtCorreo);
+            String telefono = controlador.obtenerDatoJtextFile(txtTelefono);
+            Date fechaNacimiento = dateFechaNacimiento.getDate();
+            String nacionalida = controlador.obtenerDatoJComboBox(cboNacionalidad);
+            String contrasena = controlador.obtenerDatoJtextFile(txtPassword);
+            String tipo = "regular";
+            String estado = "sin multa";
+            controlador.guardar(cedula, nombre, genero, correo, telefono, fechaNacimiento, nacionalida, contrasena, tipo, estado);
+            JOptionPane.showMessageDialog(null, "Se guardó el huesped " + nombre + " correctamente");
+            vaciarCampos();
             listar();
-     //   } catch (DatosIncompletosException | CorreoException | CedulaException | GuardarRecepcionistaException e) {
-          //  imprimir(e.getMessage());
-       // }
+        } catch (CedulaException | CorreoException | DatosIncompletosException | TelefonoException | GuardarHuespedException | CorreoFormatoException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+        }
 
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
@@ -571,62 +566,98 @@ public class FrmGestionHuesped extends javax.swing.JFrame {
         btnBuscar.setEnabled(true);
         btnModificar.setEnabled(false);
         btnEliminar.setEnabled(false);
+        btnCancelar.setEnabled(false);
+        txtCedula.setEnabled(true);
+        vaciarCampos();
 
-        limpiar();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-       // try {
-            int id = Integer.parseInt(JOptionPane.showInputDialog("ingrese Id del Recepcionista"));
-
-         //   Recepcionista recepcionista = controlador.buscarRecepcionista(id);
-         //   if (recepcionista != null) {
-               // imprimir("Se encontro el recepcionista de codigo " + id + " nombre " + recepcionista.getNombrecompleto() + " correctamente");
-             //   cargarInformacion(recepcionista);
-                btnRegistrar.setEnabled(false);
-                btnEliminar.setEnabled(true);
-                btnModificar.setEnabled(true);
-                btnBuscar.setEnabled(false);
-                txtCedula.setEnabled(false);
-           // } else {
-                imprimir("No se encuentra el recepcionista de codigo " + id);
-          //  }
-        //} catch (NumberFormatException e) {
-            imprimir("Ingrese el codigo correctamente");
-        //}
+        try {
+            Huesped huesped = controlador.buscar(controlador.obtenerDatoJtextFile(txtCedula));
+            imprimir("Se encontro el huesped " + huesped.getNombrecompleto() + " correctamente");
+            cargarInformacion(huesped);
+            btnRegistrar.setEnabled(false);
+            btnEliminar.setEnabled(true);
+            btnModificar.setEnabled(true);
+            btnBuscar.setEnabled(false);
+            txtCedula.setEnabled(false);
+            btnCancelar.setEnabled(true);
+            Tipo = huesped.getTipo();
+            Estado = huesped.getEstado();
+        } catch (BuscarHuespedException | DatosIncompletosException ex) {
+            imprimir(ex.getMessage());
+        }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
-       // try {
-            int id = Integer.parseInt(txtId.getText());
-            String cedula = txtCedula.getText();
-            String nombrecompleto = txtNombreCompleto.getText();
-            String genero = CbxGenero.getSelectedItem().toString();
-            String correo = txtCorreo.getText();
-            String telefono = txtTelefono.getText();
-            Date Fechanacimiento = jDtcFechaNacimiento.getDate();
-            String constrasena = txtContrasena.getText();
-          //  controlador.modificarRecepcionista(id, cedula, nombrecompleto, genero, correo, telefono, Fechanacimiento, constrasena);
-            imprimir("Se modifico el recepcionista de codigo " + id + " nombre " + nombrecompleto + " correctamente");
+        try {
+            String cedula = controlador.obtenerDatoJtextFile(txtCedula);
+            String nombre = controlador.obtenerDatoJtextFile(txtNombreCompleto);
+            String genero = controlador.obtenerDatoJComboBox(cboGenero);
+            String correo = controlador.obtenerDatoJtextFile(txtCorreo);
+            String telefono = controlador.obtenerDatoJtextFile(txtTelefono);
+            Date fechaNacimiento = dateFechaNacimiento.getDate();
+            String nacionalida = controlador.obtenerDatoJComboBox(cboNacionalidad);
+            String contrasena = controlador.obtenerDatoJtextFile(txtPassword);
+            String tipo = Tipo;
+            String estado = Estado;
+            controlador.modificar(cedula, nombre, genero, correo, telefono, fechaNacimiento, nacionalida, contrasena, tipo, estado);
+            imprimir("Se modifico el huesped " + nombre + " correctamente");
             listar();
-            limpiar();
+            vaciarCampos();
             btnRegistrar.setEnabled(true);
             btnModificar.setEnabled(false);
             btnBuscar.setEnabled(true);
             btnEliminar.setEnabled(false);
             txtCedula.setEnabled(true);
-      //  } catch (DatosIncompletosException | CorreoException | ModificarRecepcionistaException e) {
-           // imprimir(e.getMessage());
-       // }
+            btnCancelar.setEnabled(false);
+        } catch (DatosIncompletosException | CorreoException | BuscarHuespedException | CedulaException | TelefonoException | ModificarHuespedException | CorreoFormatoException ex) {
+            imprimir(ex.getMessage());
+        }
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void txtFiltrarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFiltrarKeyTyped
-        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        if (c == ' ') {
+            evt.consume();
+        }
     }//GEN-LAST:event_txtFiltrarKeyTyped
 
-    /**
-     * @param args the command line arguments
-     */
+    private void imprimir(String v) {
+        JOptionPane.showMessageDialog(null, v);
+    }
+
+    private void vaciarCampos() {
+        txtCedula.setText(null);
+        txtNombreCompleto.setText(null);
+        cboGenero.setSelectedIndex(0);
+        txtCorreo.setText(null);
+        txtTelefono.setText(null);
+        dateFechaNacimiento.setDate(null);
+        cboNacionalidad.setSelectedIndex(0);
+        txtPassword.setText(null);
+        Tipo = null;
+        Estado = null;
+    }
+
+    public final void listar() {
+        tblLista.setModel(controlador.listarElementos());
+    }
+
+    private void cargarInformacion(Huesped huesped) {
+
+        txtCedula.setText(huesped.getCedula());
+        txtNombreCompleto.setText(huesped.getNombrecompleto());
+        cboGenero.setSelectedItem(huesped.getGenero());
+        txtCorreo.setText(huesped.getCorreo());
+        txtTelefono.setText(huesped.getTelefono());
+        dateFechaNacimiento.setDate(huesped.getFechanacimiento());
+        txtPassword.setText(huesped.getContrasena());
+        cboNacionalidad.setSelectedItem(huesped.getNacionalidad());
+
+    }
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -660,41 +691,9 @@ public class FrmGestionHuesped extends javax.swing.JFrame {
         });
     }
 
-    private void imprimir(String v) {
-        JOptionPane.showMessageDialog(null, v);
-    }
 
-    private void limpiar() {
-        txtId.setText("");
-        txtCedula.setText("");
-        txtNombreCompleto.setText("");
-        CbxGenero.setSelectedItem("");
-        txtCorreo.setText("");
-        txtTelefono.setText("");
-        jDtcFechaNacimiento.setDate(null);
-        txtContrasena.setText("");
-    }
-
-    public void listar() {
-
-        JtblHuespedes.setModel(controlador.listarElementos());
-    }
-
-    private void cargarInformacion(Recepcionista recepcionista) {
-
-        txtId.setText(Integer.toString(recepcionista.getId()));
-        txtCedula.setText(recepcionista.getCedula());
-        txtNombreCompleto.setText(recepcionista.getNombrecompleto());
-        CbxGenero.setSelectedItem(recepcionista.getGenero().toString());
-        txtCorreo.setText(recepcionista.getCorreo());
-        txtTelefono.setText(recepcionista.getTelefono());
-        jDtcFechaNacimiento.setDate(recepcionista.getFechanacimiento());
-        txtContrasena.setText(recepcionista.getContrasena());
-    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> CbxFiltrar;
-    private javax.swing.JComboBox<String> CbxGenero;
-    private javax.swing.JTable JtblHuespedes;
     private javax.swing.JButton btnActualizar;
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnCancelar;
@@ -703,8 +702,9 @@ public class FrmGestionHuesped extends javax.swing.JFrame {
     private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnRegistrar;
     private javax.swing.JButton btnSalir;
+    private javax.swing.JComboBox<String> cboGenero;
     private javax.swing.JComboBox<String> cboNacionalidad;
-    private com.toedter.calendar.JDateChooser jDtcFechaNacimiento;
+    private com.toedter.calendar.JDateChooser dateFechaNacimiento;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
@@ -716,17 +716,16 @@ public class FrmGestionHuesped extends javax.swing.JFrame {
     private javax.swing.JLabel lblFiltrar;
     private javax.swing.JLabel lblGenero;
     private javax.swing.JLabel lblHuespedes;
-    private javax.swing.JLabel lblId;
     private javax.swing.JLabel lblNacionalidad;
     private javax.swing.JLabel lblNombreCompleto;
     private javax.swing.JLabel lblTelefono;
     private javax.swing.JLabel lblTitulo;
+    private javax.swing.JTable tblLista;
     private javax.swing.JTextField txtCedula;
-    private javax.swing.JPasswordField txtContrasena;
     private javax.swing.JTextField txtCorreo;
     private javax.swing.JTextField txtFiltrar;
-    private javax.swing.JTextField txtId;
     private javax.swing.JTextField txtNombreCompleto;
+    private javax.swing.JPasswordField txtPassword;
     private javax.swing.JTextField txtTelefono;
     // End of variables declaration//GEN-END:variables
 }

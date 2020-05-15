@@ -8,6 +8,7 @@ package Controlador;
 import Bo.BoHuesped;
 import Excepcion.BuscarHuespedException;
 import Excepcion.CedulaException;
+import Excepcion.ComboBoxException;
 import Excepcion.CorreoException;
 import Excepcion.CorreoFormatoException;
 import Excepcion.DatosIncompletosException;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -36,7 +38,7 @@ public class CtlHuesped {
         bo.guardar(cedula, nombrecompleto, genero, correo, telefono, fechanacimiento, nacionalidad, contrasena, tipo, estado);
     }
 
-    public Huesped buscar(String cedula) throws BuscarHuespedException {
+    public Huesped buscar(String cedula) throws BuscarHuespedException, DatosIncompletosException {
         return bo.buscar(cedula);
     }
 
@@ -53,6 +55,11 @@ public class CtlHuesped {
       public String  obtenerDatoJComboBox(JComboBox x){
           return bo.obtenerDatoJComboBox(x);
       }
+         public DefaultTableModel filtrar(String opcion, String accion) throws DatosIncompletosException, NumberFormatException, ComboBoxException {
+             return bo.filtrar(opcion, accion);
+         }
      
-    
+      public DefaultTableModel listarElementos() {
+          return bo.listarElementos();
+      }
 }

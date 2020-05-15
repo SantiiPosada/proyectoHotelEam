@@ -12,6 +12,7 @@ import Excepcion.CorreoFormatoException;
 import Excepcion.DatosIncompletosException;
 import Excepcion.GuardarHuespedException;
 import Excepcion.TelefonoException;
+import Modelo.Recepcionista;
 import java.util.Date;
 import javax.swing.JOptionPane;
 
@@ -25,9 +26,19 @@ public class FrmRegistroHuesped extends javax.swing.JFrame {
      * declaracion de variables
      */
     private final CtlHuesped controlador;
+    private Recepcionista recepcionista = null;
 
     public FrmRegistroHuesped() {
         controlador = new CtlHuesped();
+        initComponents();
+        this.setLocationRelativeTo(null);
+        this.setResizable(false);
+
+    }
+
+    public FrmRegistroHuesped(Recepcionista recepcionista) {
+        controlador = new CtlHuesped();
+        this.recepcionista = recepcionista;
         initComponents();
         this.setLocationRelativeTo(null);
         this.setResizable(false);
@@ -273,15 +284,25 @@ public class FrmRegistroHuesped extends javax.swing.JFrame {
             String estado = "sin multa";
             controlador.guardar(cedula, nombre, genero, correo, telefono, fechaNacimiento, nacionalida, contrasena, tipo, estado);
             JOptionPane.showMessageDialog(null, "Se guardó el huesped " + nombre + " correctamente");
+            vaciarCampos();
         } catch (CedulaException | CorreoException | DatosIncompletosException | TelefonoException | GuardarHuespedException | CorreoFormatoException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
         }
     }//GEN-LAST:event_btnRegistroActionPerformed
 
     private void BtnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnVolverActionPerformed
-        FrmLogin login = new FrmLogin();
-        login.setVisible(true);
-        this.dispose();
+
+        if (recepcionista == null) {
+            FrmLogin login = new FrmLogin();
+            login.setVisible(true);
+            this.dispose();
+        } else {
+            FrmMenuRecepcionista vista = new FrmMenuRecepcionista(recepcionista);
+            vista.setVisible(true);
+            this.dispose();
+        }
+
+
     }//GEN-LAST:event_BtnVolverActionPerformed
 
     private void txtCedulaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCedulaKeyTyped
@@ -313,8 +334,8 @@ public class FrmRegistroHuesped extends javax.swing.JFrame {
     }//GEN-LAST:event_txtCorreoKeyTyped
 
     private void txtPasswordKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPasswordKeyTyped
-          char c = evt.getKeyChar();
-        if ( c == ' ') {
+        char c = evt.getKeyChar();
+        if (c == ' ') {
             evt.consume();
         }
     }//GEN-LAST:event_txtPasswordKeyTyped
@@ -322,6 +343,17 @@ public class FrmRegistroHuesped extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
+    private void vaciarCampos() {
+        txtCedula.setText(null);
+        txtNombreCompleto.setText(null);
+        cboGenero.setSelectedIndex(0);
+        txtCorreo.setText(null);
+        txtTelefono.setText(null);
+        dateFechaNacimiento.setDate(null);
+        cboNacionalidad.setSelectedIndex(0);
+        txtPassword.setText(null);
+    }
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

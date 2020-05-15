@@ -15,6 +15,7 @@ import Excepcion.DatosIncompletosException;
 import Excepcion.GuardarRecepcionistaException;
 import Excepcion.ModificarRecepcionistaException;
 import Excepcion.TelefonoException;
+import Modelo.Administrador;
 import Modelo.Recepcionista;
 import java.util.Date;
 import javax.swing.JOptionPane;
@@ -25,13 +26,19 @@ import javax.swing.JOptionPane;
  */
 public class FrmGestionRecepcionista extends javax.swing.JFrame {
 
-    CtlRecepcionista controlador;
+    private CtlRecepcionista controlador;
+    private Administrador administrador;
 
     public FrmGestionRecepcionista() {
         initComponents();
+    }
+
+    public FrmGestionRecepcionista(Administrador administrador) {
+        controlador = new CtlRecepcionista();
+        this.administrador=administrador;
+        initComponents();
         this.setLocationRelativeTo(null);
         txtId.setEnabled(false);
-        controlador = new CtlRecepcionista();
         btnCancelar.setEnabled(true);
         btnModificar.setEnabled(false);
         listar();
@@ -470,9 +477,9 @@ public class FrmGestionRecepcionista extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
-        FrmAdministrador menuadministrador = new FrmAdministrador();
-        menuadministrador.setVisible(true);
-        dispose();
+        FrmAdministrador vista = new FrmAdministrador(administrador);
+        vista.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void txtIdKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtIdKeyTyped

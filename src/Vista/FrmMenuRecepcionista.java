@@ -5,6 +5,8 @@
  */
 package Vista;
 
+import Modelo.Recepcionista;
+
 /**
  *
  * @author mateo
@@ -14,9 +16,22 @@ public class FrmMenuRecepcionista extends javax.swing.JFrame {
     /**
      * Creates new form FrmMenuRecepcionista
      */
+    private Recepcionista recepcionista=null;
+    
     public FrmMenuRecepcionista() {
         initComponents();
+            this.setLocationRelativeTo(null);
+        this.setResizable(false);
+    }
+
+    public FrmMenuRecepcionista(Recepcionista recepcionista) {
+         this.recepcionista = recepcionista;
+        initComponents();
         this.setLocationRelativeTo(null);
+        this.setResizable(false);
+      
+        lblNombre.setText("NOMBRE: " + this.recepcionista.getNombrecompleto());
+        lblCedula.setText("CEDULA: " + this.recepcionista.getCedula());
     }
 
     /**
@@ -93,15 +108,12 @@ public class FrmMenuRecepcionista extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(64, 64, 64)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblCedula, javax.swing.GroupLayout.DEFAULT_SIZE, 263, Short.MAX_VALUE)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(lblCedula, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lblNombre1, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(57, 57, 57))
         );
@@ -147,10 +159,15 @@ public class FrmMenuRecepcionista extends javax.swing.JFrame {
 
         btnRegistroHuesped.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/huesped.jpg"))); // NOI18N
         btnRegistroHuesped.setBorder(null);
+        btnRegistroHuesped.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegistroHuespedActionPerformed(evt);
+            }
+        });
 
         lblHuesped.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         lblHuesped.setForeground(new java.awt.Color(0, 0, 0));
-        lblHuesped.setText("Registrar cliente");
+        lblHuesped.setText("Registrar huesped");
 
         btnHabitacionDisponible.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/hospedaje.jpg"))); // NOI18N
         btnHabitacionDisponible.setBorder(null);
@@ -333,6 +350,12 @@ public class FrmMenuRecepcionista extends javax.swing.JFrame {
     private void btnVenderHabitacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVenderHabitacionActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnVenderHabitacionActionPerformed
+
+    private void btnRegistroHuespedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistroHuespedActionPerformed
+      FrmRegistroHuesped vista=new FrmRegistroHuesped(recepcionista);
+      vista.setVisible(true);
+      this.dispose();
+    }//GEN-LAST:event_btnRegistroHuespedActionPerformed
 
     /**
      * @param args the command line arguments
