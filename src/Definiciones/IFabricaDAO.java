@@ -22,4 +22,10 @@ public interface IFabricaDAO {
  * @return Abstraccion de DAOHuesped
  */
     public IDAOHuesped crearDAOHuesped();
+    /**
+     * Metodó para la creación de un DADOLogIn
+     * @return Abstraccion de DAOLogIn
+     */
+    
+    public IDAOLogIn crearDAOLogIn();
 }

@@ -577,6 +577,9 @@
           </AuxValues>
         </Component>
         <Component class="javax.swing.JPasswordField" name="txtPassword">
+          <Events>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtPasswordKeyTyped"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

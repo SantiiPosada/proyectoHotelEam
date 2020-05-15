@@ -69,7 +69,7 @@ public class DaoHuesped implements IDAOHuesped {
     }
 
     @Override
-    public Huesped buscarHuesped(String cedula) throws BuscarHuespedException {
+    public Huesped buscarHuesped(String cedula)  {
         Huesped huesped = new Huesped();
         try (Connection con = Conexion.getConnection()) {
             PreparedStatement pstmt = con.prepareStatement("SELECT  id,cedula,nombreCompleto,genero,correo,telefono,fechaNacimiento,nacionalidad,contrasena,tipo,estado FROM huesped where cedula=?");
@@ -93,8 +93,7 @@ public class DaoHuesped implements IDAOHuesped {
             }
         } catch (SQLException ex) {
             huesped = null;
-            throw new BuscarHuespedException();
-
+       
         }
         return null;
     }

@@ -39,9 +39,8 @@ public interface IDAOHuesped {
      *
      * @param cedula recibe la cedula del huesped al buscar
      * @return objeto con los datos del huesped
-     * @throws BuscarHuespedException si hubo un error al encontrarlo
      */
-    public Huesped buscarHuesped(String cedula) throws BuscarHuespedException;
+    public Huesped buscarHuesped(String cedula) ;
 
     /**
      * Método encargado de modificar al huesped
