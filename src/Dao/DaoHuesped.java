@@ -7,12 +7,12 @@ package Dao;
 
 import Conexion.Conexion;
 import Definiciones.IDAOHuesped;
-import Excepcion.BuscarHuespedException;
 import Excepcion.CedulaException;
 import Excepcion.CorreoException;
 import Excepcion.DatosIncompletosException;
 import Excepcion.TelefonoException;
 import Modelo.Huesped;
+import Modelo.Recepcionista;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -29,20 +29,27 @@ public class DaoHuesped implements IDAOHuesped {
     public boolean guardarHuesped(Huesped huesped) throws CedulaException, CorreoException, DatosIncompletosException, TelefonoException {
         boolean desicion = false;
         try (Connection con = Conexion.getConnection()) {
-            PreparedStatement pstmt = con.prepareStatement("INSERT INTO huesped (cedula,nombreCompleto,genero,correo,telefono,fechaNacimiento,nacionalidad,contrasena,tipo,estado) values (?,?,?,?,?,?,?,?,?,?)");
+            DAORecepcionista daoRecepcionista = new DAORecepcionista();
+            Recepcionista recepcionista = daoRecepcionista.buscarRecepcionista(huesped.getCedula());
+            if (recepcionista == null) {
+                PreparedStatement pstmt = con.prepareStatement("INSERT INTO huesped (cedula,nombreCompleto,genero,correo,telefono,fechaNacimiento,nacionalidad,contrasena,tipo,estado) values (?,?,?,?,?,?,?,?,?,?)");
 
-            pstmt.setString(1, huesped.getCedula());
-            pstmt.setString(2, huesped.getNombrecompleto());
-            pstmt.setString(3, huesped.getGenero());
-            pstmt.setString(4, huesped.getCorreo());
-            pstmt.setString(5, huesped.getTelefono());
-            pstmt.setDate(6, convertirDeDateUtilaDateSql(huesped.getFechanacimiento()));
-            pstmt.setString(7, huesped.getNacionalidad());
-            pstmt.setString(8, huesped.getContrasena());
-            pstmt.setString(9, huesped.getTipo());
-            pstmt.setString(10, huesped.getEstado());
-            pstmt.executeUpdate();
-            desicion = true;
+                pstmt.setString(1, huesped.getCedula());
+                pstmt.setString(2, huesped.getNombrecompleto());
+                pstmt.setString(3, huesped.getGenero());
+                pstmt.setString(4, huesped.getCorreo());
+                pstmt.setString(5, huesped.getTelefono());
+                pstmt.setDate(6, convertirDeDateUtilaDateSql(huesped.getFechanacimiento()));
+                pstmt.setString(7, huesped.getNacionalidad());
+                pstmt.setString(8, huesped.getContrasena());
+                pstmt.setString(9, huesped.getTipo());
+                pstmt.setString(10, huesped.getEstado());
+                pstmt.executeUpdate();
+                desicion = true;
+            } else {
+                throw new CedulaException();
+            }
+
         } catch (SQLException ex) {
             //   ex.printStackTrace();
             int codigo = ex.getErrorCode();
@@ -69,7 +76,7 @@ public class DaoHuesped implements IDAOHuesped {
     }
 
     @Override
-    public Huesped buscarHuesped(String cedula)  {
+    public Huesped buscarHuesped(String cedula) {
         Huesped huesped = new Huesped();
         try (Connection con = Conexion.getConnection()) {
             PreparedStatement pstmt = con.prepareStatement("SELECT  id,cedula,nombreCompleto,genero,correo,telefono,fechaNacimiento,nacionalidad,contrasena,tipo,estado FROM huesped where cedula=?");
@@ -93,7 +100,7 @@ public class DaoHuesped implements IDAOHuesped {
             }
         } catch (SQLException ex) {
             huesped = null;
-       
+
         }
         return null;
     }
