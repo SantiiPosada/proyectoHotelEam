@@ -11,6 +11,6 @@ package Excepcion;
  */ 
 public class LogInException extends Exception {
    public LogInException(){
-       super("usuario O contraseña incorrecta");
+       super("usuario o contraseña incorrecta");
    }
 }
