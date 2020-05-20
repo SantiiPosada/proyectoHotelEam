@@ -183,19 +183,19 @@ public class FrmLogin extends javax.swing.JFrame {
 
                 FrmMenuHuesped vista = new FrmMenuHuesped((Huesped) usuario);
                 vista.setVisible(true);
-                JOptionPane.showMessageDialog(vista, "vienvenido seas " + ((Huesped) usuario).getNombrecompleto());
+                JOptionPane.showMessageDialog(vista, "Bienvenido seas " + ((Huesped) usuario).getNombrecompleto());
                 this.dispose();
 
             } else if (usuario instanceof Administrador) {
                 FrmAdministrador vista = new FrmAdministrador((Administrador) usuario);
                 vista.setVisible(true);
-                JOptionPane.showMessageDialog(vista, "vienvenido seas " + ((Administrador) usuario).getNombrecompleto());
+                JOptionPane.showMessageDialog(vista, "Bienvenido seas " + ((Administrador) usuario).getNombrecompleto());
                 this.dispose();
 
             } else if (usuario instanceof Recepcionista) {
                 FrmMenuRecepcionista vista = new FrmMenuRecepcionista((Recepcionista) usuario);
                 vista.setVisible(true);
-                JOptionPane.showMessageDialog(vista, "vienvenido seas " + ((Recepcionista) usuario).getNombrecompleto());
+                JOptionPane.showMessageDialog(vista, "Bienvenido seas " + ((Recepcionista) usuario).getNombrecompleto());
                 this.dispose();
             }
 

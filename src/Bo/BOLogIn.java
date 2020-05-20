@@ -28,28 +28,21 @@ public class BOLogIn {
 
     }
 
-    public Huesped LogInHusped(String cedula, String contrasena) throws LogInException {
+    public Huesped LogInHusped(String cedula, String contrasena) {
         Huesped huesped = dao.LogInHuesped(cedula, contrasena);
 
-        if (huesped == null) {
-            throw new LogInException();
-        }
         return huesped;
     }
 
-    public Recepcionista LogInRecepcionista(String cedula, String contrasena) throws LogInException {
+    public Recepcionista LogInRecepcionista(String cedula, String contrasena) {
         Recepcionista recepcionista = dao.LogInRecepcionista(cedula, contrasena);
-        if (recepcionista == null) {
-            throw new LogInException();
-        }
+
         return recepcionista;
     }
 
-    public Administrador LogInAdministrador(String cedula, String contrasena) throws LogInException {
+    public Administrador LogInAdministrador(String cedula, String contrasena) {
         Administrador administrador = dao.LogInAdministrador(cedula, contrasena);
-        if (administrador == null) {
-            throw new LogInException();
-        }
+
         return administrador;
     }
 
@@ -70,27 +63,26 @@ public class BOLogIn {
     }
 
     public Object IniciarSesion(String cedula, String contrasena) throws DatosIncompletosException, LogInException {
-String tipoUsuario=null;
-        verificarDatos(cedula, contrasena, tipoUsuario);
 
-        switch (tipoUsuario) {
-            case "Huesped":
-               return  LogInHusped(cedula, contrasena);
-
-            case "Administrador":
-                return LogInAdministrador(cedula, contrasena);
-          
-            case "Recepcionista":
-                return LogInRecepcionista(cedula, contrasena);
-               
-            default:
-                break;
+        verificarDatos(cedula, contrasena);
+        Huesped huesped = LogInHusped(cedula, contrasena);
+        Administrador administrador = LogInAdministrador(cedula, contrasena);
+        Recepcionista recepcionista = LogInRecepcionista(cedula, contrasena);
+        if (huesped != null) {
+            return huesped;
+        } else if (administrador != null) {
+            return administrador;
+        } else if (recepcionista != null) {
+            return recepcionista;
+        } else {
+            throw new LogInException();
         }
-        return null;
+
+       
     }
 
-    private void verificarDatos(String cedula, String contrasena, String tipoUsuario) throws DatosIncompletosException {
-        if (cedula == null || contrasena == null || tipoUsuario == null) {
+    private void verificarDatos(String cedula, String contrasena) throws DatosIncompletosException {
+        if (cedula == null || contrasena == null) {
             throw new DatosIncompletosException();
         }
     }
