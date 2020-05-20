@@ -21,8 +21,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 /**
  *
@@ -242,7 +241,8 @@ public class DaoHuesped implements IDAOHuesped {
     
         if(administrador!=null){
             throw  new CedulaAdministradorException();
-        }else if(huesped!=null){
+        }
+        if(huesped!=null){
             throw new CedulaHuespedException();
         }
     }
