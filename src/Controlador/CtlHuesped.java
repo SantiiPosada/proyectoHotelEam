@@ -10,6 +10,7 @@ import Excepcion.BuscarHuespedException;
 import Excepcion.CedulaAdministradorException;
 import Excepcion.CedulaException;
 import Excepcion.CedulaHuespedException;
+import Excepcion.CedulaRecepcionistaException;
 import Excepcion.ComboBoxException;
 import Excepcion.CorreoException;
 import Excepcion.CorreoFormatoException;
@@ -36,7 +37,7 @@ public class CtlHuesped {
         bo = new BoHuesped();
     }
 
-    public void guardar(String cedula, String nombrecompleto, String genero, String correo, String telefono, Date fechanacimiento, String nacionalidad, String contrasena, String tipo, String estado) throws CorreoException, DatosIncompletosException, CedulaException, TelefonoException, GuardarHuespedException, CorreoFormatoException, CedulaAdministradorException, CedulaHuespedException {
+    public void guardar(String cedula, String nombrecompleto, String genero, String correo, String telefono, Date fechanacimiento, String nacionalidad, String contrasena, String tipo, String estado) throws CorreoException, DatosIncompletosException, CedulaException, TelefonoException, GuardarHuespedException, CorreoFormatoException, CedulaAdministradorException, CedulaRecepcionistaException {
         bo.guardar(cedula, nombrecompleto, genero, correo, telefono, fechanacimiento, nacionalidad, contrasena, tipo, estado);
     }
 

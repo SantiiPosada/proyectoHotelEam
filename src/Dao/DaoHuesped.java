@@ -10,6 +10,7 @@ import Definiciones.IDAOHuesped;
 import Excepcion.CedulaAdministradorException;
 import Excepcion.CedulaException;
 import Excepcion.CedulaHuespedException;
+import Excepcion.CedulaRecepcionistaException;
 import Excepcion.CorreoException;
 import Excepcion.DatosIncompletosException;
 import Excepcion.TelefonoException;
@@ -30,14 +31,14 @@ import java.util.ArrayList;
 public class DaoHuesped implements IDAOHuesped {
 
     @Override
-    public boolean guardarHuesped(Huesped huesped) throws CedulaException, CorreoException, DatosIncompletosException, TelefonoException, CedulaAdministradorException, CedulaHuespedException {
+    public boolean guardarHuesped(Huesped huesped) throws CedulaException, CorreoException, DatosIncompletosException, TelefonoException, CedulaAdministradorException, CedulaRecepcionistaException {
         boolean desicion = false;
         try (Connection con = Conexion.getConnection()) {
             DAORecepcionista daoRecepcionista = new DAORecepcionista();
             DAOAdministrador daoAdministrador=new DAOAdministrador();
             Administrador administrador=daoAdministrador.buscarAdministrador(huesped.getCedula());
             Recepcionista recepcionista = daoRecepcionista.buscarRecepcionista(huesped.getCedula());
-            vaidarCedulas(administrador, huesped);
+            vaidarCedulas(administrador, recepcionista);
                 PreparedStatement pstmt = con.prepareStatement("INSERT INTO huesped (cedula,nombreCompleto,genero,correo,telefono,fechaNacimiento,nacionalidad,contrasena,tipo,estado) values (?,?,?,?,?,?,?,?,?,?)");
 
                 pstmt.setString(1, huesped.getCedula());
@@ -237,13 +238,13 @@ public class DaoHuesped implements IDAOHuesped {
 
     }
     
-    private void vaidarCedulas(Administrador administrador,Huesped huesped) throws CedulaAdministradorException, CedulaHuespedException{
+    private void vaidarCedulas(Administrador administrador,Recepcionista recepcionista) throws CedulaAdministradorException, CedulaRecepcionistaException{
     
         if(administrador!=null){
             throw  new CedulaAdministradorException();
         }
-        if(huesped!=null){
-            throw new CedulaHuespedException();
+        if(recepcionista!=null){
+            throw new CedulaRecepcionistaException();
         }
     }
 }

@@ -9,6 +9,7 @@ import Controlador.CtlHuesped;
 import Excepcion.CedulaAdministradorException;
 import Excepcion.CedulaException;
 import Excepcion.CedulaHuespedException;
+import Excepcion.CedulaRecepcionistaException;
 import Excepcion.CorreoException;
 import Excepcion.CorreoFormatoException;
 import Excepcion.DatosIncompletosException;
@@ -291,7 +292,7 @@ public class FrmRegistroHuesped extends javax.swing.JFrame {
 
             JOptionPane.showMessageDialog(null, "Se guardó el huesped " + nombre + " correctamente");
             vaciarCampos();
-        } catch (CedulaAdministradorException | CedulaHuespedException | CedulaException | CorreoException | DatosIncompletosException | TelefonoException | GuardarHuespedException | CorreoFormatoException ex) {
+        } catch (CedulaAdministradorException | CedulaRecepcionistaException | CedulaException | CorreoException | DatosIncompletosException | TelefonoException | GuardarHuespedException | CorreoFormatoException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
         }
     }//GEN-LAST:event_btnRegistroActionPerformed

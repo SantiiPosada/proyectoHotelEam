@@ -10,6 +10,7 @@ import Excepcion.BuscarHuespedException;
 import Excepcion.CedulaAdministradorException;
 import Excepcion.CedulaException;
 import Excepcion.CedulaHuespedException;
+import Excepcion.CedulaRecepcionistaException;
 import Excepcion.ComboBoxException;
 import Excepcion.CorreoException;
 import Excepcion.CorreoFormatoException;
@@ -559,7 +560,7 @@ public class FrmGestionHuesped extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Se guardó el huesped " + nombre + " correctamente");
             vaciarCampos();
             listar();
-        } catch (CedulaAdministradorException | CedulaHuespedException|CedulaException | CorreoException | DatosIncompletosException | TelefonoException | GuardarHuespedException | CorreoFormatoException ex) {
+        } catch (CedulaAdministradorException | CedulaRecepcionistaException|CedulaException | CorreoException | DatosIncompletosException | TelefonoException | GuardarHuespedException | CorreoFormatoException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
         } 
 
