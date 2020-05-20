@@ -52,13 +52,13 @@
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="lblCedula" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="lblNombreCompleto" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="lblGenero" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="lblTelefono" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="lblFechaNacimiento" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="lblContrasena" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="lblCorreo" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblNombre" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblPiso" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblBano" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblEstado" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblValorNoche" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblDescripcion" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblSala" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Component id="lblId" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Component id="btnActualizar" alignment="0" min="-2" pref="28" max="-2" attributes="0"/>
                           </Group>
@@ -67,17 +67,19 @@
                               <Group type="102" attributes="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="txtId" min="-2" pref="203" max="-2" attributes="0"/>
-                                      <Component id="txtCorreo" min="-2" pref="203" max="-2" attributes="0"/>
-                                      <Component id="txtNombreCompleto" alignment="0" min="-2" pref="203" max="-2" attributes="0"/>
-                                      <Component id="txtContrasena" alignment="0" min="-2" pref="203" max="-2" attributes="0"/>
-                                      <Component id="txtCedula" alignment="0" min="-2" pref="203" max="-2" attributes="0"/>
-                                      <Component id="txtNombreCompleto1" alignment="0" min="-2" pref="50" max="-2" attributes="0"/>
-                                      <Component id="txtNombreCompleto2" alignment="0" min="-2" pref="120" max="-2" attributes="0"/>
+                                      <Component id="txtSala" min="-2" pref="203" max="-2" attributes="0"/>
+                                      <Component id="txtPiso" alignment="0" min="-2" pref="203" max="-2" attributes="0"/>
+                                      <Component id="txtNombre" alignment="0" min="-2" pref="203" max="-2" attributes="0"/>
+                                      <Component id="txtBano" alignment="0" min="-2" pref="50" max="-2" attributes="0"/>
+                                      <Component id="txtValorNoche" alignment="0" min="-2" pref="120" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace min="-2" max="-2" attributes="0"/>
                                   <Component id="lblFiltrar" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <Component id="txtTelefono1" min="-2" pref="203" max="-2" attributes="0"/>
+                              <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
+                                  <Component id="txtDescripcion" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="txtEstado" alignment="0" pref="203" max="32767" attributes="0"/>
+                              </Group>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
@@ -98,9 +100,9 @@
                                       <Group type="102" alignment="0" attributes="0">
                                           <Component id="lblTelefono1" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
-                                          <Component id="txtTelefono" min="-2" pref="173" max="-2" attributes="0"/>
+                                          <Component id="txtNombreImagen" min="-2" pref="173" max="-2" attributes="0"/>
                                       </Group>
-                                      <Component id="btnCancelar1" alignment="1" min="-2" pref="191" max="-2" attributes="0"/>
+                                      <Component id="btnSeleccionarImagen" alignment="1" min="-2" pref="191" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace max="32767" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
@@ -147,11 +149,11 @@
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="btnSalir" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="txtTelefono" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
+                              <Component id="txtNombreImagen" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
                               <Component id="lblTelefono1" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="btnCancelar1" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnSeleccionarImagen" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="32767" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
@@ -164,38 +166,41 @@
                           </Group>
                           <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="lblCedula" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="txtCedula" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
+                              <Component id="lblNombre" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="txtNombre" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="lblNombreCompleto" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="txtNombreCompleto" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
+                              <Component id="lblPiso" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="txtPiso" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="lblGenero" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="txtNombreCompleto1" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
+                              <Component id="lblBano" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="txtBano" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="lblCorreo" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="txtCorreo" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
+                              <Component id="lblSala" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="txtSala" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="lblTelefono" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="txtTelefono1" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
+                              <Component id="lblEstado" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="txtEstado" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="lblFechaNacimiento" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="txtNombreCompleto2" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
+                              <Component id="lblValorNoche" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="txtValorNoche" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace max="32767" attributes="0"/>
+                          <EmptySpace type="unrelated" max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="lblContrasena" min="-2" max="-2" attributes="0"/>
-                              <Component id="txtContrasena" min="-2" pref="94" max="-2" attributes="0"/>
+                              <Component id="txtDescripcion" min="-2" pref="81" max="-2" attributes="0"/>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
+                                  <Component id="lblDescripcion" min="-2" max="-2" attributes="0"/>
+                              </Group>
                           </Group>
                           <EmptySpace min="-2" max="-2" attributes="0"/>
                       </Group>
@@ -238,7 +243,7 @@
             <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtIdKeyTyped"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JLabel" name="lblCedula">
+        <Component class="javax.swing.JLabel" name="lblNombre">
           <Properties>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="0" green="0" red="0" type="rgb"/>
@@ -246,7 +251,7 @@
             <Property name="text" type="java.lang.String" value="Nombre :"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="txtCedula">
+        <Component class="javax.swing.JTextField" name="txtNombre">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -256,10 +261,10 @@
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtCedulaKeyTyped"/>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtNombreKeyTyped"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JLabel" name="lblNombreCompleto">
+        <Component class="javax.swing.JLabel" name="lblPiso">
           <Properties>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="0" green="0" red="0" type="rgb"/>
@@ -280,7 +285,7 @@
             <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtFiltrarKeyTyped"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JLabel" name="lblGenero">
+        <Component class="javax.swing.JLabel" name="lblBano">
           <Properties>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="0" green="0" red="0" type="rgb"/>
@@ -288,7 +293,7 @@
             <Property name="text" type="java.lang.String" value="Ba&#xf1;o"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="lblCorreo">
+        <Component class="javax.swing.JLabel" name="lblSala">
           <Properties>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="0" green="0" red="0" type="rgb"/>
@@ -296,7 +301,7 @@
             <Property name="text" type="java.lang.String" value="Sala :"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="txtNombreCompleto">
+        <Component class="javax.swing.JTextField" name="txtPiso">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -306,10 +311,10 @@
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtNombreCompletoKeyTyped"/>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtPisoKeyTyped"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JLabel" name="lblTelefono">
+        <Component class="javax.swing.JLabel" name="lblEstado">
           <Properties>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="0" green="0" red="0" type="rgb"/>
@@ -317,7 +322,7 @@
             <Property name="text" type="java.lang.String" value="Estado :"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="txtCorreo">
+        <Component class="javax.swing.JTextField" name="txtSala">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -327,10 +332,10 @@
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtCorreoKeyTyped"/>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtSalaKeyTyped"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JLabel" name="lblFechaNacimiento">
+        <Component class="javax.swing.JLabel" name="lblValorNoche">
           <Properties>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="0" green="0" red="0" type="rgb"/>
@@ -338,26 +343,13 @@
             <Property name="text" type="java.lang.String" value="Valor por noche :"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="lblContrasena">
+        <Component class="javax.swing.JLabel" name="lblDescripcion">
           <Properties>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="0" green="0" red="0" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Descripcion"/>
+            <Property name="text" type="java.lang.String" value="Descripcion :"/>
           </Properties>
-        </Component>
-        <Component class="javax.swing.JPasswordField" name="txtContrasena">
-          <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="ff" red="ff" type="rgb"/>
-            </Property>
-            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="0" green="0" red="0" type="rgb"/>
-            </Property>
-          </Properties>
-          <AccessibilityProperties>
-            <Property name="AccessibleContext.accessibleName" type="java.lang.String" value=""/>
-          </AccessibilityProperties>
         </Component>
         <Container class="javax.swing.JScrollPane" name="jScrollPane1">
 
@@ -388,7 +380,7 @@
 
                   <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                   <SubComponents>
-                    <Component class="javax.swing.JTable" name="JtblRecepcionista">
+                    <Component class="javax.swing.JTable" name="JtblHabitacion">
                       <Properties>
                         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                           <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -471,6 +463,9 @@
         </Container>
         <Component class="javax.swing.JLabel" name="lblRecepcion">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/Imagenes/fondo blanco.gif"/>
+            </Property>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
                 <LineBorder/>
@@ -619,7 +614,7 @@
               <Color blue="0" green="0" red="0" type="rgb"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/Imagenes/actualizar.jpg"/>
+              <Image iconType="3" name="/Imagenes/actualizar.png"/>
             </Property>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="null"/>
@@ -643,7 +638,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCancelarActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JTextField" name="txtTelefono">
+        <Component class="javax.swing.JTextField" name="txtNombreImagen">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -653,10 +648,10 @@
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtTelefonoKeyTyped"/>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtNombreImagenKeyTyped"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JTextField" name="txtNombreCompleto1">
+        <Component class="javax.swing.JTextField" name="txtBano">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -666,10 +661,10 @@
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtNombreCompleto1KeyTyped"/>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtBanoKeyTyped"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JTextField" name="txtNombreCompleto2">
+        <Component class="javax.swing.JTextField" name="txtValorNoche">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -679,7 +674,7 @@
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtNombreCompleto2KeyTyped"/>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtValorNocheKeyTyped"/>
           </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="lblTelefono1">
@@ -690,7 +685,7 @@
             <Property name="text" type="java.lang.String" value="Nombre de la imagen"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="txtTelefono1">
+        <Component class="javax.swing.JTextField" name="txtEstado">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -700,10 +695,10 @@
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtTelefono1KeyTyped"/>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtEstadoKeyTyped"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="btnCancelar1">
+        <Component class="javax.swing.JButton" name="btnSeleccionarImagen">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -714,7 +709,20 @@
             <Property name="text" type="java.lang.String" value="Seleccionar imagen"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCancelar1ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSeleccionarImagenActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JTextField" name="txtDescripcion">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="0" green="0" red="0" type="rgb"/>
+            </Property>
+          </Properties>
+          <Events>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtDescripcionKeyTyped"/>
           </Events>
         </Component>
       </SubComponents>

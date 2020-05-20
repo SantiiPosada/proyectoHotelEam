@@ -5,9 +5,17 @@
  */
 package Vista;
 
+import Controlador.CtlHabitacion;
+import Excepcion.BuscarHabitacionException;
+import Excepcion.ComboBoxException;
+import Excepcion.DatosIncompletosException;
+import Excepcion.GuardarHabitacionException;
+import Excepcion.ImagenException;
+import Excepcion.ModificarHabitacionException;
+import Excepcion.NombreHabitacionException;
+import Excepcion.NombreImagenException;
 import Modelo.Administrador;
-
-
+import Modelo.Habitacion;
 import javax.swing.JOptionPane;
 
 /**
@@ -17,14 +25,24 @@ import javax.swing.JOptionPane;
 public class FrmGestionHabitacion extends javax.swing.JFrame {
 
     private Administrador administrador;
+    private CtlHabitacion controlador;
 
     public FrmGestionHabitacion() {
         initComponents();
     }
 
     public FrmGestionHabitacion(Administrador administrador) {
-        this.administrador = administrador;
         initComponents();
+        this.administrador = administrador;
+        this.setLocationRelativeTo(null);
+        this.setResizable(false);
+
+        btnCancelar.setEnabled(true);
+        btnModificar.setEnabled(false);
+        btnCancelar.setEnabled(false);
+        btnModificar.setEnabled(false);
+        JtblHabitacion.setEnabled(true);
+        listar();
     }
 
     /**
@@ -39,22 +57,21 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         lblId = new javax.swing.JLabel();
         txtId = new javax.swing.JTextField();
-        lblCedula = new javax.swing.JLabel();
-        txtCedula = new javax.swing.JTextField();
-        lblNombreCompleto = new javax.swing.JLabel();
+        lblNombre = new javax.swing.JLabel();
+        txtNombre = new javax.swing.JTextField();
+        lblPiso = new javax.swing.JLabel();
         txtFiltrar = new javax.swing.JTextField();
-        lblGenero = new javax.swing.JLabel();
-        lblCorreo = new javax.swing.JLabel();
-        txtNombreCompleto = new javax.swing.JTextField();
-        lblTelefono = new javax.swing.JLabel();
-        txtCorreo = new javax.swing.JTextField();
-        lblFechaNacimiento = new javax.swing.JLabel();
-        lblContrasena = new javax.swing.JLabel();
-        txtContrasena = new javax.swing.JPasswordField();
+        lblBano = new javax.swing.JLabel();
+        lblSala = new javax.swing.JLabel();
+        txtPiso = new javax.swing.JTextField();
+        lblEstado = new javax.swing.JLabel();
+        txtSala = new javax.swing.JTextField();
+        lblValorNoche = new javax.swing.JLabel();
+        lblDescripcion = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        JtblRecepcionista = new javax.swing.JTable();
+        JtblHabitacion = new javax.swing.JTable();
         lblRecepcion = new javax.swing.JLabel();
         btnSalir = new javax.swing.JButton();
         btnRegistrar = new javax.swing.JButton();
@@ -67,12 +84,13 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
         btnFiltrar = new javax.swing.JButton();
         btnActualizar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
-        txtTelefono = new javax.swing.JTextField();
-        txtNombreCompleto1 = new javax.swing.JTextField();
-        txtNombreCompleto2 = new javax.swing.JTextField();
+        txtNombreImagen = new javax.swing.JTextField();
+        txtBano = new javax.swing.JTextField();
+        txtValorNoche = new javax.swing.JTextField();
         lblTelefono1 = new javax.swing.JLabel();
-        txtTelefono1 = new javax.swing.JTextField();
-        btnCancelar1 = new javax.swing.JButton();
+        txtEstado = new javax.swing.JTextField();
+        btnSeleccionarImagen = new javax.swing.JButton();
+        txtDescripcion = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -89,19 +107,19 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
             }
         });
 
-        lblCedula.setForeground(new java.awt.Color(0, 0, 0));
-        lblCedula.setText("Nombre :");
+        lblNombre.setForeground(new java.awt.Color(0, 0, 0));
+        lblNombre.setText("Nombre :");
 
-        txtCedula.setBackground(new java.awt.Color(255, 255, 255));
-        txtCedula.setForeground(new java.awt.Color(0, 0, 0));
-        txtCedula.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtNombre.setBackground(new java.awt.Color(255, 255, 255));
+        txtNombre.setForeground(new java.awt.Color(0, 0, 0));
+        txtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtCedulaKeyTyped(evt);
+                txtNombreKeyTyped(evt);
             }
         });
 
-        lblNombreCompleto.setForeground(new java.awt.Color(0, 0, 0));
-        lblNombreCompleto.setText("Piso :");
+        lblPiso.setForeground(new java.awt.Color(0, 0, 0));
+        lblPiso.setText("Piso :");
 
         txtFiltrar.setBackground(new java.awt.Color(255, 255, 255));
         txtFiltrar.setForeground(new java.awt.Color(0, 0, 0));
@@ -111,43 +129,40 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
             }
         });
 
-        lblGenero.setForeground(new java.awt.Color(0, 0, 0));
-        lblGenero.setText("Baño");
+        lblBano.setForeground(new java.awt.Color(0, 0, 0));
+        lblBano.setText("Baño");
 
-        lblCorreo.setForeground(new java.awt.Color(0, 0, 0));
-        lblCorreo.setText("Sala :");
+        lblSala.setForeground(new java.awt.Color(0, 0, 0));
+        lblSala.setText("Sala :");
 
-        txtNombreCompleto.setBackground(new java.awt.Color(255, 255, 255));
-        txtNombreCompleto.setForeground(new java.awt.Color(0, 0, 0));
-        txtNombreCompleto.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtPiso.setBackground(new java.awt.Color(255, 255, 255));
+        txtPiso.setForeground(new java.awt.Color(0, 0, 0));
+        txtPiso.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtNombreCompletoKeyTyped(evt);
+                txtPisoKeyTyped(evt);
             }
         });
 
-        lblTelefono.setForeground(new java.awt.Color(0, 0, 0));
-        lblTelefono.setText("Estado :");
+        lblEstado.setForeground(new java.awt.Color(0, 0, 0));
+        lblEstado.setText("Estado :");
 
-        txtCorreo.setBackground(new java.awt.Color(255, 255, 255));
-        txtCorreo.setForeground(new java.awt.Color(0, 0, 0));
-        txtCorreo.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtSala.setBackground(new java.awt.Color(255, 255, 255));
+        txtSala.setForeground(new java.awt.Color(0, 0, 0));
+        txtSala.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtCorreoKeyTyped(evt);
+                txtSalaKeyTyped(evt);
             }
         });
 
-        lblFechaNacimiento.setForeground(new java.awt.Color(0, 0, 0));
-        lblFechaNacimiento.setText("Valor por noche :");
+        lblValorNoche.setForeground(new java.awt.Color(0, 0, 0));
+        lblValorNoche.setText("Valor por noche :");
 
-        lblContrasena.setForeground(new java.awt.Color(0, 0, 0));
-        lblContrasena.setText("Descripcion");
+        lblDescripcion.setForeground(new java.awt.Color(0, 0, 0));
+        lblDescripcion.setText("Descripcion :");
 
-        txtContrasena.setBackground(new java.awt.Color(255, 255, 255));
-        txtContrasena.setForeground(new java.awt.Color(0, 0, 0));
-
-        JtblRecepcionista.setBackground(new java.awt.Color(255, 255, 255));
-        JtblRecepcionista.setForeground(new java.awt.Color(0, 0, 0));
-        JtblRecepcionista.setModel(new javax.swing.table.DefaultTableModel(
+        JtblHabitacion.setBackground(new java.awt.Color(255, 255, 255));
+        JtblHabitacion.setForeground(new java.awt.Color(0, 0, 0));
+        JtblHabitacion.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null, null},
@@ -166,7 +181,7 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane2.setViewportView(JtblRecepcionista);
+        jScrollPane2.setViewportView(JtblHabitacion);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -183,6 +198,7 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
 
         jScrollPane1.setViewportView(jPanel2);
 
+        lblRecepcion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondo blanco.gif"))); // NOI18N
         lblRecepcion.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         btnSalir.setBackground(new java.awt.Color(255, 255, 255));
@@ -254,7 +270,7 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
 
         btnActualizar.setBackground(new java.awt.Color(255, 255, 255));
         btnActualizar.setForeground(new java.awt.Color(0, 0, 0));
-        btnActualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/actualizar.jpg"))); // NOI18N
+        btnActualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/actualizar.png"))); // NOI18N
         btnActualizar.setBorder(null);
         btnActualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -271,47 +287,55 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
             }
         });
 
-        txtTelefono.setBackground(new java.awt.Color(255, 255, 255));
-        txtTelefono.setForeground(new java.awt.Color(0, 0, 0));
-        txtTelefono.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtNombreImagen.setBackground(new java.awt.Color(255, 255, 255));
+        txtNombreImagen.setForeground(new java.awt.Color(0, 0, 0));
+        txtNombreImagen.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtTelefonoKeyTyped(evt);
+                txtNombreImagenKeyTyped(evt);
             }
         });
 
-        txtNombreCompleto1.setBackground(new java.awt.Color(255, 255, 255));
-        txtNombreCompleto1.setForeground(new java.awt.Color(0, 0, 0));
-        txtNombreCompleto1.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtBano.setBackground(new java.awt.Color(255, 255, 255));
+        txtBano.setForeground(new java.awt.Color(0, 0, 0));
+        txtBano.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtNombreCompleto1KeyTyped(evt);
+                txtBanoKeyTyped(evt);
             }
         });
 
-        txtNombreCompleto2.setBackground(new java.awt.Color(255, 255, 255));
-        txtNombreCompleto2.setForeground(new java.awt.Color(0, 0, 0));
-        txtNombreCompleto2.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtValorNoche.setBackground(new java.awt.Color(255, 255, 255));
+        txtValorNoche.setForeground(new java.awt.Color(0, 0, 0));
+        txtValorNoche.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtNombreCompleto2KeyTyped(evt);
+                txtValorNocheKeyTyped(evt);
             }
         });
 
         lblTelefono1.setForeground(new java.awt.Color(0, 0, 0));
         lblTelefono1.setText("Nombre de la imagen");
 
-        txtTelefono1.setBackground(new java.awt.Color(255, 255, 255));
-        txtTelefono1.setForeground(new java.awt.Color(0, 0, 0));
-        txtTelefono1.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtEstado.setBackground(new java.awt.Color(255, 255, 255));
+        txtEstado.setForeground(new java.awt.Color(0, 0, 0));
+        txtEstado.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtTelefono1KeyTyped(evt);
+                txtEstadoKeyTyped(evt);
             }
         });
 
-        btnCancelar1.setBackground(new java.awt.Color(255, 255, 255));
-        btnCancelar1.setForeground(new java.awt.Color(0, 0, 0));
-        btnCancelar1.setText("Seleccionar imagen");
-        btnCancelar1.addActionListener(new java.awt.event.ActionListener() {
+        btnSeleccionarImagen.setBackground(new java.awt.Color(255, 255, 255));
+        btnSeleccionarImagen.setForeground(new java.awt.Color(0, 0, 0));
+        btnSeleccionarImagen.setText("Seleccionar imagen");
+        btnSeleccionarImagen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCancelar1ActionPerformed(evt);
+                btnSeleccionarImagenActionPerformed(evt);
+            }
+        });
+
+        txtDescripcion.setBackground(new java.awt.Color(255, 255, 255));
+        txtDescripcion.setForeground(new java.awt.Color(0, 0, 0));
+        txtDescripcion.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtDescripcionKeyTyped(evt);
             }
         });
 
@@ -327,13 +351,13 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
                         .addContainerGap())
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblCedula)
-                            .addComponent(lblNombreCompleto)
-                            .addComponent(lblGenero)
-                            .addComponent(lblTelefono)
-                            .addComponent(lblFechaNacimiento)
-                            .addComponent(lblContrasena)
-                            .addComponent(lblCorreo)
+                            .addComponent(lblNombre)
+                            .addComponent(lblPiso)
+                            .addComponent(lblBano)
+                            .addComponent(lblEstado)
+                            .addComponent(lblValorNoche)
+                            .addComponent(lblDescripcion)
+                            .addComponent(lblSala)
                             .addComponent(lblId)
                             .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(34, 34, 34)
@@ -341,15 +365,16 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtNombreCompleto, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtCedula, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtNombreCompleto1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtNombreCompleto2, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(txtSala, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtPiso, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtBano, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtValorNoche, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(lblFiltrar))
-                            .addComponent(txtTelefono1, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(txtDescripcion, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(txtEstado, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -367,8 +392,8 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(lblTelefono1)
                                         .addGap(6, 6, 6)
-                                        .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(btnCancelar1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(txtNombreImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(btnSeleccionarImagen, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -404,10 +429,10 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnSalir)
-                            .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtNombreImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lblTelefono1))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnCancelar1)
+                        .addComponent(btnSeleccionarImagen)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
@@ -418,32 +443,34 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
                             .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(13, 13, 13)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblCedula)
-                            .addComponent(txtCedula, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(lblNombre)
+                            .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(12, 12, 12)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblNombreCompleto)
-                            .addComponent(txtNombreCompleto, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(lblPiso)
+                            .addComponent(txtPiso, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(12, 12, 12)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblGenero)
-                            .addComponent(txtNombreCompleto1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(lblBano)
+                            .addComponent(txtBano, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblCorreo)
-                            .addComponent(txtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(lblSala)
+                            .addComponent(txtSala, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(12, 12, 12)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblTelefono)
-                            .addComponent(txtTelefono1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(lblEstado)
+                            .addComponent(txtEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblFechaNacimiento)
-                            .addComponent(txtNombreCompleto2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblValorNoche)
+                            .addComponent(txtValorNoche, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblContrasena)
-                            .addComponent(txtContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(1, 1, 1)
+                                .addComponent(lblDescripcion)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnActualizar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -456,8 +483,6 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
-
-        txtContrasena.getAccessibleContext().setAccessibleName("");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -474,7 +499,21 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-
+        try {
+            String nombre = controlador.obtenerDatoJtextFile(txtNombre);
+            String piso = controlador.obtenerDatoJtextFile(txtPiso);
+            String bano = controlador.obtenerDatoJtextFile(txtBano);
+            String sala = controlador.obtenerDatoJtextFile(txtSala);
+            String estado = "No Disponible";
+            String valornoche = controlador.obtenerDatoJtextFile(txtValorNoche) + "$";
+            String descripcion = controlador.obtenerDatoJtextFile(txtDescripcion);
+            String nombreimagen = controlador.obtenerDatoJtextFile(txtNombreImagen);
+//falta imagen
+            controlador.modificarHabitacion(nombre, piso, bano, sala, estado, nombreimagen, null, descripcion, valornoche);
+            JOptionPane.showMessageDialog(null, "Se Elimino la habitacion " + nombre + " correctamente");
+        } catch (DatosIncompletosException | BuscarHabitacionException | NombreHabitacionException | NombreImagenException | ImagenException | ModificarHabitacionException e) {
+            imprimir(e.getMessage());
+        }
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
@@ -490,80 +529,177 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtIdKeyTyped
 
-    private void txtCedulaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCedulaKeyTyped
-        char c = evt.getKeyChar();
-        if (c < '0' || c > '9') {
-            evt.consume();
-        }
-    }//GEN-LAST:event_txtCedulaKeyTyped
-
-    private void txtNombreCompletoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreCompletoKeyTyped
+    private void txtNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyTyped
         char c = evt.getKeyChar();
         if ((c < 'a' || c > 'z') && (c < 'A' || c > 'Z') && c != ' ') {
             evt.consume();
         }
-    }//GEN-LAST:event_txtNombreCompletoKeyTyped
+    }//GEN-LAST:event_txtNombreKeyTyped
 
-    private void txtCorreoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCorreoKeyTyped
+    private void txtPisoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPisoKeyTyped
         char c = evt.getKeyChar();
-        if ((c < 'a' || c > 'z') && (c < 'A' || c > 'Z') && (c < '0' || c > '9') && c != '_' && c != '@' && c != '.' && c != '-') {
+        if ((c < 'a' || c > 'z') && (c < 'A' || c > 'Z') && c != ' ') {
             evt.consume();
         }
-    }//GEN-LAST:event_txtCorreoKeyTyped
+    }//GEN-LAST:event_txtPisoKeyTyped
+
+    private void txtSalaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSalaKeyTyped
+        char c = evt.getKeyChar();
+        if (c < '0' || c > '9') {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtSalaKeyTyped
 
     private void txtFiltrarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFiltrarKeyTyped
 
     }//GEN-LAST:event_txtFiltrarKeyTyped
 
     private void btnFiltrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltrarActionPerformed
+        try {
+            String opcion = controlador.obtenerDatoJComboBox(CbxFiltrar);
+            String accion = controlador.obtenerDatoJtextFile(txtFiltrar);
+            JtblHabitacion.setModel(controlador.filtrar(opcion, accion));
 
+        } catch (ComboBoxException | DatosIncompletosException e) {
+            imprimir(e.getMessage());
+        }
     }//GEN-LAST:event_btnFiltrarActionPerformed
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
-        
+        listar();
         CbxFiltrar.setSelectedItem("Seleccione");
-        txtFiltrar.setText("");
+        txtFiltrar.setText(null);
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
-
+        try {
+            String nombre = controlador.obtenerDatoJtextFile(txtNombre);
+            String piso = controlador.obtenerDatoJtextFile(txtPiso);
+            String bano = controlador.obtenerDatoJtextFile(txtBano);
+            String sala = controlador.obtenerDatoJtextFile(txtSala);
+            String estado = controlador.obtenerDatoJtextFile(txtEstado);
+            String valornoche = controlador.obtenerDatoJtextFile(txtValorNoche) + "$";
+            String descripcion = controlador.obtenerDatoJtextFile(txtDescripcion);
+            String nombreimagen = controlador.obtenerDatoJtextFile(txtNombreImagen);
+//falta imagen
+            controlador.guardarHabitacion(nombre, piso, bano, sala, estado, nombreimagen, null, descripcion, valornoche);
+            JOptionPane.showMessageDialog(null, "Se guardó la habitacion " + nombre + " correctamente");
+        } catch (GuardarHabitacionException | NombreHabitacionException | NombreImagenException | ImagenException | DatosIncompletosException | BuscarHabitacionException e) {
+            imprimir(e.getMessage());
+        }
 
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-
+        btnRegistrar.setEnabled(true);
+        btnBuscar.setEnabled(true);
+        btnModificar.setEnabled(false);
+        btnEliminar.setEnabled(false);
+        btnCancelar.setEnabled(false);
+        txtNombre.setEnabled(true);
+        vaciarCampos();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        try {
+            Habitacion habitacion = controlador.buscarHabitacion(controlador.obtenerDatoJtextFile(txtNombre));
+            imprimir("Se encontro la habitacion " + habitacion.getNombre() + " correctamente");
+            cargarInformacion(habitacion);
+            btnRegistrar.setEnabled(false);
+            btnEliminar.setEnabled(true);
+            btnModificar.setEnabled(true);
+            btnBuscar.setEnabled(false);
+            txtNombre.setEnabled(false);
+            btnCancelar.setEnabled(true);
 
+        } catch (BuscarHabitacionException | DatosIncompletosException ex) {
+            imprimir(ex.getMessage());
+        }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
-
+        try {
+            String nombre = controlador.obtenerDatoJtextFile(txtNombre);
+            String piso = controlador.obtenerDatoJtextFile(txtPiso);
+            String bano = controlador.obtenerDatoJtextFile(txtBano);
+            String sala = controlador.obtenerDatoJtextFile(txtSala);
+            String estado = controlador.obtenerDatoJtextFile(txtEstado);
+            String valornoche = controlador.obtenerDatoJtextFile(txtValorNoche) + "$";
+            String descripcion = controlador.obtenerDatoJtextFile(txtDescripcion);
+            String nombreimagen = controlador.obtenerDatoJtextFile(txtNombreImagen);
+//falta imagen
+            controlador.modificarHabitacion(nombre, piso, bano, sala, estado, nombreimagen, null, descripcion, valornoche);
+            JOptionPane.showMessageDialog(null, "Se Modifico la habitacion " + nombre + " correctamente");
+        } catch (DatosIncompletosException | BuscarHabitacionException | NombreHabitacionException | NombreImagenException | ImagenException | ModificarHabitacionException e) {
+            imprimir(e.getMessage());
+        }
     }//GEN-LAST:event_btnModificarActionPerformed
 
-    private void txtTelefonoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTelefonoKeyTyped
+    private void txtNombreImagenKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreImagenKeyTyped
         char c = evt.getKeyChar();
         if (c < '0' || c > '9') {
             evt.consume();
         }
-    }//GEN-LAST:event_txtTelefonoKeyTyped
+    }//GEN-LAST:event_txtNombreImagenKeyTyped
 
-    private void txtNombreCompleto1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreCompleto1KeyTyped
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtNombreCompleto1KeyTyped
+    private void txtBanoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBanoKeyTyped
+        char c = evt.getKeyChar();
+        if (c < '0' || c > '9') {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtBanoKeyTyped
 
-    private void txtNombreCompleto2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreCompleto2KeyTyped
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtNombreCompleto2KeyTyped
+    private void txtValorNocheKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtValorNocheKeyTyped
+        char c = evt.getKeyChar();
+        if (c < '0' || c > '9') {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtValorNocheKeyTyped
 
-    private void txtTelefono1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTelefono1KeyTyped
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtTelefono1KeyTyped
+    private void txtEstadoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEstadoKeyTyped
+        char c = evt.getKeyChar();
+        if ((c < 'a' || c > 'z') && (c < 'A' || c > 'Z') && c != ' ') {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtEstadoKeyTyped
 
-    private void btnCancelar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelar1ActionPerformed
+    private void btnSeleccionarImagenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarImagenActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnCancelar1ActionPerformed
+    }//GEN-LAST:event_btnSeleccionarImagenActionPerformed
+
+    private void txtDescripcionKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDescripcionKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtDescripcionKeyTyped
+    public final void listar() {
+        JtblHabitacion.setModel(controlador.listarElementos());
+    }
+
+    private void vaciarCampos() {
+        txtId.setText(null);
+        txtNombre.setText(null);
+        txtPiso.setText(null);
+        txtBano.setText(null);
+        txtSala.setText(null);
+        txtEstado.setText(null);
+        txtValorNoche.setText(null);
+        txtDescripcion.setText(null);
+        txtNombreImagen.setText(null);
+        //falta imagen
+    }
+
+    private void cargarInformacion(Habitacion habitacion) {
+
+        txtId.setText(habitacion.getId() + "");
+        txtNombre.setText(habitacion.getNombre());
+        txtPiso.setText(habitacion.getPiso());
+        txtBano.setText(habitacion.getBano());
+        txtSala.setText(habitacion.getSala());
+        txtEstado.setText(habitacion.getEstado());
+        txtValorNoche.setText(habitacion.getValorPorNoche() + "$");
+        txtDescripcion.setText(habitacion.getDescripcion());
+        txtNombreImagen.setText(habitacion.getNombreImagen());
+        //falta imagen
+    }
 
     /**
      * @param args the command line arguments
@@ -614,41 +750,41 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> CbxFiltrar;
-    private javax.swing.JTable JtblRecepcionista;
+    private javax.swing.JTable JtblHabitacion;
     private javax.swing.JButton btnActualizar;
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnCancelar;
-    private javax.swing.JButton btnCancelar1;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnFiltrar;
     private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnRegistrar;
     private javax.swing.JButton btnSalir;
+    private javax.swing.JButton btnSeleccionarImagen;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JLabel lblCedula;
-    private javax.swing.JLabel lblContrasena;
-    private javax.swing.JLabel lblCorreo;
-    private javax.swing.JLabel lblFechaNacimiento;
+    private javax.swing.JLabel lblBano;
+    private javax.swing.JLabel lblDescripcion;
+    private javax.swing.JLabel lblEstado;
     private javax.swing.JLabel lblFiltrar;
-    private javax.swing.JLabel lblGenero;
     private javax.swing.JLabel lblId;
-    private javax.swing.JLabel lblNombreCompleto;
+    private javax.swing.JLabel lblNombre;
+    private javax.swing.JLabel lblPiso;
     private javax.swing.JLabel lblRecepcion;
-    private javax.swing.JLabel lblTelefono;
+    private javax.swing.JLabel lblSala;
     private javax.swing.JLabel lblTelefono1;
     private javax.swing.JLabel lblTitulo;
-    private javax.swing.JTextField txtCedula;
-    private javax.swing.JPasswordField txtContrasena;
-    private javax.swing.JTextField txtCorreo;
+    private javax.swing.JLabel lblValorNoche;
+    private javax.swing.JTextField txtBano;
+    private javax.swing.JTextField txtDescripcion;
+    private javax.swing.JTextField txtEstado;
     private javax.swing.JTextField txtFiltrar;
     private javax.swing.JTextField txtId;
-    private javax.swing.JTextField txtNombreCompleto;
-    private javax.swing.JTextField txtNombreCompleto1;
-    private javax.swing.JTextField txtNombreCompleto2;
-    private javax.swing.JTextField txtTelefono;
-    private javax.swing.JTextField txtTelefono1;
+    private javax.swing.JTextField txtNombre;
+    private javax.swing.JTextField txtNombreImagen;
+    private javax.swing.JTextField txtPiso;
+    private javax.swing.JTextField txtSala;
+    private javax.swing.JTextField txtValorNoche;
     // End of variables declaration//GEN-END:variables
 }
