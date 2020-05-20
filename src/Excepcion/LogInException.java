@@ -8,9 +8,9 @@ package Excepcion;
 /**
  *
  * @author santiago
- */
-public class LogInAdministradorException extends Exception{
-    public LogInAdministradorException(){
-          super("No se encuentra el administrador registrado, verifique la cedula o la contraseña");
-    }
+ */ 
+public class LogInException extends Exception {
+   public LogInException(){
+       super("usuario O contraseña incorrecta");
+   }
 }

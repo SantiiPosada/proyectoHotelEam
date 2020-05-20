@@ -7,9 +7,7 @@ package Vista;
 
 import Controlador.CtlLogIn;
 import Excepcion.DatosIncompletosException;
-import Excepcion.LogInAdministradorException;
-import Excepcion.LogInHuespedException;
-import Excepcion.LogInRecepcionistaException;
+import Excepcion.LogInException;
 import Modelo.Administrador;
 import Modelo.Huesped;
 import Modelo.Recepcionista;
@@ -47,8 +45,6 @@ public class FrmLogin extends javax.swing.JFrame {
         txtContrasena = new javax.swing.JPasswordField();
         btnIngresar = new javax.swing.JButton();
         lblUsuario1 = new javax.swing.JLabel();
-        cboTipoUsuario = new javax.swing.JComboBox<>();
-        lblUsuario = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         lblUsuario2 = new javax.swing.JLabel();
         txtCedula = new javax.swing.JTextField();
@@ -86,13 +82,6 @@ public class FrmLogin extends javax.swing.JFrame {
 
         lblUsuario1.setForeground(new java.awt.Color(0, 0, 0));
         lblUsuario1.setText("CONTRASEÑA :");
-
-        cboTipoUsuario.setBackground(new java.awt.Color(255, 255, 255));
-        cboTipoUsuario.setForeground(new java.awt.Color(0, 0, 0));
-        cboTipoUsuario.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "Huesped", "Administrador", "Recepcionista" }));
-
-        lblUsuario.setForeground(new java.awt.Color(0, 0, 0));
-        lblUsuario.setText("TIPO DE USUARIO :");
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Logousuarios.png"))); // NOI18N
 
@@ -132,15 +121,12 @@ public class FrmLogin extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblUsuario2)
-                            .addComponent(lblUsuario))))
+                        .addComponent(lblUsuario2)
+                        .addGap(46, 46, 46)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(txtCedula)
-                        .addComponent(cboTipoUsuario, 0, 206, Short.MAX_VALUE)))
-                .addGap(231, 231, 231))
+                    .addComponent(txtCedula, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(229, 229, 229))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(23, 23, 23)
                 .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -154,26 +140,16 @@ public class FrmLogin extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(33, 33, 33)
-                        .addComponent(lblUsuario2))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(29, 29, 29)
-                        .addComponent(txtCedula, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)
+                .addGap(40, 40, 40)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cboTipoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblUsuario))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(13, 13, 13)
-                        .addComponent(lblUsuario1))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(11, 11, 11)
-                        .addComponent(txtContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(txtCedula, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblUsuario2))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblUsuario1)
+                    .addComponent(txtContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(15, 15, 15)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnIngresar)
                     .addComponent(btnRegistroHuesped)
@@ -201,7 +177,7 @@ public class FrmLogin extends javax.swing.JFrame {
 
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
         try {
-            Object usuario = controlador.IniciarSesion(controlador.obtenerDatoJtextFile(txtCedula), controlador.obtenerDatoJtextFile(txtContrasena), controlador.obtenerDatoJComboBox(cboTipoUsuario));
+            Object usuario = controlador.IniciarSesion(controlador.obtenerDatoJtextFile(txtCedula), controlador.obtenerDatoJtextFile(txtContrasena));
 
             if (usuario instanceof Huesped) {
 
@@ -223,9 +199,9 @@ public class FrmLogin extends javax.swing.JFrame {
                 this.dispose();
             }
 
-        } catch (DatosIncompletosException | LogInAdministradorException | LogInHuespedException | LogInRecepcionistaException ex) {
+        } catch (DatosIncompletosException |LogInException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
-        }
+        } 
     }//GEN-LAST:event_btnIngresarActionPerformed
 
     private void txtCedulaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCedulaKeyTyped
@@ -288,10 +264,8 @@ public class FrmLogin extends javax.swing.JFrame {
     private javax.swing.JButton btnIngresar;
     private javax.swing.JButton btnRegistroHuesped;
     private javax.swing.JButton btnSalir;
-    private javax.swing.JComboBox<String> cboTipoUsuario;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JLabel lblUsuario;
     private javax.swing.JLabel lblUsuario1;
     private javax.swing.JLabel lblUsuario2;
     private javax.swing.JTextField txtCedula;

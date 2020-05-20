@@ -7,9 +7,7 @@ package Bo;
 
 import Definiciones.IDAOLogIn;
 import Excepcion.DatosIncompletosException;
-import Excepcion.LogInHuespedException;
-import Excepcion.LogInRecepcionistaException;
-import Excepcion.LogInAdministradorException;
+import Excepcion.LogInException;
 import Fabrica.FactoryDAO;
 import Modelo.Administrador;
 import Modelo.Huesped;
@@ -30,27 +28,27 @@ public class BOLogIn {
 
     }
 
-    public Huesped LogInHusped(String cedula, String contrasena) throws LogInHuespedException {
+    public Huesped LogInHusped(String cedula, String contrasena) throws LogInException {
         Huesped huesped = dao.LogInHuesped(cedula, contrasena);
 
         if (huesped == null) {
-            throw new LogInHuespedException();
+            throw new LogInException();
         }
         return huesped;
     }
 
-    public Recepcionista LogInRecepcionista(String cedula, String contrasena) throws LogInRecepcionistaException {
+    public Recepcionista LogInRecepcionista(String cedula, String contrasena) throws LogInException {
         Recepcionista recepcionista = dao.LogInRecepcionista(cedula, contrasena);
         if (recepcionista == null) {
-            throw new LogInRecepcionistaException();
+            throw new LogInException();
         }
         return recepcionista;
     }
 
-    public Administrador LogInAdministrador(String cedula, String contrasena) throws LogInAdministradorException {
+    public Administrador LogInAdministrador(String cedula, String contrasena) throws LogInException {
         Administrador administrador = dao.LogInAdministrador(cedula, contrasena);
         if (administrador == null) {
-            throw new LogInAdministradorException();
+            throw new LogInException();
         }
         return administrador;
     }
@@ -71,8 +69,8 @@ public class BOLogIn {
         return informacion;
     }
 
-    public Object IniciarSesion(String cedula, String contrasena, String tipoUsuario) throws DatosIncompletosException, LogInAdministradorException, LogInHuespedException, LogInRecepcionistaException {
-
+    public Object IniciarSesion(String cedula, String contrasena) throws DatosIncompletosException, LogInException {
+String tipoUsuario=null;
         verificarDatos(cedula, contrasena, tipoUsuario);
 
         switch (tipoUsuario) {
