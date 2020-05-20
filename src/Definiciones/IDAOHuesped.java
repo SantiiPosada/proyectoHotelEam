@@ -6,7 +6,9 @@
 package Definiciones;
 
 import Excepcion.BuscarHuespedException;
+import Excepcion.CedulaAdministradorException;
 import Excepcion.CedulaException;
+import Excepcion.CedulaHuespedException;
 import Excepcion.CorreoException;
 import Excepcion.DatosIncompletosException;
 import Excepcion.TelefonoException;
@@ -31,8 +33,10 @@ public interface IDAOHuesped {
      * @throws DatosIncompletosException si algunos de los datos son nulos
      * @throws TelefonoException si el telefono del huesped ya se encuentra
      * existente
+     * @throws CedulaAdministradorException si la cedula pertenece a un administrador
+     * @throws CedulaHuespedException si la cedula pertenece a un huesped
      */
-    public boolean guardarHuesped(Huesped huesped) throws CedulaException, CorreoException, DatosIncompletosException, TelefonoException;
+    public boolean guardarHuesped(Huesped huesped) throws CedulaException, CorreoException, DatosIncompletosException, TelefonoException,CedulaAdministradorException, CedulaHuespedException;
 
     /**
      * Método encargado de buscar a un huesped

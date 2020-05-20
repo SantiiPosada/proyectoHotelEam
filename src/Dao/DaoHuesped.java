@@ -7,10 +7,13 @@ package Dao;
 
 import Conexion.Conexion;
 import Definiciones.IDAOHuesped;
+import Excepcion.CedulaAdministradorException;
 import Excepcion.CedulaException;
+import Excepcion.CedulaHuespedException;
 import Excepcion.CorreoException;
 import Excepcion.DatosIncompletosException;
 import Excepcion.TelefonoException;
+import Modelo.Administrador;
 import Modelo.Huesped;
 import Modelo.Recepcionista;
 import java.sql.Connection;
@@ -18,6 +21,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -26,12 +31,14 @@ import java.util.ArrayList;
 public class DaoHuesped implements IDAOHuesped {
 
     @Override
-    public boolean guardarHuesped(Huesped huesped) throws CedulaException, CorreoException, DatosIncompletosException, TelefonoException {
+    public boolean guardarHuesped(Huesped huesped) throws CedulaException, CorreoException, DatosIncompletosException, TelefonoException, CedulaAdministradorException, CedulaHuespedException {
         boolean desicion = false;
         try (Connection con = Conexion.getConnection()) {
             DAORecepcionista daoRecepcionista = new DAORecepcionista();
+            DAOAdministrador daoAdministrador=new DAOAdministrador();
+            Administrador administrador=daoAdministrador.buscarAdministrador(huesped.getCedula());
             Recepcionista recepcionista = daoRecepcionista.buscarRecepcionista(huesped.getCedula());
-            if (recepcionista == null) {
+            vaidarCedulas(administrador, huesped);
                 PreparedStatement pstmt = con.prepareStatement("INSERT INTO huesped (cedula,nombreCompleto,genero,correo,telefono,fechaNacimiento,nacionalidad,contrasena,tipo,estado) values (?,?,?,?,?,?,?,?,?,?)");
 
                 pstmt.setString(1, huesped.getCedula());
@@ -46,9 +53,7 @@ public class DaoHuesped implements IDAOHuesped {
                 pstmt.setString(10, huesped.getEstado());
                 pstmt.executeUpdate();
                 desicion = true;
-            } else {
-                throw new CedulaException();
-            }
+           
 
         } catch (SQLException ex) {
             //   ex.printStackTrace();
@@ -231,5 +236,14 @@ public class DaoHuesped implements IDAOHuesped {
         java.sql.Date sDate = new java.sql.Date(uDate.getTime());
         return sDate;
 
+    }
+    
+    private void vaidarCedulas(Administrador administrador,Huesped huesped) throws CedulaAdministradorException, CedulaHuespedException{
+    
+        if(administrador!=null){
+            throw  new CedulaAdministradorException();
+        }else if(huesped!=null){
+            throw new CedulaHuespedException();
+        }
     }
 }

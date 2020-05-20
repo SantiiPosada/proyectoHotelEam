@@ -28,4 +28,10 @@ public interface IFabricaDAO {
      */
     
     public IDAOLogIn crearDAOLogIn();
+      /**
+     * Metodó para la creación de un DADOAdministrador
+     * @return Abstraccion de DAOAdministrador
+     */
+    public IDAOAdministrador crearDAOAdministrador();
+    
 }

@@ -5,6 +5,7 @@
  */
 package Dao;
 
+import Definiciones.IDAOAdministrador;
 import Definiciones.IDAOHuesped;
 import Definiciones.IDAOLogIn;
 import Definiciones.IDAORecepcionista;
@@ -30,6 +31,13 @@ public class FactoryDAOJDBC implements IFabricaDAO {
     public IDAOLogIn crearDAOLogIn() {
         return new DAOLogIn();
     }
+
+    @Override
+    public IDAOAdministrador crearDAOAdministrador() {
+      return new DAOAdministrador();
+    }
+    
+    
     
 
 }
