@@ -7,7 +7,9 @@ package Bo;
 
 import Definiciones.IDAOHuesped;
 import Excepcion.BuscarHuespedException;
+import Excepcion.CedulaAdministradorException;
 import Excepcion.CedulaException;
+import Excepcion.CedulaHuespedException;
 import Excepcion.ComboBoxException;
 import Excepcion.CorreoException;
 import Excepcion.CorreoFormatoException;
@@ -44,7 +46,7 @@ public class BoHuesped {
                 + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
     }
 
-    public void guardar(String cedula, String nombrecompleto, String genero, String correo, String telefono, Date fechanacimiento, String nacionalidad, String contrasena, String tipo, String estado) throws CorreoException, DatosIncompletosException, CedulaException, TelefonoException, GuardarHuespedException, CorreoFormatoException {
+    public void guardar(String cedula, String nombrecompleto, String genero, String correo, String telefono, Date fechanacimiento, String nacionalidad, String contrasena, String tipo, String estado) throws CorreoException, DatosIncompletosException, CedulaException, TelefonoException, GuardarHuespedException, CorreoFormatoException, CedulaAdministradorException ,CedulaHuespedException{
         verificarCorreo(correo);
         Huesped huesped = new Huesped(0, cedula, nombrecompleto, genero, correo, telefono, fechanacimiento, nacionalidad, contrasena, tipo, estado);
         if (!dao.guardarHuesped(huesped)) {

@@ -7,7 +7,9 @@ package Vista;
 
 import Controlador.CtlHuesped;
 import Excepcion.BuscarHuespedException;
+import Excepcion.CedulaAdministradorException;
 import Excepcion.CedulaException;
+import Excepcion.CedulaHuespedException;
 import Excepcion.ComboBoxException;
 import Excepcion.CorreoException;
 import Excepcion.CorreoFormatoException;
@@ -18,6 +20,8 @@ import Excepcion.TelefonoException;
 import Modelo.Administrador;
 import Modelo.Huesped;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -555,9 +559,9 @@ public class FrmGestionHuesped extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Se guardó el huesped " + nombre + " correctamente");
             vaciarCampos();
             listar();
-        } catch (CedulaException | CorreoException | DatosIncompletosException | TelefonoException | GuardarHuespedException | CorreoFormatoException ex) {
+        } catch (CedulaAdministradorException | CedulaHuespedException|CedulaException | CorreoException | DatosIncompletosException | TelefonoException | GuardarHuespedException | CorreoFormatoException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
-        }
+        } 
 
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
