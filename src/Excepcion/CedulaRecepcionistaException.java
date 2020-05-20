@@ -11,6 +11,6 @@ package Excepcion;
  */
 public class CedulaRecepcionistaException extends Exception{
     public CedulaRecepcionistaException(){
-        super("Cedula perteneciente a un administrador");
+        super("Cedula perteneciente a un recepcionista");
     }
 }
