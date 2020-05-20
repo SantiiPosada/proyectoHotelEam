@@ -9,7 +9,6 @@ import Conexion.Conexion;
 import Definiciones.IDAOHuesped;
 import Excepcion.CedulaAdministradorException;
 import Excepcion.CedulaException;
-import Excepcion.CedulaHuespedException;
 import Excepcion.CedulaRecepcionistaException;
 import Excepcion.CorreoException;
 import Excepcion.DatosIncompletosException;
@@ -23,7 +22,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-
 /**
  *
  * @author santiago
@@ -35,25 +33,24 @@ public class DaoHuesped implements IDAOHuesped {
         boolean desicion = false;
         try (Connection con = Conexion.getConnection()) {
             DAORecepcionista daoRecepcionista = new DAORecepcionista();
-            DAOAdministrador daoAdministrador=new DAOAdministrador();
-            Administrador administrador=daoAdministrador.buscarAdministrador(huesped.getCedula());
+            DAOAdministrador daoAdministrador = new DAOAdministrador();
+            Administrador administrador = daoAdministrador.buscarAdministrador(huesped.getCedula());
             Recepcionista recepcionista = daoRecepcionista.buscarRecepcionista(huesped.getCedula());
             vaidarCedulas(administrador, recepcionista);
-                PreparedStatement pstmt = con.prepareStatement("INSERT INTO huesped (cedula,nombreCompleto,genero,correo,telefono,fechaNacimiento,nacionalidad,contrasena,tipo,estado) values (?,?,?,?,?,?,?,?,?,?)");
+            PreparedStatement pstmt = con.prepareStatement("INSERT INTO huesped (cedula,nombreCompleto,genero,correo,telefono,fechaNacimiento,nacionalidad,contrasena,tipo,estado) values (?,?,?,?,?,?,?,?,?,?)");
 
-                pstmt.setString(1, huesped.getCedula());
-                pstmt.setString(2, huesped.getNombrecompleto());
-                pstmt.setString(3, huesped.getGenero());
-                pstmt.setString(4, huesped.getCorreo());
-                pstmt.setString(5, huesped.getTelefono());
-                pstmt.setDate(6, convertirDeDateUtilaDateSql(huesped.getFechanacimiento()));
-                pstmt.setString(7, huesped.getNacionalidad());
-                pstmt.setString(8, huesped.getContrasena());
-                pstmt.setString(9, huesped.getTipo());
-                pstmt.setString(10, huesped.getEstado());
-                pstmt.executeUpdate();
-                desicion = true;
-           
+            pstmt.setString(1, huesped.getCedula());
+            pstmt.setString(2, huesped.getNombrecompleto());
+            pstmt.setString(3, huesped.getGenero());
+            pstmt.setString(4, huesped.getCorreo());
+            pstmt.setString(5, huesped.getTelefono());
+            pstmt.setDate(6, convertirDeDateUtilaDateSql(huesped.getFechanacimiento()));
+            pstmt.setString(7, huesped.getNacionalidad());
+            pstmt.setString(8, huesped.getContrasena());
+            pstmt.setString(9, huesped.getTipo());
+            pstmt.setString(10, huesped.getEstado());
+            pstmt.executeUpdate();
+            desicion = true;
 
         } catch (SQLException ex) {
             //   ex.printStackTrace();
@@ -237,13 +234,13 @@ public class DaoHuesped implements IDAOHuesped {
         return sDate;
 
     }
-    
-    private void vaidarCedulas(Administrador administrador,Recepcionista recepcionista) throws CedulaAdministradorException, CedulaRecepcionistaException{
-    
-        if(administrador!=null){
-            throw  new CedulaAdministradorException();
+
+    private void vaidarCedulas(Administrador administrador, Recepcionista recepcionista) throws CedulaAdministradorException, CedulaRecepcionistaException {
+
+        if (administrador != null) {
+            throw new CedulaAdministradorException();
         }
-        if(recepcionista!=null){
+        if (recepcionista != null) {
             throw new CedulaRecepcionistaException();
         }
     }

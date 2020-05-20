@@ -7,7 +7,9 @@ package Vista;
 
 import Controlador.CtlRecepcionista;
 import Excepcion.BuscarRecepcionistaException;
+import Excepcion.CedulaAdministradorException;
 import Excepcion.CedulaException;
+import Excepcion.CedulaHuespedException;
 import Excepcion.ComboBoxException;
 import Excepcion.CorreoException;
 import Excepcion.CorreoFormatoException;
@@ -18,6 +20,8 @@ import Excepcion.TelefonoException;
 import Modelo.Administrador;
 import Modelo.Recepcionista;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -547,9 +551,9 @@ public class FrmGestionRecepcionista extends javax.swing.JFrame {
             imprimir("Se Registro Recepcionista " + nombrecompleto + " correctamente");
             limpiar();
             listar();
-        } catch (CorreoException | DatosIncompletosException | CorreoFormatoException | CedulaException | GuardarRecepcionistaException | TelefonoException e) {
+        } catch (CorreoException | DatosIncompletosException | CorreoFormatoException | CedulaException | GuardarRecepcionistaException | TelefonoException | CedulaAdministradorException | CedulaHuespedException e) {
             imprimir(e.getMessage());
-        }
+        } 
 
     }//GEN-LAST:event_btnRegistrarActionPerformed
 

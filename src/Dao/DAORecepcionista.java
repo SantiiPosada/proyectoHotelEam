@@ -9,10 +9,14 @@ import Modelo.Recepcionista;
 import java.sql.Connection;
 import Conexion.Conexion;
 import Definiciones.IDAORecepcionista;
+import Excepcion.CedulaAdministradorException;
 import Excepcion.CedulaException;
+import Excepcion.CedulaHuespedException;
 import Excepcion.CorreoException;
 import Excepcion.DatosIncompletosException;
 import Excepcion.TelefonoException;
+import Modelo.Administrador;
+import Modelo.Huesped;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -25,10 +29,17 @@ import java.util.ArrayList;
 public class DAORecepcionista implements IDAORecepcionista {
 
     @Override
-    public boolean guardarRecepcionista(Recepcionista recepcionista) throws CedulaException, CorreoException, DatosIncompletosException, TelefonoException {
+    public boolean guardarRecepcionista(Recepcionista recepcionista) throws CedulaException, CorreoException, DatosIncompletosException, TelefonoException, CedulaAdministradorException, CedulaHuespedException {
         boolean desicion = false;
         try (Connection con = Conexion.getConnection()) {
+
+            DAOAdministrador daoAdministrador = new DAOAdministrador();
+            DaoHuesped daoHuesped = new DaoHuesped();
+            Administrador administrador = daoAdministrador.buscarAdministrador(recepcionista.getCedula());
+            Huesped huesped = daoHuesped.buscarHuesped(recepcionista.getCedula());
+            vaidarCedulas(administrador, huesped);
             PreparedStatement pstmt = con.prepareStatement("INSERT INTO recepcionista" + " (id,cedula,nombreCompleto,genero,correo,telefono,fechaNacimiento,contrasena,estado) values(?,?,?,?,?,?,?,?,?)");
+
             pstmt.setInt(1, recepcionista.getId());
             pstmt.setString(2, recepcionista.getCedula());
             pstmt.setString(3, recepcionista.getNombrecompleto());
@@ -210,5 +221,15 @@ public class DAORecepcionista implements IDAORecepcionista {
     private java.sql.Date convertirDeDateUtilaDateSql(java.util.Date uDate) {
         java.sql.Date sDate = new java.sql.Date(uDate.getTime());
         return sDate;
+    }
+
+    private void vaidarCedulas(Administrador administrador, Huesped huesped) throws CedulaAdministradorException, CedulaHuespedException {
+
+        if (administrador != null) {
+            throw new CedulaAdministradorException();
+        }
+        if (huesped != null) {
+            throw new CedulaHuespedException();
+        }
     }
 }

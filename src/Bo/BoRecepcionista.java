@@ -7,7 +7,9 @@ package Bo;
 
 import Definiciones.IDAORecepcionista;
 import Excepcion.BuscarRecepcionistaException;
+import Excepcion.CedulaAdministradorException;
 import Excepcion.CedulaException;
+import Excepcion.CedulaHuespedException;
 import Excepcion.ComboBoxException;
 import Excepcion.CorreoException;
 import Excepcion.CorreoFormatoException;
@@ -45,7 +47,7 @@ public class BoRecepcionista {
                 + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
     }
 
-    public void guardarRecepcionista(int id, String cedula, String nombrecompleto, String genero, String correo, String telefono, Date fechanacimiento, String contrasena) throws DatosIncompletosException, CedulaException, GuardarRecepcionistaException, TelefonoException, CorreoFormatoException, CorreoException {
+    public void guardarRecepcionista(int id, String cedula, String nombrecompleto, String genero, String correo, String telefono, Date fechanacimiento, String contrasena) throws DatosIncompletosException, CedulaException, GuardarRecepcionistaException, TelefonoException, CorreoFormatoException, CorreoException, CedulaAdministradorException, CedulaHuespedException {
         verificarCorreo(correo);
         Recepcionista recepcionista = new Recepcionista(id, cedula, nombrecompleto, genero, correo, telefono, fechanacimiento, contrasena, "Disponible");
 

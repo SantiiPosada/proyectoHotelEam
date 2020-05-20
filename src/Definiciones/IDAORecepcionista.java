@@ -5,7 +5,9 @@
  */
 package Definiciones;
 
+import Excepcion.CedulaAdministradorException;
 import Excepcion.CedulaException;
+import Excepcion.CedulaHuespedException;
 import Excepcion.CorreoException;
 import Excepcion.DatosIncompletosException;
 import Excepcion.TelefonoException;
@@ -32,8 +34,10 @@ public interface IDAORecepcionista {
      * @throws DatosIncompletosException si algunos de los datos son nulos
      * @throws TelefonoException si el telefono del recepcionista ya se
      * encuentra existente
+     * @throws CedulaAdministradorException si la cedula pertenece a un administrador
+     * @throws CedulaHuespedException si la cedula pertenece a un huesped
      */
-    public boolean guardarRecepcionista(Recepcionista recepcionista) throws CedulaException, CorreoException, DatosIncompletosException, TelefonoException;
+    public boolean guardarRecepcionista(Recepcionista recepcionista) throws CedulaException, CorreoException, DatosIncompletosException, TelefonoException,CedulaAdministradorException, CedulaHuespedException;
 
     /**
      * Metodo para buscar recepcionista

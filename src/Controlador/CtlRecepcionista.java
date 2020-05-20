@@ -7,7 +7,9 @@ package Controlador;
 
 import Bo.BoRecepcionista;
 import Excepcion.BuscarRecepcionistaException;
+import Excepcion.CedulaAdministradorException;
 import Excepcion.CedulaException;
+import Excepcion.CedulaHuespedException;
 import Excepcion.ComboBoxException;
 import Excepcion.CorreoException;
 import Excepcion.CorreoFormatoException;
@@ -33,7 +35,7 @@ public class CtlRecepcionista {
         bo = new BoRecepcionista();
     }
 
-    public void guardarRecepcionista(int id, String cedula, String nombrecompleto, String genero, String correo, String telefono, Date fechanacimiento, String contrasena) throws DatosIncompletosException, CedulaException, GuardarRecepcionistaException, TelefonoException, CorreoFormatoException, CorreoException {
+    public void guardarRecepcionista(int id, String cedula, String nombrecompleto, String genero, String correo, String telefono, Date fechanacimiento, String contrasena) throws DatosIncompletosException, CedulaException, GuardarRecepcionistaException, TelefonoException, CorreoFormatoException, CorreoException, CedulaAdministradorException, CedulaHuespedException {
 
         bo.guardarRecepcionista(id, cedula, nombrecompleto, genero, correo, telefono, fechanacimiento, contrasena);
     }
