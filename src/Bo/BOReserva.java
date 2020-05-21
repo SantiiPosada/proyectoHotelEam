@@ -42,7 +42,7 @@ public class BOReserva {
     }
 
     public ArrayList<Habitacion> listahabitaciones() {
-        daoHabitacion.listarHabitacion();
+       return daoHabitacion.listarHabitacion();
     }
 
     public String obtenerDatoJComboBox(JComboBox x) {

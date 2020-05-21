@@ -617,6 +617,7 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
         txtValorNoche.setText(null);
         txtDescripcion.setText(null);
         txtRuta.setText(null);
+        lblmagen.setIcon(null);
         //falta imagen
     }
 
