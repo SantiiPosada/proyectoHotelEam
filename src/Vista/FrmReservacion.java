@@ -27,7 +27,7 @@ public class FrmReservacion extends javax.swing.JFrame {
     public FrmReservacion(Huesped huesped) {
         this.huesped = huesped;
         initComponents();
-        this.setLocationRelativeTo(null);
+
         cargarInfo(this.huesped);
         this.setResizable(false);
 
@@ -45,8 +45,6 @@ public class FrmReservacion extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         lblCedula = new javax.swing.JLabel();
-        lblCorreo = new javax.swing.JLabel();
-        lblTelefono = new javax.swing.JLabel();
         lblLogo = new javax.swing.JLabel();
         lblNombre = new javax.swing.JLabel();
         btnSalir1 = new javax.swing.JButton();
@@ -81,14 +79,6 @@ public class FrmReservacion extends javax.swing.JFrame {
         lblCedula.setForeground(new java.awt.Color(255, 255, 255));
         lblCedula.setText("CEDULA");
 
-        lblCorreo.setBackground(new java.awt.Color(255, 255, 255));
-        lblCorreo.setForeground(new java.awt.Color(255, 255, 255));
-        lblCorreo.setText("CORREO ELECTRONICO");
-
-        lblTelefono.setBackground(new java.awt.Color(255, 255, 255));
-        lblTelefono.setForeground(new java.awt.Color(255, 255, 255));
-        lblTelefono.setText("TELEFONO");
-
         lblLogo.setBackground(new java.awt.Color(255, 255, 255));
         lblLogo.setForeground(new java.awt.Color(255, 255, 255));
         lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Logousuarios.png"))); // NOI18N
@@ -113,18 +103,12 @@ public class FrmReservacion extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(33, 33, 33)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblCorreo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 25, Short.MAX_VALUE))
-                    .addComponent(lblTelefono, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblCedula, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblNombre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnSalir1, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(54, 54, 54))
+                    .addComponent(btnSalir1, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(lblNombre, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblCedula, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblLogo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -135,10 +119,6 @@ public class FrmReservacion extends javax.swing.JFrame {
                 .addComponent(lblCedula)
                 .addGap(18, 18, 18)
                 .addComponent(lblNombre)
-                .addGap(18, 18, 18)
-                .addComponent(lblCorreo)
-                .addGap(18, 18, 18)
-                .addComponent(lblTelefono)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnSalir1)
                 .addContainerGap())
@@ -340,17 +320,18 @@ public class FrmReservacion extends javax.swing.JFrame {
     }//GEN-LAST:event_btnReservarActionPerformed
 
     private void btnSalir1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalir1ActionPerformed
-        // TODO add your handling code here:
+        FrmMenuHuesped menuhuesped = new FrmMenuHuesped(huesped);
+        menuhuesped.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnSalir1ActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnCancelarActionPerformed
     private void cargarInfo(Huesped x) {
-        lblCedula.setText("CEDULA: " + x.getCedula());
-        lblNombre.setText("NOMBRE: " + x.getNombrecompleto());
-        lblCorreo.setText("CORREO: " + x.getCorreo());
-        lblTelefono.setText("TELEFONO: " + x.getTelefono());
+        lblCedula.setText(x.getCedula());
+        lblNombre.setText(x.getNombrecompleto());
+
     }
 
     /**
@@ -405,7 +386,6 @@ public class FrmReservacion extends javax.swing.JFrame {
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JLabel lblCedula;
     private javax.swing.JLabel lblCedulahuesped;
-    private javax.swing.JLabel lblCorreo;
     private javax.swing.JLabel lblFechallegada;
     private javax.swing.JLabel lblFechasalida;
     private javax.swing.JLabel lblImagen;
@@ -413,7 +393,6 @@ public class FrmReservacion extends javax.swing.JFrame {
     private javax.swing.JLabel lblNombre;
     private javax.swing.JLabel lblNombrecompleto;
     private javax.swing.JLabel lblNombrehabitacion;
-    private javax.swing.JLabel lblTelefono;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JLabel lblValor;
     private javax.swing.JLabel lblValornoche;

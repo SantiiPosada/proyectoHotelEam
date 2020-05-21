@@ -17,7 +17,7 @@ public class FrmMenuHuesped extends javax.swing.JFrame {
      * Creates new form FrmMenuPrincipal
      */
     Huesped huesped = null;
-    
+
     public FrmMenuHuesped() {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -134,6 +134,11 @@ public class FrmMenuHuesped extends javax.swing.JFrame {
         btnReservaciones.setBackground(new java.awt.Color(255, 255, 255));
         btnReservaciones.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Reservacion.png"))); // NOI18N
         btnReservaciones.setBorder(null);
+        btnReservaciones.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReservacionesActionPerformed(evt);
+            }
+        });
 
         btnCuenta.setBackground(new java.awt.Color(255, 255, 255));
         btnCuenta.setForeground(new java.awt.Color(255, 255, 255));
@@ -237,7 +242,7 @@ public class FrmMenuHuesped extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 698, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 759, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -248,7 +253,7 @@ public class FrmMenuHuesped extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnHabitacionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHabitacionesActionPerformed
-        
+
 
     }//GEN-LAST:event_btnHabitacionesActionPerformed
 
@@ -262,6 +267,12 @@ public class FrmMenuHuesped extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnCuentaActionPerformed
 
+    private void btnReservacionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReservacionesActionPerformed
+        FrmReservacion reservacion = new FrmReservacion(huesped);
+        reservacion.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnReservacionesActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -271,7 +282,7 @@ public class FrmMenuHuesped extends javax.swing.JFrame {
         lblCorreo.setText("CORREO: " + x.getCorreo());
         lblTelefono.setText("TELEFONO: " + x.getTelefono());
     }
-    
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

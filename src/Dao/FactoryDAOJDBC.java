@@ -10,6 +10,7 @@ import Definiciones.IDAOHabitacion;
 import Definiciones.IDAOHuesped;
 import Definiciones.IDAOLogIn;
 import Definiciones.IDAORecepcionista;
+import Definiciones.IDAOReserva;
 import Definiciones.IFabricaDAO;
 
 /**
@@ -41,6 +42,11 @@ public class FactoryDAOJDBC implements IFabricaDAO {
     @Override
     public IDAOHabitacion crearDAOHabitacIon() {
         return new DAOHabitacion();
+    }
+
+    @Override
+    public IDAOReserva crearDAOReserva() {
+        return new DAOReserva();
     }
 
 }
