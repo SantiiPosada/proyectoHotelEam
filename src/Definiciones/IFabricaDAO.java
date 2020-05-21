@@ -45,4 +45,11 @@ public interface IFabricaDAO {
      * @return Abstraccion de DAOHabitacion
      */
     public IDAOHabitacion crearDAOHabitacIon();
+
+    /**
+     * Metodo para la creacion de un DAOReserva
+     *
+     * @return Abstraccion de DAOReserva
+     */
+    public IDAOReserva crearDAOReserva();
 }
