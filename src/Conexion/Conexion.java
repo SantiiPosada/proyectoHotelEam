@@ -14,6 +14,7 @@ import java.sql.SQLException;
  * @author santiago
  */
 public class Conexion {
+
     public static Connection getConnection() {
         Connection con = null;
         try {
@@ -21,13 +22,13 @@ public class Conexion {
             Class.forName("com.mysql.jdbc.Driver");
             String db = "jdbc:mysql://localhost:3306/hotelAguaBlanca?useSSL=false";
             String user = "root";
-            String password = "S1005073214";//Ingmateo1336
+            String password = "Ingmateo1336";//Ingmateo1336
             //AGREGAR LIBRERIA JDBC
             con = DriverManager.getConnection(db, user, password);
         } catch (ClassNotFoundException ex) {
-              System.err.println("Hubo un error al buscar la clase");
+            System.err.println("Hubo un error al buscar la clase");
         } catch (SQLException ex) {
-             ex.printStackTrace();
+            ex.printStackTrace();
             System.err.println("Hubo un error al conectar");
         }
         return con;
