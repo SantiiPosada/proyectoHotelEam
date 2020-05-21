@@ -29,7 +29,7 @@ public class DAOHabitacion implements IDAOHabitacion {
         boolean desicion = false;
         try (Connection con = Conexion.getConnection()) {
 
-            PreparedStatement pstmt = con.prepareStatement("INSERT INTO habitacion (nombre,piso,bano,sala,estado,imagen,descripcion,valorPorNoche) values (?,?,?,?,?,?,?,?,?)");
+            PreparedStatement pstmt = con.prepareStatement("INSERT INTO habitacion (nombre,piso,bano,sala,estado,imagen,descripcion,valorPorNoche) values (?,?,?,?,?,?,?,?)");
 
             pstmt.setString(1, habitacion.getNombre());
             pstmt.setString(2, habitacion.getPiso());
@@ -95,7 +95,7 @@ public class DAOHabitacion implements IDAOHabitacion {
     }
 
     @Override
-    public boolean modificarHabitacion(Habitacion habitacion) throws NombreHabitacionException,  DatosIncompletosException {
+    public boolean modificarHabitacion(Habitacion habitacion) throws NombreHabitacionException, DatosIncompletosException {
         boolean desicion = false;
         try (Connection con = Conexion.getConnection()) {
             PreparedStatement pstmt = con.prepareStatement("UPDATE habitacion SET  nombre=?, piso=?, bano=?, sala=?, estado=?, imagen=?, descripcion=?,valorPorNoche=? WHERE id=?");//preparar la sentencia sql(modificar,agregar,eliminar,etc) se llena de izquierda a derecha de 1 en 1(1,2,3)
@@ -109,6 +109,7 @@ public class DAOHabitacion implements IDAOHabitacion {
             // falta imagen
             pstmt.setString(7, habitacion.getDescripcion());
             pstmt.setString(8, habitacion.getValorPorNoche());
+            pstmt.setInt(9, habitacion.getId());
             int res = pstmt.executeUpdate();
 
             desicion = res > 0;
@@ -121,8 +122,7 @@ public class DAOHabitacion implements IDAOHabitacion {
                 switch (variable) {
                     case "habitacion.nombr":
                         throw new NombreHabitacionException();
-                 
-                      
+
                 }
 
             } else if (codigo == 1048) {

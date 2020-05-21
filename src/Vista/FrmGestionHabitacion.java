@@ -7,15 +7,14 @@ package Vista;
 
 import Controlador.CtlHabitacion;
 import Excepcion.BuscarHabitacionException;
+import Excepcion.CargarImagenException;
 import Excepcion.ComboBoxException;
 import Excepcion.DatosIncompletosException;
 import Excepcion.GuardarHabitacionException;
-import Excepcion.ModificarHabitacionException;
 import Excepcion.NombreHabitacionException;
 import Modelo.Administrador;
 import Modelo.Habitacion;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -27,11 +26,12 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class FrmGestionHabitacion extends javax.swing.JFrame {
 
     private Administrador administrador;
-    private CtlHabitacion controlador;
+    private final CtlHabitacion controlador;
 
     public FrmGestionHabitacion() {
+        controlador =new CtlHabitacion();
         initComponents();
-       
+
         this.setLocationRelativeTo(null);
         this.setResizable(false);
         btnCancelar.setEnabled(true);
@@ -55,7 +55,6 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
 //        JtblHabitacion.setEnabled(true);
 //        listar();
 //    }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -66,17 +65,12 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        lblId = new javax.swing.JLabel();
-        txtId = new javax.swing.JTextField();
         lblNombre = new javax.swing.JLabel();
         txtNombre = new javax.swing.JTextField();
         lblPiso = new javax.swing.JLabel();
         txtFiltrar = new javax.swing.JTextField();
         lblBano = new javax.swing.JLabel();
         lblSala = new javax.swing.JLabel();
-        txtPiso = new javax.swing.JTextField();
-        lblEstado = new javax.swing.JLabel();
-        txtSala = new javax.swing.JTextField();
         lblValorNoche = new javax.swing.JLabel();
         lblDescripcion = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -95,27 +89,18 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
         btnFiltrar = new javax.swing.JButton();
         btnActualizar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
-        txtBano = new javax.swing.JTextField();
         txtValorNoche = new javax.swing.JTextField();
-        txtEstado = new javax.swing.JTextField();
         btnSeleccionarImagen = new javax.swing.JButton();
-        txtDescripcion = new javax.swing.JTextField();
         txtRuta = new javax.swing.JTextField();
+        spnBano = new javax.swing.JSpinner();
+        spnPiso = new javax.swing.JSpinner();
+        spnSala = new javax.swing.JSpinner();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        txtDescripcion = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-
-        lblId.setForeground(new java.awt.Color(0, 0, 0));
-        lblId.setText("ID :");
-
-        txtId.setBackground(new java.awt.Color(255, 255, 255));
-        txtId.setForeground(new java.awt.Color(0, 0, 0));
-        txtId.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtIdKeyTyped(evt);
-            }
-        });
 
         lblNombre.setForeground(new java.awt.Color(0, 0, 0));
         lblNombre.setText("Nombre :");
@@ -129,7 +114,7 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
         });
 
         lblPiso.setForeground(new java.awt.Color(0, 0, 0));
-        lblPiso.setText("Piso :");
+        lblPiso.setText("Pisos :");
 
         txtFiltrar.setBackground(new java.awt.Color(255, 255, 255));
         txtFiltrar.setForeground(new java.awt.Color(0, 0, 0));
@@ -140,29 +125,10 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
         });
 
         lblBano.setForeground(new java.awt.Color(0, 0, 0));
-        lblBano.setText("Baño");
+        lblBano.setText("Baños :");
 
         lblSala.setForeground(new java.awt.Color(0, 0, 0));
-        lblSala.setText("Sala :");
-
-        txtPiso.setBackground(new java.awt.Color(255, 255, 255));
-        txtPiso.setForeground(new java.awt.Color(0, 0, 0));
-        txtPiso.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtPisoKeyTyped(evt);
-            }
-        });
-
-        lblEstado.setForeground(new java.awt.Color(0, 0, 0));
-        lblEstado.setText("Estado :");
-
-        txtSala.setBackground(new java.awt.Color(255, 255, 255));
-        txtSala.setForeground(new java.awt.Color(0, 0, 0));
-        txtSala.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtSalaKeyTyped(evt);
-            }
-        });
+        lblSala.setText("Salas :");
 
         lblValorNoche.setForeground(new java.awt.Color(0, 0, 0));
         lblValorNoche.setText("Valor por noche :");
@@ -299,27 +265,11 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
             }
         });
 
-        txtBano.setBackground(new java.awt.Color(255, 255, 255));
-        txtBano.setForeground(new java.awt.Color(0, 0, 0));
-        txtBano.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtBanoKeyTyped(evt);
-            }
-        });
-
         txtValorNoche.setBackground(new java.awt.Color(255, 255, 255));
         txtValorNoche.setForeground(new java.awt.Color(0, 0, 0));
         txtValorNoche.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtValorNocheKeyTyped(evt);
-            }
-        });
-
-        txtEstado.setBackground(new java.awt.Color(255, 255, 255));
-        txtEstado.setForeground(new java.awt.Color(0, 0, 0));
-        txtEstado.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtEstadoKeyTyped(evt);
             }
         });
 
@@ -332,14 +282,6 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
             }
         });
 
-        txtDescripcion.setBackground(new java.awt.Color(255, 255, 255));
-        txtDescripcion.setForeground(new java.awt.Color(0, 0, 0));
-        txtDescripcion.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtDescripcionKeyTyped(evt);
-            }
-        });
-
         txtRuta.setBackground(new java.awt.Color(255, 255, 255));
         txtRuta.setForeground(new java.awt.Color(0, 0, 0));
         txtRuta.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -347,6 +289,23 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
                 txtRutaKeyTyped(evt);
             }
         });
+
+        spnBano.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
+
+        spnPiso.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
+
+        spnSala.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
+
+        txtDescripcion.setBackground(new java.awt.Color(255, 255, 255));
+        txtDescripcion.setColumns(20);
+        txtDescripcion.setForeground(new java.awt.Color(0, 0, 0));
+        txtDescripcion.setRows(5);
+        txtDescripcion.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtDescripcionKeyTyped(evt);
+            }
+        });
+        jScrollPane3.setViewportView(txtDescripcion);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -360,30 +319,26 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
                         .addContainerGap())
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblNombre)
-                            .addComponent(lblPiso)
-                            .addComponent(lblBano)
-                            .addComponent(lblEstado)
-                            .addComponent(lblValorNoche)
-                            .addComponent(lblDescripcion)
-                            .addComponent(lblSala)
-                            .addComponent(lblId)
-                            .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(34, 34, 34)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(305, 305, 305)
+                                .addComponent(lblFiltrar))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtSala, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtPiso, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lblNombre)
+                                    .addComponent(lblPiso)
+                                    .addComponent(lblBano)
+                                    .addComponent(lblValorNoche)
+                                    .addComponent(lblDescripcion)
+                                    .addComponent(lblSala))
+                                .addGap(34, 34, 34)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtBano, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtValorNoche, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lblFiltrar))
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(txtDescripcion, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(txtEstado, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE)))
+                                    .addComponent(txtValorNoche, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(spnBano, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(spnPiso, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(spnSala, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -394,7 +349,7 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
                                 .addComponent(btnFiltrar, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addContainerGap())
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(106, 106, 106)
+                                .addGap(120, 120, 120)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(txtRuta, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -422,66 +377,57 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(68, 68, 68)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(btnRegistrar)
-                                .addGap(14, 14, 14)
-                                .addComponent(btnBuscar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnModificar)
-                                .addGap(14, 14, 14)
-                                .addComponent(btnEliminar)
-                                .addGap(15, 15, 15)
-                                .addComponent(btnCancelar))
-                            .addComponent(lblmagen, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnSalir)
-                            .addComponent(btnSeleccionarImagen))
-                        .addGap(18, 18, 18)
-                        .addComponent(txtRuta, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(lblTitulo)
-                        .addGap(12, 12, 12)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblId)
-                            .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(13, 13, 13)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblNombre)
-                            .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(12, 12, 12)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblPiso)
-                            .addComponent(txtPiso, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(12, 12, 12)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblBano)
-                            .addComponent(txtBano, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblSala)
-                            .addComponent(txtSala, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(12, 12, 12)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblEstado)
-                            .addComponent(txtEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblValorNoche)
-                            .addComponent(txtValorNoche, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 22, Short.MAX_VALUE)
+                        .addComponent(lblTitulo))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(68, 68, 68)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(1, 1, 1)
-                                .addComponent(lblDescripcion)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(btnRegistrar)
+                                        .addGap(14, 14, 14)
+                                        .addComponent(btnBuscar)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(btnModificar)
+                                        .addGap(14, 14, 14)
+                                        .addComponent(btnEliminar)
+                                        .addGap(15, 15, 15)
+                                        .addComponent(btnCancelar))
+                                    .addComponent(lblmagen, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(btnSalir)
+                                    .addComponent(btnSeleccionarImagen))
+                                .addGap(18, 18, 18)
+                                .addComponent(txtRuta, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(lblNombre)
+                                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(15, 15, 15)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(lblPiso)
+                                    .addComponent(spnPiso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(17, 17, 17)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(lblBano)
+                                    .addComponent(spnBano, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(23, 23, 23)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(lblSala)
+                                    .addComponent(spnSala, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(24, 24, 24)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(lblValorNoche)
+                                    .addComponent(txtValorNoche, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(26, 26, 26)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblDescripcion)
+                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnActualizar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnActualizar, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(lblFiltrar)
                         .addComponent(CbxFiltrar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -507,21 +453,21 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        try {
-            String nombre = controlador.obtenerDatoJtextFile(txtNombre);
-            String piso = controlador.obtenerDatoJtextFile(txtPiso);
-            String bano = controlador.obtenerDatoJtextFile(txtBano);
-            String sala = controlador.obtenerDatoJtextFile(txtSala);
-            String estado = "No Disponible";
-            String valornoche = controlador.obtenerDatoJtextFile(txtValorNoche) + "$";
-            String descripcion = controlador.obtenerDatoJtextFile(txtDescripcion);
-
-//falta imagen
-            controlador.modificarHabitacion(nombre, piso, bano, sala, estado, null, descripcion, valornoche);
-            JOptionPane.showMessageDialog(null, "Se Elimino la habitacion " + nombre + " correctamente");
-        } catch (ModificarHabitacionException | NombreHabitacionException | BuscarHabitacionException | DatosIncompletosException ex) {
-            imprimir(ex.getMessage());
-        }
+//        try {
+//            String nombre = controlador.obtenerDatoJtextFile(txtNombre);
+//            String piso = controlador.obtenerDatoJtextFile(txtPiso);
+//            String bano = controlador.obtenerDatoJtextFile(txtBano);
+//            String sala = controlador.obtenerDatoJtextFile(txtSala);
+//            String estado = "No Disponible";
+//            String valornoche = controlador.obtenerDatoJtextFile(txtValorNoche) + "$";
+//            String descripcion = controlador.obtenerDatoJtextFile(txtDescripcion);
+//  File ruta = new File(txtRuta.getText());
+////falta imagen
+//            controlador.modificarHabitacion(nombre, piso, bano, sala, estado, ruta, descripcion, valornoche);
+//            JOptionPane.showMessageDialog(null, "Se Elimino la habitacion " + nombre + " correctamente");
+//        } catch (ModificarHabitacionException | NombreHabitacionException | BuscarHabitacionException | DatosIncompletosException | CargarImagenException ex) {
+//            imprimir(ex.getMessage());
+//        }
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
@@ -530,33 +476,12 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
 
-    private void txtIdKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtIdKeyTyped
-        char c = evt.getKeyChar();
-        if (c < '0' || c > '9') {
-            evt.consume();
-        }
-    }//GEN-LAST:event_txtIdKeyTyped
-
     private void txtNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyTyped
-        char c = evt.getKeyChar();
-        if ((c < 'a' || c > 'z') && (c < 'A' || c > 'Z') && c != ' ') {
+       char c = evt.getKeyChar();
+        if ((c < 'a' || c > 'z') && (c < 'A' || c > 'Z') && (c < '0' || c > '9') && c != '_' && c != '@' && c != '.' && c != '-' && c != ',') {
             evt.consume();
         }
     }//GEN-LAST:event_txtNombreKeyTyped
-
-    private void txtPisoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPisoKeyTyped
-        char c = evt.getKeyChar();
-        if ((c < 'a' || c > 'z') && (c < 'A' || c > 'Z') && c != ' ') {
-            evt.consume();
-        }
-    }//GEN-LAST:event_txtPisoKeyTyped
-
-    private void txtSalaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSalaKeyTyped
-        char c = evt.getKeyChar();
-        if (c < '0' || c > '9') {
-            evt.consume();
-        }
-    }//GEN-LAST:event_txtSalaKeyTyped
 
     private void txtFiltrarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFiltrarKeyTyped
 
@@ -574,7 +499,7 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
     }//GEN-LAST:event_btnFiltrarActionPerformed
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
-       // listar();
+        // listar();
         CbxFiltrar.setSelectedItem("Seleccione");
         txtFiltrar.setText(null);
     }//GEN-LAST:event_btnActualizarActionPerformed
@@ -582,17 +507,19 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
         try {
             String nombre = controlador.obtenerDatoJtextFile(txtNombre);
-            String piso = controlador.obtenerDatoJtextFile(txtPiso);
-            String bano = controlador.obtenerDatoJtextFile(txtBano);
-            String sala = controlador.obtenerDatoJtextFile(txtSala);
-            String estado = controlador.obtenerDatoJtextFile(txtEstado);
-            String valornoche = controlador.obtenerDatoJtextFile(txtValorNoche) + "$";
-            String descripcion = controlador.obtenerDatoJtextFile(txtDescripcion);
-
-//falta imagen
-            controlador.guardarHabitacion(nombre, piso, bano, sala, estado, null, descripcion, valornoche);
-            JOptionPane.showMessageDialog(null, "Se guardó la habitacion " + nombre + " correctamente");
-        } catch (DatosIncompletosException | GuardarHabitacionException | NombreHabitacionException ex) {
+            String piso = spnPiso.getValue().toString();
+            String bano = spnBano.getValue().toString();
+            String sala = spnSala.getValue().toString();
+            String estado = "Disponible";
+            String valornoche = controlador.obtenerDatoJtextFile(txtValorNoche) ;
+            String descripcion = controlador.obtenerDatoJtextArea(txtDescripcion);
+            File ruta = new File(txtRuta.getText());
+//falta imagen 
+            controlador.guardarHabitacion(nombre, piso, bano, sala, estado, ruta, descripcion, valornoche);
+            imprimir("Se guardó la habitacion " + nombre + " correctamente");
+            vaciarCampos();
+           // listar();
+        } catch (DatosIncompletosException | GuardarHabitacionException | NombreHabitacionException | CargarImagenException ex) {
             imprimir(ex.getMessage());
         }
 
@@ -626,29 +553,22 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
-        try {
-            String nombre = controlador.obtenerDatoJtextFile(txtNombre);
-            String piso = controlador.obtenerDatoJtextFile(txtPiso);
-            String bano = controlador.obtenerDatoJtextFile(txtBano);
-            String sala = controlador.obtenerDatoJtextFile(txtSala);
-            String estado = controlador.obtenerDatoJtextFile(txtEstado);
-            String valornoche = controlador.obtenerDatoJtextFile(txtValorNoche) + "$";
-            String descripcion = controlador.obtenerDatoJtextFile(txtDescripcion);
-
-//falta imagen
-            controlador.modificarHabitacion(nombre, piso, bano, sala, estado, null, descripcion, valornoche);
-            JOptionPane.showMessageDialog(null, "Se Modifico la habitacion " + nombre + " correctamente");
-        } catch (DatosIncompletosException | ModificarHabitacionException | NombreHabitacionException | BuscarHabitacionException ex) {
-            Logger.getLogger(FrmGestionHabitacion.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        try {
+//            String nombre = controlador.obtenerDatoJtextFile(txtNombre);
+//            String piso = controlador.obtenerDatoJtextFile(txtPiso);
+//            String bano = controlador.obtenerDatoJtextFile(txtBano);
+//            String sala = controlador.obtenerDatoJtextFile(txtSala);
+//            String estado = controlador.obtenerDatoJtextFile(txtEstado);
+//            String valornoche = controlador.obtenerDatoJtextFile(txtValorNoche) + "$";
+//            String descripcion = controlador.obtenerDatoJtextFile(txtDescripcion);
+//            File ruta = new File(txtRuta.getText());
+////falta imagen
+//            controlador.modificarHabitacion(nombre, piso, bano, sala, estado, ruta, descripcion, valornoche);
+//            JOptionPane.showMessageDialog(null, "Se Modifico la habitacion " + nombre + " correctamente");
+//        } catch (DatosIncompletosException | ModificarHabitacionException | NombreHabitacionException | BuscarHabitacionException | CargarImagenException ex) {
+//            Logger.getLogger(FrmGestionHabitacion.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }//GEN-LAST:event_btnModificarActionPerformed
-
-    private void txtBanoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBanoKeyTyped
-        char c = evt.getKeyChar();
-        if (c < '0' || c > '9') {
-            evt.consume();
-        }
-    }//GEN-LAST:event_txtBanoKeyTyped
 
     private void txtValorNocheKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtValorNocheKeyTyped
         char c = evt.getKeyChar();
@@ -657,61 +577,57 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtValorNocheKeyTyped
 
-    private void txtEstadoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEstadoKeyTyped
-        char c = evt.getKeyChar();
-        if ((c < 'a' || c > 'z') && (c < 'A' || c > 'Z') && c != ' ') {
-            evt.consume();
-        }
-    }//GEN-LAST:event_txtEstadoKeyTyped
-
     private void btnSeleccionarImagenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarImagenActionPerformed
 
         JFileChooser fileChooser = new JFileChooser();
-        
+
         fileChooser.setDialogTitle("Seleccione la imagen de la habitación");
         FileNameExtensionFilter filtro = new FileNameExtensionFilter("JPG, PNG & GIF", "jpg", "png", "gif");//se le asigna un filtro
         fileChooser.setFileFilter(filtro);
         int condi = fileChooser.showOpenDialog(this);
         if (condi == JFileChooser.APPROVE_OPTION) {
             String ruta = fileChooser.getSelectedFile().getAbsolutePath();
-              rsscalelabel.RSScaleLabel.setScaleLabel(lblmagen, fileChooser.getSelectedFile().toString());//carga la imagen
+            rsscalelabel.RSScaleLabel.setScaleLabel(lblmagen, fileChooser.getSelectedFile().toString());//carga la imagen
             txtRuta.setText(ruta);
 
         }
     }//GEN-LAST:event_btnSeleccionarImagenActionPerformed
 
-    private void txtDescripcionKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDescripcionKeyTyped
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtDescripcionKeyTyped
-
     private void txtRutaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtRutaKeyTyped
         // TODO add your handling code here:
     }//GEN-LAST:event_txtRutaKeyTyped
+
+    private void txtDescripcionKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDescripcionKeyTyped
+       char c = evt.getKeyChar();
+        if ((c < 'a' || c > 'z') && (c < 'A' || c > 'Z') && (c < '0' || c > '9') && c != '_' && c != '@' && c != '.' && c != '-' && c != ',') {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtDescripcionKeyTyped
 //    public final void listar() {
 //        JtblHabitacion.setModel(controlador.listarElementos());
 //    }
 
     private void vaciarCampos() {
-        txtId.setText(null);
+       
         txtNombre.setText(null);
-        txtPiso.setText(null);
-        txtBano.setText(null);
-        txtSala.setText(null);
-        txtEstado.setText(null);
+        spnBano.setValue(0);
+        spnPiso.setValue(0);
+        spnSala.setValue(0);
+        txtRuta.setText(null);
         txtValorNoche.setText(null);
         txtDescripcion.setText(null);
-
+        txtRuta.setText(null);
         //falta imagen
     }
 
     private void cargarInformacion(Habitacion habitacion) {
 
-        txtId.setText(habitacion.getId() + "");
+
         txtNombre.setText(habitacion.getNombre());
-        txtPiso.setText(habitacion.getPiso());
-        txtBano.setText(habitacion.getBano());
-        txtSala.setText(habitacion.getSala());
-        txtEstado.setText(habitacion.getEstado());
+        spnPiso.setValue(habitacion.getPiso());
+        spnBano.setValue(habitacion.getBano());
+        spnSala.setValue(habitacion.getSala());
+
         txtValorNoche.setText(habitacion.getValorPorNoche() + "$");
         txtDescripcion.setText(habitacion.getDescripcion());
 
@@ -781,26 +697,23 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel lblBano;
     private javax.swing.JLabel lblDescripcion;
-    private javax.swing.JLabel lblEstado;
     private javax.swing.JLabel lblFiltrar;
-    private javax.swing.JLabel lblId;
     private javax.swing.JLabel lblNombre;
     private javax.swing.JLabel lblPiso;
     private javax.swing.JLabel lblSala;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JLabel lblValorNoche;
     private javax.swing.JLabel lblmagen;
-    private javax.swing.JTextField txtBano;
-    private javax.swing.JTextField txtDescripcion;
-    private javax.swing.JTextField txtEstado;
+    private javax.swing.JSpinner spnBano;
+    private javax.swing.JSpinner spnPiso;
+    private javax.swing.JSpinner spnSala;
+    private javax.swing.JTextArea txtDescripcion;
     private javax.swing.JTextField txtFiltrar;
-    private javax.swing.JTextField txtId;
     private javax.swing.JTextField txtNombre;
-    private javax.swing.JTextField txtPiso;
     private javax.swing.JTextField txtRuta;
-    private javax.swing.JTextField txtSala;
     private javax.swing.JTextField txtValorNoche;
     // End of variables declaration//GEN-END:variables
 }

@@ -7,6 +7,7 @@ package Bo;
 
 import Definiciones.IDAOHabitacion;
 import Excepcion.BuscarHabitacionException;
+import Excepcion.CargarImagenException;
 import Excepcion.ComboBoxException;
 import Excepcion.DatosIncompletosException;
 import Excepcion.GuardarHabitacionException;
@@ -14,8 +15,13 @@ import Excepcion.ModificarHabitacionException;
 import Excepcion.NombreHabitacionException;
 import Fabrica.FactoryDAO;
 import Modelo.Habitacion;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import javax.swing.JComboBox;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
@@ -30,9 +36,26 @@ public class BoHabitacion {
     public BoHabitacion() {
         dao = FactoryDAO.getFabrica().crearDAOHabitacIon();
     }
+/**
+ * Metodo encargado de convertir un File a bytes
+ * @param file ruta de la imagen
+ * @return imagen convertida en bytes
+ * @throws CargarImagenException si hay algun error al convertir el File
+ */
+    private byte[] cargarImagen(File file) throws CargarImagenException {
+        try {
+            byte[] icono = new byte[(int) file.length()];
+            InputStream input = new FileInputStream(file);
+            input.read(icono);
+            return icono;
+        } catch (IOException e) {
+            throw new CargarImagenException();
+        }
+    }
 
-    public void guardarHabitacion( String nombre, String piso, String bano, String sala, String estado, byte[] imagen, String descripcion, String valorPorNoche) throws GuardarHabitacionException, DatosIncompletosException, NombreHabitacionException {
-        Habitacion habitacion = new Habitacion(0, nombre, piso, bano, sala, estado, imagen, descripcion, valorPorNoche);
+    public void guardarHabitacion(String nombre, String piso, String bano, String sala, String estado, File ruta, String descripcion, String valorPorNoche) throws GuardarHabitacionException, DatosIncompletosException, NombreHabitacionException, CargarImagenException {
+
+        Habitacion habitacion = new Habitacion(0, nombre, piso, bano, sala, estado, cargarImagen(ruta), descripcion, valorPorNoche);
         if (!dao.guardarHabitacion(habitacion)) {
             throw new GuardarHabitacionException();
         }
@@ -49,8 +72,8 @@ public class BoHabitacion {
         return habitacion;
     }
 
-    public void modificarHabitacion( String nombre, String piso, String bano, String sala, String estado, byte[] imagen, String descripcion, String valorPorNoche) throws DatosIncompletosException, ModificarHabitacionException, NombreHabitacionException, BuscarHabitacionException {
-        Habitacion habitacion = new Habitacion(buscarHabitacion(nombre).getId(), nombre, piso, bano, sala, estado, imagen, descripcion, valorPorNoche);
+    public void modificarHabitacion(String nombre, String piso, String bano, String sala, String estado, File ruta, String descripcion, String valorPorNoche) throws DatosIncompletosException, ModificarHabitacionException, NombreHabitacionException, BuscarHabitacionException, CargarImagenException {
+        Habitacion habitacion = new Habitacion(buscarHabitacion(nombre).getId(), nombre, piso, bano, sala, estado, cargarImagen(ruta), descripcion, valorPorNoche);
         if (!dao.modificarHabitacion(habitacion)) {
             throw new ModificarHabitacionException();
         }
@@ -61,6 +84,13 @@ public class BoHabitacion {
     }
 
     public String obtenerDatoJtextFile(JTextField x) {
+        String informacion = x.getText();
+        if (informacion.equals("")) {
+            informacion = null;
+        }
+        return informacion;
+    }
+      public String obtenerDatoJtextArea(JTextArea x) {
         String informacion = x.getText();
         if (informacion.equals("")) {
             informacion = null;
