@@ -129,7 +129,7 @@ public class BoHuesped {
 
         String nombre = "";
         ArrayList<Huesped> lista = listarHuesped();
-        String nombreColumnas[] = {"Id", "Cedula", "Nombre Completo", "Genero", "Correo", "Telefono", "Fecha Nacimiento", "Nacionalidad", "Contrasena", "Tipo", "Estado"};
+      String nombreColumnas[] = {"Id", "Cedula", "Nombre Completo", "Genero", "Correo", "Telefono", "Fecha Nacimiento", "Nacionalidad", "Contrasena", "Tipo", "Estado"};
         DefaultTableModel modelo = new DefaultTableModel(new Object[][]{}, nombreColumnas) {
             @Override
             public boolean isCellEditable(int filas, int columnas) {

@@ -236,7 +236,7 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
 
         CbxFiltrar.setBackground(new java.awt.Color(255, 255, 255));
         CbxFiltrar.setForeground(new java.awt.Color(0, 0, 0));
-        CbxFiltrar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "Id", "Nombre", "Piso", "Baño", "Sala", "Estado", "Nombre Imagen", "Descripcion", "Valor por noche" }));
+        CbxFiltrar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "Nombre", "Piso", "Bano", "Sala", "Estado", "Descripcion", "Valor por noche" }));
 
         btnFiltrar.setBackground(new java.awt.Color(255, 255, 255));
         btnFiltrar.setForeground(new java.awt.Color(0, 0, 0));
@@ -491,7 +491,7 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
 
     private void btnFiltrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltrarActionPerformed
         try {
-            String opcion = controlador.obtenerDatoJComboBox(CbxFiltrar);
+            String opcion = CbxFiltrar.getSelectedItem().toString();
             String accion = controlador.obtenerDatoJtextFile(txtFiltrar);
             tblHabitacion.setModel(controlador.filtrar(opcion, accion));
 

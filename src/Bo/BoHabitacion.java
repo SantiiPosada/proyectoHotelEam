@@ -105,14 +105,13 @@ public class BoHabitacion {
             throw new ModificarHabitacionException();
         }
     }
-    
-      public void modificarHabitacion2(String nombre, String piso, String bano, String sala, String estado, String descripcion, String valorPorNoche) throws DatosIncompletosException, ModificarHabitacionException, NombreHabitacionException, BuscarHabitacionException {
+
+    public void modificarHabitacion2(String nombre, String piso, String bano, String sala, String estado, String descripcion, String valorPorNoche) throws DatosIncompletosException, ModificarHabitacionException, NombreHabitacionException, BuscarHabitacionException {
         Habitacion habitacion = new Habitacion(buscarHabitacion(nombre).getId(), nombre, piso, bano, sala, estado, null, descripcion, valorPorNoche);
         if (!dao.modificarHabitacion2(habitacion)) {
             throw new ModificarHabitacionException();
         }
     }
-    
 
     public ArrayList<Habitacion> listarHabitacion() {
         return dao.listarHabitacion();
@@ -173,128 +172,126 @@ public class BoHabitacion {
     }
 
     public DefaultTableModel filtrar(String opcion, String accion) throws DatosIncompletosException, NumberFormatException, ComboBoxException {
-//        if (accion == null) {
-//            throw new DatosIncompletosException();
-//        }
-//
-//        String nombre = "";
-//        ArrayList<Habitacion> lista = listarHabitacion();
-//        String nombreColumnas[] = {"Id", "Nombre", "Piso", "Baño", "Sala", "Estado", "Nombre Imagen", "Descripcion", "Valor por noche"};
-//        DefaultTableModel modelo = new DefaultTableModel(new Object[][]{}, nombreColumnas) {
-//            @Override
-//            public boolean isCellEditable(int filas, int columnas) {
-//                switch (columnas) {
-//                    case 9:
-//                        return true;
-//                    default:
-//                        return false;
-//                }
-//            }
-//        };
-//
-//        switch (opcion) {
-//            case "Seleccione":
-//                throw new ComboBoxException();
-//
-//            case "Nombre":
-//                lista.forEach((habitacion) -> {
-//                    if (habitacion.getNombre().equalsIgnoreCase(accion)) {
-//
-//                        if (!habitacion.getEstado().equalsIgnoreCase("No Disponible")) {          //"Id", "Cedula", "Nombre Completo", "Genero", "Correo", "Telefono", "Fecha Nacimiento", "Nacionalidad", "Contrasena", "Tipo", "Estado"
-//                            modelo.addRow(new Object[]{habitacion.getId(), habitacion.getNombre(), habitacion.getPiso(), habitacion.getBano(), habitacion.getSala(), habitacion.getEstado(), habitacion.getNombreImagen(), habitacion.getDescripcion(), habitacion.getValorPorNoche()});
-//                        }
-//                    }
-//
-//                });
-//                return modelo;
-//
-//            case "Piso":
-//                lista.forEach((habitacion) -> {
-//                    if (habitacion.getPiso().equalsIgnoreCase(accion)) {
-//
-//                        if (!habitacion.getEstado().equalsIgnoreCase("No Disponible")) {          //"Id", "Cedula", "Nombre Completo", "Genero", "Correo", "Telefono", "Fecha Nacimiento", "Nacionalidad", "Contrasena", "Tipo", "Estado"
-//                            modelo.addRow(new Object[]{habitacion.getId(), habitacion.getNombre(), habitacion.getPiso(), habitacion.getBano(), habitacion.getSala(), habitacion.getEstado(), habitacion.getNombreImagen(), habitacion.getDescripcion(), habitacion.getValorPorNoche()});
-//                        }
-//                    }
-//
-//                });
-//                return modelo;
-//
-//            case "Baño":
-//
-//                lista.forEach((habitacion) -> {
-//                    if (habitacion.getBano().equalsIgnoreCase(accion)) {
-//
-//                        if (!habitacion.getEstado().equalsIgnoreCase("No Disponible")) {          //"Id", "Cedula", "Nombre Completo", "Genero", "Correo", "Telefono", "Fecha Nacimiento", "Nacionalidad", "Contrasena", "Tipo", "Estado"
-//                            modelo.addRow(new Object[]{habitacion.getId(), habitacion.getNombre(), habitacion.getPiso(), habitacion.getBano(), habitacion.getSala(), habitacion.getEstado(), habitacion.getNombreImagen(), habitacion.getDescripcion(), habitacion.getValorPorNoche()});
-//                        }
-//                    }
-//
-//                });
-//                return modelo;
-//
-//            case "Sala":
-//                lista.forEach((habitacion) -> {
-//                    if (habitacion.getSala().equalsIgnoreCase(accion)) {
-//
-//                        if (!habitacion.getEstado().equalsIgnoreCase("No Disponible")) {          //"Id", "Cedula", "Nombre Completo", "Genero", "Correo", "Telefono", "Fecha Nacimiento", "Nacionalidad", "Contrasena", "Tipo", "Estado"
-//                            modelo.addRow(new Object[]{habitacion.getId(), habitacion.getNombre(), habitacion.getPiso(), habitacion.getBano(), habitacion.getSala(), habitacion.getEstado(), habitacion.getNombreImagen(), habitacion.getDescripcion(), habitacion.getValorPorNoche()});
-//                        }
-//                    }
-//
-//                });
-//                return modelo;
-//
-//            case "Estado":
-//                lista.forEach((habitacion) -> {
-//                    if (habitacion.getEstado().equalsIgnoreCase(accion)) {
-//
-//                        if (!habitacion.getEstado().equalsIgnoreCase("No Disponible")) {          //"Id", "Cedula", "Nombre Completo", "Genero", "Correo", "Telefono", "Fecha Nacimiento", "Nacionalidad", "Contrasena", "Tipo", "Estado"
-//                            modelo.addRow(new Object[]{habitacion.getId(), habitacion.getNombre(), habitacion.getPiso(), habitacion.getBano(), habitacion.getSala(), habitacion.getEstado(), habitacion.getNombreImagen(), habitacion.getDescripcion(), habitacion.getValorPorNoche()});
-//                        }
-//                    }
-//
-//                });
-//                return modelo;
-//            case "Nombre Imagen":
-//                lista.forEach((habitacion) -> {
-//
-//                    if (habitacion.getNombreImagen().equalsIgnoreCase(accion)) {
-//                        if (!habitacion.getEstado().equalsIgnoreCase("No Disponible")) {          //"Id", "Cedula", "Nombre Completo", "Genero", "Correo", "Telefono", "Fecha Nacimiento", "Nacionalidad", "Contrasena", "Tipo", "Estado"
-//                            modelo.addRow(new Object[]{habitacion.getId(), habitacion.getNombre(), habitacion.getPiso(), habitacion.getBano(), habitacion.getSala(), habitacion.getEstado(), habitacion.getNombreImagen(), habitacion.getDescripcion(), habitacion.getValorPorNoche()});
-//                        }
-//                    }
-//
-//                });
-//                return modelo;
-//
-//            case "Descripcion":
-//                lista.forEach((habitacion) -> {
-//                    if (habitacion.getDescripcion().equalsIgnoreCase(accion)) {
-//
-//                        if (!habitacion.getEstado().equalsIgnoreCase("No Disponible")) {          //"Id", "Cedula", "Nombre Completo", "Genero", "Correo", "Telefono", "Fecha Nacimiento", "Nacionalidad", "Contrasena", "Tipo", "Estado"
-//                            modelo.addRow(new Object[]{habitacion.getId(), habitacion.getNombre(), habitacion.getPiso(), habitacion.getBano(), habitacion.getSala(), habitacion.getEstado(), habitacion.getNombreImagen(), habitacion.getDescripcion(), habitacion.getValorPorNoche()});
-//                        }
-//                    }
-//
-//                });
-//                return modelo;
-//
-//            case "Valor por noche":
-//                lista.forEach((habitacion) -> {
-//                    if (habitacion.getValorPorNoche().equalsIgnoreCase(accion)) {
-//
-//                        if (!habitacion.getEstado().equalsIgnoreCase("No Disponible")) {          //"Id", "Cedula", "Nombre Completo", "Genero", "Correo", "Telefono", "Fecha Nacimiento", "Nacionalidad", "Contrasena", "Tipo", "Estado"
-//                            modelo.addRow(new Object[]{habitacion.getId(), habitacion.getNombre(), habitacion.getPiso(), habitacion.getBano(), habitacion.getSala(), habitacion.getEstado(), habitacion.getNombreImagen(), habitacion.getDescripcion(), habitacion.getValorPorNoche()});
-//                        }
-//                    }
-//                });
-//                return modelo;
-//
-//            default:
-//                break;
-//        }
-//        return modelo;
-        return null;
+        if (accion == null) {
+            throw new DatosIncompletosException();
+        }
+
+        String nombre = "";
+        ArrayList<Habitacion> lista = listarHabitacion();
+        String nombreColumnas[] = {"Id", "Nombre", "Piso", "Baño", "Sala", "Estado", "Descripcion", "Valor por noche"};
+        DefaultTableModel modelo = new DefaultTableModel(new Object[][]{}, nombreColumnas) {
+            @Override
+            public boolean isCellEditable(int filas, int columnas) {
+                switch (columnas) {
+                    case 9:
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+        };
+//Id
+
+        switch (opcion) {
+            case "Seleccione":
+                throw new ComboBoxException();
+    
+            case "Nombre":
+                lista.forEach((habitacion) -> {
+                    if (habitacion.getNombre().equalsIgnoreCase(accion)) {
+
+                        if (!habitacion.getEstado().equalsIgnoreCase("No Disponible")) {          //"Id", "Cedula", "Nombre Completo", "Genero", "Correo", "Telefono", "Fecha Nacimiento", "Nacionalidad", "Contrasena", "Tipo", "Estado"
+
+                            modelo.addRow(new Object[]{habitacion.getId(), habitacion.getNombre(), habitacion.getPiso(), habitacion.getBano(), habitacion.getSala(), habitacion.getEstado(), habitacion.getDescripcion(), habitacion.getValorPorNoche()});
+                        }
+                    }
+
+                });
+                return modelo;
+//Nombre
+//Piso
+
+            case "Piso":
+                lista.forEach((habitacion) -> {
+                    if (habitacion.getPiso().equalsIgnoreCase(accion)) {
+
+                        if (!habitacion.getEstado().equalsIgnoreCase("No Disponible")) {          //"Id", "Cedula", "Nombre Completo", "Genero", "Correo", "Telefono", "Fecha Nacimiento", "Nacionalidad", "Contrasena", "Tipo", "Estado"
+                            modelo.addRow(new Object[]{habitacion.getId(), habitacion.getNombre(), habitacion.getPiso(), habitacion.getBano(), habitacion.getSala(), habitacion.getEstado(), habitacion.getDescripcion(), habitacion.getValorPorNoche()});
+                        }
+                    }
+
+                });
+                return modelo;
+//Bano
+
+            case "Bano":
+
+                lista.forEach((habitacion) -> {
+                    if (habitacion.getBano().equalsIgnoreCase(accion)) {
+
+                        if (!habitacion.getEstado().equalsIgnoreCase("No Disponible")) {          //"Id", "Cedula", "Nombre Completo", "Genero", "Correo", "Telefono", "Fecha Nacimiento", "Nacionalidad", "Contrasena", "Tipo", "Estado"
+                            modelo.addRow(new Object[]{habitacion.getId(), habitacion.getNombre(), habitacion.getPiso(), habitacion.getBano(), habitacion.getSala(), habitacion.getEstado(), habitacion.getDescripcion(), habitacion.getValorPorNoche()});
+                        }
+                    }
+
+                });
+                return modelo;
+//Sala
+
+            case "Sala":
+                lista.forEach((habitacion) -> {
+                    if (habitacion.getSala().equalsIgnoreCase(accion)) {
+
+                        if (!habitacion.getEstado().equalsIgnoreCase("No Disponible")) {          //"Id", "Cedula", "Nombre Completo", "Genero", "Correo", "Telefono", "Fecha Nacimiento", "Nacionalidad", "Contrasena", "Tipo", "Estado"
+                            modelo.addRow(new Object[]{habitacion.getId(), habitacion.getNombre(), habitacion.getPiso(), habitacion.getBano(), habitacion.getSala(), habitacion.getEstado(), habitacion.getDescripcion(), habitacion.getValorPorNoche()});
+                        }
+                    }
+
+                });
+                return modelo;
+//Estado
+
+            case "Estado":
+                lista.forEach((habitacion) -> {
+                    if (habitacion.getEstado().equalsIgnoreCase(accion)) {
+
+                        if (!habitacion.getEstado().equalsIgnoreCase("No Disponible")) {          //"Id", "Cedula", "Nombre Completo", "Genero", "Correo", "Telefono", "Fecha Nacimiento", "Nacionalidad", "Contrasena", "Tipo", "Estado"
+                            modelo.addRow(new Object[]{habitacion.getId(), habitacion.getNombre(), habitacion.getPiso(), habitacion.getBano(), habitacion.getSala(), habitacion.getEstado(), habitacion.getDescripcion(), habitacion.getValorPorNoche()});
+                        }
+                    }
+
+                });
+                return modelo;
+            //Descripcion
+//Valor por noche
+            case "Descripcion":
+                lista.forEach((habitacion) -> {
+                    if (habitacion.getDescripcion().equalsIgnoreCase(accion)) {
+
+                        if (!habitacion.getEstado().equalsIgnoreCase("No Disponible")) {          //"Id", "Cedula", "Nombre Completo", "Genero", "Correo", "Telefono", "Fecha Nacimiento", "Nacionalidad", "Contrasena", "Tipo", "Estado"
+                            modelo.addRow(new Object[]{habitacion.getId(), habitacion.getNombre(), habitacion.getPiso(), habitacion.getBano(), habitacion.getSala(), habitacion.getEstado(), habitacion.getDescripcion(), habitacion.getValorPorNoche()});
+                        }
+                    }
+
+                });
+                return modelo;
+
+            case "Valor por noche":
+                lista.forEach((habitacion) -> {
+                    if (habitacion.getValorPorNoche().equalsIgnoreCase(accion)) {
+
+                        if (!habitacion.getEstado().equalsIgnoreCase("No Disponible")) {          //"Id", "Cedula", "Nombre Completo", "Genero", "Correo", "Telefono", "Fecha Nacimiento", "Nacionalidad", "Contrasena", "Tipo", "Estado"
+
+                            modelo.addRow(new Object[]{habitacion.getId(), habitacion.getNombre(), habitacion.getPiso(), habitacion.getBano(), habitacion.getSala(), habitacion.getEstado(), habitacion.getDescripcion(), habitacion.getValorPorNoche()});
+                        }
+                    }
+                });
+                return modelo;
+
+            default:
+                break;
+        }
+        return modelo;
+
     }
 }

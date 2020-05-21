@@ -529,7 +529,7 @@ public class FrmGestionHuesped extends javax.swing.JFrame {
 
     private void btnFiltrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltrarActionPerformed
         try {
-            String opcion = controlador.obtenerDatoJComboBox(CbxFiltrar);
+            String opcion = CbxFiltrar.getSelectedItem().toString();
             String accion = controlador.obtenerDatoJtextFile(txtFiltrar);
             tblLista.setModel(controlador.filtrar(opcion, accion));
 
