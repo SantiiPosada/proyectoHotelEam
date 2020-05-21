@@ -15,11 +15,15 @@ import Excepcion.ModificarHabitacionException;
 import Excepcion.NombreHabitacionException;
 import Fabrica.FactoryDAO;
 import Modelo.Habitacion;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import javax.imageio.ImageIO;
+import javax.swing.Icon;
 import javax.swing.JComboBox;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -36,18 +40,31 @@ public class BoHabitacion {
     public BoHabitacion() {
         dao = FactoryDAO.getFabrica().crearDAOHabitacIon();
     }
-/**
- * Metodo encargado de convertir un File a bytes
- * @param file ruta de la imagen
- * @return imagen convertida en bytes
- * @throws CargarImagenException si hay algun error al convertir el File
- */
+
+    /**
+     * Metodo encargado de convertir un File a bytes
+     *
+     * @param file ruta de la imagen
+     * @return imagen convertida en bytes
+     * @throws CargarImagenException si hay algun error al convertir el File
+     */
     private byte[] cargarImagen(File file) throws CargarImagenException {
         try {
             byte[] icono = new byte[(int) file.length()];
             InputStream input = new FileInputStream(file);
             input.read(icono);
             return icono;
+        } catch (IOException e) {
+            throw new CargarImagenException();
+        }
+    }
+
+    public Icon cargarImagenIcon(byte[] bytes) throws CargarImagenException {
+        try {
+            BufferedImage imagen = null;
+            InputStream input = new ByteArrayInputStream(bytes);
+            imagen = ImageIO.read(input);
+            return (Icon) imagen;
         } catch (IOException e) {
             throw new CargarImagenException();
         }
@@ -90,7 +107,8 @@ public class BoHabitacion {
         }
         return informacion;
     }
-      public String obtenerDatoJtextArea(JTextArea x) {
+
+    public String obtenerDatoJtextArea(JTextArea x) {
         String informacion = x.getText();
         if (informacion.equals("")) {
             informacion = null;
