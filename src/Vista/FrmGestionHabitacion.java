@@ -16,7 +16,9 @@ import Modelo.Administrador;
 import Modelo.Habitacion;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -36,7 +38,6 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
         this.administrador = administrador;
         this.setLocationRelativeTo(null);
         this.setResizable(false);
-
         btnCancelar.setEnabled(true);
         btnModificar.setEnabled(false);
         btnCancelar.setEnabled(false);
@@ -72,7 +73,7 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         JtblHabitacion = new javax.swing.JTable();
-        lblRecepcion = new javax.swing.JLabel();
+        lblmagen = new javax.swing.JLabel();
         btnSalir = new javax.swing.JButton();
         btnRegistrar = new javax.swing.JButton();
         btnModificar = new javax.swing.JButton();
@@ -89,6 +90,7 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
         txtEstado = new javax.swing.JTextField();
         btnSeleccionarImagen = new javax.swing.JButton();
         txtDescripcion = new javax.swing.JTextField();
+        txtRuta = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -196,8 +198,10 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
 
         jScrollPane1.setViewportView(jPanel2);
 
-        lblRecepcion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondo blanco.gif"))); // NOI18N
-        lblRecepcion.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        lblmagen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondo blanco.gif"))); // NOI18N
+        lblmagen.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        lblmagen.setMaximumSize(new java.awt.Dimension(4, 4));
+        lblmagen.setMinimumSize(new java.awt.Dimension(4, 4));
 
         btnSalir.setBackground(new java.awt.Color(255, 255, 255));
         btnSalir.setForeground(new java.awt.Color(0, 0, 0));
@@ -326,6 +330,14 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
             }
         });
 
+        txtRuta.setBackground(new java.awt.Color(255, 255, 255));
+        txtRuta.setForeground(new java.awt.Color(0, 0, 0));
+        txtRuta.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtRutaKeyTyped(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -374,20 +386,25 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(106, 106, 106)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(btnSeleccionarImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lblRecepcion, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnRegistrar, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(28, 28, 28))))))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(txtRuta, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(btnSeleccionarImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(lblmagen, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(btnRegistrar, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(28, 28, 28))))))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(lblTitulo)
+                .addComponent(lblTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(280, 280, 280))
         );
         jPanel1Layout.setVerticalGroup(
@@ -407,11 +424,13 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
                                 .addComponent(btnEliminar)
                                 .addGap(15, 15, 15)
                                 .addComponent(btnCancelar))
-                            .addComponent(lblRecepcion, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(lblmagen, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnSalir)
                             .addComponent(btnSeleccionarImagen))
+                        .addGap(18, 18, 18)
+                        .addComponent(txtRuta, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
@@ -444,7 +463,7 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblValorNoche)
                             .addComponent(txtValorNoche, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 22, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -486,11 +505,11 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
             String estado = "No Disponible";
             String valornoche = controlador.obtenerDatoJtextFile(txtValorNoche) + "$";
             String descripcion = controlador.obtenerDatoJtextFile(txtDescripcion);
-          
+
 //falta imagen
             controlador.modificarHabitacion(nombre, piso, bano, sala, estado, null, descripcion, valornoche);
             JOptionPane.showMessageDialog(null, "Se Elimino la habitacion " + nombre + " correctamente");
-        }  catch (ModificarHabitacionException | NombreHabitacionException | BuscarHabitacionException | DatosIncompletosException ex) {
+        } catch (ModificarHabitacionException | NombreHabitacionException | BuscarHabitacionException | DatosIncompletosException ex) {
             imprimir(ex.getMessage());
         }
     }//GEN-LAST:event_btnEliminarActionPerformed
@@ -559,11 +578,11 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
             String estado = controlador.obtenerDatoJtextFile(txtEstado);
             String valornoche = controlador.obtenerDatoJtextFile(txtValorNoche) + "$";
             String descripcion = controlador.obtenerDatoJtextFile(txtDescripcion);
-       
+
 //falta imagen
             controlador.guardarHabitacion(nombre, piso, bano, sala, estado, null, descripcion, valornoche);
             JOptionPane.showMessageDialog(null, "Se guardó la habitacion " + nombre + " correctamente");
-        } catch (DatosIncompletosException|GuardarHabitacionException | NombreHabitacionException ex) {
+        } catch (DatosIncompletosException | GuardarHabitacionException | NombreHabitacionException ex) {
             imprimir(ex.getMessage());
         }
 
@@ -605,11 +624,11 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
             String estado = controlador.obtenerDatoJtextFile(txtEstado);
             String valornoche = controlador.obtenerDatoJtextFile(txtValorNoche) + "$";
             String descripcion = controlador.obtenerDatoJtextFile(txtDescripcion);
-         
+
 //falta imagen
             controlador.modificarHabitacion(nombre, piso, bano, sala, estado, null, descripcion, valornoche);
             JOptionPane.showMessageDialog(null, "Se Modifico la habitacion " + nombre + " correctamente");
-        } catch (DatosIncompletosException|ModificarHabitacionException | NombreHabitacionException | BuscarHabitacionException ex) {
+        } catch (DatosIncompletosException | ModificarHabitacionException | NombreHabitacionException | BuscarHabitacionException ex) {
             Logger.getLogger(FrmGestionHabitacion.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnModificarActionPerformed
@@ -636,12 +655,25 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
     }//GEN-LAST:event_txtEstadoKeyTyped
 
     private void btnSeleccionarImagenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarImagenActionPerformed
-        // TODO add your handling code here:
+
+        JFileChooser fileChooser = new JFileChooser();
+        FileNameExtensionFilter filtro = new FileNameExtensionFilter("JPG, PNG & GIF", "jpg", "png", "gif");//se le asigna un filtro
+        fileChooser.setFileFilter(filtro);
+        int s = fileChooser.showOpenDialog(this);
+        if (s == JFileChooser.APPROVE_OPTION) {
+            String ruta = fileChooser.getSelectedFile().getAbsolutePath();
+            txtRuta.setText(ruta);
+
+        }
     }//GEN-LAST:event_btnSeleccionarImagenActionPerformed
 
     private void txtDescripcionKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDescripcionKeyTyped
         // TODO add your handling code here:
     }//GEN-LAST:event_txtDescripcionKeyTyped
+
+    private void txtRutaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtRutaKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtRutaKeyTyped
     public final void listar() {
         JtblHabitacion.setModel(controlador.listarElementos());
     }
@@ -655,7 +687,7 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
         txtEstado.setText(null);
         txtValorNoche.setText(null);
         txtDescripcion.setText(null);
-    
+
         //falta imagen
     }
 
@@ -669,7 +701,7 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
         txtEstado.setText(habitacion.getEstado());
         txtValorNoche.setText(habitacion.getValorPorNoche() + "$");
         txtDescripcion.setText(habitacion.getDescripcion());
-  
+
         //falta imagen
     }
 
@@ -743,10 +775,10 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
     private javax.swing.JLabel lblId;
     private javax.swing.JLabel lblNombre;
     private javax.swing.JLabel lblPiso;
-    private javax.swing.JLabel lblRecepcion;
     private javax.swing.JLabel lblSala;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JLabel lblValorNoche;
+    private javax.swing.JLabel lblmagen;
     private javax.swing.JTextField txtBano;
     private javax.swing.JTextField txtDescripcion;
     private javax.swing.JTextField txtEstado;
@@ -754,6 +786,7 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
     private javax.swing.JTextField txtId;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtPiso;
+    private javax.swing.JTextField txtRuta;
     private javax.swing.JTextField txtSala;
     private javax.swing.JTextField txtValorNoche;
     // End of variables declaration//GEN-END:variables
