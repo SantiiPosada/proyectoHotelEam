@@ -40,7 +40,7 @@ public class DAOHabitacion implements IDAOHabitacion {
             // falta imagen
             pstmt.setString(7, habitacion.getDescripcion());
             pstmt.setString(8, habitacion.getValorPorNoche());
- pstmt.executeUpdate();
+            pstmt.executeUpdate();
             desicion = true;
 
         } catch (SQLException ex) {
@@ -110,6 +110,46 @@ public class DAOHabitacion implements IDAOHabitacion {
             pstmt.setString(7, habitacion.getDescripcion());
             pstmt.setString(8, habitacion.getValorPorNoche());
             pstmt.setInt(9, habitacion.getId());
+            int res = pstmt.executeUpdate();
+
+            desicion = res > 0;
+
+        } catch (SQLException ex) {
+            //ex.printStackTrace();
+            int codigo = ex.getErrorCode();
+            if (codigo == 1062) {
+                String variable = extraerVariable(ex.getMessage(), extraerDosUltimasLetras(ex.getMessage()));
+                switch (variable) {
+                    case "habitacion.nombr":
+                        throw new NombreHabitacionException();
+
+                }
+
+            } else if (codigo == 1048) {
+                throw new DatosIncompletosException();
+            }
+            desicion = false;
+        }
+
+        return desicion;
+    }
+
+    @Override
+    public boolean modificarHabitacion2(Habitacion habitacion) throws NombreHabitacionException, DatosIncompletosException {
+        boolean desicion = false;
+        try (Connection con = Conexion.getConnection()) {
+            PreparedStatement pstmt = con.prepareStatement("UPDATE habitacion SET  nombre=?, piso=?, bano=?, sala=?, estado=?, descripcion=?,valorPorNoche=? WHERE id=?");//preparar la sentencia sql(modificar,agregar,eliminar,etc) se llena de izquierda a derecha de 1 en 1(1,2,3)
+
+            pstmt.setString(1, habitacion.getNombre());
+            pstmt.setString(2, habitacion.getPiso());
+            pstmt.setString(3, habitacion.getBano());
+            pstmt.setString(4, habitacion.getSala());
+            pstmt.setString(5, habitacion.getEstado());
+
+            // falta imagen
+            pstmt.setString(6, habitacion.getDescripcion());
+            pstmt.setString(7, habitacion.getValorPorNoche());
+            pstmt.setInt(8, habitacion.getId());
             int res = pstmt.executeUpdate();
 
             desicion = res > 0;

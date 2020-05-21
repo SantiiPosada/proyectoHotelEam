@@ -6,7 +6,6 @@
 package Vista;
 
 import Modelo.Administrador;
-import Modelo.Recepcionista;
 
 /**
  *
@@ -413,7 +412,9 @@ public class FrmAdministrador extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCheckoutActionPerformed
 
     private void btnHabitacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHabitacionActionPerformed
-        // TODO add your handling code here:
+      FrmGestionHabitacion vista=new FrmGestionHabitacion(administrador);
+      vista.setVisible(true);
+      this.dispose();
     }//GEN-LAST:event_btnHabitacionActionPerformed
 
     private void btnMultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMultaActionPerformed

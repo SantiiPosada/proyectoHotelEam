@@ -8,6 +8,7 @@ package Bo;
 import Definiciones.IDAOLogIn;
 import Excepcion.DatosIncompletosException;
 import Excepcion.LogInException;
+import Excepcion.UsuarioSuspendioException;
 import Fabrica.FactoryDAO;
 import Modelo.Administrador;
 import Modelo.Huesped;
@@ -62,23 +63,35 @@ public class BOLogIn {
         return informacion;
     }
 
-    public Object IniciarSesion(String cedula, String contrasena) throws DatosIncompletosException, LogInException {
+    public Object IniciarSesion(String cedula, String contrasena) throws DatosIncompletosException, LogInException, UsuarioSuspendioException {
 
         verificarDatos(cedula, contrasena);
         Huesped huesped = LogInHusped(cedula, contrasena);
         Administrador administrador = LogInAdministrador(cedula, contrasena);
         Recepcionista recepcionista = LogInRecepcionista(cedula, contrasena);
         if (huesped != null) {
-            return huesped;
+            if (!huesped.getEstado().equals("No Disponible")) {
+                return huesped;
+            } else {
+
+                throw new UsuarioSuspendioException();
+            }
+
         } else if (administrador != null) {
+
             return administrador;
         } else if (recepcionista != null) {
-            return recepcionista;
+
+            if (!recepcionista.getEstado().equals("No Disponible")) {
+                return recepcionista;
+
+            } else {
+                throw new UsuarioSuspendioException();
+            }
         } else {
             throw new LogInException();
         }
 
-       
     }
 
     private void verificarDatos(String cedula, String contrasena) throws DatosIncompletosException {

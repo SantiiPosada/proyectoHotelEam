@@ -11,6 +11,7 @@ import Excepcion.CargarImagenException;
 import Excepcion.ComboBoxException;
 import Excepcion.DatosIncompletosException;
 import Excepcion.GuardarHabitacionException;
+import Excepcion.ImagenException;
 import Excepcion.ModificarHabitacionException;
 import Excepcion.NombreHabitacionException;
 import Fabrica.FactoryDAO;
@@ -24,7 +25,9 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
@@ -48,7 +51,7 @@ public class BoHabitacion {
      * @return imagen convertida en bytes
      * @throws CargarImagenException si hay algun error al convertir el File
      */
-    private byte[] cargarImagen(File file) throws CargarImagenException {
+    public byte[] cargarImagenBytes(File file) throws CargarImagenException {
         try {
             byte[] icono = new byte[(int) file.length()];
             InputStream input = new FileInputStream(file);
@@ -58,18 +61,20 @@ public class BoHabitacion {
             throw new CargarImagenException();
         }
     }
-/**
- * Metodo encargado de convertir bytes en un icono
- * @param bytes que se desea pasar a un icono
- * @return bytes convertidos en icono
- * @throws CargarImagenException si hay algun error al convertitir los bytes
- */
-    public Icon cargarImagenIcon(byte[] bytes) throws CargarImagenException {
+
+    /**
+     * Metodo encargado de convertir bytes en un BufferedImage
+     *
+     * @param bytes que se desea pasar a un BufferedImage
+     * @return bytes convertidos en InputStream
+     * @throws CargarImagenException si hay algun error al convertitir los bytes
+     */
+    public BufferedImage cargarImagenBufferedImage(byte[] bytes) throws CargarImagenException {
         try {
             BufferedImage imagen = null;
             InputStream input = new ByteArrayInputStream(bytes);
             imagen = ImageIO.read(input);
-            return (Icon) imagen;
+            return imagen;
         } catch (IOException e) {
             throw new CargarImagenException();
         }
@@ -77,7 +82,7 @@ public class BoHabitacion {
 
     public void guardarHabitacion(String nombre, String piso, String bano, String sala, String estado, File ruta, String descripcion, String valorPorNoche) throws GuardarHabitacionException, DatosIncompletosException, NombreHabitacionException, CargarImagenException {
 
-        Habitacion habitacion = new Habitacion(0, nombre, piso, bano, sala, estado, cargarImagen(ruta), descripcion, valorPorNoche);
+        Habitacion habitacion = new Habitacion(0, nombre, piso, bano, sala, estado, cargarImagenBytes(ruta), descripcion, valorPorNoche);
         if (!dao.guardarHabitacion(habitacion)) {
             throw new GuardarHabitacionException();
         }
@@ -95,11 +100,19 @@ public class BoHabitacion {
     }
 
     public void modificarHabitacion(String nombre, String piso, String bano, String sala, String estado, File ruta, String descripcion, String valorPorNoche) throws DatosIncompletosException, ModificarHabitacionException, NombreHabitacionException, BuscarHabitacionException, CargarImagenException {
-        Habitacion habitacion = new Habitacion(buscarHabitacion(nombre).getId(), nombre, piso, bano, sala, estado, cargarImagen(ruta), descripcion, valorPorNoche);
+        Habitacion habitacion = new Habitacion(buscarHabitacion(nombre).getId(), nombre, piso, bano, sala, estado, cargarImagenBytes(ruta), descripcion, valorPorNoche);
         if (!dao.modificarHabitacion(habitacion)) {
             throw new ModificarHabitacionException();
         }
     }
+    
+      public void modificarHabitacion2(String nombre, String piso, String bano, String sala, String estado, String descripcion, String valorPorNoche) throws DatosIncompletosException, ModificarHabitacionException, NombreHabitacionException, BuscarHabitacionException {
+        Habitacion habitacion = new Habitacion(buscarHabitacion(nombre).getId(), nombre, piso, bano, sala, estado, null, descripcion, valorPorNoche);
+        if (!dao.modificarHabitacion2(habitacion)) {
+            throw new ModificarHabitacionException();
+        }
+    }
+    
 
     public ArrayList<Habitacion> listarHabitacion() {
         return dao.listarHabitacion();
@@ -130,31 +143,33 @@ public class BoHabitacion {
     }
 
     public DefaultTableModel listarElementos() {
-//
-//        ArrayList<Habitacion> lista = listarHabitacion();
-//        String nombreColumnas[] = {"Id", "Nombre", "Piso", "Baño", "Sala", "Estado", "Nombre Imagen", "Descripcion", "Valor por noche"};
-//        DefaultTableModel modelo = new DefaultTableModel(new Object[][]{}, nombreColumnas) {
-//            @Override
-//            public boolean isCellEditable(int filas, int columnas) {
-//                switch (columnas) {
-//                    case 9:
-//                        return true;
-//                    default:
-//                        return false;
-//                }
-//            }
-//        };
-//
-//        lista.forEach((habitacion) -> {
-//
-//            if (!habitacion.getEstado().equalsIgnoreCase("No Disponible")) {
-//                modelo.addRow(new Object[]{habitacion.getId(), habitacion.getNombre(), habitacion.getPiso(), habitacion.getBano(), habitacion.getSala(), habitacion.getEstado(), habitacion.getNombreImagen(), habitacion.getDescripcion(), habitacion.getValorPorNoche()});
-//            }
-//
-//        });
-//
-//        return modelo;
-        return null;
+
+        ArrayList<Habitacion> lista = listarHabitacion();
+        String nombreColumnas[] = {"Id", "Nombre", "Piso", "Baño", "Sala", "Estado", "Descripcion", "Valor por noche"};
+        DefaultTableModel modelo = new DefaultTableModel(new Object[][]{}, nombreColumnas) {
+            @Override
+            public boolean isCellEditable(int filas, int columnas) {
+                switch (columnas) {
+                    case 9:
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+        };
+
+        lista.forEach((habitacion) -> {
+
+            if (!habitacion.getEstado().equalsIgnoreCase("No Disponible")) {
+
+                modelo.addRow(new Object[]{habitacion.getId(), habitacion.getNombre(), habitacion.getPiso(), habitacion.getBano(), habitacion.getSala(), habitacion.getEstado(), habitacion.getDescripcion(), habitacion.getValorPorNoche()});
+
+            }
+
+        });
+
+        return modelo;
+
     }
 
     public DefaultTableModel filtrar(String opcion, String accion) throws DatosIncompletosException, NumberFormatException, ComboBoxException {

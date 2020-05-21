@@ -22,10 +22,9 @@ public interface IDAOHabitacion {
      *
      * @param habitacion recibe la habitacion
      * @return verdadero si guardo el huesped, falso si no
-     * @throws NombreHabitacionException si el nombre de la habitacion
-     * ya se encuentra registrada
-     * @throws DatosIncompletosException si algunos de los datos son
-     * nulos
+     * @throws NombreHabitacionException si el nombre de la habitacion ya se
+     * encuentra registrada
+     * @throws DatosIncompletosException si algunos de los datos son nulos
      */
     public boolean guardarHabitacion(Habitacion habitacion) throws NombreHabitacionException, DatosIncompletosException;
 
@@ -38,16 +37,26 @@ public interface IDAOHabitacion {
     public Habitacion buscarHabitacion(String Nombre);
 
     /**
-     * Metodo encargado de modificar la habitacion
+     * Metodo encargado de modificar la habitacion cuando modifica la imagen
      *
      * @param habitacion objeto con todos los datos del huesped
      * @return verdadero si se modifico la habitacion,falso si no
-     * @throws NombreHabitacionException si el nombre de la habitacion
-     * ya se encuentra registrada
-     * @throws DatosIncompletosException si algunos de los datos son
-     * nulos
+     * @throws NombreHabitacionException si el nombre de la habitacion ya se
+     * encuentra registrada
+     * @throws DatosIncompletosException si algunos de los datos son nulos
      */
     public boolean modificarHabitacion(Habitacion habitacion) throws NombreHabitacionException, DatosIncompletosException;
+
+    /**
+     * Metodo encargado de modificar la habitacion cuando no modifica la imagen
+     *
+     * @param habitacion objeto con todos los datos del huesped
+     * @return verdadero si se modifico la habitacion,falso si no
+     * @throws NombreHabitacionException si el nombre de la habitacion ya se
+     * encuentra registrada
+     * @throws DatosIncompletosException si algunos de los datos son nulos
+     */
+    public boolean modificarHabitacion2(Habitacion habitacion) throws NombreHabitacionException, DatosIncompletosException;
 
     /**
      * Metodo para listar la habitacion

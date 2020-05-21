@@ -11,10 +11,12 @@ import Excepcion.CargarImagenException;
 import Excepcion.ComboBoxException;
 import Excepcion.DatosIncompletosException;
 import Excepcion.GuardarHabitacionException;
+import Excepcion.ModificarHabitacionException;
 import Excepcion.NombreHabitacionException;
 import Modelo.Administrador;
 import Modelo.Habitacion;
 import java.io.File;
+import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -27,34 +29,33 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
 
     private Administrador administrador;
     private final CtlHabitacion controlador;
+    private String estado;
 
     public FrmGestionHabitacion() {
-        controlador =new CtlHabitacion();
+        controlador = new CtlHabitacion();
+        initComponents();
+        btnRegistrar.setEnabled(false);
+        btnBuscar.setEnabled(false);
+        btnModificar.setEnabled(false);
+        btnCancelar.setEnabled(false);
+    }
+
+    public FrmGestionHabitacion(Administrador administrador) {
+        controlador = new CtlHabitacion();
+        this.administrador = administrador;
         initComponents();
 
         this.setLocationRelativeTo(null);
         this.setResizable(false);
-        btnCancelar.setEnabled(true);
+
         btnModificar.setEnabled(false);
         btnCancelar.setEnabled(false);
         btnModificar.setEnabled(false);
-        JtblHabitacion.setEnabled(true);
+        tblHabitacion.setEnabled(true);
         txtRuta.setEditable(false);
-//        listar();
+        listar();
     }
 
-//    public FrmGestionHabitacion(Administrador administrador) {
-//        initComponents();
-//        this.administrador = administrador;
-//        this.setLocationRelativeTo(null);
-//        this.setResizable(false);
-//        btnCancelar.setEnabled(true);
-//        btnModificar.setEnabled(false);
-//        btnCancelar.setEnabled(false);
-//        btnModificar.setEnabled(false);
-//        JtblHabitacion.setEnabled(true);
-//        listar();
-//    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -76,7 +77,7 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        JtblHabitacion = new javax.swing.JTable();
+        tblHabitacion = new javax.swing.JTable();
         lblmagen = new javax.swing.JLabel();
         btnSalir = new javax.swing.JButton();
         btnRegistrar = new javax.swing.JButton();
@@ -136,40 +137,40 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
         lblDescripcion.setForeground(new java.awt.Color(0, 0, 0));
         lblDescripcion.setText("Descripcion :");
 
-        JtblHabitacion.setBackground(new java.awt.Color(255, 255, 255));
-        JtblHabitacion.setForeground(new java.awt.Color(0, 0, 0));
-        JtblHabitacion.setModel(new javax.swing.table.DefaultTableModel(
+        tblHabitacion.setBackground(new java.awt.Color(255, 255, 255));
+        tblHabitacion.setForeground(new java.awt.Color(0, 0, 0));
+        tblHabitacion.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Id", "Nombre", "Piso", "Baño", "Sala", "Estado", "Nombre Imagen", "Descripcion", "Valor por noche"
+                "Id", "Nombre", "Piso", "Baño", "Sala", "Estado", "Descripcion", "Valor por noche"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane2.setViewportView(JtblHabitacion);
+        jScrollPane2.setViewportView(tblHabitacion);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1195, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1274, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         jScrollPane1.setViewportView(jPanel2);
@@ -314,9 +315,7 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                        .addContainerGap())
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -342,31 +341,27 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(120, 120, 120)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtRuta, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnSeleccionarImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lblmagen, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(50, 50, 50)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnRegistrar, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(CbxFiltrar, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(txtFiltrar, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
-                                .addComponent(btnFiltrar, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap())
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(120, 120, 120)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(txtRuta, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(btnSeleccionarImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(lblmagen, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(btnRegistrar, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(28, 28, 28))))))))
+                                .addGap(31, 31, 31)
+                                .addComponent(btnFiltrar, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lblTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -378,27 +373,26 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(lblTitulo))
+                        .addComponent(lblTitulo)
+                        .addGap(37, 37, 37)
+                        .addComponent(btnRegistrar)
+                        .addGap(14, 14, 14)
+                        .addComponent(btnBuscar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnModificar)
+                        .addGap(14, 14, 14)
+                        .addComponent(btnEliminar)
+                        .addGap(15, 15, 15)
+                        .addComponent(btnCancelar)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnSalir))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(68, 68, 68)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(btnRegistrar)
-                                        .addGap(14, 14, 14)
-                                        .addComponent(btnBuscar)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(btnModificar)
-                                        .addGap(14, 14, 14)
-                                        .addComponent(btnEliminar)
-                                        .addGap(15, 15, 15)
-                                        .addComponent(btnCancelar))
-                                    .addComponent(lblmagen, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(lblmagen, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(btnSalir)
-                                    .addComponent(btnSeleccionarImagen))
+                                .addComponent(btnSeleccionarImagen)
                                 .addGap(18, 18, 18)
                                 .addComponent(txtRuta, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -425,9 +419,9 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(lblDescripcion)
                                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnActualizar, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+                    .addComponent(btnActualizar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(lblFiltrar)
                         .addComponent(CbxFiltrar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -453,21 +447,29 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-//        try {
-//            String nombre = controlador.obtenerDatoJtextFile(txtNombre);
-//            String piso = controlador.obtenerDatoJtextFile(txtPiso);
-//            String bano = controlador.obtenerDatoJtextFile(txtBano);
-//            String sala = controlador.obtenerDatoJtextFile(txtSala);
-//            String estado = "No Disponible";
-//            String valornoche = controlador.obtenerDatoJtextFile(txtValorNoche) + "$";
-//            String descripcion = controlador.obtenerDatoJtextFile(txtDescripcion);
-//  File ruta = new File(txtRuta.getText());
-////falta imagen
-//            controlador.modificarHabitacion(nombre, piso, bano, sala, estado, ruta, descripcion, valornoche);
-//            JOptionPane.showMessageDialog(null, "Se Elimino la habitacion " + nombre + " correctamente");
-//        } catch (ModificarHabitacionException | NombreHabitacionException | BuscarHabitacionException | DatosIncompletosException | CargarImagenException ex) {
-//            imprimir(ex.getMessage());
-//        }
+        try {
+            String nombre = controlador.obtenerDatoJtextFile(txtNombre);
+            String piso = spnPiso.getValue().toString();
+            String bano = spnBano.getValue().toString();
+            String sala = spnSala.getValue().toString();
+            String estadoH = "No Disponible";
+            String valornoche = controlador.obtenerDatoJtextFile(txtValorNoche);
+            String descripcion = controlador.obtenerDatoJtextArea(txtDescripcion);
+
+            controlador.modificarHabitacion2(nombre, piso, bano, sala, estadoH, descripcion, valornoche);
+            JOptionPane.showMessageDialog(null, "Se eliminó la habitación " + nombre + " correctamente");
+            listar();
+            vaciarCampos();
+            btnRegistrar.setEnabled(true);
+            btnEliminar.setEnabled(false);
+            btnModificar.setEnabled(false);
+            btnBuscar.setEnabled(true);
+            txtNombre.setEnabled(true);
+            btnCancelar.setEnabled(false);
+
+        } catch (DatosIncompletosException | ModificarHabitacionException | NombreHabitacionException | BuscarHabitacionException ex) {
+            imprimir(ex.getMessage());
+        }
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
@@ -477,7 +479,7 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void txtNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyTyped
-       char c = evt.getKeyChar();
+        char c = evt.getKeyChar();
         if ((c < 'a' || c > 'z') && (c < 'A' || c > 'Z') && (c < '0' || c > '9') && c != '_' && c != '@' && c != '.' && c != '-' && c != ',') {
             evt.consume();
         }
@@ -491,7 +493,7 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
         try {
             String opcion = controlador.obtenerDatoJComboBox(CbxFiltrar);
             String accion = controlador.obtenerDatoJtextFile(txtFiltrar);
-            JtblHabitacion.setModel(controlador.filtrar(opcion, accion));
+            tblHabitacion.setModel(controlador.filtrar(opcion, accion));
 
         } catch (ComboBoxException | DatosIncompletosException e) {
             imprimir(e.getMessage());
@@ -499,7 +501,7 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
     }//GEN-LAST:event_btnFiltrarActionPerformed
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
-        // listar();
+        listar();
         CbxFiltrar.setSelectedItem("Seleccione");
         txtFiltrar.setText(null);
     }//GEN-LAST:event_btnActualizarActionPerformed
@@ -510,15 +512,14 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
             String piso = spnPiso.getValue().toString();
             String bano = spnBano.getValue().toString();
             String sala = spnSala.getValue().toString();
-            String estado = "Disponible";
-            String valornoche = controlador.obtenerDatoJtextFile(txtValorNoche) ;
+            String estadoH = "Disponible";
+            String valornoche = controlador.obtenerDatoJtextFile(txtValorNoche);
             String descripcion = controlador.obtenerDatoJtextArea(txtDescripcion);
             File ruta = new File(txtRuta.getText());
-//falta imagen 
-            controlador.guardarHabitacion(nombre, piso, bano, sala, estado, ruta, descripcion, valornoche);
+            controlador.guardarHabitacion(nombre, piso, bano, sala, estadoH, ruta, descripcion, valornoche);
             imprimir("Se guardó la habitacion " + nombre + " correctamente");
             vaciarCampos();
-           // listar();
+            listar();
         } catch (DatosIncompletosException | GuardarHabitacionException | NombreHabitacionException | CargarImagenException ex) {
             imprimir(ex.getMessage());
         }
@@ -539,7 +540,7 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
         try {
             Habitacion habitacion = controlador.buscarHabitacion(controlador.obtenerDatoJtextFile(txtNombre));
             imprimir("Se encontro la habitacion " + habitacion.getNombre() + " correctamente");
-            cargarInformacion(habitacion);
+
             btnRegistrar.setEnabled(false);
             btnEliminar.setEnabled(true);
             btnModificar.setEnabled(true);
@@ -547,27 +548,52 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
             txtNombre.setEnabled(false);
             btnCancelar.setEnabled(true);
 
-        } catch (BuscarHabitacionException | DatosIncompletosException ex) {
+            lblmagen.setIcon(new ImageIcon(controlador.cargarImagenBufferedImage(habitacion.getImagen())));
+            cargarInformacion(habitacion);
+        } catch (BuscarHabitacionException | DatosIncompletosException | CargarImagenException ex) {
             imprimir(ex.getMessage());
         }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
-//        try {
-//            String nombre = controlador.obtenerDatoJtextFile(txtNombre);
-//            String piso = controlador.obtenerDatoJtextFile(txtPiso);
-//            String bano = controlador.obtenerDatoJtextFile(txtBano);
-//            String sala = controlador.obtenerDatoJtextFile(txtSala);
-//            String estado = controlador.obtenerDatoJtextFile(txtEstado);
-//            String valornoche = controlador.obtenerDatoJtextFile(txtValorNoche) + "$";
-//            String descripcion = controlador.obtenerDatoJtextFile(txtDescripcion);
-//            File ruta = new File(txtRuta.getText());
-////falta imagen
-//            controlador.modificarHabitacion(nombre, piso, bano, sala, estado, ruta, descripcion, valornoche);
-//            JOptionPane.showMessageDialog(null, "Se Modifico la habitacion " + nombre + " correctamente");
-//        } catch (DatosIncompletosException | ModificarHabitacionException | NombreHabitacionException | BuscarHabitacionException | CargarImagenException ex) {
-//            Logger.getLogger(FrmGestionHabitacion.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+        try {
+            String nombre = controlador.obtenerDatoJtextFile(txtNombre);
+            String piso = spnPiso.getValue().toString();
+            String bano = spnBano.getValue().toString();
+            String sala = spnSala.getValue().toString();
+            String estadoH = estado;
+            String valornoche = controlador.obtenerDatoJtextFile(txtValorNoche);
+            String descripcion = controlador.obtenerDatoJtextArea(txtDescripcion);
+
+            if (controlador.obtenerDatoJtextFile(txtRuta) != null) {
+
+                File ruta = new File(txtRuta.getText());
+                controlador.modificarHabitacion(nombre, piso, bano, sala, estadoH, ruta, descripcion, valornoche);
+                JOptionPane.showMessageDialog(null, "Se Modifico la habitacion " + nombre + " correctamente");
+                listar();
+                vaciarCampos();
+                btnRegistrar.setEnabled(true);
+                btnEliminar.setEnabled(false);
+                btnModificar.setEnabled(false);
+                btnBuscar.setEnabled(true);
+                txtNombre.setEnabled(true);
+                btnCancelar.setEnabled(false);
+            } else {
+                controlador.modificarHabitacion2(nombre, piso, bano, sala, estadoH, descripcion, valornoche);
+                JOptionPane.showMessageDialog(null, "Se Modifico la habitacion " + nombre + " correctamente");
+                listar();
+                vaciarCampos();
+                btnRegistrar.setEnabled(true);
+                btnEliminar.setEnabled(false);
+                btnModificar.setEnabled(false);
+                btnBuscar.setEnabled(true);
+                txtNombre.setEnabled(true);
+                btnCancelar.setEnabled(false);
+            }
+
+        } catch (DatosIncompletosException | ModificarHabitacionException | NombreHabitacionException | BuscarHabitacionException | CargarImagenException ex) {
+            imprimir(ex.getMessage());
+        }
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void txtValorNocheKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtValorNocheKeyTyped
@@ -587,7 +613,13 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
         int condi = fileChooser.showOpenDialog(this);
         if (condi == JFileChooser.APPROVE_OPTION) {
             String ruta = fileChooser.getSelectedFile().getAbsolutePath();
-            rsscalelabel.RSScaleLabel.setScaleLabel(lblmagen, fileChooser.getSelectedFile().toString());//carga la imagen
+            //     rsscalelabel.RSScaleLabel.setScaleLabel(lblmagen, fileChooser.getSelectedFile().toString());//carga la imagen
+            try {
+                lblmagen.setIcon(new ImageIcon(controlador.cargarImagenBufferedImage(controlador.cargarImagenBytes(new File(ruta)))));
+            } catch (CargarImagenException ex) {
+                imprimir(ex.getMessage());
+            }
+
             txtRuta.setText(ruta);
 
         }
@@ -598,40 +630,39 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
     }//GEN-LAST:event_txtRutaKeyTyped
 
     private void txtDescripcionKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDescripcionKeyTyped
-       char c = evt.getKeyChar();
+        char c = evt.getKeyChar();
         if ((c < 'a' || c > 'z') && (c < 'A' || c > 'Z') && (c < '0' || c > '9') && c != '_' && c != '@' && c != '.' && c != '-' && c != ',') {
             evt.consume();
         }
     }//GEN-LAST:event_txtDescripcionKeyTyped
-//    public final void listar() {
-//        JtblHabitacion.setModel(controlador.listarElementos());
-//    }
+    public final void listar() {
+        tblHabitacion.setModel(controlador.listarElementos());
+    }
 
     private void vaciarCampos() {
-       
+
         txtNombre.setText(null);
         spnBano.setValue(0);
         spnPiso.setValue(0);
         spnSala.setValue(0);
-        txtRuta.setText(null);
         txtValorNoche.setText(null);
         txtDescripcion.setText(null);
         txtRuta.setText(null);
         lblmagen.setIcon(null);
+        estado = null;
         //falta imagen
     }
 
     private void cargarInformacion(Habitacion habitacion) {
 
-
         txtNombre.setText(habitacion.getNombre());
-        spnPiso.setValue(habitacion.getPiso());
-        spnBano.setValue(habitacion.getBano());
-        spnSala.setValue(habitacion.getSala());
-
-        txtValorNoche.setText(habitacion.getValorPorNoche() + "$");
+        spnPiso.setValue(Integer.parseInt(habitacion.getPiso()));
+        spnBano.setValue(Integer.parseInt(habitacion.getBano()));
+        spnSala.setValue(Integer.parseInt(habitacion.getSala()));
+        txtRuta.setText(null);
+        txtValorNoche.setText(habitacion.getValorPorNoche());
         txtDescripcion.setText(habitacion.getDescripcion());
-
+        estado = habitacion.getEstado();
         //falta imagen
     }
 
@@ -684,7 +715,6 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> CbxFiltrar;
-    private javax.swing.JTable JtblHabitacion;
     private javax.swing.JButton btnActualizar;
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnCancelar;
@@ -711,6 +741,7 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
     private javax.swing.JSpinner spnBano;
     private javax.swing.JSpinner spnPiso;
     private javax.swing.JSpinner spnSala;
+    private javax.swing.JTable tblHabitacion;
     private javax.swing.JTextArea txtDescripcion;
     private javax.swing.JTextField txtFiltrar;
     private javax.swing.JTextField txtNombre;

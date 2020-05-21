@@ -8,6 +8,7 @@ package Vista;
 import Controlador.CtlLogIn;
 import Excepcion.DatosIncompletosException;
 import Excepcion.LogInException;
+import Excepcion.UsuarioSuspendioException;
 import Modelo.Administrador;
 import Modelo.Huesped;
 import Modelo.Recepcionista;
@@ -199,9 +200,9 @@ public class FrmLogin extends javax.swing.JFrame {
                 this.dispose();
             }
 
-        } catch (DatosIncompletosException |LogInException ex) {
+        } catch (DatosIncompletosException |LogInException | UsuarioSuspendioException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
-        } 
+        }
     }//GEN-LAST:event_btnIngresarActionPerformed
 
     private void txtCedulaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCedulaKeyTyped
