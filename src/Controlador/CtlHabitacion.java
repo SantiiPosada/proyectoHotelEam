@@ -16,6 +16,7 @@ import Excepcion.NombreHabitacionException;
 import Modelo.Habitacion;
 import java.io.File;
 import java.util.ArrayList;
+import javax.swing.Icon;
 import javax.swing.JComboBox;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -69,5 +70,8 @@ public class CtlHabitacion {
     public DefaultTableModel listarElementos() {
         return bo.listarElementos();
     }
+      public Icon cargarImagenIcon(byte[] bytes) throws CargarImagenException {
+          return bo.cargarImagenIcon(bytes);
+      }
 
 }

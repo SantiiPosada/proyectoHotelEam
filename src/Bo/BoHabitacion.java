@@ -58,7 +58,12 @@ public class BoHabitacion {
             throw new CargarImagenException();
         }
     }
-
+/**
+ * Metodo encargado de convertir bytes en un icono
+ * @param bytes que se desea pasar a un icono
+ * @return bytes convertidos en icono
+ * @throws CargarImagenException si hay algun error al convertitir los bytes
+ */
     public Icon cargarImagenIcon(byte[] bytes) throws CargarImagenException {
         try {
             BufferedImage imagen = null;
