@@ -40,7 +40,7 @@ public class DAOHabitacion implements IDAOHabitacion {
             // falta imagen
             pstmt.setString(7, habitacion.getDescripcion());
             pstmt.setString(8, habitacion.getValorPorNoche());
-
+ pstmt.executeUpdate();
             desicion = true;
 
         } catch (SQLException ex) {
