@@ -31,11 +31,7 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
 
     public FrmGestionHabitacion() {
         initComponents();
-    }
-
-    public FrmGestionHabitacion(Administrador administrador) {
-        initComponents();
-        this.administrador = administrador;
+       
         this.setLocationRelativeTo(null);
         this.setResizable(false);
         btnCancelar.setEnabled(true);
@@ -43,8 +39,22 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
         btnCancelar.setEnabled(false);
         btnModificar.setEnabled(false);
         JtblHabitacion.setEnabled(true);
-        listar();
+        txtRuta.setEditable(false);
+//        listar();
     }
+
+//    public FrmGestionHabitacion(Administrador administrador) {
+//        initComponents();
+//        this.administrador = administrador;
+//        this.setLocationRelativeTo(null);
+//        this.setResizable(false);
+//        btnCancelar.setEnabled(true);
+//        btnModificar.setEnabled(false);
+//        btnCancelar.setEnabled(false);
+//        btnModificar.setEnabled(false);
+//        JtblHabitacion.setEnabled(true);
+//        listar();
+//    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -564,7 +574,7 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
     }//GEN-LAST:event_btnFiltrarActionPerformed
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
-        listar();
+       // listar();
         CbxFiltrar.setSelectedItem("Seleccione");
         txtFiltrar.setText(null);
     }//GEN-LAST:event_btnActualizarActionPerformed
@@ -657,11 +667,14 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
     private void btnSeleccionarImagenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarImagenActionPerformed
 
         JFileChooser fileChooser = new JFileChooser();
+        
+        fileChooser.setDialogTitle("Seleccione la imagen de la habitación");
         FileNameExtensionFilter filtro = new FileNameExtensionFilter("JPG, PNG & GIF", "jpg", "png", "gif");//se le asigna un filtro
         fileChooser.setFileFilter(filtro);
-        int s = fileChooser.showOpenDialog(this);
-        if (s == JFileChooser.APPROVE_OPTION) {
+        int condi = fileChooser.showOpenDialog(this);
+        if (condi == JFileChooser.APPROVE_OPTION) {
             String ruta = fileChooser.getSelectedFile().getAbsolutePath();
+              rsscalelabel.RSScaleLabel.setScaleLabel(lblmagen, fileChooser.getSelectedFile().toString());//carga la imagen
             txtRuta.setText(ruta);
 
         }
@@ -674,9 +687,9 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
     private void txtRutaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtRutaKeyTyped
         // TODO add your handling code here:
     }//GEN-LAST:event_txtRutaKeyTyped
-    public final void listar() {
-        JtblHabitacion.setModel(controlador.listarElementos());
-    }
+//    public final void listar() {
+//        JtblHabitacion.setModel(controlador.listarElementos());
+//    }
 
     private void vaciarCampos() {
         txtId.setText(null);
