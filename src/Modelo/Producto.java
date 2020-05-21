@@ -5,7 +5,6 @@
  */
 package Modelo;
 
-import javax.swing.Icon;
 
 /**
  * @author mateo gomez y santiago posada <santi.posdada.3075@eam.edu.co>
@@ -17,8 +16,7 @@ public class Producto {
     private String nombre;
     private String cantidad;
     private String precioUnitario;
-    private String nombreImagen;
-    private Icon imagen;
+    private byte[] imagen;
     private String descripcion;
     private String estado;
 
@@ -28,19 +26,17 @@ public class Producto {
         this.nombre = null;
         this.cantidad = null;
         this.precioUnitario = null;
-        this.nombreImagen = null;
         this.imagen = null;
         this.descripcion = null;
         this.estado = null;
     }
 
-    public Producto(int id, int idCategoriaProducto, String nombre, String cantidad, String precioUnitario, String nombreImagen, Icon imagen, String descripcion, String estado) {
+    public Producto(int id, int idCategoriaProducto, String nombre, String cantidad, String precioUnitario, byte[] imagen, String descripcion, String estado) {
         this.id = id;
         this.idCategoriaProducto = idCategoriaProducto;
         this.nombre = nombre;
         this.cantidad = cantidad;
         this.precioUnitario = precioUnitario;
-        this.nombreImagen = nombreImagen;
         this.imagen = imagen;
         this.descripcion = descripcion;
         this.estado = estado;
@@ -86,19 +82,11 @@ public class Producto {
         this.precioUnitario = precioUnitario;
     }
 
-    public String getNombreImagen() {
-        return nombreImagen;
-    }
-
-    public void setNombreImagen(String nombreImagen) {
-        this.nombreImagen = nombreImagen;
-    }
-
-    public Icon getImagen() {
+    public byte[] getImagen() {
         return imagen;
     }
 
-    public void setImagen(Icon imagen) {
+    public void setImagen(byte[] imagen) {
         this.imagen = imagen;
     }
 
@@ -117,5 +105,8 @@ public class Producto {
     public void setEstado(String estado) {
         this.estado = estado;
     }
+
+   
+
 
 }

@@ -10,12 +10,12 @@ import Excepcion.BuscarHabitacionException;
 import Excepcion.ComboBoxException;
 import Excepcion.DatosIncompletosException;
 import Excepcion.GuardarHabitacionException;
-import Excepcion.ImagenException;
 import Excepcion.ModificarHabitacionException;
 import Excepcion.NombreHabitacionException;
-import Excepcion.NombreImagenException;
 import Modelo.Administrador;
 import Modelo.Habitacion;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -84,10 +84,8 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
         btnFiltrar = new javax.swing.JButton();
         btnActualizar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
-        txtNombreImagen = new javax.swing.JTextField();
         txtBano = new javax.swing.JTextField();
         txtValorNoche = new javax.swing.JTextField();
-        lblTelefono1 = new javax.swing.JLabel();
         txtEstado = new javax.swing.JTextField();
         btnSeleccionarImagen = new javax.swing.JButton();
         txtDescripcion = new javax.swing.JTextField();
@@ -287,14 +285,6 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
             }
         });
 
-        txtNombreImagen.setBackground(new java.awt.Color(255, 255, 255));
-        txtNombreImagen.setForeground(new java.awt.Color(0, 0, 0));
-        txtNombreImagen.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtNombreImagenKeyTyped(evt);
-            }
-        });
-
         txtBano.setBackground(new java.awt.Color(255, 255, 255));
         txtBano.setForeground(new java.awt.Color(0, 0, 0));
         txtBano.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -310,9 +300,6 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
                 txtValorNocheKeyTyped(evt);
             }
         });
-
-        lblTelefono1.setForeground(new java.awt.Color(0, 0, 0));
-        lblTelefono1.setText("Nombre de la imagen");
 
         txtEstado.setBackground(new java.awt.Color(255, 255, 255));
         txtEstado.setForeground(new java.awt.Color(0, 0, 0));
@@ -385,15 +372,10 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
                                 .addComponent(btnFiltrar, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addContainerGap())
                             .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(106, 106, 106)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGap(106, 106, 106)
-                                        .addComponent(lblRecepcion, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(lblTelefono1)
-                                        .addGap(6, 6, 6)
-                                        .addComponent(txtNombreImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(btnSeleccionarImagen, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(btnSeleccionarImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lblRecepcion, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -429,10 +411,7 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnSalir)
-                            .addComponent(txtNombreImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblTelefono1))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnSeleccionarImagen)
+                            .addComponent(btnSeleccionarImagen))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
@@ -507,12 +486,12 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
             String estado = "No Disponible";
             String valornoche = controlador.obtenerDatoJtextFile(txtValorNoche) + "$";
             String descripcion = controlador.obtenerDatoJtextFile(txtDescripcion);
-            String nombreimagen = controlador.obtenerDatoJtextFile(txtNombreImagen);
+          
 //falta imagen
-            controlador.modificarHabitacion(nombre, piso, bano, sala, estado, nombreimagen, null, descripcion, valornoche);
+            controlador.modificarHabitacion(nombre, piso, bano, sala, estado, null, descripcion, valornoche);
             JOptionPane.showMessageDialog(null, "Se Elimino la habitacion " + nombre + " correctamente");
-        } catch (DatosIncompletosException | BuscarHabitacionException | NombreHabitacionException | NombreImagenException | ImagenException | ModificarHabitacionException e) {
-            imprimir(e.getMessage());
+        }  catch (ModificarHabitacionException | NombreHabitacionException | BuscarHabitacionException | DatosIncompletosException ex) {
+            imprimir(ex.getMessage());
         }
     }//GEN-LAST:event_btnEliminarActionPerformed
 
@@ -580,12 +559,12 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
             String estado = controlador.obtenerDatoJtextFile(txtEstado);
             String valornoche = controlador.obtenerDatoJtextFile(txtValorNoche) + "$";
             String descripcion = controlador.obtenerDatoJtextFile(txtDescripcion);
-            String nombreimagen = controlador.obtenerDatoJtextFile(txtNombreImagen);
+       
 //falta imagen
-            controlador.guardarHabitacion(nombre, piso, bano, sala, estado, nombreimagen, null, descripcion, valornoche);
+            controlador.guardarHabitacion(nombre, piso, bano, sala, estado, null, descripcion, valornoche);
             JOptionPane.showMessageDialog(null, "Se guardó la habitacion " + nombre + " correctamente");
-        } catch (GuardarHabitacionException | NombreHabitacionException | NombreImagenException | ImagenException | DatosIncompletosException | BuscarHabitacionException e) {
-            imprimir(e.getMessage());
+        } catch (DatosIncompletosException|GuardarHabitacionException | NombreHabitacionException ex) {
+            imprimir(ex.getMessage());
         }
 
     }//GEN-LAST:event_btnRegistrarActionPerformed
@@ -626,21 +605,14 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
             String estado = controlador.obtenerDatoJtextFile(txtEstado);
             String valornoche = controlador.obtenerDatoJtextFile(txtValorNoche) + "$";
             String descripcion = controlador.obtenerDatoJtextFile(txtDescripcion);
-            String nombreimagen = controlador.obtenerDatoJtextFile(txtNombreImagen);
+         
 //falta imagen
-            controlador.modificarHabitacion(nombre, piso, bano, sala, estado, nombreimagen, null, descripcion, valornoche);
+            controlador.modificarHabitacion(nombre, piso, bano, sala, estado, null, descripcion, valornoche);
             JOptionPane.showMessageDialog(null, "Se Modifico la habitacion " + nombre + " correctamente");
-        } catch (DatosIncompletosException | BuscarHabitacionException | NombreHabitacionException | NombreImagenException | ImagenException | ModificarHabitacionException e) {
-            imprimir(e.getMessage());
+        } catch (DatosIncompletosException|ModificarHabitacionException | NombreHabitacionException | BuscarHabitacionException ex) {
+            Logger.getLogger(FrmGestionHabitacion.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnModificarActionPerformed
-
-    private void txtNombreImagenKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreImagenKeyTyped
-        char c = evt.getKeyChar();
-        if (c < '0' || c > '9') {
-            evt.consume();
-        }
-    }//GEN-LAST:event_txtNombreImagenKeyTyped
 
     private void txtBanoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBanoKeyTyped
         char c = evt.getKeyChar();
@@ -683,7 +655,7 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
         txtEstado.setText(null);
         txtValorNoche.setText(null);
         txtDescripcion.setText(null);
-        txtNombreImagen.setText(null);
+    
         //falta imagen
     }
 
@@ -697,7 +669,7 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
         txtEstado.setText(habitacion.getEstado());
         txtValorNoche.setText(habitacion.getValorPorNoche() + "$");
         txtDescripcion.setText(habitacion.getDescripcion());
-        txtNombreImagen.setText(habitacion.getNombreImagen());
+  
         //falta imagen
     }
 
@@ -773,7 +745,6 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
     private javax.swing.JLabel lblPiso;
     private javax.swing.JLabel lblRecepcion;
     private javax.swing.JLabel lblSala;
-    private javax.swing.JLabel lblTelefono1;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JLabel lblValorNoche;
     private javax.swing.JTextField txtBano;
@@ -782,7 +753,6 @@ public class FrmGestionHabitacion extends javax.swing.JFrame {
     private javax.swing.JTextField txtFiltrar;
     private javax.swing.JTextField txtId;
     private javax.swing.JTextField txtNombre;
-    private javax.swing.JTextField txtNombreImagen;
     private javax.swing.JTextField txtPiso;
     private javax.swing.JTextField txtSala;
     private javax.swing.JTextField txtValorNoche;
