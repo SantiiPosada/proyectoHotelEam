@@ -6,9 +6,7 @@
 package Definiciones;
 
 import Excepcion.DatosIncompletosException;
-import Excepcion.ImagenException;
 import Excepcion.NombreHabitacionException;
-import Excepcion.NombreImagenException;
 import Modelo.Habitacion;
 
 import java.util.ArrayList;
@@ -24,21 +22,18 @@ public interface IDAOHabitacion {
      *
      * @param habitacion recibe la habitacion
      * @return verdadero si guardo el huesped, falso si no
-     * @throws Excepcion.NombreHabitacionException si el nombre de la habitacion
+     * @throws NombreHabitacionException si el nombre de la habitacion
      * ya se encuentra registrada
-     * @throws Excepcion.NombreImagenException si el nombre de la imagen ya se
-     * encuentra registrada
-     * @throws Excepcion.ImagenException si la imagen ya se encuentra registrada
-     * @throws Excepcion.DatosIncompletosException si algunos de los datos son
+     * @throws DatosIncompletosException si algunos de los datos son
      * nulos
      */
-    public boolean guardarHabitacion(Habitacion habitacion) throws NombreHabitacionException, NombreImagenException, ImagenException, DatosIncompletosException;
+    public boolean guardarHabitacion(Habitacion habitacion) throws NombreHabitacionException, DatosIncompletosException;
 
     /**
      * Metodo encargado de buscar a una habitacion
      *
-     * @param Nombre recube el nombre de la habitacion al buscar
-     * @return objeto con los datos del huesped
+     * @param Nombre recibe el nombre de la habitacion al buscar
+     * @return objeto con los datos de la habitacion
      */
     public Habitacion buscarHabitacion(String Nombre);
 
@@ -47,18 +42,15 @@ public interface IDAOHabitacion {
      *
      * @param habitacion objeto con todos los datos del huesped
      * @return verdadero si se modifico la habitacion,falso si no
-     * @throws Excepcion.NombreHabitacionException si el nombre de la habitacion
+     * @throws NombreHabitacionException si el nombre de la habitacion
      * ya se encuentra registrada
-     * @throws Excepcion.NombreImagenException si el nombre de la imagen ya se
-     * encuentra registrada
-     * @throws Excepcion.ImagenException si la imagen ya se encuentra registrada
-     * @throws Excepcion.DatosIncompletosException si algunos de los datos son
+     * @throws DatosIncompletosException si algunos de los datos son
      * nulos
      */
-    public boolean modificarHabitacion(Habitacion habitacion) throws NombreHabitacionException, NombreImagenException, ImagenException, DatosIncompletosException;
+    public boolean modificarHabitacion(Habitacion habitacion) throws NombreHabitacionException, DatosIncompletosException;
 
     /**
-     * Metodo para listar huesped
+     * Metodo para listar la habitacion
      *
      * @return una lista con las habitaciones registrados
      */

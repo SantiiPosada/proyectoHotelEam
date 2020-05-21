@@ -25,18 +25,18 @@ import java.util.ArrayList;
 public class DAOHabitacion implements IDAOHabitacion {
 
     @Override
-    public boolean guardarHabitacion(Habitacion habitacion) throws NombreHabitacionException, NombreImagenException, ImagenException, DatosIncompletosException {
+    public boolean guardarHabitacion(Habitacion habitacion) throws NombreHabitacionException, DatosIncompletosException {
         boolean desicion = false;
         try (Connection con = Conexion.getConnection()) {
 
-            PreparedStatement pstmt = con.prepareStatement("INSERT INTO habitacion (nombre,piso,bano,sala,estado,nombreImagen,imagen,descripcion,valorPorNoche) values (?,?,?,?,?,?,?,?,?)");
+            PreparedStatement pstmt = con.prepareStatement("INSERT INTO habitacion (nombre,piso,bano,sala,estado,imagen,descripcion,valorPorNoche) values (?,?,?,?,?,?,?,?,?)");
 
             pstmt.setString(1, habitacion.getNombre());
             pstmt.setString(2, habitacion.getPiso());
             pstmt.setString(3, habitacion.getBano());
             pstmt.setString(4, habitacion.getSala());
             pstmt.setString(5, habitacion.getEstado());
-            pstmt.setString(6, habitacion.getNombreImagen());
+            pstmt.setBytes(6, habitacion.getImagen());
             // falta imagen
             pstmt.setString(7, habitacion.getDescripcion());
             pstmt.setString(8, habitacion.getValorPorNoche());
@@ -51,10 +51,6 @@ public class DAOHabitacion implements IDAOHabitacion {
                 switch (variable) {
                     case "habitacion.nombr":
                         throw new NombreHabitacionException();
-                    case "habitacion.nombreImage":
-                        throw new NombreImagenException();
-                    case "habitacion.image":
-                        throw new ImagenException();
                     default:
                         break;
                 }
@@ -72,7 +68,7 @@ public class DAOHabitacion implements IDAOHabitacion {
     public Habitacion buscarHabitacion(String Nombre) {
         Habitacion habitacion = new Habitacion();
         try (Connection con = Conexion.getConnection()) {
-            PreparedStatement pstmt = con.prepareStatement("SELECT  id,nombre,piso,bano,sala,estado,nombreImagen,imagen,descripcion,valorPorNoche FROM habitacion where nombre=?");
+            PreparedStatement pstmt = con.prepareStatement("SELECT  id,nombre,piso,bano,sala,estado,imagen,descripcion,valorPorNoche FROM habitacion where nombre=?");
             pstmt.setString(1, Nombre);
             //Resultset guarda los datos de la busqueda
             ResultSet respuesta = pstmt.executeQuery();
@@ -84,7 +80,7 @@ public class DAOHabitacion implements IDAOHabitacion {
                 habitacion.setBano(respuesta.getString("bano"));
                 habitacion.setSala(respuesta.getString("sala"));
                 habitacion.setEstado(respuesta.getString("estado"));
-                habitacion.setNombreImagen(respuesta.getString("nombreImagen"));
+                habitacion.setImagen(respuesta.getBytes("imagen"));
                 //falta imagen
                 habitacion.setDescripcion(respuesta.getString("descripcion"));
                 habitacion.setValorPorNoche(respuesta.getString("valorPorNoche"));
@@ -99,21 +95,20 @@ public class DAOHabitacion implements IDAOHabitacion {
     }
 
     @Override
-    public boolean modificarHabitacion(Habitacion habitacion) throws NombreHabitacionException, NombreImagenException, ImagenException, DatosIncompletosException {
+    public boolean modificarHabitacion(Habitacion habitacion) throws NombreHabitacionException,  DatosIncompletosException {
         boolean desicion = false;
         try (Connection con = Conexion.getConnection()) {
-            PreparedStatement pstmt = con.prepareStatement("UPDATE habitacion SET  nombre=?, piso=?, bano=?, sala=?, estado=?, nombreImagen=?, imagen=?, descripcion=?,valorPorNoche=? WHERE id=?");//preparar la sentencia sql(modificar,agregar,eliminar,etc) se llena de izquierda a derecha de 1 en 1(1,2,3)
+            PreparedStatement pstmt = con.prepareStatement("UPDATE habitacion SET  nombre=?, piso=?, bano=?, sala=?, estado=?, imagen=?, descripcion=?,valorPorNoche=? WHERE id=?");//preparar la sentencia sql(modificar,agregar,eliminar,etc) se llena de izquierda a derecha de 1 en 1(1,2,3)
 
             pstmt.setString(1, habitacion.getNombre());
             pstmt.setString(2, habitacion.getPiso());
             pstmt.setString(3, habitacion.getBano());
             pstmt.setString(4, habitacion.getSala());
             pstmt.setString(5, habitacion.getEstado());
-            pstmt.setString(6, habitacion.getNombreImagen());
-            //falta imagen
-            pstmt.setString(8, habitacion.getDescripcion());
-            pstmt.setString(9, habitacion.getValorPorNoche());
-            pstmt.setInt(10, habitacion.getId());
+            pstmt.setBytes(6, habitacion.getImagen());
+            // falta imagen
+            pstmt.setString(7, habitacion.getDescripcion());
+            pstmt.setString(8, habitacion.getValorPorNoche());
             int res = pstmt.executeUpdate();
 
             desicion = res > 0;
@@ -126,12 +121,8 @@ public class DAOHabitacion implements IDAOHabitacion {
                 switch (variable) {
                     case "habitacion.nombr":
                         throw new NombreHabitacionException();
-                    case "habitacion.nombreImage":
-                        throw new NombreImagenException();
-                    case "habitacion.image":
-                        throw new ImagenException();
-                    default:
-                        break;
+                 
+                      
                 }
 
             } else if (codigo == 1048) {
@@ -147,7 +138,7 @@ public class DAOHabitacion implements IDAOHabitacion {
     public ArrayList<Habitacion> listarHabitacion() {
         try (Connection con = Conexion.getConnection()) {
 
-            PreparedStatement pstmt = con.prepareStatement("SELECT  id,nombre,piso,bano,sala,estado,nombreImagen,imagen,descripcion,valorPorNoche FROM habitacion");
+            PreparedStatement pstmt = con.prepareStatement("SELECT  id,nombre,piso,bano,sala,estado,imagen,descripcion,valorPorNoche FROM habitacion");
 
             ResultSet respuesta = pstmt.executeQuery();//Me va a traer todo lo que venga como resultado
             ArrayList<Habitacion> listar = new ArrayList<>();
@@ -163,7 +154,7 @@ public class DAOHabitacion implements IDAOHabitacion {
                     habitacion.setBano(respuesta.getString("bano"));
                     habitacion.setSala(respuesta.getString("sala"));
                     habitacion.setEstado(respuesta.getString("estado"));
-                    habitacion.setNombreImagen(respuesta.getString("nombreImagen"));
+                    habitacion.setImagen(respuesta.getBytes("imagen"));
                     //falta imagen
                     habitacion.setDescripcion(respuesta.getString("descripcion"));
                     habitacion.setValorPorNoche(respuesta.getString("valorPorNoche"));

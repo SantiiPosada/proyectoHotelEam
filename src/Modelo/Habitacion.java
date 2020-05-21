@@ -5,7 +5,6 @@
  */
 package Modelo;
 
-import javax.swing.Icon;
 
 /**
  * @author mateo gomez y santiago posada <santi.posdada.3075@eam.edu.co>
@@ -18,8 +17,7 @@ public class Habitacion {
     private String bano;
     private String sala;
     private String estado;
-    private String nombreImagen;
-    private Icon imagen;
+    private byte[] imagen;
     private String descripcion;
     private String valorPorNoche;
 
@@ -30,20 +28,18 @@ public class Habitacion {
         this.bano = null;
         this.sala = null;
         this.estado = null;
-        this.nombreImagen = null;
         this.imagen = null;
         this.descripcion = null;
         this.valorPorNoche = null;
     }
 
-    public Habitacion(int id, String nombre, String piso, String bano, String sala, String estado, String nombreImagen, Icon imagen, String descripcion, String valorPorNoche) {
+    public Habitacion(int id, String nombre, String piso, String bano, String sala, String estado, byte[] imagen, String descripcion, String valorPorNoche) {
         this.id = id;
         this.nombre = nombre;
         this.piso = piso;
         this.bano = bano;
         this.sala = sala;
         this.estado = estado;
-        this.nombreImagen = nombreImagen;
         this.imagen = imagen;
         this.descripcion = descripcion;
         this.valorPorNoche = valorPorNoche;
@@ -97,19 +93,11 @@ public class Habitacion {
         this.estado = estado;
     }
 
-    public String getNombreImagen() {
-        return nombreImagen;
-    }
-
-    public void setNombreImagen(String nombreImagen) {
-        this.nombreImagen = nombreImagen;
-    }
-
-    public Icon getImagen() {
+    public byte[] getImagen() {
         return imagen;
     }
 
-    public void setImagen(Icon imagen) {
+    public void setImagen(byte[] imagen) {
         this.imagen = imagen;
     }
 
