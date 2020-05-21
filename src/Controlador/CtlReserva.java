@@ -9,6 +9,9 @@ import Bo.BOReserva;
 import Excepcion.DatosIncompletosException;
 import Excepcion.GuardarReservaException;
 import java.util.Date;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
+import javax.swing.JTextField;
 
 /**
  *
@@ -24,5 +27,17 @@ public class CtlReserva {
 
     public void guardarReserva(int idHuesped, int idHabitacion, Date fechaHoraReserva, Date fechaHoraLlegada, Date fechaHoraSalida) throws GuardarReservaException, DatosIncompletosException {
         bo.guardarReserva(idHuesped, idHabitacion, fechaHoraReserva, fechaHoraLlegada, fechaHoraSalida);
+    }
+
+    public String obtenerStringDatoJtextFile(JTextField x) {
+        return bo.obtenerDatoJtextFile(x);
+    }
+
+    public String obtenerDatoJComboBox(JComboBox x) {
+        return bo.obtenerDatoJComboBox(x);
+    }
+
+    public DefaultComboBoxModel llenarComboBox() {
+        return bo.llenarComboBox();
     }
 }

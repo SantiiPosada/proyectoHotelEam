@@ -5,6 +5,7 @@
  */
 package Vista;
 
+import Controlador.CtlReserva;
 import Modelo.Huesped;
 
 /**
@@ -13,13 +14,12 @@ import Modelo.Huesped;
  */
 public class FrmReservacion extends javax.swing.JFrame {
 
-    /**
-     * Creates new form FrmMenuPrincipal
-     */
+    private final CtlReserva controlador;
     Huesped huesped = null;
 
     public FrmReservacion() {
         initComponents();
+        controlador = new CtlReserva();
         this.setLocationRelativeTo(null);
         this.setResizable(false);
     }
@@ -27,7 +27,8 @@ public class FrmReservacion extends javax.swing.JFrame {
     public FrmReservacion(Huesped huesped) {
         this.huesped = huesped;
         initComponents();
-
+        controlador = new CtlReserva();
+        llenarComboBox();
         cargarInfo(this.huesped);
         this.setResizable(false);
 
@@ -230,11 +231,11 @@ public class FrmReservacion extends javax.swing.JFrame {
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(0, 0, Short.MAX_VALUE))
+                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addGap(57, 57, 57)
                                         .addComponent(lblNombrehabitacion)))
+                                .addGap(0, 0, Short.MAX_VALUE)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addGap(38, 38, 38)
@@ -293,7 +294,7 @@ public class FrmReservacion extends javax.swing.JFrame {
                     .addComponent(lblFechasalida)
                     .addComponent(jDTEFechasalida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnReservar)
                     .addComponent(btnCancelar))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -314,9 +315,7 @@ public class FrmReservacion extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnReservarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReservarActionPerformed
-        FrmLogin login = new FrmLogin();
-        login.setVisible(true);
-        this.dispose();
+
     }//GEN-LAST:event_btnReservarActionPerformed
 
     private void btnSalir1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalir1ActionPerformed
@@ -332,6 +331,10 @@ public class FrmReservacion extends javax.swing.JFrame {
         lblCedula.setText(x.getCedula());
         lblNombre.setText(x.getNombrecompleto());
 
+    }
+
+    private void llenarComboBox() {
+        cbxHabitacion.setModel(controlador.llenarComboBox());
     }
 
     /**
