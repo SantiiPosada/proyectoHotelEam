@@ -12,6 +12,8 @@ import Conexion.Conexion;
 import Excepcion.DatosIncompletosException;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  *
@@ -28,14 +30,14 @@ public class DAOReserva implements IDAOReserva {
 
             pstmt.setInt(1, reserva.getIdHuesped());
             pstmt.setInt(2, reserva.getIdHabitacion());
-            pstmt.setDate(3, convertirDeDateUtilaDateSql(reserva.getFechaHoraReserva()));
-            pstmt.setDate(4, convertirDeDateUtilaDateSql(reserva.getFechaHoraLlegada()));
-            pstmt.setDate(5, convertirDeDateUtilaDateSql(reserva.getFechaHoraSalida()));
-            pstmt.setDate(6, convertirDeDateUtilaDateSql(reserva.getFechaHoraCheckIn()));
-            pstmt.setDate(7, convertirDeDateUtilaDateSql(reserva.getFechaHoraCheckOut()));
+            pstmt.setString(3, convertirDeDateUtilaDateTime(reserva.getFechaHoraReserva()));
+            pstmt.setString(4, convertirDeDateUtilaDateTime(reserva.getFechaHoraLlegada()));
+            pstmt.setString(5, convertirDeDateUtilaDateTime(reserva.getFechaHoraSalida()));
+            pstmt.setString(6, convertirDeDateUtilaDateTime(reserva.getFechaHoraCheckIn()));
+            pstmt.setString(7, convertirDeDateUtilaDateTime(reserva.getFechaHoraCheckOut()));
             pstmt.setString(8, reserva.getEstado());
             pstmt.setString(9, reserva.getEstadoServicio());
-
+   pstmt.executeUpdate();
             desicion = true;
 
         } catch (SQLException ex) {
@@ -50,21 +52,23 @@ public class DAOReserva implements IDAOReserva {
         return desicion;
     }
 
-    /**
-     * metodo que permite pasar la fecha de tipo java.util.Date a java.sql.Date
-     *
-     * @param uDate fecha de tipo java.util.Date que se desee cambiar a
-     * java.sql.Date
-     * @return la fecha lista para ser guardada en mySql
-     * @throws DatosIncompletosException si la fecha es null
-     */
-    private java.sql.Date convertirDeDateUtilaDateSql(java.util.Date uDate) throws DatosIncompletosException {
-        if (uDate == null) {
-            throw new DatosIncompletosException();
-        }
-        java.sql.Date sDate = new java.sql.Date(uDate.getTime());
-        return sDate;
+  private String convertirDeDateUtilaDateTime(Date uDate) {
+        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String currentTime = sdf.format(uDate);
 
+        return currentTime;
+    }
+
+    private Date convertirDeDatetimeUtilaDate(String datetime) {
+        SimpleDateFormat formatter6 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//      dd/MM/yyyy
+        try {
+            Date date6 = formatter6.parse(datetime);
+            return date6;
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+
+        return null;
     }
 
    

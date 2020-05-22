@@ -6,8 +6,10 @@
 package Controlador;
 
 import Bo.BOReserva;
+import Excepcion.CargarImagenException;
 import Excepcion.DatosIncompletosException;
 import Excepcion.GuardarReservaException;
+import java.awt.image.BufferedImage;
 import java.util.Date;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
@@ -39,5 +41,10 @@ public class CtlReserva {
 
     public DefaultComboBoxModel llenarComboBox() {
         return bo.llenarComboBox();
+    }
+
+    public BufferedImage cargarImagenBufferedImage(byte[] bytes) throws CargarImagenException {
+        return bo.cargarImagenBufferedImage(bytes);
+
     }
 }
