@@ -344,7 +344,7 @@ public class FrmReservacion extends javax.swing.JFrame {
                     .addComponent(lblFechasalida)
                     .addComponent(dateFechaSalida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnReservar)
                     .addComponent(btnCancelar))
                 .addContainerGap(24, Short.MAX_VALUE))
