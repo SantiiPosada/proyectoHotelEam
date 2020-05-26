@@ -11,8 +11,10 @@ import java.sql.Connection;
 import Conexion.Conexion;
 import Excepcion.DatosIncompletosException;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -37,7 +39,7 @@ public class DAOReserva implements IDAOReserva {
             pstmt.setString(7, convertirDeDateUtilaDateTime(reserva.getFechaHoraCheckOut()));
             pstmt.setString(8, reserva.getEstado());
             pstmt.setString(9, reserva.getEstadoServicio());
-   pstmt.executeUpdate();
+            pstmt.executeUpdate();
             desicion = true;
 
         } catch (SQLException ex) {
@@ -52,7 +54,46 @@ public class DAOReserva implements IDAOReserva {
         return desicion;
     }
 
-  private String convertirDeDateUtilaDateTime(Date uDate) {
+    @Override
+    public ArrayList<ReservaHabitacion> listarReserva() {
+        try (Connection con = Conexion.getConnection()) {
+
+            PreparedStatement pstmt = con.prepareStatement("SELECT  id,idHuesped,idHabitacion,fechaHoraReserva,fechaHoraLlegada,fechaHoraSalida,fechaHoraCheckIn,fechaHoraCheckOut,estado,estadoServicio FROM reservahabitacion estado='Prestado' ");
+
+            ResultSet respuesta = pstmt.executeQuery();//Me va a traer todo lo que venga como resultado
+            ArrayList<ReservaHabitacion> listar = new ArrayList<>();
+
+            boolean condicion = true;
+            while (condicion == true) {
+                if (respuesta.next()) {//si respuesta.next(revisa si hay un elemtento,salta al siguiente reistro) devuelve true=si encontro algo o false si no lo encontró
+                    ReservaHabitacion reserva = new ReservaHabitacion();
+
+                    reserva.setId(respuesta.getInt("id"));
+                    reserva.setIdHuesped(respuesta.getInt("idHuesped"));
+                    reserva.setIdHabitacion(respuesta.getInt("idHabitacion"));
+                    reserva.setFechaHoraReserva(convertirDeDatetimeUtilaDate(respuesta.getString("fechaHoraReserva")));
+                    reserva.setFechaHoraLlegada(convertirDeDatetimeUtilaDate(respuesta.getString("fechaHoraLlegada")));
+                    reserva.setFechaHoraSalida(convertirDeDatetimeUtilaDate(respuesta.getString("fechaHoraSalida")));
+                    reserva.setFechaHoraCheckIn(convertirDeDatetimeUtilaDate(respuesta.getString("fechaHoraCheckIn")));
+                    reserva.setFechaHoraCheckOut(convertirDeDatetimeUtilaDate(respuesta.getString("fechaHoraCheckOut")));
+                    reserva.setEstado(respuesta.getString("estado"));
+                    reserva.setEstadoServicio(respuesta.getString("estadoServicio"));
+                    listar.add(reserva);
+
+                } else {
+                    condicion = false;
+                }
+            }
+
+            return listar;
+        } catch (SQLException e) {
+            // e.printStackTrace();
+            System.err.println("Hubo un error al listar");
+        }
+        return null;
+    }
+
+    private String convertirDeDateUtilaDateTime(Date uDate) {
         java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String currentTime = sdf.format(uDate);
 
@@ -70,7 +111,5 @@ public class DAOReserva implements IDAOReserva {
 
         return null;
     }
-
-   
 
 }

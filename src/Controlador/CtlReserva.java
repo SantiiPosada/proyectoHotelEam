@@ -9,6 +9,8 @@ import Bo.BOReserva;
 import Excepcion.CargarImagenException;
 import Excepcion.DatosIncompletosException;
 import Excepcion.GuardarReservaException;
+import Excepcion.anoException;
+import Excepcion.mesException;
 import java.awt.image.BufferedImage;
 import java.util.Date;
 import javax.swing.DefaultComboBoxModel;
@@ -27,7 +29,7 @@ public class CtlReserva {
         bo = new BOReserva();
     }
 
-    public void guardarReserva(int idHuesped, int idHabitacion, Date fechaHoraReserva, Date fechaHoraLlegada, Date fechaHoraSalida) throws GuardarReservaException, DatosIncompletosException {
+    public void guardarReserva(int idHuesped, int idHabitacion, Date fechaHoraReserva, Date fechaHoraLlegada, Date fechaHoraSalida) throws GuardarReservaException, DatosIncompletosException, anoException, mesException {
         bo.guardarReserva(idHuesped, idHabitacion, fechaHoraReserva, fechaHoraLlegada, fechaHoraSalida);
     }
 

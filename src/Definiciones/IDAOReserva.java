@@ -7,6 +7,7 @@ package Definiciones;
 
 import Excepcion.DatosIncompletosException;
 import Modelo.ReservaHabitacion;
+import java.util.ArrayList;
 
 /**
  *
@@ -23,4 +24,11 @@ public interface IDAOReserva {
      */
     public boolean guardarReserva(ReservaHabitacion reserva) throws DatosIncompletosException;
 
+    
+    /**
+     * Método para listar reserva
+     *
+     * @return una lista con las reservas registradas
+     */
+       public ArrayList<ReservaHabitacion> listarReserva() ;
 }

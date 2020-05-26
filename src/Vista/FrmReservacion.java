@@ -11,12 +11,10 @@ import Excepcion.BuscarHabitacionException;
 import Excepcion.CargarImagenException;
 import Excepcion.DatosIncompletosException;
 import Excepcion.GuardarReservaException;
+import Excepcion.anoException;
+import Excepcion.mesException;
 import Modelo.Habitacion;
 import Modelo.Huesped;
-import com.toedter.calendar.JCalendar;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -42,6 +40,7 @@ public class FrmReservacion extends javax.swing.JFrame {
         controladorhabitacion = new CtlHabitacion();
         this.setLocationRelativeTo(null);
         this.setResizable(false);
+        
     }
 
     public FrmReservacion(Huesped huesped) {
@@ -95,7 +94,6 @@ public class FrmReservacion extends javax.swing.JFrame {
         btnReservar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
         lblSeleccione = new javax.swing.JLabel();
-        jCalendarFrm = new com.toedter.calendar.JCalendar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -257,9 +255,6 @@ public class FrmReservacion extends javax.swing.JFrame {
                 .addGap(40, 40, 40)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jSeparator1)
-                        .addGap(200, 200, 200))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(lblImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(48, 48, 48)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -269,9 +264,7 @@ public class FrmReservacion extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblValor, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lblValornoche))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jCalendarFrm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -305,7 +298,9 @@ public class FrmReservacion extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addComponent(txtNombrecompleto)
                                 .addComponent(dateFechaSalida, javax.swing.GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE)))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jSeparator1))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -327,8 +322,7 @@ public class FrmReservacion extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lblValor)))
-                    .addComponent(lblImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCalendarFrm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(32, 32, 32)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -381,7 +375,7 @@ public class FrmReservacion extends javax.swing.JFrame {
                 limpiar();
             }
 
-        } catch (GuardarReservaException | DatosIncompletosException ex) {
+        } catch (GuardarReservaException | DatosIncompletosException |anoException |mesException ex) {
             imprimir(ex.getMessage());
         }
 
@@ -514,7 +508,6 @@ public class FrmReservacion extends javax.swing.JFrame {
     private com.toedter.calendar.JDateChooser dateFechaHoy;
     private com.toedter.calendar.JDateChooser dateFechaLlegada;
     private com.toedter.calendar.JDateChooser dateFechaSalida;
-    private com.toedter.calendar.JCalendar jCalendarFrm;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
