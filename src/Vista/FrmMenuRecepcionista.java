@@ -16,20 +16,20 @@ public class FrmMenuRecepcionista extends javax.swing.JFrame {
     /**
      * Creates new form FrmMenuRecepcionista
      */
-    private Recepcionista recepcionista=null;
-    
+    private Recepcionista recepcionista = null;
+
     public FrmMenuRecepcionista() {
         initComponents();
-            this.setLocationRelativeTo(null);
+        this.setLocationRelativeTo(null);
         this.setResizable(false);
     }
 
     public FrmMenuRecepcionista(Recepcionista recepcionista) {
-         this.recepcionista = recepcionista;
+        this.recepcionista = recepcionista;
         initComponents();
         this.setLocationRelativeTo(null);
         this.setResizable(false);
-      
+
         lblNombre.setText("NOMBRE: " + this.recepcionista.getNombrecompleto());
         lblCedula.setText("CEDULA: " + this.recepcionista.getCedula());
     }
@@ -140,6 +140,11 @@ public class FrmMenuRecepcionista extends javax.swing.JFrame {
 
         btnCheckin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/checkin.jpg"))); // NOI18N
         btnCheckin.setBorder(null);
+        btnCheckin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCheckinActionPerformed(evt);
+            }
+        });
 
         lblCheckin.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         lblCheckin.setForeground(new java.awt.Color(0, 0, 0));
@@ -171,6 +176,11 @@ public class FrmMenuRecepcionista extends javax.swing.JFrame {
 
         btnHabitacionDisponible.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/hospedaje.jpg"))); // NOI18N
         btnHabitacionDisponible.setBorder(null);
+        btnHabitacionDisponible.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHabitacionDisponibleActionPerformed(evt);
+            }
+        });
 
         lblHabitacionesDisponible.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         lblHabitacionesDisponible.setForeground(new java.awt.Color(0, 0, 0));
@@ -340,7 +350,9 @@ public class FrmMenuRecepcionista extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCheckoutActionPerformed
 
     private void btnFacturacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFacturacionActionPerformed
-        // TODO add your handling code here:
+        FrmFacturacion facturacion = new FrmFacturacion(recepcionista);
+        facturacion.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnFacturacionActionPerformed
 
     private void btnMultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMultaActionPerformed
@@ -352,10 +364,22 @@ public class FrmMenuRecepcionista extends javax.swing.JFrame {
     }//GEN-LAST:event_btnVenderHabitacionActionPerformed
 
     private void btnRegistroHuespedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistroHuespedActionPerformed
-      FrmRegistroHuesped vista=new FrmRegistroHuesped(recepcionista);
-      vista.setVisible(true);
-      this.dispose();
+        FrmRegistroHuesped vista = new FrmRegistroHuesped(recepcionista);
+        vista.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnRegistroHuespedActionPerformed
+
+    private void btnHabitacionDisponibleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHabitacionDisponibleActionPerformed
+        FrmHabitacionDisponible habitaciondisponible = new FrmHabitacionDisponible(recepcionista);
+        habitaciondisponible.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnHabitacionDisponibleActionPerformed
+
+    private void btnCheckinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCheckinActionPerformed
+        FrmCheckIn checkin = new FrmCheckIn(recepcionista);
+        checkin.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnCheckinActionPerformed
 
     /**
      * @param args the command line arguments
