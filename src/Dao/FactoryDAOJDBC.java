@@ -6,6 +6,7 @@
 package Dao;
 
 import Definiciones.IDAOAdministrador;
+import Definiciones.IDAOCategoriaProductos;
 import Definiciones.IDAOHabitacion;
 import Definiciones.IDAOHuesped;
 import Definiciones.IDAOLogIn;
@@ -47,6 +48,11 @@ public class FactoryDAOJDBC implements IFabricaDAO {
     @Override
     public IDAOReserva crearDAOReserva() {
         return new DAOReserva();
+    }
+
+    @Override
+    public IDAOCategoriaProductos crearDAOCategoriaProductos() {
+        return new DAOCategoriaProductos();
     }
 
 }

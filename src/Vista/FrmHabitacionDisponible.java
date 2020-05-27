@@ -198,7 +198,7 @@ public class FrmHabitacionDisponible extends javax.swing.JFrame {
         lblTitulo.setBackground(new java.awt.Color(255, 255, 255));
         lblTitulo.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         lblTitulo.setForeground(new java.awt.Color(0, 0, 0));
-        lblTitulo.setText("HABITACION(es) DISPONIBLE");
+        lblTitulo.setText("HABITACIONES DISPONIBLE");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
