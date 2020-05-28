@@ -13,6 +13,8 @@ import Excepcion.DatosIncompletosException;
 import Excepcion.DayException;
 import Excepcion.FechaException;
 import Excepcion.GuardarReservaException;
+import Excepcion.ReservaActivaException;
+import Excepcion.UsuarioMultadoException;
 import Excepcion.anoException;
 import Excepcion.mesException;
 import Modelo.Habitacion;
@@ -42,7 +44,7 @@ public class FrmReservacion extends javax.swing.JFrame {
         controladorhabitacion = new CtlHabitacion();
         this.setLocationRelativeTo(null);
         this.setResizable(false);
-        
+
     }
 
     public FrmReservacion(Huesped huesped) {
@@ -378,9 +380,9 @@ public class FrmReservacion extends javax.swing.JFrame {
                 limpiar();
             }
 
-        } catch (GuardarReservaException | DatosIncompletosException |anoException |mesException | FechaException | DayException ex) {
+        } catch (GuardarReservaException | DatosIncompletosException | anoException | mesException | FechaException | DayException | UsuarioMultadoException | ReservaActivaException ex) {
             imprimir(ex.getMessage());
-        } 
+        }
 
 
     }//GEN-LAST:event_btnReservarActionPerformed
@@ -392,7 +394,7 @@ public class FrmReservacion extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-
+limpiar();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void cbxHabitacionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbxHabitacionMouseClicked
@@ -430,6 +432,7 @@ public class FrmReservacion extends javax.swing.JFrame {
         lblValor.setText("VALOR");
         lblDescripcion.setText("");
         cbxHabitacion.setSelectedIndex(0);
+        lblImagen.setIcon(null);
     }
 
     private void imprimir(String v) {

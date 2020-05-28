@@ -11,6 +11,8 @@ import Excepcion.DatosIncompletosException;
 import Excepcion.DayException;
 import Excepcion.FechaException;
 import Excepcion.GuardarReservaException;
+import Excepcion.ReservaActivaException;
+import Excepcion.UsuarioMultadoException;
 import Excepcion.anoException;
 import Excepcion.mesException;
 import java.awt.image.BufferedImage;
@@ -31,7 +33,7 @@ public class CtlReserva {
         bo = new BOReserva();
     }
 
-    public void guardarReserva(int idHuesped, int idHabitacion, Date fechaHoraReserva, Date fechaHoraLlegada, Date fechaHoraSalida) throws GuardarReservaException, DatosIncompletosException, anoException, mesException, FechaException, DayException {
+    public void guardarReserva(int idHuesped, int idHabitacion, Date fechaHoraReserva, Date fechaHoraLlegada, Date fechaHoraSalida) throws GuardarReservaException, DatosIncompletosException, anoException, mesException, FechaException, DayException, UsuarioMultadoException, ReservaActivaException {
         bo.guardarReserva(idHuesped, idHabitacion, fechaHoraReserva, fechaHoraLlegada, fechaHoraSalida);
     }
 
