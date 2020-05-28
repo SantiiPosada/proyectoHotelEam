@@ -125,7 +125,7 @@ public class BOInventarioProductos {
     public DefaultComboBoxModel llenarComboBox() {
         ArrayList<CategoriaProducto> listarCategoriaProductos = listaCategoria();
         DefaultComboBoxModel modelo = new DefaultComboBoxModel();
-
+        modelo.addElement("Seleccione");
         for (int i = 0; i < listarCategoriaProductos.size(); i++) {
             if (listarCategoriaProductos.get(i).getEstado().equalsIgnoreCase("Disponible")) {
                 modelo.addElement(listarCategoriaProductos.get(i).getNombre());
@@ -191,19 +191,21 @@ public class BOInventarioProductos {
         String categorias = "";
 
         for (Producto producto : lista) {
-            for (CategoriaProducto categoria : listacategoria) {
+            if (producto.getEstado().equalsIgnoreCase("Disponible")) {
+                for (CategoriaProducto categoria : listacategoria) {
 
-                if (producto.getIdCategoriaProducto() == categoria.getId()) {
+                    if (producto.getIdCategoriaProducto() == categoria.getId()) {
 
-                    categorias = categoria.getNombre();
+                        categorias = categoria.getNombre();
 
-                    break;
+                        break;
+                    }
+
                 }
-
+                modelo.addRow(new Object[]{producto.getId(), categorias, producto.getNombre(), producto.getCantidad(), producto.getPrecioUnitario(), producto.getDescripcion(), producto.getEstado()});
             }
-            modelo.addRow(new Object[]{producto.getId(), categorias, producto.getNombre(), producto.getCantidad(), producto.getPrecioUnitario(), producto.getDescripcion(), producto.getEstado()});
-        }
 
+        }
         return modelo;
     }
 

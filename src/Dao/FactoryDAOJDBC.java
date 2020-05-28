@@ -8,6 +8,7 @@ package Dao;
 import Definiciones.IDAOAdministrador;
 import Definiciones.IDAOCategoriaProductos;
 import Definiciones.IDAOHabitacion;
+import Definiciones.IDAOHistorialCuentaPersonal;
 import Definiciones.IDAOHuesped;
 import Definiciones.IDAOInventarioProductos;
 import Definiciones.IDAOLogIn;
@@ -59,6 +60,11 @@ public class FactoryDAOJDBC implements IFabricaDAO {
     @Override
     public IDAOInventarioProductos crearDAOInventarioProductos() {
         return new DAOInventarioProductos();
+    }
+
+    @Override
+    public IDAOHistorialCuentaPersonal crearDAOHistorialCuentaPersona() {
+        return new DAOHistorialCuentaPersonal();
     }
 
 }

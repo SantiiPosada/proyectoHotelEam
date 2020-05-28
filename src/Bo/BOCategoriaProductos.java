@@ -149,7 +149,7 @@ public class BOCategoriaProductos {
             case "Estado":
                 lista.forEach((categoria) -> {
 
-                    if (!categoria.getEstado().equalsIgnoreCase("No Disponible")) {
+                    if (categoria.getEstado().equalsIgnoreCase(accion)) {
                         modelo.addRow(new Object[]{categoria.getId(), categoria.getNombre(), categoria.getDescripcion(), categoria.getEstado()});
                     }
 
