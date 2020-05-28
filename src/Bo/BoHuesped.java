@@ -36,7 +36,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class BoHuesped {
 
-    private final IDAOHuesped dao;
+private final IDAOHuesped dao;
     private final DateFormat formato;
     private final Pattern pattern;
 

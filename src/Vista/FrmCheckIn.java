@@ -5,7 +5,12 @@
  */
 package Vista;
 
+import Controlador.CtlCheckIn;
+import Excepcion.BuscarHuespedException;
+import Excepcion.DatosIncompletosException;
+import Modelo.Huesped;
 import Modelo.Recepcionista;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -17,6 +22,8 @@ public class FrmCheckIn extends javax.swing.JFrame {
      * Creates new form FrmMenuRecepcionista
      */
     private Recepcionista recepcionista = null;
+    private Huesped huesped = null;
+    CtlCheckIn controlador;
 
     public FrmCheckIn() {
         initComponents();
@@ -26,12 +33,13 @@ public class FrmCheckIn extends javax.swing.JFrame {
 
     public FrmCheckIn(Recepcionista recepcionista) {
         this.recepcionista = recepcionista;
+        controlador = new CtlCheckIn();
         initComponents();
+        lblNombre.setText(this.recepcionista.getNombrecompleto());
+        lblCedula.setText(this.recepcionista.getCedula());
         this.setLocationRelativeTo(null);
         this.setResizable(false);
 
-        lblNombre.setText("NOMBRE: " + this.recepcionista.getNombrecompleto());
-        lblCedula.setText("CEDULA: " + this.recepcionista.getCedula());
     }
 
     /**
@@ -56,30 +64,29 @@ public class FrmCheckIn extends javax.swing.JFrame {
         btnConsultar = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         lblCedulahuesped1 = new javax.swing.JLabel();
-        txtCedula1 = new javax.swing.JTextField();
+        txtNombreCompleto = new javax.swing.JTextField();
         lblCedulahuesped2 = new javax.swing.JLabel();
         txtCedula2 = new javax.swing.JTextField();
         lblCedulahuesped3 = new javax.swing.JLabel();
-        txtCedula3 = new javax.swing.JTextField();
+        txtTelefono = new javax.swing.JTextField();
         lblCedulahuesped4 = new javax.swing.JLabel();
-        txtCedula4 = new javax.swing.JTextField();
+        txtCorreo = new javax.swing.JTextField();
         lblCedulahuesped5 = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
-        cbxHabitacion = new javax.swing.JComboBox<>();
+        btnConsultar1 = new javax.swing.JButton();
+        lblImagen = new javax.swing.JLabel();
         lblSeleccione = new javax.swing.JLabel();
-        lblCedulahuesped6 = new javax.swing.JLabel();
-        lblCedulahuesped7 = new javax.swing.JLabel();
-        txtCedula5 = new javax.swing.JTextField();
-        lblCedulahuesped8 = new javax.swing.JLabel();
-        txtCedula6 = new javax.swing.JTextField();
-        lblCedulahuesped9 = new javax.swing.JLabel();
+        cbxHabitacion = new javax.swing.JComboBox<>();
+        lblNombrehabitacion = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         lblDescripcion = new javax.swing.JTextArea();
-        lblImagen = new javax.swing.JLabel();
-        btnConsultar1 = new javax.swing.JButton();
-        btnConsultar2 = new javax.swing.JButton();
-        lblCedulahuesped10 = new javax.swing.JLabel();
-        dateFechaLlegada = new com.toedter.calendar.JDateChooser();
+        lblValornoche = new javax.swing.JLabel();
+        lblFechallegada = new javax.swing.JLabel();
+        dateFechaLlegada1 = new com.toedter.calendar.JDateChooser();
+        lblFechasalida = new javax.swing.JLabel();
+        dateFechaSalida = new com.toedter.calendar.JDateChooser();
+        lblFechasalida1 = new javax.swing.JLabel();
+        lblValor = new javax.swing.JLabel();
 
         javax.swing.GroupLayout jLayeredPane1Layout = new javax.swing.GroupLayout(jLayeredPane1);
         jLayeredPane1.setLayout(jLayeredPane1Layout);
@@ -134,41 +141,44 @@ public class FrmCheckIn extends javax.swing.JFrame {
                 .addGap(64, 64, 64)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblCedula, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31)
+                .addGap(47, 47, 47)
                 .addComponent(lblNombre1, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32))
+                .addGap(365, 365, 365))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(5, 5, 5)
-                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(lblCedula)
-                        .addGap(18, 18, 18)
-                        .addComponent(lblNombre)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnSalir)
-                        .addGap(5, 5, 5))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(lblNombre1)
-                        .addGap(47, 47, 47))))
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                .addComponent(lblCedula)
+                                .addGap(18, 18, 18)
+                                .addComponent(lblNombre)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnSalir)
+                                .addGap(5, 5, 5))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                .addComponent(lblNombre1)
+                                .addGap(56, 56, 56))))))
         );
 
         lblCedulahuesped.setBackground(new java.awt.Color(255, 255, 255));
         lblCedulahuesped.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         lblCedulahuesped.setForeground(new java.awt.Color(0, 0, 0));
         lblCedulahuesped.setText("Cedula Huesped :");
-
-        txtCedula.setEnabled(false);
 
         btnConsultar.setBackground(new java.awt.Color(255, 255, 255));
         btnConsultar.setForeground(new java.awt.Color(102, 0, 0));
@@ -184,7 +194,7 @@ public class FrmCheckIn extends javax.swing.JFrame {
         lblCedulahuesped1.setForeground(new java.awt.Color(0, 0, 0));
         lblCedulahuesped1.setText("Cedula Huesped :");
 
-        txtCedula1.setEnabled(false);
+        txtNombreCompleto.setEnabled(false);
 
         lblCedulahuesped2.setBackground(new java.awt.Color(255, 255, 255));
         lblCedulahuesped2.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
@@ -198,19 +208,37 @@ public class FrmCheckIn extends javax.swing.JFrame {
         lblCedulahuesped3.setForeground(new java.awt.Color(0, 0, 0));
         lblCedulahuesped3.setText("Telefono :");
 
-        txtCedula3.setEnabled(false);
+        txtTelefono.setEnabled(false);
 
         lblCedulahuesped4.setBackground(new java.awt.Color(255, 255, 255));
         lblCedulahuesped4.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         lblCedulahuesped4.setForeground(new java.awt.Color(0, 0, 0));
         lblCedulahuesped4.setText("Correo electronico :");
 
-        txtCedula4.setEnabled(false);
+        txtCorreo.setEnabled(false);
 
         lblCedulahuesped5.setBackground(new java.awt.Color(255, 255, 255));
         lblCedulahuesped5.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         lblCedulahuesped5.setForeground(new java.awt.Color(0, 0, 0));
         lblCedulahuesped5.setText("DATOS PERSONALES");
+
+        btnConsultar1.setBackground(new java.awt.Color(255, 255, 255));
+        btnConsultar1.setForeground(new java.awt.Color(102, 0, 0));
+        btnConsultar1.setText("GENERAR CHECK IN");
+        btnConsultar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConsultar1ActionPerformed(evt);
+            }
+        });
+
+        lblImagen.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        lblImagen.setMaximumSize(new java.awt.Dimension(4, 4));
+        lblImagen.setMinimumSize(new java.awt.Dimension(4, 4));
+
+        lblSeleccione.setBackground(new java.awt.Color(255, 255, 255));
+        lblSeleccione.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        lblSeleccione.setForeground(new java.awt.Color(0, 0, 0));
+        lblSeleccione.setText("Seleccione Reserva:");
 
         cbxHabitacion.setBackground(new java.awt.Color(255, 255, 255));
         cbxHabitacion.setForeground(new java.awt.Color(0, 0, 0));
@@ -225,34 +253,10 @@ public class FrmCheckIn extends javax.swing.JFrame {
             }
         });
 
-        lblSeleccione.setBackground(new java.awt.Color(255, 255, 255));
-        lblSeleccione.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        lblSeleccione.setForeground(new java.awt.Color(0, 0, 0));
-        lblSeleccione.setText("Seleccione habitacion :");
-
-        lblCedulahuesped6.setBackground(new java.awt.Color(255, 255, 255));
-        lblCedulahuesped6.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        lblCedulahuesped6.setForeground(new java.awt.Color(0, 0, 0));
-        lblCedulahuesped6.setText("DATOS HABITACION(ES)");
-
-        lblCedulahuesped7.setBackground(new java.awt.Color(255, 255, 255));
-        lblCedulahuesped7.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        lblCedulahuesped7.setForeground(new java.awt.Color(0, 0, 0));
-        lblCedulahuesped7.setText("Nombre  habitacion :");
-
-        txtCedula5.setEnabled(false);
-
-        lblCedulahuesped8.setBackground(new java.awt.Color(255, 255, 255));
-        lblCedulahuesped8.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        lblCedulahuesped8.setForeground(new java.awt.Color(0, 0, 0));
-        lblCedulahuesped8.setText("Valor por noche :");
-
-        txtCedula6.setEnabled(false);
-
-        lblCedulahuesped9.setBackground(new java.awt.Color(255, 255, 255));
-        lblCedulahuesped9.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        lblCedulahuesped9.setForeground(new java.awt.Color(0, 0, 0));
-        lblCedulahuesped9.setText("Descripcion :");
+        lblNombrehabitacion.setBackground(new java.awt.Color(255, 255, 255));
+        lblNombrehabitacion.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        lblNombrehabitacion.setForeground(new java.awt.Color(0, 0, 0));
+        lblNombrehabitacion.setText("NOMBRE HABITACION");
 
         lblDescripcion.setBackground(new java.awt.Color(255, 255, 255));
         lblDescripcion.setColumns(20);
@@ -260,32 +264,31 @@ public class FrmCheckIn extends javax.swing.JFrame {
         lblDescripcion.setRows(5);
         jScrollPane1.setViewportView(lblDescripcion);
 
-        lblImagen.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        lblImagen.setMaximumSize(new java.awt.Dimension(4, 4));
-        lblImagen.setMinimumSize(new java.awt.Dimension(4, 4));
+        lblValornoche.setBackground(new java.awt.Color(255, 255, 255));
+        lblValornoche.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        lblValornoche.setForeground(new java.awt.Color(0, 0, 0));
+        lblValornoche.setText("VALOR POR NOCHE");
 
-        btnConsultar1.setBackground(new java.awt.Color(255, 255, 255));
-        btnConsultar1.setForeground(new java.awt.Color(102, 0, 0));
-        btnConsultar1.setText("GENERAR");
-        btnConsultar1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnConsultar1ActionPerformed(evt);
-            }
-        });
+        lblFechallegada.setBackground(new java.awt.Color(255, 255, 255));
+        lblFechallegada.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        lblFechallegada.setForeground(new java.awt.Color(0, 0, 0));
+        lblFechallegada.setText("Fecha llegada :");
 
-        btnConsultar2.setBackground(new java.awt.Color(255, 255, 255));
-        btnConsultar2.setForeground(new java.awt.Color(102, 0, 0));
-        btnConsultar2.setText("CANCELAR");
-        btnConsultar2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnConsultar2ActionPerformed(evt);
-            }
-        });
+        lblFechasalida.setBackground(new java.awt.Color(255, 255, 255));
+        lblFechasalida.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        lblFechasalida.setForeground(new java.awt.Color(0, 0, 0));
+        lblFechasalida.setText("Fecha salida :");
 
-        lblCedulahuesped10.setBackground(new java.awt.Color(255, 255, 255));
-        lblCedulahuesped10.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        lblCedulahuesped10.setForeground(new java.awt.Color(0, 0, 0));
-        lblCedulahuesped10.setText("Fecha ingreso :");
+        lblFechasalida1.setBackground(new java.awt.Color(255, 255, 255));
+        lblFechasalida1.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        lblFechasalida1.setForeground(new java.awt.Color(0, 0, 0));
+        lblFechasalida1.setText("Fecha salida :");
+
+        lblValor.setBackground(new java.awt.Color(255, 255, 255));
+        lblValor.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        lblValor.setForeground(new java.awt.Color(0, 0, 0));
+        lblValor.setText("VALOR");
+        lblValor.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -298,141 +301,154 @@ public class FrmCheckIn extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(lblCedulahuesped1, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblCedulahuesped3, javax.swing.GroupLayout.Alignment.LEADING))
-                        .addGap(6, 6, 6)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtCedula2, javax.swing.GroupLayout.DEFAULT_SIZE, 123, Short.MAX_VALUE)
-                            .addComponent(txtCedula3))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(208, 208, 208)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(lblCedulahuesped2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtCedula1))
+                                .addGap(30, 30, 30)
+                                .addComponent(btnConsultar1, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(lblFechasalida1))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(159, 159, 159)
+                                        .addComponent(lblFechasalida, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)))
+                                .addGap(392, 392, 392))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(lblCedulahuesped4)
-                                .addGap(16, 16, 16)
-                                .addComponent(txtCedula4)))
-                        .addContainerGap())
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(dateFechaSalida, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                            .addGap(80, 80, 80)
+                                            .addComponent(lblFechallegada, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                            .addGap(67, 67, 67)
+                                            .addComponent(dateFechaLlegada1, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(lblCedulahuesped)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtCedula, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(67, 67, 67)
+                                .addComponent(btnConsultar, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                        .addComponent(lblCedulahuesped7)
-                                        .addGap(44, 44, 44)
-                                        .addComponent(txtCedula5))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(lblCedulahuesped5, javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                                .addComponent(lblSeleccione)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(cbxHabitacion, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addComponent(lblCedulahuesped6, javax.swing.GroupLayout.Alignment.LEADING))
-                                        .addGap(0, 47, Short.MAX_VALUE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                        .addComponent(lblCedulahuesped8)
-                                        .addGap(67, 67, 67)
-                                        .addComponent(txtCedula6)))
-                                .addGap(79, 79, 79))
+                                    .addComponent(lblCedulahuesped1, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblCedulahuesped3, javax.swing.GroupLayout.Alignment.LEADING))
+                                .addGap(6, 6, 6)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtCedula2, javax.swing.GroupLayout.DEFAULT_SIZE, 123, Short.MAX_VALUE)
+                                    .addComponent(txtTelefono))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(lblCedulahuesped2)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(txtNombreCompleto, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(lblCedulahuesped4)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(txtCorreo))))
+                            .addComponent(lblCedulahuesped5)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(lblCedulahuesped9)
-                                .addGap(62, 62, 62)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addComponent(lblImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblCedulahuesped)
-                            .addComponent(lblCedulahuesped10))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGap(15, 15, 15)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(lblSeleccione)
+                                        .addGap(2, 2, 2)
+                                        .addComponent(cbxHabitacion, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(txtCedula)
-                                .addGap(69, 69, 69))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(dateFechaLlegada, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGap(127, 127, 127)))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnConsultar2, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnConsultar, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(78, 78, 78))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnConsultar1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(234, 234, 234))
+                                .addGap(116, 116, 116)
+                                .addComponent(lblNombrehabitacion, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(30, 30, 30)
+                                .addComponent(lblValornoche)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(lblValor, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(13, 13, 13)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblCedulahuesped)
                     .addComponent(txtCedula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnConsultar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnConsultar2)
-                        .addComponent(lblCedulahuesped10))
-                    .addComponent(dateFechaLlegada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 11, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblCedulahuesped5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblCedulahuesped1)
-                    .addComponent(txtCedula1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtNombreCompleto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblCedulahuesped2)
                     .addComponent(txtCedula2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblCedulahuesped3)
-                    .addComponent(txtCedula3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblCedulahuesped4)
-                    .addComponent(txtCedula4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 11, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(1, 1, 1)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(lblCedulahuesped6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblSeleccione)
-                            .addComponent(cbxHabitacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblCedulahuesped7)
-                            .addComponent(txtCedula5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(19, 19, 19)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblCedulahuesped9)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(71, 71, 71)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtCedula6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblCedulahuesped8)))
-                    .addComponent(lblImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnConsultar1, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                            .addComponent(lblNombrehabitacion)
+                            .addComponent(lblValornoche)
+                            .addComponent(lblValor)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(cbxHabitacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblSeleccione))))
+                .addGap(33, 33, 33)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(lblFechallegada)
+                                .addGap(18, 18, 18)
+                                .addComponent(dateFechaLlegada1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(lblFechasalida)
+                                    .addComponent(lblFechasalida1))
+                                .addGap(30, 30, 30)
+                                .addComponent(dateFechaSalida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnConsultar1, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(23, 23, 23))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(lblImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(70, Short.MAX_VALUE))))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 717, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -445,8 +461,18 @@ public class FrmCheckIn extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
-
+        try {
+            String cedula = controlador.obtenerDatoJtextFile(txtCedula);
+            huesped = controlador.buscarHuesped(cedula);
+            cargarInfo(huesped);
+        } catch (BuscarHuespedException | DatosIncompletosException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+        }
     }//GEN-LAST:event_btnConsultarActionPerformed
+
+    private void btnConsultar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultar1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnConsultar1ActionPerformed
 
     private void cbxHabitacionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbxHabitacionMouseClicked
 
@@ -456,17 +482,17 @@ public class FrmCheckIn extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_cbxHabitacionActionPerformed
 
-    private void btnConsultar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultar1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnConsultar1ActionPerformed
-
-    private void btnConsultar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultar2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnConsultar2ActionPerformed
-
     /**
      * @param args the command line arguments
      */
+    private void cargarInfo(Huesped x) {
+
+        txtCedula2.setText(this.huesped.getCedula());
+        txtNombreCompleto.setText(this.huesped.getNombrecompleto());
+        txtCorreo.setText(this.huesped.getCorreo());
+        txtTelefono.setText(this.huesped.getTelefono());
+    }
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -503,10 +529,10 @@ public class FrmCheckIn extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnConsultar;
     private javax.swing.JButton btnConsultar1;
-    private javax.swing.JButton btnConsultar2;
     private javax.swing.JButton btnSalir;
     private javax.swing.JComboBox<String> cbxHabitacion;
-    private com.toedter.calendar.JDateChooser dateFechaLlegada;
+    private com.toedter.calendar.JDateChooser dateFechaLlegada1;
+    private com.toedter.calendar.JDateChooser dateFechaSalida;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JPanel jPanel1;
@@ -517,26 +543,25 @@ public class FrmCheckIn extends javax.swing.JFrame {
     private javax.swing.JLabel lblCedula;
     private javax.swing.JLabel lblCedulahuesped;
     private javax.swing.JLabel lblCedulahuesped1;
-    private javax.swing.JLabel lblCedulahuesped10;
     private javax.swing.JLabel lblCedulahuesped2;
     private javax.swing.JLabel lblCedulahuesped3;
     private javax.swing.JLabel lblCedulahuesped4;
     private javax.swing.JLabel lblCedulahuesped5;
-    private javax.swing.JLabel lblCedulahuesped6;
-    private javax.swing.JLabel lblCedulahuesped7;
-    private javax.swing.JLabel lblCedulahuesped8;
-    private javax.swing.JLabel lblCedulahuesped9;
     private javax.swing.JTextArea lblDescripcion;
+    private javax.swing.JLabel lblFechallegada;
+    private javax.swing.JLabel lblFechasalida;
+    private javax.swing.JLabel lblFechasalida1;
     private javax.swing.JLabel lblImagen;
     private javax.swing.JLabel lblNombre;
     private javax.swing.JLabel lblNombre1;
+    private javax.swing.JLabel lblNombrehabitacion;
     private javax.swing.JLabel lblSeleccione;
+    private javax.swing.JLabel lblValor;
+    private javax.swing.JLabel lblValornoche;
     private javax.swing.JTextField txtCedula;
-    private javax.swing.JTextField txtCedula1;
     private javax.swing.JTextField txtCedula2;
-    private javax.swing.JTextField txtCedula3;
-    private javax.swing.JTextField txtCedula4;
-    private javax.swing.JTextField txtCedula5;
-    private javax.swing.JTextField txtCedula6;
+    private javax.swing.JTextField txtCorreo;
+    private javax.swing.JTextField txtNombreCompleto;
+    private javax.swing.JTextField txtTelefono;
     // End of variables declaration//GEN-END:variables
 }
