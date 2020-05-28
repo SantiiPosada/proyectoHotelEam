@@ -9,6 +9,7 @@ import Definiciones.IDAOAdministrador;
 import Definiciones.IDAOCategoriaProductos;
 import Definiciones.IDAOHabitacion;
 import Definiciones.IDAOHuesped;
+import Definiciones.IDAOInventarioProductos;
 import Definiciones.IDAOLogIn;
 import Definiciones.IDAORecepcionista;
 import Definiciones.IDAOReserva;
@@ -53,6 +54,11 @@ public class FactoryDAOJDBC implements IFabricaDAO {
     @Override
     public IDAOCategoriaProductos crearDAOCategoriaProductos() {
         return new DAOCategoriaProductos();
+    }
+
+    @Override
+    public IDAOInventarioProductos crearDAOInventarioProductos() {
+        return new DAOInventarioProductos();
     }
 
 }

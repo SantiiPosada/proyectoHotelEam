@@ -59,4 +59,11 @@ public interface IFabricaDAO {
      * @return Abstraccion de DAOCategoriaProductos
      */
     public IDAOCategoriaProductos crearDAOCategoriaProductos();
+
+    /**
+     * Metodo para la creacion de un DAOInventarioProductos
+     *
+     * @return Abstraccion de DAOInventarioProductos
+     */
+    public IDAOInventarioProductos crearDAOInventarioProductos();
 }

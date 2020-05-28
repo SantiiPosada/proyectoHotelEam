@@ -6,16 +6,23 @@
 package Vista;
 
 import Controlador.CtlHabitacion;
+import Controlador.CtlInventarioProductos;
 import Excepcion.BuscarHabitacionException;
+import Excepcion.BuscarInventarioException;
 import Excepcion.CargarImagenException;
 import Excepcion.ComboBoxException;
 import Excepcion.DatosIncompletosException;
 import Excepcion.GuardarHabitacionException;
+import Excepcion.GuardarInventarioProductoException;
 import Excepcion.ModificarHabitacionException;
+import Excepcion.ModificarInventarioException;
 import Excepcion.NombreHabitacionException;
+import Excepcion.NombreProductoException;
 import Modelo.Administrador;
 import Modelo.Habitacion;
+import Modelo.Producto;
 import java.io.File;
+import java.text.ParseException;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -28,11 +35,11 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class FrmGestionInventario extends javax.swing.JFrame {
 
     private Administrador administrador;
-    private final CtlHabitacion controlador;
+    private final CtlInventarioProductos controlador;
     private String estado;
 
     public FrmGestionInventario() {
-        controlador = new CtlHabitacion();
+        controlador = new CtlInventarioProductos();
         initComponents();
         btnRegistrar.setEnabled(false);
         btnBuscar.setEnabled(false);
@@ -43,7 +50,7 @@ public class FrmGestionInventario extends javax.swing.JFrame {
     }
 
     public FrmGestionInventario(Administrador administrador) {
-        controlador = new CtlHabitacion();
+        controlador = new CtlInventarioProductos();
         this.administrador = administrador;
         initComponents();
 
@@ -53,7 +60,7 @@ public class FrmGestionInventario extends javax.swing.JFrame {
         btnModificar.setEnabled(false);
         btnCancelar.setEnabled(false);
         btnModificar.setEnabled(false);
-        tblHabitacion.setEnabled(true);
+        tblInventario.setEnabled(true);
         txtRuta.setEditable(false);
 
     }
@@ -78,7 +85,7 @@ public class FrmGestionInventario extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        tblHabitacion = new javax.swing.JTable();
+        tblInventario = new javax.swing.JTable();
         lblmagen = new javax.swing.JLabel();
         btnSalir = new javax.swing.JButton();
         btnRegistrar = new javax.swing.JButton();
@@ -91,13 +98,13 @@ public class FrmGestionInventario extends javax.swing.JFrame {
         btnFiltrar = new javax.swing.JButton();
         btnActualizar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
-        txtValorNoche = new javax.swing.JTextField();
+        txtPrecioUnitario = new javax.swing.JTextField();
         btnSeleccionarImagen = new javax.swing.JButton();
         txtRuta = new javax.swing.JTextField();
-        spnBano = new javax.swing.JSpinner();
+        spnCantidad = new javax.swing.JSpinner();
         jScrollPane3 = new javax.swing.JScrollPane();
         txtDescripcion = new javax.swing.JTextArea();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        CbxCategoria = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -134,9 +141,9 @@ public class FrmGestionInventario extends javax.swing.JFrame {
         lblDescripcion.setForeground(new java.awt.Color(0, 0, 0));
         lblDescripcion.setText("Descripcion :");
 
-        tblHabitacion.setBackground(new java.awt.Color(255, 255, 255));
-        tblHabitacion.setForeground(new java.awt.Color(0, 0, 0));
-        tblHabitacion.setModel(new javax.swing.table.DefaultTableModel(
+        tblInventario.setBackground(new java.awt.Color(255, 255, 255));
+        tblInventario.setForeground(new java.awt.Color(0, 0, 0));
+        tblInventario.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null},
@@ -155,7 +162,7 @@ public class FrmGestionInventario extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane2.setViewportView(tblHabitacion);
+        jScrollPane2.setViewportView(tblInventario);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -263,11 +270,11 @@ public class FrmGestionInventario extends javax.swing.JFrame {
             }
         });
 
-        txtValorNoche.setBackground(new java.awt.Color(255, 255, 255));
-        txtValorNoche.setForeground(new java.awt.Color(0, 0, 0));
-        txtValorNoche.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtPrecioUnitario.setBackground(new java.awt.Color(255, 255, 255));
+        txtPrecioUnitario.setForeground(new java.awt.Color(0, 0, 0));
+        txtPrecioUnitario.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtValorNocheKeyTyped(evt);
+                txtPrecioUnitarioKeyTyped(evt);
             }
         });
 
@@ -288,7 +295,7 @@ public class FrmGestionInventario extends javax.swing.JFrame {
             }
         });
 
-        spnBano.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
+        spnCantidad.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
 
         txtDescripcion.setBackground(new java.awt.Color(255, 255, 255));
         txtDescripcion.setColumns(20);
@@ -301,8 +308,8 @@ public class FrmGestionInventario extends javax.swing.JFrame {
         });
         jScrollPane3.setViewportView(txtDescripcion);
 
-        jComboBox1.setBackground(new java.awt.Color(255, 255, 255));
-        jComboBox1.setForeground(new java.awt.Color(0, 0, 0));
+        CbxCategoria.setBackground(new java.awt.Color(255, 255, 255));
+        CbxCategoria.setForeground(new java.awt.Color(0, 0, 0));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -327,11 +334,11 @@ public class FrmGestionInventario extends javax.swing.JFrame {
                                     .addComponent(lblDescripcion))
                                 .addGap(34, 34, 34)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtValorNoche, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(spnBano, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtPrecioUnitario, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(spnCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(CbxCategoria, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(txtNombre, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE)))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -397,15 +404,15 @@ public class FrmGestionInventario extends javax.swing.JFrame {
                                 .addGap(12, 12, 12)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(lblPiso)
-                                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(CbxCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(16, 16, 16)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(lblBano)
-                                    .addComponent(spnBano, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(spnCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(34, 34, 34)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(lblValorNoche)
-                                    .addComponent(txtValorNoche, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(txtPrecioUnitario, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(26, 26, 26)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(lblDescripcion)
@@ -438,6 +445,26 @@ public class FrmGestionInventario extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        try {
+            String nombre = controlador.obtenerDatoJtextFile(txtNombre);
+            int categoria = controlador.obtenerIdCategoria(CbxCategoria.getSelectedIndex() - 1);
+            String cantidad = spnCantidad.getValue().toString();
+            String precioUnitario = controlador.obtenerDatoJtextFile(txtPrecioUnitario);
+            String descripcion = controlador.obtenerDatoJtextArea(txtDescripcion);
+            String estados = "No Disponible";
+            controlador.modificarInventario2(categoria, nombre, cantidad, precioUnitario, descripcion, estados);
+            JOptionPane.showMessageDialog(null, "Se eliminó el producto " + nombre + " correctamente");
+            listar();
+            vaciarCampos();
+            btnRegistrar.setEnabled(true);
+            btnEliminar.setEnabled(false);
+            btnModificar.setEnabled(false);
+            btnBuscar.setEnabled(true);
+            txtNombre.setEnabled(true);
+            btnCancelar.setEnabled(false);
+        } catch (DatosIncompletosException | BuscarInventarioException | CargarImagenException | NombreProductoException | ModificarInventarioException e) {
+            imprimir(e.getMessage());
+        }
 
     }//GEN-LAST:event_btnEliminarActionPerformed
 
@@ -459,15 +486,38 @@ public class FrmGestionInventario extends javax.swing.JFrame {
     }//GEN-LAST:event_txtFiltrarKeyTyped
 
     private void btnFiltrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltrarActionPerformed
+        try {
+            String opcion = CbxFiltrar.getSelectedItem().toString();
+            String accion = controlador.obtenerDatoJtextFile(txtFiltrar);
+            tblInventario.setModel(controlador.filtrar(opcion, accion));
 
+        } catch (DatosIncompletosException | NumberFormatException | ComboBoxException | ParseException e) {
+            imprimir(e.getMessage());
+        }
     }//GEN-LAST:event_btnFiltrarActionPerformed
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
-
+        listar();
+        CbxFiltrar.setSelectedItem("Seleccione");
+        txtFiltrar.setText(null);
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
-
+        try {
+            String nombre = controlador.obtenerDatoJtextFile(txtNombre);
+            int categoria = controlador.obtenerIdCategoria(CbxCategoria.getSelectedIndex() - 1);
+            String cantidad = spnCantidad.getValue().toString();
+            String precioUnitario = controlador.obtenerDatoJtextFile(txtPrecioUnitario);
+            String descripcion = controlador.obtenerDatoJtextArea(txtDescripcion);
+            File ruta = new File(txtRuta.getText());
+            String estados = "Disponible";
+            controlador.guardarInventario(categoria, nombre, cantidad, precioUnitario, ruta, descripcion, estados);
+            imprimir("Se guardó inventario " + nombre + " correctamente");
+            vaciarCampos();
+            listar();
+        } catch (CargarImagenException | NombreProductoException | DatosIncompletosException | GuardarInventarioProductoException e) {
+            imprimir(e.getMessage());
+        }
 
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
@@ -478,27 +528,91 @@ public class FrmGestionInventario extends javax.swing.JFrame {
         btnEliminar.setEnabled(false);
         btnCancelar.setEnabled(false);
         txtNombre.setEnabled(true);
-
+        vaciarCampos();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        try {
+            Producto producto = controlador.buscarInventario(controlador.obtenerDatoJtextFile(txtNombre));
+            imprimir("Se encontro el producto" + producto.getNombre() + " correctamente");
+            btnRegistrar.setEnabled(false);
+            btnEliminar.setEnabled(true);
+            btnModificar.setEnabled(true);
+            btnBuscar.setEnabled(false);
+            txtNombre.setEnabled(false);
+            btnCancelar.setEnabled(true);
 
+            lblmagen.setIcon(new ImageIcon(controlador.cargarImagenBufferedImage(producto.getImagen())));
+            cargarInformacion(producto);
+        } catch (DatosIncompletosException | BuscarInventarioException | CargarImagenException e) {
+            imprimir(e.toString());
+        }
 
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
-
+        try {
+            String nombre = controlador.obtenerDatoJtextFile(txtNombre);
+            int categoria = controlador.obtenerIdCategoria(CbxCategoria.getSelectedIndex() - 1);
+            String cantidad = spnCantidad.getValue().toString();
+            String precioUnitario = controlador.obtenerDatoJtextFile(txtPrecioUnitario);
+            String descripcion = controlador.obtenerDatoJtextArea(txtDescripcion);
+            String estados = estado;
+            if (controlador.obtenerDatoJtextFile(txtRuta) != null) {
+                File ruta = new File(txtRuta.getText());
+                controlador.modificarInventario(categoria, nombre, cantidad, precioUnitario, ruta, descripcion, estados);
+                JOptionPane.showMessageDialog(null, "Se Modifico el producto " + nombre + " correctamente");
+                listar();
+                vaciarCampos();
+                btnRegistrar.setEnabled(true);
+                btnEliminar.setEnabled(false);
+                btnModificar.setEnabled(false);
+                btnBuscar.setEnabled(true);
+                txtNombre.setEnabled(true);
+                btnCancelar.setEnabled(false);
+            } else {
+                controlador.modificarInventario2(categoria, nombre, cantidad, precioUnitario, descripcion, estados);
+                JOptionPane.showMessageDialog(null, "Se Modifico el producto " + nombre + " correctamente");
+                listar();
+                vaciarCampos();
+                btnRegistrar.setEnabled(true);
+                btnEliminar.setEnabled(false);
+                btnModificar.setEnabled(false);
+                btnBuscar.setEnabled(true);
+                txtNombre.setEnabled(true);
+                btnCancelar.setEnabled(false);
+            }
+        } catch (DatosIncompletosException | BuscarInventarioException | CargarImagenException | NombreProductoException | ModificarInventarioException e) {
+            imprimir(e.getMessage());
+        }
     }//GEN-LAST:event_btnModificarActionPerformed
 
-    private void txtValorNocheKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtValorNocheKeyTyped
+    private void txtPrecioUnitarioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrecioUnitarioKeyTyped
         char c = evt.getKeyChar();
         if (c < '0' || c > '9') {
             evt.consume();
         }
-    }//GEN-LAST:event_txtValorNocheKeyTyped
+    }//GEN-LAST:event_txtPrecioUnitarioKeyTyped
 
     private void btnSeleccionarImagenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarImagenActionPerformed
+        JFileChooser fileChooser = new JFileChooser();
 
+        fileChooser.setDialogTitle("Seleccione la imagen de la habitación");
+        FileNameExtensionFilter filtro = new FileNameExtensionFilter("JPG, PNG & GIF", "jpg", "png", "gif");//se le asigna un filtro
+        fileChooser.setFileFilter(filtro);
+        int condi = fileChooser.showOpenDialog(this);
+        if (condi == JFileChooser.APPROVE_OPTION) {
+            String ruta = fileChooser.getSelectedFile().getAbsolutePath();
+            //     rsscalelabel.RSScaleLabel.setScaleLabel(lblmagen, fileChooser.getSelectedFile().toString());//carga la imagen
+            try {
+                lblmagen.setIcon(new ImageIcon(controlador.cargarImagenBufferedImage(controlador.cargarImagenBytes(new File(ruta)))));
+            } catch (CargarImagenException ex) {
+                imprimir(ex.getMessage());
+            }
+
+            txtRuta.setText(ruta);
+
+        }
 
     }//GEN-LAST:event_btnSeleccionarImagenActionPerformed
 
@@ -512,6 +626,40 @@ public class FrmGestionInventario extends javax.swing.JFrame {
             evt.consume();
         }
     }//GEN-LAST:event_txtDescripcionKeyTyped
+    private void cargarInformacion(Producto producto) {
+
+        txtNombre.setText(producto.getNombre());
+        spnCantidad.setValue(Integer.parseInt(producto.getCantidad()));
+        int posicion = controlador.seleccionarArchivoCategoria(producto.getIdCategoriaProducto());
+        posicion = posicion + 1;
+        CbxCategoria.setSelectedIndex(posicion);
+        txtRuta.setText(null);
+        txtPrecioUnitario.setText(producto.getPrecioUnitario());
+        txtDescripcion.setText(producto.getDescripcion());
+        estado = producto.getEstado();
+        //falta imagen
+    }
+
+    public final void listar() {
+        tblInventario.setModel(controlador.listarElementos());
+    }
+
+    private void imprimir(String v) {
+        JOptionPane.showMessageDialog(null, v);
+    }
+
+    private void vaciarCampos() {
+
+        txtNombre.setText(null);
+        spnCantidad.setValue(0);
+        CbxCategoria.setSelectedItem("Seleccione");
+        txtPrecioUnitario.setText(null);
+        txtDescripcion.setText(null);
+        txtRuta.setText(null);
+        lblmagen.setIcon(null);
+        estado = null;
+        //falta imagen
+    }
 
     /**
      * @param args the command line arguments
@@ -563,12 +711,9 @@ public class FrmGestionInventario extends javax.swing.JFrame {
         });
     }
 
-    private void imprimir(String v) {
-        JOptionPane.showMessageDialog(null, v);
-    }
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> CbxCategoria;
     private javax.swing.JComboBox<String> CbxFiltrar;
     private javax.swing.JButton btnActualizar;
     private javax.swing.JButton btnBuscar;
@@ -579,7 +724,6 @@ public class FrmGestionInventario extends javax.swing.JFrame {
     private javax.swing.JButton btnRegistrar;
     private javax.swing.JButton btnSalir;
     private javax.swing.JButton btnSeleccionarImagen;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
@@ -593,12 +737,12 @@ public class FrmGestionInventario extends javax.swing.JFrame {
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JLabel lblValorNoche;
     private javax.swing.JLabel lblmagen;
-    private javax.swing.JSpinner spnBano;
-    private javax.swing.JTable tblHabitacion;
+    private javax.swing.JSpinner spnCantidad;
+    private javax.swing.JTable tblInventario;
     private javax.swing.JTextArea txtDescripcion;
     private javax.swing.JTextField txtFiltrar;
     private javax.swing.JTextField txtNombre;
+    private javax.swing.JTextField txtPrecioUnitario;
     private javax.swing.JTextField txtRuta;
-    private javax.swing.JTextField txtValorNoche;
     // End of variables declaration//GEN-END:variables
 }

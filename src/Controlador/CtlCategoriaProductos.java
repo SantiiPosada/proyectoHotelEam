@@ -38,7 +38,7 @@ public class CtlCategoriaProductos {
         return bo.buscarCategoriaProducto(nombre);
     }
 
-    public void modificarHabitacion(String nombre, String descripcion, String estado) throws DatosIncompletosException, BuscarHabitacionException, NombreCategoriaException, ModificarCategoriaProductosException {
+    public void modificarCategoriaProductos(String nombre, String descripcion, String estado) throws DatosIncompletosException, BuscarHabitacionException, NombreCategoriaException, ModificarCategoriaProductosException {
         bo.modificarCategoriaProducto(nombre, descripcion, estado);
     }
 

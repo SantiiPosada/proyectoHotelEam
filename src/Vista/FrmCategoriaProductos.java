@@ -10,6 +10,7 @@ import Excepcion.BuscarHabitacionException;
 import Excepcion.ComboBoxException;
 import Excepcion.DatosIncompletosException;
 import Excepcion.GuardarCategoriaProductosException;
+import Excepcion.ModificarCategoriaProductosException;
 import Excepcion.NombreCategoriaException;
 import Modelo.Administrador;
 import Modelo.CategoriaProducto;
@@ -26,8 +27,13 @@ public class FrmCategoriaProductos extends javax.swing.JFrame {
 
     public FrmCategoriaProductos() {
         initComponents();
+        controlador = new CtlCategoriaProductos();
         this.setLocationRelativeTo(null);
         this.setResizable(false);
+        btnRegistrar.setEnabled(false);
+        btnBuscar.setEnabled(false);
+        btnModificar.setEnabled(false);
+        btnCancelar.setEnabled(false);
     }
 
     public FrmCategoriaProductos(Administrador administrador) {
@@ -40,8 +46,9 @@ public class FrmCategoriaProductos extends javax.swing.JFrame {
         txtId.setEnabled(false);
         btnCancelar.setEnabled(true);
         btnModificar.setEnabled(false);
+        btnEliminar.setEnabled(false);
         JtblCategoria.setEnabled(true);
-
+        listar();
     }
 
     /**
@@ -294,22 +301,22 @@ public class FrmCategoriaProductos extends javax.swing.JFrame {
                                 .addComponent(txtFiltrar, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE))))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(401, 401, 401)
-                        .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(258, 258, 258)
-                        .addComponent(lblTitulo)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(401, 401, 401)
+                .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(340, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblTitulo)
+                .addGap(182, 182, 182))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
+                        .addGap(11, 11, 11)
                         .addComponent(lblTitulo)
+                        .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -327,7 +334,7 @@ public class FrmCategoriaProductos extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
                                 .addComponent(lblCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblFiltrar)
                             .addComponent(CbxFiltrar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -369,6 +376,23 @@ public class FrmCategoriaProductos extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        try {
+            String nombre = controlador.obtenerDatoJtextFile(txtNombre);
+            String descripcion = controlador.obtenerDatoJtextArea(txtDescripcion);
+            String estado = "No Disponible";
+            controlador.modificarCategoriaProductos(nombre, descripcion, estado);
+            JOptionPane.showMessageDialog(null, "Se eliminó la habitación " + nombre + " correctamente");
+            listar();
+            vaciarCampos();
+            btnRegistrar.setEnabled(true);
+            btnEliminar.setEnabled(false);
+            btnModificar.setEnabled(false);
+            btnBuscar.setEnabled(true);
+            txtNombre.setEnabled(true);
+            btnCancelar.setEnabled(false);
+        } catch (DatosIncompletosException | BuscarHabitacionException | NombreCategoriaException | ModificarCategoriaProductosException e) {
+            imprimir(e.getMessage());
+        }
 
     }//GEN-LAST:event_btnEliminarActionPerformed
 
@@ -403,12 +427,12 @@ public class FrmCategoriaProductos extends javax.swing.JFrame {
             JtblCategoria.setModel(controlador.filtrar(opcion, accion));
 
         } catch (ComboBoxException | DatosIncompletosException e) {
-
+            imprimir(e.getMessage());
         }
     }//GEN-LAST:event_btnFiltrarActionPerformed
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
-
+        listar();
         CbxFiltrar.setSelectedItem("Seleccione");
         txtFiltrar.setText("");
     }//GEN-LAST:event_btnActualizarActionPerformed
@@ -454,10 +478,25 @@ public class FrmCategoriaProductos extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
-        String nombre = controlador.obtenerDatoJtextFile(txtNombre);
-        String descripcion = controlador.obtenerDatoJtextArea(txtDescripcion);
-        String estado = "Disponible";
-        
+        try {
+            String nombre = controlador.obtenerDatoJtextFile(txtNombre);
+            String descripcion = controlador.obtenerDatoJtextArea(txtDescripcion);
+            String estado = "Disponible";
+            controlador.modificarCategoriaProductos(nombre, descripcion, estado);
+            JOptionPane.showMessageDialog(null, "Se Modifico la categoria " + nombre + " correctamente");
+            listar();
+            vaciarCampos();
+            btnRegistrar.setEnabled(true);
+            btnEliminar.setEnabled(false);
+            btnModificar.setEnabled(false);
+            btnBuscar.setEnabled(true);
+            txtNombre.setEnabled(true);
+            btnCancelar.setEnabled(false);
+        } catch (DatosIncompletosException | BuscarHabitacionException | NombreCategoriaException | ModificarCategoriaProductosException e) {
+            imprimir(e.getMessage());
+        }
+
+
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void txtDescripcionKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDescripcionKeyTyped

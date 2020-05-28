@@ -232,6 +232,11 @@ public class FrmAdministrador extends javax.swing.JFrame {
 
         btnHistorialHospedaje1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/categoria.jpg"))); // NOI18N
         btnHistorialHospedaje1.setBorder(null);
+        btnHistorialHospedaje1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHistorialHospedaje1ActionPerformed(evt);
+            }
+        });
 
         btnHistorialHospedaje2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/hospedaje.jpg"))); // NOI18N
         btnHistorialHospedaje2.setBorder(null);
@@ -286,7 +291,6 @@ public class FrmAdministrador extends javax.swing.JFrame {
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addGap(17, 17, 17)
                                         .addComponent(btnHistorialHospedaje2, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addGap(57, 57, 57)
@@ -473,6 +477,12 @@ public class FrmAdministrador extends javax.swing.JFrame {
         inventario.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnInventarioActionPerformed
+
+    private void btnHistorialHospedaje1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHistorialHospedaje1ActionPerformed
+        FrmCategoriaProductos categoriaproductos = new FrmCategoriaProductos(administrador);
+        categoriaproductos.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnHistorialHospedaje1ActionPerformed
 
     /**
      * @param args the command line arguments
