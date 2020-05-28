@@ -6,6 +6,7 @@
 package Vista;
 
 import Controlador.CtlCategoriaProductos;
+import Excepcion.BuscarCategoriaException;
 import Excepcion.BuscarHabitacionException;
 import Excepcion.ComboBoxException;
 import Excepcion.DatosIncompletosException;
@@ -390,7 +391,7 @@ public class FrmCategoriaProductos extends javax.swing.JFrame {
             btnBuscar.setEnabled(true);
             txtNombre.setEnabled(true);
             btnCancelar.setEnabled(false);
-        } catch (DatosIncompletosException | BuscarHabitacionException | NombreCategoriaException | ModificarCategoriaProductosException e) {
+        } catch (DatosIncompletosException | BuscarCategoriaException | NombreCategoriaException | ModificarCategoriaProductosException e) {
             imprimir(e.getMessage());
         }
 
@@ -471,7 +472,7 @@ public class FrmCategoriaProductos extends javax.swing.JFrame {
             txtNombre.setEnabled(false);
             btnCancelar.setEnabled(true);
             cargarInformacion(categoria);
-        } catch (DatosIncompletosException | BuscarHabitacionException e) {
+        } catch (DatosIncompletosException | BuscarCategoriaException e) {
             imprimir(e.getMessage());
 
         }
@@ -492,7 +493,7 @@ public class FrmCategoriaProductos extends javax.swing.JFrame {
             btnBuscar.setEnabled(true);
             txtNombre.setEnabled(true);
             btnCancelar.setEnabled(false);
-        } catch (DatosIncompletosException | BuscarHabitacionException | NombreCategoriaException | ModificarCategoriaProductosException e) {
+        } catch (DatosIncompletosException | BuscarCategoriaException | NombreCategoriaException | ModificarCategoriaProductosException e) {
             imprimir(e.getMessage());
         }
 

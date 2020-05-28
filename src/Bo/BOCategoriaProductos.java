@@ -6,6 +6,7 @@
 package Bo;
 
 import Definiciones.IDAOCategoriaProductos;
+import Excepcion.BuscarCategoriaException;
 import Excepcion.BuscarHabitacionException;
 import Excepcion.ComboBoxException;
 import Excepcion.DatosIncompletosException;
@@ -41,18 +42,18 @@ public class BOCategoriaProductos {
 
     }
 
-    public CategoriaProducto buscarCategoriaProducto(String nombre) throws DatosIncompletosException, BuscarHabitacionException {
+    public CategoriaProducto buscarCategoriaProducto(String nombre) throws DatosIncompletosException, BuscarCategoriaException {
         if (nombre == null) {
             throw new DatosIncompletosException();
         }
         CategoriaProducto categoria = dao.buscarCategoriaProductos(nombre);
         if (categoria == null) {
-            throw new BuscarHabitacionException();
+            throw new BuscarCategoriaException();
         }
         return categoria;
     }
 
-    public void modificarCategoriaProducto(String nombre, String descripcion, String estado) throws DatosIncompletosException, BuscarHabitacionException, NombreCategoriaException, ModificarCategoriaProductosException {
+    public void modificarCategoriaProducto(String nombre, String descripcion, String estado) throws DatosIncompletosException, NombreCategoriaException, ModificarCategoriaProductosException, BuscarCategoriaException {
         CategoriaProducto categoria = new CategoriaProducto(buscarCategoriaProducto(nombre).getId(), nombre, descripcion, estado);
         if (!dao.modificarCategoriaProductos(categoria)) {
             throw new ModificarCategoriaProductosException();

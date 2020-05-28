@@ -7,6 +7,7 @@ package Definiciones;
 
 import Excepcion.DatosIncompletosException;
 import Modelo.HistorialCuentaPersonal;
+import java.util.ArrayList;
 
 /**
  *
@@ -23,5 +24,12 @@ public interface IDAOHistorialCuentaPersonal {
      * nulos
      */
     public boolean guardarHistorialCuentaPersonal(HistorialCuentaPersonal historial) throws DatosIncompletosException;
+
+    /**
+     * Metodo para listar el historial de la cuenta personal
+     *
+     * @return una lista con historial personal
+     */
+    public ArrayList<HistorialCuentaPersonal> listarHistorialPersonal();
 
 }

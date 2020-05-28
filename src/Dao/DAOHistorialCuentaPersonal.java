@@ -11,7 +11,9 @@ import Conexion.Conexion;
 import Excepcion.DatosIncompletosException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  *
@@ -44,6 +46,38 @@ public class DAOHistorialCuentaPersonal implements IDAOHistorialCuentaPersonal {
         return desicion;
     }
 
+    @Override
+    public ArrayList<HistorialCuentaPersonal> listarHistorialPersonal() {
+        try (Connection con = Conexion.getConnection()) {
+
+            PreparedStatement pstmt = con.prepareStatement("SELECT  idCuentaPersonal,idProducto,cantidad FROM historialCuentaPersonal");
+
+            ResultSet respuesta = pstmt.executeQuery();//Me va a traer todo lo que venga como resultado
+            ArrayList<HistorialCuentaPersonal> listar = new ArrayList<>();
+
+            boolean condicion = true;
+            while (condicion == true) {
+                if (respuesta.next()) {//si respuesta.next(revisa si hay un elemtento,salta al siguiente reistro) devuelve true=si encontro algo o false si no lo encontró
+                    HistorialCuentaPersonal historial = new HistorialCuentaPersonal();
+
+                    historial.setIdCuentaPersonal(respuesta.getInt("idCuentaPersonal"));
+                    historial.setIdProducto(respuesta.getInt("idProducto"));
+                    historial.setCantidad(respuesta.getString("cantidad"));
+                    listar.add(historial);
+
+                } else {
+                    condicion = false;
+                }
+            }
+
+            return listar;
+        } catch (SQLException e) {
+            // e.printStackTrace();
+            System.err.println("Hubo un error al listar");
+        }
+        return null;
+    }
+
     /**
      * Método extraer la variable que tuvo el codigo de error 1062
      *
@@ -67,4 +101,5 @@ public class DAOHistorialCuentaPersonal implements IDAOHistorialCuentaPersonal {
         int tamano = variable.length();
         return variable.substring((tamano - 2), tamano);
     }
+
 }

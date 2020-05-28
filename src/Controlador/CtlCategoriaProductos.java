@@ -6,6 +6,7 @@
 package Controlador;
 
 import Bo.BOCategoriaProductos;
+import Excepcion.BuscarCategoriaException;
 import Excepcion.BuscarHabitacionException;
 import Excepcion.ComboBoxException;
 import Excepcion.DatosIncompletosException;
@@ -34,11 +35,11 @@ public class CtlCategoriaProductos {
         bo.guardarCategoriaProductos(nombre, descripcion, estado);
     }
 
-    public CategoriaProducto buscarCategoriaProductos(String nombre) throws DatosIncompletosException, BuscarHabitacionException {
+    public CategoriaProducto buscarCategoriaProductos(String nombre) throws DatosIncompletosException, BuscarCategoriaException {
         return bo.buscarCategoriaProducto(nombre);
     }
 
-    public void modificarCategoriaProductos(String nombre, String descripcion, String estado) throws DatosIncompletosException, BuscarHabitacionException, NombreCategoriaException, ModificarCategoriaProductosException {
+    public void modificarCategoriaProductos(String nombre, String descripcion, String estado) throws DatosIncompletosException, BuscarCategoriaException, NombreCategoriaException, ModificarCategoriaProductosException {
         bo.modificarCategoriaProducto(nombre, descripcion, estado);
     }
 
