@@ -9,6 +9,8 @@ import Definiciones.IDAOHabitacion;
 import Definiciones.IDAOReserva;
 import Excepcion.CargarImagenException;
 import Excepcion.DatosIncompletosException;
+import Excepcion.DayException;
+import Excepcion.FechaException;
 import Excepcion.GuardarReservaException;
 import Excepcion.anoException;
 import Excepcion.mesException;
@@ -27,6 +29,7 @@ import java.util.GregorianCalendar;
 import javax.imageio.ImageIO;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 /**
@@ -51,7 +54,7 @@ public class BOReserva {
         }
     }
 
-    public void guardarReserva(int idHuesped, int idHabitacion, Date fechaHoraReserva, Date fechaHoraLlegada, Date fechaHoraSalida) throws GuardarReservaException, DatosIncompletosException, anoException, mesException {
+    public void guardarReserva(int idHuesped, int idHabitacion, Date fechaHoraReserva, Date fechaHoraLlegada, Date fechaHoraSalida) throws GuardarReservaException, DatosIncompletosException, anoException, mesException, FechaException, DayException {
         validarDatos(fechaHoraReserva, fechaHoraLlegada, fechaHoraSalida);
         fechaHoraLlegada.setHours(0);
         fechaHoraLlegada.setMinutes(0);
@@ -59,7 +62,7 @@ public class BOReserva {
         fechaHoraSalida.setHours(0);
         fechaHoraSalida.setMinutes(0);
         fechaHoraSalida.setSeconds(0);
-        verificarFecha(fechaHoraReserva, fechaHoraLlegada, fechaHoraSalida);
+        verificarFecha(fechaHoraReserva, fechaHoraLlegada, fechaHoraSalida, idHabitacion);
         ReservaHabitacion reserva = new ReservaHabitacion(0, idHuesped, idHabitacion, fechaHoraReserva, fechaHoraLlegada, fechaHoraSalida, fechaHoraLlegada, fechaHoraSalida, "Prestado", "inactivo");
         if (!daoReserva.guardarReserva(reserva)) {
             throw new GuardarReservaException();
@@ -81,7 +84,7 @@ public class BOReserva {
      * @param fechaHoraSalida fecha de salida de la reserva
      * @param fechaHoraReserva fecha del dia hoy
      */
-    private void verificarFecha(Date fechaHoraReserva, Date horaFechaLlegada, Date fechaHoraSalida) throws anoException, mesException {
+    private void verificarFecha(Date fechaHoraReserva, Date horaFechaLlegada, Date fechaHoraSalida, int idHabitacion) throws anoException, mesException, FechaException, DayException {
         Calendar calLlegada = new GregorianCalendar();
         calLlegada.setTime(horaFechaLlegada);
         int yearHoraFechaLlegada = calLlegada.get(Calendar.YEAR);
@@ -102,32 +105,51 @@ public class BOReserva {
 
         if (yearFechaHoraReserva == yearHoraFechaLlegada && yearFechaHoraReserva == yearFechaHoraSalida) {// si es el mismo año
             if (monthFechaHoraReserva == monthHoraFechaLlegada && monthFechaHoraReserva == monthFechaHoraSalida) {// si es el mismo mes
-                ArrayList<ReservaHabitacion> lista = listarReserva();
 
-                for (ReservaHabitacion reservaHabitacion : lista) {
-                    
-                    Calendar calCheckIn = new GregorianCalendar();
-                    calCheckIn.setTime(reservaHabitacion.getFechaHoraCheckIn());
-                    int yearCheckIn = calCheckIn.get(Calendar.YEAR);
-                    int monthCheckIn = calCheckIn.get(Calendar.MONTH);
-                    int dayCheckIn = calCheckIn.get(Calendar.DAY_OF_MONTH);
+                if (dayFechaHoraReserva == dayHoraFechaLlegada) {
+                    throw new DayException();
+                } else if (dayFechaHoraSalida <= dayHoraFechaLlegada) {
+                    throw new DayException();
+                } else {
+                    ArrayList<ReservaHabitacion> lista = listarReserva();//todas las reservas
+                    if (!lista.isEmpty()) {
+                        for (ReservaHabitacion reservaHabitacion : lista) {
+                            if (idHabitacion == reservaHabitacion.getIdHabitacion()) {
+                                
+                                if (reservaHabitacion.getEstado().equals("Prestado")) {
+                                    
+                                    Calendar calCheckIn = new GregorianCalendar();
+                                    calCheckIn.setTime(reservaHabitacion.getFechaHoraCheckIn());
+                                    int yearCheckIn = calCheckIn.get(Calendar.YEAR);
+                                    int monthCheckIn = calCheckIn.get(Calendar.MONTH);
+                                    int dayCheckIn = calCheckIn.get(Calendar.DAY_OF_MONTH);
 
-                    Calendar calCheckOut = new GregorianCalendar();
-                    calCheckOut.setTime(reservaHabitacion.getFechaHoraCheckIn());
-                    int yearCheckOut = calCheckOut.get(Calendar.YEAR);
-                    int monthCheckOut = calCheckOut.get(Calendar.MONTH);
-                    int dayCheckOut = calCheckOut.get(Calendar.DAY_OF_MONTH);
-                    
-                    if(yearFechaHoraReserva==yearCheckIn){// si es el mismo año
-                        if(monthFechaHoraReserva==monthCheckIn){// si es el mismo mes
-                            
+                                    Calendar calCheckOut = new GregorianCalendar();
+                                    calCheckOut.setTime(reservaHabitacion.getFechaHoraCheckOut());
+                                    int yearCheckOut = calCheckOut.get(Calendar.YEAR);
+                                    int monthCheckOut = calCheckOut.get(Calendar.MONTH);
+                                    int dayCheckOut = calCheckOut.get(Calendar.DAY_OF_MONTH);
+
+                                    if (yearFechaHoraReserva == yearCheckIn &&yearFechaHoraReserva==yearCheckOut) {// si es el mismo año
+                                        if (monthFechaHoraReserva == monthCheckIn && monthFechaHoraReserva == monthCheckOut) {// si es el mismo mes
+
+                                            if (dayHoraFechaLlegada >= dayCheckOut ) {
+                                             
+                                            }else{
+                                                   throw new FechaException();
+                                            }
+
+                                        }
+
+                                    }
+                                }
+                            }
+
                         }
                     }
-                    
-                    
-                    
-                    
+
                 }
+
             } else {
                 throw new mesException();
             }

@@ -8,6 +8,8 @@ package Controlador;
 import Bo.BOReserva;
 import Excepcion.CargarImagenException;
 import Excepcion.DatosIncompletosException;
+import Excepcion.DayException;
+import Excepcion.FechaException;
 import Excepcion.GuardarReservaException;
 import Excepcion.anoException;
 import Excepcion.mesException;
@@ -29,7 +31,7 @@ public class CtlReserva {
         bo = new BOReserva();
     }
 
-    public void guardarReserva(int idHuesped, int idHabitacion, Date fechaHoraReserva, Date fechaHoraLlegada, Date fechaHoraSalida) throws GuardarReservaException, DatosIncompletosException, anoException, mesException {
+    public void guardarReserva(int idHuesped, int idHabitacion, Date fechaHoraReserva, Date fechaHoraLlegada, Date fechaHoraSalida) throws GuardarReservaException, DatosIncompletosException, anoException, mesException, FechaException, DayException {
         bo.guardarReserva(idHuesped, idHabitacion, fechaHoraReserva, fechaHoraLlegada, fechaHoraSalida);
     }
 

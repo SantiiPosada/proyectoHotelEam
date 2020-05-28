@@ -58,7 +58,7 @@ public class DAOReserva implements IDAOReserva {
     public ArrayList<ReservaHabitacion> listarReserva() {
         try (Connection con = Conexion.getConnection()) {
 
-            PreparedStatement pstmt = con.prepareStatement("SELECT  id,idHuesped,idHabitacion,fechaHoraReserva,fechaHoraLlegada,fechaHoraSalida,fechaHoraCheckIn,fechaHoraCheckOut,estado,estadoServicio FROM reservahabitacion estado='Prestado' ");
+            PreparedStatement pstmt = con.prepareStatement("SELECT  id,idHuesped,idHabitacion,fechaHoraReserva,fechaHoraLlegada,fechaHoraSalida,fechaHoraCheckIn,fechaHoraCheckOut,estado,estadoServicio FROM reservahabitacion ");
 
             ResultSet respuesta = pstmt.executeQuery();//Me va a traer todo lo que venga como resultado
             ArrayList<ReservaHabitacion> listar = new ArrayList<>();
@@ -87,8 +87,9 @@ public class DAOReserva implements IDAOReserva {
 
             return listar;
         } catch (SQLException e) {
-            // e.printStackTrace();
-            System.err.println("Hubo un error al listar");
+             System.err.println("Hubo un error al listar");
+            e.printStackTrace();
+           
         }
         return null;
     }

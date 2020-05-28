@@ -10,6 +10,8 @@ import Controlador.CtlReserva;
 import Excepcion.BuscarHabitacionException;
 import Excepcion.CargarImagenException;
 import Excepcion.DatosIncompletosException;
+import Excepcion.DayException;
+import Excepcion.FechaException;
 import Excepcion.GuardarReservaException;
 import Excepcion.anoException;
 import Excepcion.mesException;
@@ -376,9 +378,9 @@ public class FrmReservacion extends javax.swing.JFrame {
                 limpiar();
             }
 
-        } catch (GuardarReservaException | DatosIncompletosException |anoException |mesException ex) {
+        } catch (GuardarReservaException | DatosIncompletosException |anoException |mesException | FechaException | DayException ex) {
             imprimir(ex.getMessage());
-        }
+        } 
 
 
     }//GEN-LAST:event_btnReservarActionPerformed
