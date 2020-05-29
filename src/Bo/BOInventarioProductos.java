@@ -385,7 +385,7 @@ public class BOInventarioProductos {
     public void modificarcantidad(String nombre, int cantidad) throws ModificarInventarioException, NombreProductoException, DatosIncompletosException {
         Producto inventario = dao.buscarInventarioProductos(nombre);
         int cantidaddisponible = (Integer.parseInt(inventario.getCantidad())) - cantidad;
-        inventario.setCantidad(nombre);
+        inventario.setCantidad(cantidaddisponible + "");
         if (!dao.modificarInventarioProductos2(inventario)) {
             throw new ModificarInventarioException();
         }

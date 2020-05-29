@@ -397,7 +397,7 @@ public class FrmProductos extends javax.swing.JFrame {
 
     private void btnSolicitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSolicitarActionPerformed
         try {
-            int idReserva = Integer.parseInt(cbxCategoria.getSelectedItem().toString());
+            int idReserva = Integer.parseInt(cbxReserva.getSelectedItem().toString());
             CuentaPersonal cuenta = controladorCuentaPersonal.buscarCuentaPersonal(idReserva);
             int idCuentaPersonal = cuenta.getId();
             String nombreproducto = cbxCategoria.getSelectedItem().toString();
