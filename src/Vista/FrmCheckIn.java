@@ -497,7 +497,9 @@ public class FrmCheckIn extends javax.swing.JFrame {
     private void btnConsultar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultar1ActionPerformed
         try {
             controlador.realizarCheckIn(dateFechaHoy.getDate(), reserva);
+            JOptionPane.showMessageDialog(null,"Se realizó el chek In correctamente");
             llenarComboBox(huesped.getId());
+            limpiar();
         } catch (anoException | mesException | DiaException | horaException | DatosIncompletosException | modificarReservaCheckIn ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
         }
@@ -519,7 +521,7 @@ public class FrmCheckIn extends javax.swing.JFrame {
             btnConsultar1.setEnabled(true);
         } catch (BuscarHabitacionException | CargarImagenException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
-        } catch (NumberFormatException nfe) {
+        } catch (NumberFormatException | NullPointerException ex) {
             JOptionPane.showMessageDialog(null, "Seleccione una reserva");
         }
 
@@ -545,7 +547,7 @@ public class FrmCheckIn extends javax.swing.JFrame {
         lblNombrehabitacion.setText("NOMBRE HABITACION");
         lblValor.setText("VALOR");
         lblDescripcion.setText("");
-        cbxReserva.setSelectedIndex(0);
+       
         lblImagen.setIcon(null);
     }
 

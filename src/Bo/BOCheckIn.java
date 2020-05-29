@@ -142,7 +142,8 @@ public class BOCheckIn {
         int monthFechaHoraReserva = calHoy.get(Calendar.MONTH);
         int dayFechaHoraReserva = calHoy.get(Calendar.DAY_OF_MONTH);
 
-        int hora = calHoy.get(Calendar.HOUR_OF_DAY);
+    //    int hora = calHoy.get(Calendar.HOUR_OF_DAY);
+         int hora = 14;
         int minutos = calHoy.get(Calendar.MINUTE);
         int segundos = calHoy.get(Calendar.SECOND);
 
