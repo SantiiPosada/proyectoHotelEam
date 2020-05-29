@@ -12,6 +12,7 @@ import Definiciones.IDAOHistorialCuentaPersonal;
 import Definiciones.IDAOHuesped;
 import Definiciones.IDAOInventarioProductos;
 import Definiciones.IDAOLogIn;
+import Definiciones.IDAOMiCuenta;
 import Definiciones.IDAORecepcionista;
 import Definiciones.IDAOReserva;
 import Definiciones.IFabricaDAO;
@@ -65,6 +66,11 @@ public class FactoryDAOJDBC implements IFabricaDAO {
     @Override
     public IDAOHistorialCuentaPersonal crearDAOHistorialCuentaPersona() {
         return new DAOHistorialCuentaPersonal();
+    }
+
+    @Override
+    public IDAOMiCuenta crearDAOMiCuenta() {
+        return new DAOMiCuenta();
     }
 
 }

@@ -73,4 +73,11 @@ public interface IFabricaDAO {
      * @return Abstraccion de DAOHistorialCuentaPersonal
      */
     public IDAOHistorialCuentaPersonal crearDAOHistorialCuentaPersona();
+
+    /**
+     * Metodo para la creacion de un DAOMiCuenta
+     *
+     * @return Abstraccion de DAOMiCuenta
+     */
+    public IDAOMiCuenta crearDAOMiCuenta();
 }
