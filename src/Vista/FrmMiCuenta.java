@@ -9,6 +9,7 @@ import Controlador.CtlCategoriaProductos;
 import Controlador.CtlHabitacion;
 import Controlador.CtlHistorialCuentaPersonal;
 import Controlador.CtlInventarioProductos;
+import Controlador.CtlMiCuenta;
 import Controlador.CtlReserva;
 import Excepcion.BuscarCategoriaException;
 import Excepcion.BuscarInventarioException;
@@ -33,9 +34,11 @@ import javax.swing.JOptionPane;
 public class FrmMiCuenta extends javax.swing.JFrame {
 
     private Huesped huesped;
+    private CtlMiCuenta controlador;
 
     public FrmMiCuenta() {
         initComponents();
+        controlador = new CtlMiCuenta();
         this.setLocationRelativeTo(null);
         this.setResizable(false);
 
@@ -44,10 +47,11 @@ public class FrmMiCuenta extends javax.swing.JFrame {
     public FrmMiCuenta(Huesped huesped) {
         initComponents();
         this.huesped = huesped;
+        controlador = new CtlMiCuenta();
         this.setLocationRelativeTo(null);
         this.setResizable(false);
         cargardatos(huesped);
-
+        listarReserva(huesped);
     }
 
     /**
@@ -73,10 +77,10 @@ public class FrmMiCuenta extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         lblReservas = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jtblReserva = new javax.swing.JTable();
         lblProductos = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        jtblProductos = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -175,9 +179,9 @@ public class FrmMiCuenta extends javax.swing.JFrame {
         lblReservas.setForeground(new java.awt.Color(0, 0, 0));
         lblReservas.setText("RESERVAS ACTIVAS");
 
-        jTable1.setBackground(new java.awt.Color(255, 255, 255));
-        jTable1.setForeground(new java.awt.Color(0, 0, 0));
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jtblReserva.setBackground(new java.awt.Color(255, 255, 255));
+        jtblReserva.setForeground(new java.awt.Color(0, 0, 0));
+        jtblReserva.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -185,7 +189,7 @@ public class FrmMiCuenta extends javax.swing.JFrame {
                 {null, null, null, null, null}
             },
             new String [] {
-                "ID Reserva", "Fecha Reservacion", "Habitacion", "Estado", "Valor"
+                "Id Reserva", "Fecha Reservacion", "Habitacion", "Estado", "Valor"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -196,18 +200,20 @@ public class FrmMiCuenta extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(3).setHeaderValue("Estado");
-        }
+        jtblReserva.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jtblReservaMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jtblReserva);
 
         lblProductos.setBackground(new java.awt.Color(255, 255, 255));
         lblProductos.setForeground(new java.awt.Color(0, 0, 0));
         lblProductos.setText("PRODUCTOS");
 
-        jTable2.setBackground(new java.awt.Color(255, 255, 255));
-        jTable2.setForeground(new java.awt.Color(0, 0, 0));
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        jtblProductos.setBackground(new java.awt.Color(255, 255, 255));
+        jtblProductos.setForeground(new java.awt.Color(0, 0, 0));
+        jtblProductos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -215,7 +221,7 @@ public class FrmMiCuenta extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "ID Producto", "Nombre", "Cantidad", "Valor Total"
+                "Id Producto", "Nombre", "Cantidad", "Valor Total"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -226,7 +232,7 @@ public class FrmMiCuenta extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane2.setViewportView(jTable2);
+        jScrollPane2.setViewportView(jtblProductos);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -311,12 +317,39 @@ public class FrmMiCuenta extends javax.swing.JFrame {
         menu.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
+
+    private void jtblReservaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtblReservaMouseClicked
+        int filaSeleccionada = jtblReserva.getSelectedRow();//selecciona la posicion de la tabla
+
+        if (filaSeleccionada == -1) {
+            imprimir("No se ha seleccionado ninguna fila");
+
+        } else {
+            //String ayuda = tabla.getValueAt(filaseleccionada, num_columna).toString()); 
+            int idreservacion = (int) jtblReserva.getValueAt(filaSeleccionada, 0);
+            DTO.DTOReservaActiva reserva = controlador.buscarReservaActiva(idreservacion, huesped.getId());
+
+            if (reserva != null) {
+                jtblProductos.setModel(controlador.listaElementosProductos(idreservacion));
+            } else {
+                imprimir("No se encuentra ningun producto");
+            }
+        }
+    }//GEN-LAST:event_jtblReservaMouseClicked
     private void cargardatos(Huesped huesped) {
         lblCedula.setText(huesped.getCedula());
         lblNombre.setText(huesped.getNombrecompleto());
         lblCorreo.setText(huesped.getCorreo());
         lblTelefono.setText(huesped.getTelefono());
         lblNacionalidad.setText(huesped.getNacionalidad());
+    }
+
+    private void listarReserva(Huesped huesped) {
+        jtblReserva.setModel(controlador.listaElementosReserva(huesped.getId()));
+    }
+
+    private void imprimir(String v) {
+        JOptionPane.showMessageDialog(null, v);
     }
 
     /**
@@ -394,8 +427,8 @@ public class FrmMiCuenta extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
+    private javax.swing.JTable jtblProductos;
+    private javax.swing.JTable jtblReserva;
     private javax.swing.JLabel lblCedula;
     private javax.swing.JLabel lblCorreo;
     private javax.swing.JLabel lblLogo;

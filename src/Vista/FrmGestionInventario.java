@@ -6,6 +6,7 @@
 package Vista;
 
 import Controlador.CtlInventarioProductos;
+import Excepcion.BuscarCategoriaException;
 import Excepcion.BuscarInventarioException;
 import Excepcion.CargarImagenException;
 import Excepcion.ComboBoxException;
@@ -235,7 +236,7 @@ public class FrmGestionInventario extends javax.swing.JFrame {
 
         CbxFiltrar.setBackground(new java.awt.Color(255, 255, 255));
         CbxFiltrar.setForeground(new java.awt.Color(0, 0, 0));
-        CbxFiltrar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "Id", "Categoria", "Nombre", "Cantidad", "Precio Unitario", "Descripcion", "Estado" }));
+        CbxFiltrar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "Id", "Nombre", "Cantidad", "Precio Unitario", "Descripcion", "Estado" }));
 
         btnFiltrar.setBackground(new java.awt.Color(255, 255, 255));
         btnFiltrar.setForeground(new java.awt.Color(0, 0, 0));
@@ -486,7 +487,7 @@ public class FrmGestionInventario extends javax.swing.JFrame {
             String accion = controlador.obtenerDatoJtextFile(txtFiltrar);
             tblInventario.setModel(controlador.filtrar(opcion, accion));
 
-        } catch (DatosIncompletosException | NumberFormatException | ComboBoxException | ParseException e) {
+        } catch (DatosIncompletosException | NumberFormatException | ComboBoxException | ParseException | BuscarCategoriaException e) {
             imprimir(e.getMessage());
         }
     }//GEN-LAST:event_btnFiltrarActionPerformed
@@ -626,7 +627,6 @@ public class FrmGestionInventario extends javax.swing.JFrame {
         txtNombre.setText(producto.getNombre());
         spnCantidad.setValue(Integer.parseInt(producto.getCantidad()));
         int posicion = controlador.seleccionarArchivoCategoria(producto.getIdCategoriaProducto());
-        posicion = posicion + 1;
         CbxCategoria.setSelectedIndex(posicion);
         txtRuta.setText(null);
         txtPrecioUnitario.setText(producto.getPrecioUnitario());

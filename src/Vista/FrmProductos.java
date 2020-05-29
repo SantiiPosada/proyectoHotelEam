@@ -44,7 +44,9 @@ public class FrmProductos extends javax.swing.JFrame {
         controladorcategoria = new CtlCategoriaProductos();
         this.setLocationRelativeTo(null);
         this.setResizable(false);
-
+        cbxCategoria.setEnabled(false);
+        cbxProductos.setEnabled(false);
+        btnSolicitar.setEnabled(false);
     }
 
     public FrmProductos(Huesped huesped) {
@@ -56,6 +58,10 @@ public class FrmProductos extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         this.setResizable(false);
         llenarComboBoxCategoria();
+        llenarComboBoxReservacion();
+        cbxCategoria.setEnabled(false);
+        cbxProductos.setEnabled(false);
+        btnSolicitar.setEnabled(false);
     }
 
     /**
@@ -75,7 +81,6 @@ public class FrmProductos extends javax.swing.JFrame {
         btnSalir = new javax.swing.JButton();
         btnSolicitar = new javax.swing.JButton();
         lblImagen = new javax.swing.JLabel();
-        lblSeleccione = new javax.swing.JLabel();
         cbxCategoria = new javax.swing.JComboBox<>();
         lblNombreProducto = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -87,6 +92,10 @@ public class FrmProductos extends javax.swing.JFrame {
         spnCantidad = new javax.swing.JSpinner();
         lblSeleccione1 = new javax.swing.JLabel();
         cbxProductos = new javax.swing.JComboBox<>();
+        lblSeleccione2 = new javax.swing.JLabel();
+        lblSeleccione3 = new javax.swing.JLabel();
+        cbxReserva = new javax.swing.JComboBox<>();
+        btnSolicitar1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -160,11 +169,6 @@ public class FrmProductos extends javax.swing.JFrame {
         lblImagen.setMaximumSize(new java.awt.Dimension(4, 4));
         lblImagen.setMinimumSize(new java.awt.Dimension(4, 4));
 
-        lblSeleccione.setBackground(new java.awt.Color(255, 255, 255));
-        lblSeleccione.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        lblSeleccione.setForeground(new java.awt.Color(0, 0, 0));
-        lblSeleccione.setText("Seleccione Categoria:");
-
         cbxCategoria.setBackground(new java.awt.Color(255, 255, 255));
         cbxCategoria.setForeground(new java.awt.Color(0, 0, 0));
         cbxCategoria.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -230,6 +234,38 @@ public class FrmProductos extends javax.swing.JFrame {
             }
         });
 
+        lblSeleccione2.setBackground(new java.awt.Color(255, 255, 255));
+        lblSeleccione2.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        lblSeleccione2.setForeground(new java.awt.Color(0, 0, 0));
+        lblSeleccione2.setText("Seleccione Reserva  :");
+
+        lblSeleccione3.setBackground(new java.awt.Color(255, 255, 255));
+        lblSeleccione3.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        lblSeleccione3.setForeground(new java.awt.Color(0, 0, 0));
+        lblSeleccione3.setText("Seleccione Categoria:");
+
+        cbxReserva.setBackground(new java.awt.Color(255, 255, 255));
+        cbxReserva.setForeground(new java.awt.Color(0, 0, 0));
+        cbxReserva.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cbxReservaMouseClicked(evt);
+            }
+        });
+        cbxReserva.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbxReservaActionPerformed(evt);
+            }
+        });
+
+        btnSolicitar1.setBackground(new java.awt.Color(255, 255, 255));
+        btnSolicitar1.setForeground(new java.awt.Color(102, 0, 0));
+        btnSolicitar1.setText("CANCELAR");
+        btnSolicitar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSolicitar1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -237,69 +273,88 @@ public class FrmProductos extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(lblImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lblSeleccione3, javax.swing.GroupLayout.Alignment.LEADING))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(lblSeleccione1)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(lblNombreProducto)
+                                        .addGap(34, 34, 34))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(cbxProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                                        .addGap(54, 54, 54)
+                                                        .addComponent(lblValor, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                                .addComponent(lblValornoche1)
+                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                .addComponent(spnCantidad))
+                                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                                .addComponent(lblValorUnitario, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                .addGap(0, 0, Short.MAX_VALUE)))))
+                                                .addContainerGap())
+                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(btnSolicitar, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(24, 24, 24))))))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(cbxCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(lblSeleccione2)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(cbxReserva, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(50, 50, 50)
+                                        .addComponent(btnSolicitar1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(lblTitulo)
-                        .addGap(191, 191, 191))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(lblImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(54, 54, 54)
-                                .addComponent(lblValor, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(lblValornoche1)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(spnCantidad))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(lblValorUnitario, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addGap(8, 8, 8)
-                                                .addComponent(btnSolicitar, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                        .addGap(0, 0, Short.MAX_VALUE)))))
-                        .addContainerGap())
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(49, 49, 49)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(lblSeleccione1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(cbxProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(lblSeleccione)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cbxCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(lblNombreProducto)
-                                .addGap(34, 34, 34))))))
+                        .addGap(214, 214, 214))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(4, 4, 4)
+                .addGap(5, 5, 5)
                 .addComponent(lblTitulo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblSeleccione)
-                    .addComponent(cbxCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblNombreProducto))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblSeleccione1)
-                    .addComponent(cbxProductos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(23, 23, 23)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lblSeleccione2)
+                        .addComponent(cbxReserva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnSolicitar1))
+                .addGap(20, 20, 20)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblNombreProducto)
+                    .addComponent(lblSeleccione1)
+                    .addComponent(lblSeleccione3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cbxProductos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbxCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(2, 2, 2)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addGroup(jPanel1Layout.createSequentialGroup()
                             .addComponent(lblValorUnitario)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -308,10 +363,10 @@ public class FrmProductos extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(lblValornoche1)
                                 .addComponent(spnCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGap(18, 18, 18)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnSolicitar, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(83, Short.MAX_VALUE))
+                        .addComponent(lblImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -351,9 +406,9 @@ public class FrmProductos extends javax.swing.JFrame {
             String nombre = cbxCategoria.getSelectedItem().toString();
             CategoriaProducto categoria = controladorcategoria.buscarCategoriaProductos(nombre);
             int idcategoria = categoria.getId();
-           
+
             cbxProductos.setModel(controlador.llenarComboBoxProductos(idcategoria));
-            
+
         } catch (DatosIncompletosException | BuscarCategoriaException e) {
             imprimir(e.getMessage());
         }
@@ -364,10 +419,10 @@ public class FrmProductos extends javax.swing.JFrame {
     }//GEN-LAST:event_cbxCategoriaActionPerformed
 
     private void cbxProductosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbxProductosMouseClicked
-        String nombre = cbxCategoria.getSelectedItem().toString();
+        String nombre = cbxProductos.getSelectedItem().toString();
+
         try {
             Producto producto = controladorproductos.buscarInventario(nombre);
-
             lblNombreProducto.setText(producto.getNombre());
             lblValor.setText(producto.getPrecioUnitario());
             lblDescripcion.setText(producto.getDescripcion());
@@ -380,10 +435,43 @@ public class FrmProductos extends javax.swing.JFrame {
     private void cbxProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxProductosActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cbxProductosActionPerformed
+
+    private void cbxReservaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbxReservaMouseClicked
+        if (cbxReserva.getItemCount() != 0) {
+            cbxCategoria.setEnabled(true);
+            cbxProductos.setEnabled(true);
+            btnSolicitar.setEnabled(true);
+        }
+    }//GEN-LAST:event_cbxReservaMouseClicked
+
+    private void cbxReservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxReservaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbxReservaActionPerformed
+
+    private void btnSolicitar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSolicitar1ActionPerformed
+        limpiar();
+    }//GEN-LAST:event_btnSolicitar1ActionPerformed
     private void cargarInfo(Recepcionista x) {
         lblCedula.setText(x.getCedula());
         lblNombre.setText(x.getNombrecompleto());
 
+    }
+
+    private void limpiar() {
+        cbxCategoria.setSelectedItem("");
+        cbxCategoria.setEnabled(false);
+        cbxProductos.setSelectedItem("");
+        cbxProductos.setEnabled(false);
+        btnSolicitar.setEnabled(false);
+        lblNombreProducto.setText("NOMBRE PRODUCTO");
+        lblValor.setText("VALOR");
+        spnCantidad.setValue(0);
+        lblDescripcion.setText("");
+        lblImagen.setIcon(null);
+    }
+
+    private void llenarComboBoxReservacion() {
+        cbxReserva.setModel(controlador.llenarComboBoxReserva());
     }
 
     private void llenarComboBoxCategoria() {
@@ -447,8 +535,12 @@ public class FrmProductos extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnSalir;
     private javax.swing.JButton btnSolicitar;
+    private javax.swing.JButton btnSolicitar1;
     private javax.swing.JComboBox<String> cbxCategoria;
+    private javax.swing.JComboBox<String> cbxHabitacion;
+    private javax.swing.JComboBox<String> cbxHabitacion1;
     private javax.swing.JComboBox<String> cbxProductos;
+    private javax.swing.JComboBox<String> cbxReserva;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
@@ -458,8 +550,9 @@ public class FrmProductos extends javax.swing.JFrame {
     private javax.swing.JLabel lblLogo;
     private javax.swing.JLabel lblNombre;
     private javax.swing.JLabel lblNombreProducto;
-    private javax.swing.JLabel lblSeleccione;
     private javax.swing.JLabel lblSeleccione1;
+    private javax.swing.JLabel lblSeleccione2;
+    private javax.swing.JLabel lblSeleccione3;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JLabel lblValor;
     private javax.swing.JLabel lblValorUnitario;

@@ -6,6 +6,7 @@
 package Controlador;
 
 import Bo.BOInventarioProductos;
+import Excepcion.BuscarCategoriaException;
 import Excepcion.BuscarInventarioException;
 import Excepcion.CargarImagenException;
 import Excepcion.ComboBoxException;
@@ -64,6 +65,8 @@ public class CtlInventarioProductos {
         return bo.llenarComboBox();
     }
 
+   
+
     public String obtenerDatoJtextFile(JTextField x) {
         return bo.obtenerDatoJtextFile(x);
     }
@@ -76,7 +79,7 @@ public class CtlInventarioProductos {
         return bo.obtenerDatoJtextArea(x);
     }
 
-    public DefaultTableModel filtrar(String opcion, String accion) throws DatosIncompletosException, NumberFormatException, ComboBoxException, ParseException {
+    public DefaultTableModel filtrar(String opcion, String accion) throws DatosIncompletosException, NumberFormatException, ComboBoxException, ParseException, BuscarCategoriaException {
         return bo.filtrar(opcion, accion);
     }
 

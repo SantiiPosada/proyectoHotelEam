@@ -38,8 +38,12 @@ public class CtlHistorialCuentaPersonal {
         return bo.llenarComboBoxCategoria();
     }
 
+    public DefaultComboBoxModel llenarComboBoxReserva() {
+        return bo.llenarComboBoxReservas();
+    }
+
     public String obtenerDatoJComboBox(JComboBox x) {
         return bo.obtenerDatoJComboBox(x);
-        
+
     }
 }

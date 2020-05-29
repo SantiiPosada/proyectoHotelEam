@@ -8,6 +8,7 @@ package Bo;
 import Definiciones.IDAOCategoriaProductos;
 import Definiciones.IDAOHistorialCuentaPersonal;
 import Definiciones.IDAOInventarioProductos;
+import Definiciones.IDAOReserva;
 import Excepcion.CargarImagenException;
 import Excepcion.DatosIncompletosException;
 import Excepcion.GuardarHistorialCuentaPersonalException;
@@ -18,6 +19,7 @@ import Fabrica.FactoryDAO;
 import Modelo.CategoriaProducto;
 import Modelo.HistorialCuentaPersonal;
 import Modelo.Producto;
+import Modelo.ReservaHabitacion;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -40,11 +42,13 @@ public class BOHistorialCuentaPersonal {
     private final IDAOInventarioProductos daoProductos;
     private final BOInventarioProductos boProductos;
     private final IDAOCategoriaProductos daoCategoria;
+    private final IDAOReserva daoReserva;
 
     public BOHistorialCuentaPersonal() {
         dao = FactoryDAO.getFabrica().crearDAOHistorialCuentaPersona();
         daoProductos = FactoryDAO.getFabrica().crearDAOInventarioProductos();
         daoCategoria = FactoryDAO.getFabrica().crearDAOCategoriaProductos();
+        daoReserva = FactoryDAO.getFabrica().crearDAOReserva();
         boProductos = new BOInventarioProductos();
     }
 
@@ -114,6 +118,20 @@ public class BOHistorialCuentaPersonal {
                 modelo.addElement(listacategorias.get(i).getNombre());
             }
         }
+        return modelo;
+    }
+
+    public ArrayList<ReservaHabitacion> listaReservas() {
+        return daoReserva.listarReserva();
+    }
+
+    public DefaultComboBoxModel llenarComboBoxReservas() {
+        ArrayList<ReservaHabitacion> listaReservacion = listaReservas();
+        DefaultComboBoxModel modelo = new DefaultComboBoxModel();
+
+        listaReservacion.stream().filter((reservacion) -> (reservacion.getEstado().equalsIgnoreCase("CheckIn"))).forEachOrdered((reservacion) -> {
+            modelo.addElement(reservacion.getId());
+        });
         return modelo;
     }
 

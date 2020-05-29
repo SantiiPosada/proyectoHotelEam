@@ -7,6 +7,8 @@ package Bo;
 
 import Definiciones.IDAOCategoriaProductos;
 import Definiciones.IDAOInventarioProductos;
+import Definiciones.IDAOReserva;
+import Excepcion.BuscarCategoriaException;
 import Excepcion.BuscarInventarioException;
 import Excepcion.CargarImagenException;
 import Excepcion.ComboBoxException;
@@ -17,6 +19,7 @@ import Excepcion.NombreProductoException;
 import Fabrica.FactoryDAO;
 import Modelo.CategoriaProducto;
 import Modelo.Producto;
+import Modelo.ReservaHabitacion;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -44,6 +47,7 @@ public class BOInventarioProductos {
     public BOInventarioProductos() {
         dao = FactoryDAO.getFabrica().crearDAOInventarioProductos();
         daocategoria = FactoryDAO.getFabrica().crearDAOCategoriaProductos();
+
     }
 
     /**
@@ -98,6 +102,17 @@ public class BOInventarioProductos {
             throw new BuscarInventarioException();
         }
         return producto;
+    }
+
+    public CategoriaProducto buscarCategoriaProducto(String nombre) throws DatosIncompletosException, BuscarCategoriaException {
+        if (nombre == null) {
+            throw new DatosIncompletosException();
+        }
+        CategoriaProducto categoria = daocategoria.buscarCategoriaProductos(nombre);
+        if (categoria == null) {
+            throw new BuscarCategoriaException();
+        }
+        return categoria;
     }
 
     public void modificarInventario(int idCategoriaProducto, String nombre, String cantidad, String precioUnitario, File ruta, String descripcion, String estado) throws DatosIncompletosException, BuscarInventarioException, CargarImagenException, NombreProductoException, ModificarInventarioException {
@@ -221,7 +236,7 @@ public class BOInventarioProductos {
         return 0;
     }
 
-    public DefaultTableModel filtrar(String opcion, String accion) throws ComboBoxException, NumberFormatException, ParseException {
+    public DefaultTableModel filtrar(String opcion, String accion) throws ComboBoxException, NumberFormatException, ParseException, DatosIncompletosException, BuscarCategoriaException {
 
         String categoria = "";
         ArrayList<Producto> Listaproducto = listaInventario();
@@ -268,37 +283,6 @@ public class BOInventarioProductos {
                         }
                     }
                     return modelo;
-                } else {
-                    throw new ComboBoxException();
-                }
-
-            case "Categoria":
-                try {
-                    int x = Integer.parseInt(accion);
-                } catch (NumberFormatException e) {
-                    throw new NumberFormatException();
-
-                }
-                if (!accion.equals("Seleccione")) {
-                    for (int i = 0; i < Listaproducto.size(); i++) {
-                        if (Integer.parseInt(accion) == Listaproducto.get(i).getId() && Listaproducto.get(i).getEstado().equals("Disponible")) {
-                            for (int j = 0; j < Listacategoria.size(); j++) {
-
-                                if (Listaproducto.get(i).getIdCategoriaProducto() == Listaproducto.get(j).getId()) {
-
-                                    categoria = Listacategoria.get(j).getNombre();
-
-                                    break;
-                                }
-
-                            }
-
-                            modelo.addRow(new Object[]{Listaproducto.get(i).getId(), categoria, Listaproducto.get(i).getNombre(), Listaproducto.get(i).getCantidad(), Listaproducto.get(i).getPrecioUnitario(), Listaproducto.get(i).getDescripcion(), Listaproducto.get(i).getEstado()});
-                        }
-                    }
-
-                    return modelo;
-
                 } else {
                     throw new ComboBoxException();
                 }

@@ -64,7 +64,7 @@ public class DAOInventarioProductos implements IDAOInventarioProductos {
     public Producto buscarInventarioProductos(String nombre) {
         Producto producto = new Producto();
         try (Connection con = Conexion.getConnection()) {
-            PreparedStatement pstmt = con.prepareStatement("SELECT  id,idCategoriaProducto,nombre,cantidad,precioUnitario,imagen,descripcion,estado FROM producto where nombre=?");
+            PreparedStatement pstmt = con.prepareStatement("SELECT id,idCategoriaProducto,nombre,cantidad,precioUnitario,imagen,descripcion,estado FROM producto where nombre=?");
             pstmt.setString(1, nombre);
             //Resultset guarda los datos de la busqueda
             ResultSet respuesta = pstmt.executeQuery();
