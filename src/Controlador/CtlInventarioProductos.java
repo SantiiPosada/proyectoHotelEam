@@ -92,7 +92,7 @@ public class CtlInventarioProductos {
         return bo.cargarImagenBytes(file);
     }
 
-    public int obtenerIdCategoria(int posicioncategoria) {
+    public int obtenerIdCategoria(String posicioncategoria) throws DatosIncompletosException {
         return bo.obtenerIdCategoria(posicioncategoria);
     }
 }

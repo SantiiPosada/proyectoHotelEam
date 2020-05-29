@@ -351,7 +351,7 @@ public class FrmProductos extends javax.swing.JFrame {
             String nombre = cbxCategoria.getSelectedItem().toString();
             CategoriaProducto categoria = controladorcategoria.buscarCategoriaProductos(nombre);
             int idcategoria = categoria.getId();
-            JOptionPane.showMessageDialog(null, idcategoria);
+           
             cbxProductos.setModel(controlador.llenarComboBoxProductos(idcategoria));
             
         } catch (DatosIncompletosException | BuscarCategoriaException e) {

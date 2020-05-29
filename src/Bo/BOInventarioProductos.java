@@ -126,12 +126,9 @@ public class BOInventarioProductos {
         ArrayList<CategoriaProducto> listarCategoriaProductos = listaCategoria();
         DefaultComboBoxModel modelo = new DefaultComboBoxModel();
         modelo.addElement("Seleccione");
-        for (int i = 0; i < listarCategoriaProductos.size(); i++) {
-            if (listarCategoriaProductos.get(i).getEstado().equalsIgnoreCase("Disponible")) {
-                modelo.addElement(listarCategoriaProductos.get(i).getNombre());
-            }
-
-        }
+        listarCategoriaProductos.stream().filter((categoria) -> (categoria.getEstado().equalsIgnoreCase("Disponible"))).forEachOrdered((categoria) -> {
+            modelo.addElement(categoria.getNombre());
+        });
         return modelo;
     }
 
@@ -209,11 +206,19 @@ public class BOInventarioProductos {
         return modelo;
     }
 
-    public int obtenerIdCategoria(int posicioncategoria) {
+    public int obtenerIdCategoria(String categoria) throws DatosIncompletosException {
         ArrayList<CategoriaProducto> listacategoria = listaCategoria();
-        CategoriaProducto producto = listacategoria.get(posicioncategoria);
+        if (categoria.equalsIgnoreCase("Seleccione")) {
+            throw new DatosIncompletosException();
+        } else {
+            for (CategoriaProducto categoriaProducto : listacategoria) {
+                if (categoriaProducto.getNombre().equalsIgnoreCase(categoria)) {
+                    return categoriaProducto.getId();
+                }
+            }
+        }
 
-        return producto.getId();
+        return 0;
     }
 
     public DefaultTableModel filtrar(String opcion, String accion) throws ComboBoxException, NumberFormatException, ParseException {

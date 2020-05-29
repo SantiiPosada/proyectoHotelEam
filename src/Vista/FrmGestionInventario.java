@@ -5,21 +5,15 @@
  */
 package Vista;
 
-import Controlador.CtlHabitacion;
 import Controlador.CtlInventarioProductos;
-import Excepcion.BuscarHabitacionException;
 import Excepcion.BuscarInventarioException;
 import Excepcion.CargarImagenException;
 import Excepcion.ComboBoxException;
 import Excepcion.DatosIncompletosException;
-import Excepcion.GuardarHabitacionException;
 import Excepcion.GuardarInventarioProductoException;
-import Excepcion.ModificarHabitacionException;
 import Excepcion.ModificarInventarioException;
-import Excepcion.NombreHabitacionException;
 import Excepcion.NombreProductoException;
 import Modelo.Administrador;
-import Modelo.Habitacion;
 import Modelo.Producto;
 import java.io.File;
 import java.text.ParseException;
@@ -448,7 +442,7 @@ public class FrmGestionInventario extends javax.swing.JFrame {
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         try {
             String nombre = controlador.obtenerDatoJtextFile(txtNombre);
-            int categoria = controlador.obtenerIdCategoria(CbxCategoria.getSelectedIndex() - 1);
+            int categoria = controlador.obtenerIdCategoria(CbxCategoria.getSelectedItem().toString());
             String cantidad = spnCantidad.getValue().toString();
             String precioUnitario = controlador.obtenerDatoJtextFile(txtPrecioUnitario);
             String descripcion = controlador.obtenerDatoJtextArea(txtDescripcion);
@@ -506,7 +500,7 @@ public class FrmGestionInventario extends javax.swing.JFrame {
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
         try {
             String nombre = controlador.obtenerDatoJtextFile(txtNombre);
-            int categoria = controlador.obtenerIdCategoria(CbxCategoria.getSelectedIndex() - 1);
+            int categoria = controlador.obtenerIdCategoria(CbxCategoria.getSelectedItem().toString());
             String cantidad = spnCantidad.getValue().toString();
             String precioUnitario = controlador.obtenerDatoJtextFile(txtPrecioUnitario);
             String descripcion = controlador.obtenerDatoJtextArea(txtDescripcion);
@@ -554,7 +548,7 @@ public class FrmGestionInventario extends javax.swing.JFrame {
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
         try {
             String nombre = controlador.obtenerDatoJtextFile(txtNombre);
-            int categoria = controlador.obtenerIdCategoria(CbxCategoria.getSelectedIndex() - 1);
+            int categoria = controlador.obtenerIdCategoria(CbxCategoria.getSelectedItem().toString());
             String cantidad = spnCantidad.getValue().toString();
             String precioUnitario = controlador.obtenerDatoJtextFile(txtPrecioUnitario);
             String descripcion = controlador.obtenerDatoJtextArea(txtDescripcion);
