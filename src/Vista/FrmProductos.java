@@ -6,11 +6,13 @@
 package Vista;
 
 import Controlador.CtlCategoriaProductos;
+import Controlador.CtlCuentaPersonal;
 import Controlador.CtlHabitacion;
 import Controlador.CtlHistorialCuentaPersonal;
 import Controlador.CtlInventarioProductos;
 import Controlador.CtlReserva;
 import Excepcion.BuscarCategoriaException;
+import Excepcion.BuscarCuentaPersonalException;
 import Excepcion.BuscarInventarioException;
 import Excepcion.CargarImagenException;
 import Excepcion.DatosIncompletosException;
@@ -19,6 +21,7 @@ import Excepcion.ModificarCantidadException;
 import Excepcion.ModificarInventarioException;
 import Excepcion.NombreProductoException;
 import Modelo.CategoriaProducto;
+import Modelo.CuentaPersonal;
 import Modelo.Habitacion;
 import Modelo.Huesped;
 import Modelo.Producto;
@@ -35,6 +38,7 @@ public class FrmProductos extends javax.swing.JFrame {
     private final CtlHistorialCuentaPersonal controlador;
     private final CtlInventarioProductos controladorproductos;
     private final CtlCategoriaProductos controladorcategoria;
+    private final CtlCuentaPersonal controladorCuentaPersonal;
     private Huesped huesped;
 
     public FrmProductos() {
@@ -42,6 +46,7 @@ public class FrmProductos extends javax.swing.JFrame {
         controlador = new CtlHistorialCuentaPersonal();
         controladorproductos = new CtlInventarioProductos();
         controladorcategoria = new CtlCategoriaProductos();
+        controladorCuentaPersonal = new CtlCuentaPersonal();
         this.setLocationRelativeTo(null);
         this.setResizable(false);
         cbxCategoria.setEnabled(false);
@@ -55,6 +60,7 @@ public class FrmProductos extends javax.swing.JFrame {
         controlador = new CtlHistorialCuentaPersonal();
         controladorproductos = new CtlInventarioProductos();
         controladorcategoria = new CtlCategoriaProductos();
+        controladorCuentaPersonal = new CtlCuentaPersonal();
         this.setLocationRelativeTo(null);
         this.setResizable(false);
         llenarComboBoxCategoria();
@@ -391,12 +397,14 @@ public class FrmProductos extends javax.swing.JFrame {
 
     private void btnSolicitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSolicitarActionPerformed
         try {
-//falta idcuentapersonal
+            int idReserva = Integer.parseInt(cbxCategoria.getSelectedItem().toString());
+            CuentaPersonal cuenta = controladorCuentaPersonal.buscarCuentaPersonal(idReserva);
+            int idCuentaPersonal = cuenta.getId();
             String nombreproducto = cbxCategoria.getSelectedItem().toString();
             Producto producto = controladorproductos.buscarInventario(nombreproducto);
             String cantidad = spnCantidad.getValue() + "";
-            controlador.guardarHistorialCuentaPersonal(0, producto.getId(), cantidad);
-        } catch (DatosIncompletosException | BuscarInventarioException | GuardarHistorialCuentaPersonalException | ModificarInventarioException | NombreProductoException | ModificarCantidadException e) {
+            controlador.guardarHistorialCuentaPersonal(idCuentaPersonal, producto.getId(), cantidad);
+        } catch (DatosIncompletosException | BuscarInventarioException | GuardarHistorialCuentaPersonalException | ModificarInventarioException | NombreProductoException | ModificarCantidadException | BuscarCuentaPersonalException e) {
             imprimir(e.getMessage());
         }
     }//GEN-LAST:event_btnSolicitarActionPerformed
