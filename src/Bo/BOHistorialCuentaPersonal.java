@@ -122,12 +122,13 @@ public class BOHistorialCuentaPersonal {
         DefaultComboBoxModel modelo = new DefaultComboBoxModel();
         for (int i = 0; i < listaproductos.size(); i++) {
             int cantidad = Integer.parseInt(listaproductos.get(i).getCantidad());
-            if (listaproductos.get(i).getEstado().equalsIgnoreCase("Disponible") && cantidad > 0 && listaproductos.get(i).getIdCategoriaProducto() == idcategoria) {
-                modelo.addElement(listaproductos.get(i).getNombre());
+            if (listaproductos.get(i).getEstado().equalsIgnoreCase("Disponible")) {
+                if (cantidad > 0) {
+                    if (listaproductos.get(i).getIdCategoriaProducto() == idcategoria) {
+                        modelo.addElement(listaproductos.get(i).getNombre());
+                    }
+                }
             }
-        }
-        if (modelo == null) {
-            modelo.addElement("no hay elementos disponibles");
         }
         return modelo;
     }

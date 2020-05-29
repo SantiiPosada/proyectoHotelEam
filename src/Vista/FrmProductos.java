@@ -348,10 +348,12 @@ public class FrmProductos extends javax.swing.JFrame {
 
     private void cbxCategoriaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbxCategoriaMouseClicked
         try {
-            String nombre = controlador.obtenerDatoJComboBox(cbxCategoria);
+            String nombre = cbxCategoria.getSelectedItem().toString();
             CategoriaProducto categoria = controladorcategoria.buscarCategoriaProductos(nombre);
             int idcategoria = categoria.getId();
-            cbxCategoria.setModel(controlador.llenarComboBoxProductos(idcategoria));
+            JOptionPane.showMessageDialog(null, idcategoria);
+            cbxProductos.setModel(controlador.llenarComboBoxProductos(idcategoria));
+            
         } catch (DatosIncompletosException | BuscarCategoriaException e) {
             imprimir(e.getMessage());
         }
