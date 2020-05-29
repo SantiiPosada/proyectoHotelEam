@@ -10,6 +10,7 @@ import Excepcion.BuscarHuespedException;
 import Excepcion.CargarImagenException;
 import Excepcion.DatosIncompletosException;
 import Excepcion.DiaException;
+import Excepcion.GuardarCuentaPersonalException;
 import Excepcion.anoException;
 import Excepcion.horaException;
 import Excepcion.mesException;
@@ -38,12 +39,14 @@ public class BOCheckIn {
     private final BoHuesped BoHuesped;
     private final BOReserva BoReserva;
     private final BoHabitacion boHabitacion;
+    private final BOCuentaPersonal boCuentaPersona;
     private ArrayList<ReservaHabitacion> listaReserva;
 
     public BOCheckIn() {
         BoHuesped = new BoHuesped();
         BoReserva = new BOReserva();
         boHabitacion = new BoHabitacion();
+        boCuentaPersona = new BOCuentaPersonal();
         listaReserva = new ArrayList<>();
     }
 
@@ -128,8 +131,8 @@ public class BOCheckIn {
         }
     }
 
-    public void realizarCheckIn(Date fechaHoy, ReservaHabitacion reserva) throws anoException, mesException, DiaException, horaException, DatosIncompletosException, modificarReservaCheckIn {
-
+    public void realizarCheckIn(Date fechaHoy, ReservaHabitacion reserva) throws anoException, mesException, DiaException, horaException, DatosIncompletosException, modificarReservaCheckIn, GuardarCuentaPersonalException {
+// int idHuesped, int idReservaHabitacion, String estado, String valorApagar
         Calendar calLlegada = new GregorianCalendar();
         calLlegada.setTime(reserva.getFechaHoraCheckIn());
         int yearHoraFechaLlegada = calLlegada.get(Calendar.YEAR);
@@ -142,8 +145,8 @@ public class BOCheckIn {
         int monthFechaHoraReserva = calHoy.get(Calendar.MONTH);
         int dayFechaHoraReserva = calHoy.get(Calendar.DAY_OF_MONTH);
 
-    //    int hora = calHoy.get(Calendar.HOUR_OF_DAY);
-         int hora = 14;
+        //    int hora = calHoy.get(Calendar.HOUR_OF_DAY);
+        int hora = 14;
         int minutos = calHoy.get(Calendar.MINUTE);
         int segundos = calHoy.get(Calendar.SECOND);
 
@@ -154,7 +157,10 @@ public class BOCheckIn {
 
                     if (hora >= 14 && hora <= 16) {
 
-                        if (!BoReserva.modificarReserva("CheckIn", "Activo", reserva.getId())) {
+                        if (BoReserva.modificarReserva("CheckIn", "Activo", reserva.getId())) {
+                            boCuentaPersona.guardarCuentaPersonal(reserva.getIdHuesped(), reserva.getId(), "CheckIn", "0");
+
+                        } else {
                             throw new modificarReservaCheckIn();
                         }
 

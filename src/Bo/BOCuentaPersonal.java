@@ -8,6 +8,7 @@ package Bo;
 import Definiciones.IDAOCuentaPersonal;
 import Excepcion.BuscarCuentaPersonalException;
 import Excepcion.DatosIncompletosException;
+import Excepcion.GuardarCuentaPersonalException;
 import Fabrica.FactoryDAO;
 import Modelo.CuentaPersonal;
 
@@ -35,4 +36,14 @@ public class BOCuentaPersonal {
 
         return cuenta;
     }
+
+    public void guardarCuentaPersonal(int idHuesped, int idReservaHabitacion, String estado, String valorApagar) throws DatosIncompletosException, GuardarCuentaPersonalException {
+        CuentaPersonal cuentaPersona = new CuentaPersonal(0, idHuesped, idReservaHabitacion, estado, valorApagar);
+
+        if (!dao.guardarCuentaPersonal(cuentaPersona)) {
+            throw new GuardarCuentaPersonalException();
+        }
+
+    }
+
 }

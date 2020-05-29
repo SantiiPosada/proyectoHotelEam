@@ -11,6 +11,7 @@ import Excepcion.BuscarHuespedException;
 import Excepcion.CargarImagenException;
 import Excepcion.DatosIncompletosException;
 import Excepcion.DiaException;
+import Excepcion.GuardarCuentaPersonalException;
 import Excepcion.anoException;
 import Excepcion.horaException;
 import Excepcion.mesException;
@@ -500,9 +501,9 @@ public class FrmCheckIn extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null,"Se realizó el chek In correctamente");
             llenarComboBox(huesped.getId());
             limpiar();
-        } catch (anoException | mesException | DiaException | horaException | DatosIncompletosException | modificarReservaCheckIn ex) {
+        } catch (GuardarCuentaPersonalException |anoException | mesException | DiaException | horaException | DatosIncompletosException | modificarReservaCheckIn ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
-        }
+        } 
 
     }//GEN-LAST:event_btnConsultar1ActionPerformed
 

@@ -10,6 +10,7 @@ import Modelo.CuentaPersonal;
 import java.sql.Connection;
 import java.util.ArrayList;
 import Conexion.Conexion;
+import Excepcion.DatosIncompletosException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -21,8 +22,29 @@ import java.sql.SQLException;
 public class DAOCuentaPersonal implements IDAOCuentaPersonal {
 
     @Override
-    public void guardarCuentaPersonal(CuentaPersonal cuentapersonal) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean guardarCuentaPersonal(CuentaPersonal cuentapersonal) throws DatosIncompletosException {
+        boolean desicion = false;
+        try (Connection con = Conexion.getConnection()) {
+
+            PreparedStatement pstmt = con.prepareStatement("INSERT INTO cuentaPersonal (idHuesped,idReservaHabitacion,estado,valorApagar) values (?,?,?,?)");
+
+            pstmt.setInt(1, cuentapersonal.getIdHuesped());
+            pstmt.setInt(2, cuentapersonal.getIdReservaHabitacion());
+            pstmt.setString(3, cuentapersonal.getEstado());
+            pstmt.setString(4, cuentapersonal.getValorApagar());
+            pstmt.executeUpdate();
+            desicion = true;
+
+        } catch (SQLException ex) {
+            //   ex.printStackTrace();
+            int codigo = ex.getErrorCode();
+            if (codigo == 1048) {
+                throw new DatosIncompletosException();
+            }
+
+            desicion = false;
+        }
+        return desicion;
     }
 
     @Override
@@ -38,7 +60,6 @@ public class DAOCuentaPersonal implements IDAOCuentaPersonal {
                 cuenta.setId(respuesta.getInt("id"));
                 cuenta.setIdHuesped(respuesta.getInt("idHuesped"));
                 cuenta.setIdReservaHabitacion(respuesta.getInt("idReservaHabitacion"));
-                cuenta.setIdCompraHabitacion(respuesta.getInt("idCompraHabitacion"));
                 cuenta.setEstado(respuesta.getString("estado"));
                 cuenta.setValorApagar(respuesta.getString("valorApagar"));
 

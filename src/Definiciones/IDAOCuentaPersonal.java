@@ -5,6 +5,7 @@
  */
 package Definiciones;
 
+import Excepcion.DatosIncompletosException;
 import Modelo.CuentaPersonal;
 import java.util.ArrayList;
 
@@ -18,8 +19,10 @@ public interface IDAOCuentaPersonal {
      * Metodo para guardar una cuenta personal de un huesped
      *
      * @param cuentapersonal objeto tipo CuentaPersonal
+     * @return veradero si se guardó falso si no 
+     * @throws DatosIncompletosException  si no se ingresan todos los datos
      */
-    public void guardarCuentaPersonal(CuentaPersonal cuentapersonal);
+    public boolean guardarCuentaPersonal(CuentaPersonal cuentapersonal) throws DatosIncompletosException;
 
     /**
      * Método encargado de buscar a un administrador

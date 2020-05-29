@@ -13,7 +13,6 @@ public class CuentaPersonal {
     private int id;
     private int idHuesped;
     private int idReservaHabitacion;
-    private int idCompraHabitacion;
     private String estado;
     private String valorApagar;
 
@@ -21,16 +20,14 @@ public class CuentaPersonal {
                 this.id = 0;
         this.idHuesped = 0;
         this.idReservaHabitacion = 0;
-        this.idCompraHabitacion = 0;
         this.estado = null;
         this.valorApagar = null;
     }
 
-    public CuentaPersonal(int id, int idHuesped, int idReservaHabitacion, int idCompraHabitacion, String estado, String valorApagar) {
+    public CuentaPersonal(int id, int idHuesped, int idReservaHabitacion, String estado, String valorApagar) {
         this.id = id;
         this.idHuesped = idHuesped;
         this.idReservaHabitacion = idReservaHabitacion;
-        this.idCompraHabitacion = idCompraHabitacion;
         this.estado = estado;
         this.valorApagar = valorApagar;
     }
@@ -59,13 +56,6 @@ public class CuentaPersonal {
         this.idReservaHabitacion = idReservaHabitacion;
     }
 
-    public int getIdCompraHabitacion() {
-        return idCompraHabitacion;
-    }
-
-    public void setIdCompraHabitacion(int idCompraHabitacion) {
-        this.idCompraHabitacion = idCompraHabitacion;
-    }
 
     public String getEstado() {
         return estado;
