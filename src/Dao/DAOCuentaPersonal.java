@@ -51,7 +51,7 @@ public class DAOCuentaPersonal implements IDAOCuentaPersonal {
     public CuentaPersonal buscarCuentaPersonal(int idReserva) {
         CuentaPersonal cuenta = new CuentaPersonal();
         try (Connection con = Conexion.getConnection()) {
-            PreparedStatement pstmt = con.prepareStatement("SELECT  id,idHuesped,idReservaHabitacion,idCompraHabitacion,estado,valorApagar FROM cuentaPersonal where idReservaHabitacion=?");
+            PreparedStatement pstmt = con.prepareStatement("SELECT  id,idHuesped,idReservaHabitacion,estado,valorApagar FROM cuentaPersonal where idReservaHabitacion=?");
             pstmt.setInt(1, idReserva);
             //Resultset guarda los datos de la busqueda
             ResultSet respuesta = pstmt.executeQuery();

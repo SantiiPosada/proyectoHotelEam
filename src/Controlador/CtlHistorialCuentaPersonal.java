@@ -6,6 +6,7 @@
 package Controlador;
 
 import Bo.BOHistorialCuentaPersonal;
+import Excepcion.CantidadProductoException;
 import Excepcion.DatosIncompletosException;
 import Excepcion.GuardarHistorialCuentaPersonalException;
 import Excepcion.ModificarCantidadException;
@@ -26,7 +27,7 @@ public class CtlHistorialCuentaPersonal {
         bo = new BOHistorialCuentaPersonal();
     }
 
-    public void guardarHistorialCuentaPersonal(int idCuentaPersonal, int idProducto, String cantidad) throws DatosIncompletosException, GuardarHistorialCuentaPersonalException, ModificarInventarioException, NombreProductoException, ModificarCantidadException {
+    public void guardarHistorialCuentaPersonal(int idCuentaPersonal, int idProducto, String cantidad) throws DatosIncompletosException, GuardarHistorialCuentaPersonalException, ModificarInventarioException, NombreProductoException, ModificarCantidadException, CantidadProductoException {
         bo.guardarHistorialCuentaPersonal(idCuentaPersonal, idProducto, cantidad);
     }
 

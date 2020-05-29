@@ -14,6 +14,7 @@ import Controlador.CtlReserva;
 import Excepcion.BuscarCategoriaException;
 import Excepcion.BuscarCuentaPersonalException;
 import Excepcion.BuscarInventarioException;
+import Excepcion.CantidadProductoException;
 import Excepcion.CargarImagenException;
 import Excepcion.DatosIncompletosException;
 import Excepcion.GuardarHistorialCuentaPersonalException;
@@ -400,11 +401,12 @@ public class FrmProductos extends javax.swing.JFrame {
             int idReserva = Integer.parseInt(cbxReserva.getSelectedItem().toString());
             CuentaPersonal cuenta = controladorCuentaPersonal.buscarCuentaPersonal(idReserva);
             int idCuentaPersonal = cuenta.getId();
-            String nombreproducto = cbxCategoria.getSelectedItem().toString();
+            String nombreproducto = cbxProductos.getSelectedItem().toString();
             Producto producto = controladorproductos.buscarInventario(nombreproducto);
-            String cantidad = spnCantidad.getValue() + "";
+            String cantidad = spnCantidad.getValue().toString();
             controlador.guardarHistorialCuentaPersonal(idCuentaPersonal, producto.getId(), cantidad);
-        } catch (DatosIncompletosException | BuscarInventarioException | GuardarHistorialCuentaPersonalException | ModificarInventarioException | NombreProductoException | ModificarCantidadException | BuscarCuentaPersonalException e) {
+            JOptionPane.showMessageDialog(null, "Se Solicito el Producto Correcto");
+        } catch (DatosIncompletosException | BuscarInventarioException | GuardarHistorialCuentaPersonalException | ModificarInventarioException | NombreProductoException | ModificarCantidadException | BuscarCuentaPersonalException | CantidadProductoException e) {
             imprimir(e.getMessage());
         }
     }//GEN-LAST:event_btnSolicitarActionPerformed

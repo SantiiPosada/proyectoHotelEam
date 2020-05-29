@@ -20,6 +20,10 @@ public class CtlMiCuenta {
         bo = new BOMiCuenta();
     }
 
+    public DefaultTableModel listaElementosReservaInactiva(int idHuesped) {
+        return bo.listarElementosReservacionInactiva(idHuesped);
+    }
+
     public DefaultTableModel listaElementosReserva(int idhuesped) {
         return bo.listarElementosReservacion(idhuesped);
     }

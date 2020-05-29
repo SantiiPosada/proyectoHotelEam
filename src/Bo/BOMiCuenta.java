@@ -8,9 +8,11 @@ package Bo;
 import DTO.DTOReservaActiva;
 import Definiciones.IDAOHabitacion;
 import Definiciones.IDAOMiCuenta;
+import Definiciones.IDAOReserva;
 import Fabrica.FactoryDAO;
 import Modelo.Habitacion;
 import Modelo.Huesped;
+import Modelo.ReservaHabitacion;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
@@ -24,11 +26,54 @@ public class BOMiCuenta {
     private IDAOMiCuenta dao;
     private final DateFormat formato;
     private final IDAOHabitacion daoHabitacion;
+    private final IDAOReserva daoReserva;
 
     public BOMiCuenta() {
         dao = FactoryDAO.getFabrica().crearDAOMiCuenta();
         daoHabitacion = FactoryDAO.getFabrica().crearDAOHabitacIon();
+        daoReserva = FactoryDAO.getFabrica().crearDAOReserva();
         formato = DateFormat.getDateInstance();
+    }
+
+    public ArrayList<ReservaHabitacion> listareservas() {
+        return daoReserva.listarReserva();
+    }
+
+    public DefaultTableModel listarElementosReservacionInactiva(int idHuesped) {
+        ArrayList<ReservaHabitacion> lista = listareservas();
+        ArrayList<Habitacion> listaHabitaciones = listaHabitacion();
+        String nombreColumnas[] = {"Id Reserva", "Fecha Reservacion", "Habitacion", "Estado", "Estado Servicio"};
+        DefaultTableModel modelo = new DefaultTableModel(new Object[][]{}, nombreColumnas) {
+            @Override
+            public boolean isCellEditable(int filas, int columnas) {
+                switch (columnas) {
+                    case 5:
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+        };
+        String habitaciones = "";
+        for (ReservaHabitacion reserva : lista) {
+            if (reserva.getEstado().equalsIgnoreCase("Prestado") && reserva.getIdHuesped() == idHuesped) {
+                String fecha = formato.format(reserva.getFechaHoraReserva());
+                for (Habitacion habitacion : listaHabitaciones) {
+
+                    if (reserva.getIdHabitacion() == habitacion.getId()) {
+
+                        habitaciones = habitacion.getNombre();
+
+                        break;
+                    }
+
+                }
+                modelo.addRow(new Object[]{reserva.getId(), fecha, habitaciones, reserva.getEstado(), reserva.getEstadoServicio()});
+            }
+
+        }
+
+        return modelo;
     }
 
     public DefaultTableModel listarElementosReservacion(int idHuesped) {

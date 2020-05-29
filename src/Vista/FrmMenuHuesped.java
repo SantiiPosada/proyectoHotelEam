@@ -156,6 +156,11 @@ public class FrmMenuHuesped extends javax.swing.JFrame {
         btnMiReserva.setForeground(new java.awt.Color(255, 255, 255));
         btnMiReserva.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/estadoreserva.jpg"))); // NOI18N
         btnMiReserva.setBorder(null);
+        btnMiReserva.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMiReservaActionPerformed(evt);
+            }
+        });
 
         btnHabitaciones.setBackground(new java.awt.Color(255, 255, 255));
         btnHabitaciones.setForeground(new java.awt.Color(255, 255, 255));
@@ -307,6 +312,12 @@ public class FrmMenuHuesped extends javax.swing.JFrame {
         productos.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnProductosActionPerformed
+
+    private void btnMiReservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMiReservaActionPerformed
+        FrmMisReservas misReservas = new FrmMisReservas(huesped);
+        misReservas.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnMiReservaActionPerformed
 
     /**
      * @param args the command line arguments

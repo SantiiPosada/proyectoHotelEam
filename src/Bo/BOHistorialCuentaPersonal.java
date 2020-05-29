@@ -9,6 +9,7 @@ import Definiciones.IDAOCategoriaProductos;
 import Definiciones.IDAOHistorialCuentaPersonal;
 import Definiciones.IDAOInventarioProductos;
 import Definiciones.IDAOReserva;
+import Excepcion.CantidadProductoException;
 import Excepcion.CargarImagenException;
 import Excepcion.DatosIncompletosException;
 import Excepcion.GuardarHistorialCuentaPersonalException;
@@ -88,8 +89,11 @@ public class BOHistorialCuentaPersonal {
         }
     }
 
-    public void guardarHistorialCuentaPersonal(int idCuentaPersonal, int idProducto, String cantidad) throws DatosIncompletosException, GuardarHistorialCuentaPersonalException, ModificarInventarioException, NombreProductoException, ModificarCantidadException {
+    public void guardarHistorialCuentaPersonal(int idCuentaPersonal, int idProducto, String cantidad) throws DatosIncompletosException, GuardarHistorialCuentaPersonalException, ModificarInventarioException, NombreProductoException, ModificarCantidadException, CantidadProductoException {
         int cantidades = Integer.parseInt(cantidad);
+        if (cantidades == 0) {
+            throw new CantidadProductoException();
+        }
         verificarCantidadDisponible(idProducto, cantidades);
         HistorialCuentaPersonal historial = new HistorialCuentaPersonal(0, idCuentaPersonal, idProducto, cantidad);
 
