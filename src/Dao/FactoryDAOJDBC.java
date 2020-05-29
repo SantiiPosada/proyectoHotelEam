@@ -7,6 +7,7 @@ package Dao;
 
 import Definiciones.IDAOAdministrador;
 import Definiciones.IDAOCategoriaProductos;
+import Definiciones.IDAOCuentaPersonal;
 import Definiciones.IDAOHabitacion;
 import Definiciones.IDAOHistorialCuentaPersonal;
 import Definiciones.IDAOHuesped;
@@ -71,6 +72,11 @@ public class FactoryDAOJDBC implements IFabricaDAO {
     @Override
     public IDAOMiCuenta crearDAOMiCuenta() {
         return new DAOMiCuenta();
+    }
+
+    @Override
+    public IDAOCuentaPersonal crearDAOCuentaPersonal() {
+        return new DAOCuentaPersonal();
     }
 
 }
