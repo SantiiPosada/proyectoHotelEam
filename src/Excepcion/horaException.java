@@ -9,8 +9,8 @@ package Excepcion;
  *
  * @author santiago
  */
-public class anoException extends Exception{
-    public anoException(){
-        super("Año incorrecto");
+public class horaException extends Exception{
+    public horaException(){
+        super("Hora incorrecta");
     }
 }

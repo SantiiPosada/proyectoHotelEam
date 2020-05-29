@@ -11,6 +11,6 @@ package Excepcion;
  */
 public class mesException extends Exception{
     public mesException(){
-        super("Mes incorrecto, favor seleccione el mes actual");
+        super("Mes incorrecto");
     }
 }

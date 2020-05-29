@@ -31,4 +31,16 @@ public interface IDAOReserva {
      * @return una lista con las reservas registradas
      */
        public ArrayList<ReservaHabitacion> listarReserva() ;
+       
+       /**
+        * Metodo encargado de modificar la reserva
+        * @param estado que desea modificar
+        * @param estadoServicio que desea modificar
+        * @param id  para realizar la modificación     
+        * @return verdadero si modifica falso si no lo hace
+        * @throws DatosIncompletosException 
+        */
+         public boolean modificarReserva(String estado, String estadoServicio, int id) throws DatosIncompletosException ;
+             
+         
 }

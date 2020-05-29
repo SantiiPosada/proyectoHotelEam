@@ -87,11 +87,37 @@ public class DAOReserva implements IDAOReserva {
 
             return listar;
         } catch (SQLException e) {
-             System.err.println("Hubo un error al listar");
+            System.err.println("Hubo un error al listar");
             e.printStackTrace();
-           
+
         }
         return null;
+    }
+
+    @Override
+    public boolean modificarReserva(String estado, String estadoServicio, int id) throws DatosIncompletosException {
+        boolean desicion = false;
+        try (Connection con = Conexion.getConnection()) {
+            PreparedStatement pstmt = con.prepareStatement("UPDATE reservahabitacion SET  estado=?, estadoServicio=? WHERE id=?;");//preparar la sentencia sql(modificar,agregar,eliminar,etc) se llena de izquierda a derecha de 1 en 1(1,2,3)
+
+            pstmt.setString(1, estado);
+            pstmt.setString(2, estadoServicio);
+            pstmt.setInt(3, id);
+
+            int res = pstmt.executeUpdate();
+
+            desicion = res > 0;
+
+        } catch (SQLException ex) {
+            //ex.printStackTrace();
+            int codigo = ex.getErrorCode();
+            if (codigo == 1048) {
+                throw new DatosIncompletosException();
+            }
+            desicion = false;
+        }
+
+        return desicion;
     }
 
     private String convertirDeDateUtilaDateTime(Date uDate) {

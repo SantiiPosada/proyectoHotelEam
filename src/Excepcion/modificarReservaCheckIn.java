@@ -9,8 +9,8 @@ package Excepcion;
  *
  * @author santiago
  */
-public class anoException extends Exception{
-    public anoException(){
-        super("Año incorrecto");
+public class modificarReservaCheckIn extends Exception{
+    public modificarReservaCheckIn(){
+        super("error al modificar la reserva");
     }
 }

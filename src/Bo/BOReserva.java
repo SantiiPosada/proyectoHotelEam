@@ -53,6 +53,10 @@ public class BOReserva {
         formato = DateFormat.getDateInstance();
     }
     
+    public boolean modificarReserva(String estado,String estadoServicio, int idReserva) throws DatosIncompletosException{
+        return daoReserva.modificarReserva(estado, estadoServicio, idReserva);
+    }
+    
     public void validarDatos(Date fechaHoraReserva, Date fechaHoraLlegada, Date fechaHoraSalida) throws DatosIncompletosException {
         if (fechaHoraReserva == null || fechaHoraLlegada == null || fechaHoraSalida == null) {
             throw new DatosIncompletosException();

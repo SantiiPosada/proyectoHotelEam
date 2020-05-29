@@ -6,9 +6,20 @@
 package Controlador;
 
 import Bo.BOCheckIn;
+import Excepcion.BuscarHabitacionException;
 import Excepcion.BuscarHuespedException;
+import Excepcion.CargarImagenException;
 import Excepcion.DatosIncompletosException;
+import Excepcion.DiaException;
+import Excepcion.anoException;
+import Excepcion.horaException;
+import Excepcion.mesException;
+import Excepcion.modificarReservaCheckIn;
+import Modelo.Habitacion;
 import Modelo.Huesped;
+import Modelo.ReservaHabitacion;
+import java.awt.image.BufferedImage;
+import java.util.Date;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTextField;
 
@@ -27,11 +38,27 @@ public class CtlCheckIn {
     public String obtenerDatoJtextFile(JTextField x) {
         return bo.obtenerDatoJtextFile(x);
     }
-       public Huesped buscarHuesped(String cedula) throws BuscarHuespedException, DatosIncompletosException{
-           return bo.buscarHuesped(cedula);
+
+    public Huesped buscarHuesped(String cedula) throws BuscarHuespedException, DatosIncompletosException {
+        return bo.buscarHuesped(cedula);
+    }
+
+    public DefaultComboBoxModel llenarComboBox(int idHuesped) {
+        return bo.llenarComboBox(idHuesped);
+    }
+
+    public Habitacion buscarHabitacion(int idReserva) throws BuscarHabitacionException {
+        return bo.buscarHabitacion(idReserva);
+    }
+    public BufferedImage cargarImagenBufferedImage(byte[] bytes) throws CargarImagenException {
+        return bo.cargarImagenBufferedImage(bytes);
+    }
+       public ReservaHabitacion buscarReserva(int idReserva) {
+          return bo.buscarReserva(idReserva);
        }
        
-        public DefaultComboBoxModel llenarComboBox(int idHuesped) {
-            return bo.llenarComboBox(idHuesped);
-        }
+         public void realizarCheckIn(Date fechaHoy, ReservaHabitacion reserva) throws anoException, mesException, DiaException, horaException, DatosIncompletosException, modificarReservaCheckIn {
+              bo.realizarCheckIn(fechaHoy, reserva);
+         }
+
 }
