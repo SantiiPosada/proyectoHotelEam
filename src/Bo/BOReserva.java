@@ -190,7 +190,7 @@ public class BOReserva {
                         for (ReservaHabitacion reservaHabitacion : lista) {
                             if (idHabitacion == reservaHabitacion.getIdHabitacion()) {
 
-                                if (reservaHabitacion.getEstado().equals("Prestado")) {
+                                if (reservaHabitacion.getEstado().equals("Prestado") || reservaHabitacion.getEstado().equalsIgnoreCase("CheckIn") ) {
 
                                     Calendar calCheckIn = new GregorianCalendar();
                                     calCheckIn.setTime(reservaHabitacion.getFechaHoraCheckIn());
