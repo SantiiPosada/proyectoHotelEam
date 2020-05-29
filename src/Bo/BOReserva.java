@@ -67,7 +67,7 @@ public class BOReserva {
         fechaHoraSalida.setHours(0);
         fechaHoraSalida.setMinutes(0);
         fechaHoraSalida.setSeconds(0);
-        if (verificarTipoUsuario(idHuesped).equals("regular")) {
+        if (verificarTipoUsuario(idHuesped).equalsIgnoreCase("regular")) {
             verificarSiTieneReserva(idHuesped, idHabitacion);
         } else {
             verificarSiTieneDosReserva(idHuesped, idHabitacion);
@@ -107,9 +107,9 @@ public class BOReserva {
         if (!lista.isEmpty()) {
             for (ReservaHabitacion reservaHabitacion : lista) {
                 if (reservaHabitacion.getIdHuesped() == idHuesped && reservaHabitacion.getIdHabitacion() == idHabitacion) {
-                    if (reservaHabitacion.getEstado().equals("Multado")) {
+                    if (reservaHabitacion.getEstado().equalsIgnoreCase("Multado")) {
                         throw new UsuarioMultadoException();
-                    } else if (reservaHabitacion.getEstado().equals("Prestado")) {
+                    } else if (reservaHabitacion.getEstado().equalsIgnoreCase("Prestado")) {
                         throw new ReservaActivaException();
                     }
                 }
@@ -125,9 +125,9 @@ public class BOReserva {
         if (!lista.isEmpty()) {
             for (ReservaHabitacion reservaHabitacion : lista) {
                 if (reservaHabitacion.getIdHuesped() == idHuesped && reservaHabitacion.getIdHabitacion() == idHabitacion) {
-                    if (reservaHabitacion.getEstado().equals("Multado")) {
+                    if (reservaHabitacion.getEstado().equalsIgnoreCase("Multado")) {
                         throw new UsuarioMultadoException();
-                    } else if (reservaHabitacion.getEstado().equals("Prestado")) {
+                    } else if (reservaHabitacion.getEstado().equalsIgnoreCase("Prestado")) {
                         contador++;
                         if (contador == 2) {
                             throw new ReservaActivaException();

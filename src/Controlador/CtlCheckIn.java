@@ -9,6 +9,7 @@ import Bo.BOCheckIn;
 import Excepcion.BuscarHuespedException;
 import Excepcion.DatosIncompletosException;
 import Modelo.Huesped;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTextField;
 
 /**
@@ -29,4 +30,8 @@ public class CtlCheckIn {
        public Huesped buscarHuesped(String cedula) throws BuscarHuespedException, DatosIncompletosException{
            return bo.buscarHuesped(cedula);
        }
+       
+        public DefaultComboBoxModel llenarComboBox(int idHuesped) {
+            return bo.llenarComboBox(idHuesped);
+        }
 }
