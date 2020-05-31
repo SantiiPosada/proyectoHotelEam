@@ -15,6 +15,7 @@ public class CompraHabitacion {
     private int id;
     private int idHuesped;
     private int idHabitacion;
+    private Date fechaHoraCompra;
     private Date fechaHoraLlegada;
     private Date fechaHoraSalida;
     private Date fechaHoraCheckIn;
@@ -26,24 +27,13 @@ public class CompraHabitacion {
         this.id = 0;
         this.idHuesped = 0;
         this.idHabitacion = 0;
+        this.fechaHoraCompra = null;
         this.fechaHoraLlegada = null;
         this.fechaHoraSalida = null;
         this.fechaHoraCheckIn = null;
         this.fechaHoraCheckOut = null;
         this.estado = null;
         this.estadoServicio = null;
-    }
-
-    public CompraHabitacion(int id, int idHuesped, int idHabitacion, Date fechaHoraLlegada, Date fechaHoraSalida, Date fechaHoraCheckIn, Date fechaHoraCheckOut, String estado, String estadoServicio) {
-        this.id = id;
-        this.idHuesped = idHuesped;
-        this.idHabitacion = idHabitacion;
-        this.fechaHoraLlegada = fechaHoraLlegada;
-        this.fechaHoraSalida = fechaHoraSalida;
-        this.fechaHoraCheckIn = fechaHoraCheckIn;
-        this.fechaHoraCheckOut = fechaHoraCheckOut;
-        this.estado = estado;
-        this.estadoServicio = estadoServicio;
     }
 
     public int getId() {
@@ -68,6 +58,14 @@ public class CompraHabitacion {
 
     public void setIdHabitacion(int idHabitacion) {
         this.idHabitacion = idHabitacion;
+    }
+
+    public Date getFechaHoraCompra() {
+        return fechaHoraCompra;
+    }
+
+    public void setFechaHoraCompra(Date fechaHoraCompra) {
+        this.fechaHoraCompra = fechaHoraCompra;
     }
 
     public Date getFechaHoraLlegada() {
@@ -117,5 +115,15 @@ public class CompraHabitacion {
     public void setEstadoServicio(String estadoServicio) {
         this.estadoServicio = estadoServicio;
     }
+    
+    
+    
+    
+
+   
+    
+    
+    
+    
 
 }
