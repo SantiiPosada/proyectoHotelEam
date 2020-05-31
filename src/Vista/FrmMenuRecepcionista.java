@@ -358,7 +358,9 @@ public class FrmMenuRecepcionista extends javax.swing.JFrame {
     }//GEN-LAST:event_btnFacturacionActionPerformed
 
     private void btnMultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMultaActionPerformed
-        // TODO add your handling code here:
+        FrmMultas multas = new FrmMultas(recepcionista);
+        multas.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnMultaActionPerformed
 
     private void btnVenderHabitacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVenderHabitacionActionPerformed
