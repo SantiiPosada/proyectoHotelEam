@@ -547,7 +547,7 @@ public class FrmMultas extends javax.swing.JFrame {
 
         String cedula = controladormultas.obtenerDatoJtextFile(txtCedula);
         listar(cedula);
-
+        JOptionPane.showMessageDialog(null, "Tiene registrado multa(s)");
     }//GEN-LAST:event_btnConsultarActionPerformed
 
     private void btnGenerarValorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarValorActionPerformed
@@ -558,7 +558,7 @@ public class FrmMultas extends javax.swing.JFrame {
             controladormultas.modificarMulta(cedula, valor);
             listar(cedula);
             txtValorMulta.setText(valor);
-
+            JOptionPane.showMessageDialog(null, "Su valor de la multa es " + valor);
         } catch (MultaIdReservaException | BuscarCedulaHuespedException | BuscarHuespedException | DatosIncompletosException | BuscarMultasException | ModificarMultaException e) {
             imprimir(e.toString());
         }
