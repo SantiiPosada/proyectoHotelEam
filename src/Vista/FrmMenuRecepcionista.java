@@ -382,8 +382,8 @@ public class FrmMenuRecepcionista extends javax.swing.JFrame {
     }//GEN-LAST:event_btnHabitacionDisponibleActionPerformed
 
     private void btnCheckinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCheckinActionPerformed
-        FrmCheckIn checkin = new FrmCheckIn(recepcionista);
-        checkin.setVisible(true);
+        FrmCheckIn vista = new FrmCheckIn(null, recepcionista);
+        vista.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnCheckinActionPerformed
 

@@ -174,10 +174,13 @@ public class BOCheckIn {
                         //   throw new horaException();
                         // aca va la multa  int id, int idHuesped, String cantidadPagar, String estado
 
-                        Multa multa = new Multa(0, idHuesped, "0", "Multado");
+                        if (BoReserva.modificarReserva("Multado", "Inactivo", reserva.getId())) {
+                            Multa multa = new Multa(0, idHuesped, "0", "Multado");
 
-                        if (daoMulta.guardarMulta(multa)) {
-                            throw new MultaException();
+                            if (daoMulta.guardarMulta(multa)) {
+                                throw new MultaException();
+                            }
+
                         }
 
                     }

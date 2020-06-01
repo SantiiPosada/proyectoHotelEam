@@ -83,6 +83,11 @@ public class FrmAdministrador extends javax.swing.JFrame {
 
         btnChkeckin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/checkin.jpg"))); // NOI18N
         btnChkeckin.setBorder(null);
+        btnChkeckin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnChkeckinActionPerformed(evt);
+            }
+        });
 
         btnReserva.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/reserva.jpg"))); // NOI18N
         btnReserva.setBorder(null);
@@ -494,6 +499,12 @@ public class FrmAdministrador extends javax.swing.JFrame {
       vista.setVisible(true);
       this.dispose();
     }//GEN-LAST:event_btnHabitacionesdisponiblesActionPerformed
+
+    private void btnChkeckinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChkeckinActionPerformed
+     FrmCheckIn vista=new FrmCheckIn(administrador, null);
+     vista.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnChkeckinActionPerformed
 
     /**
      * @param args the command line arguments

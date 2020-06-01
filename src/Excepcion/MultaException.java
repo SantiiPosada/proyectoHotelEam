@@ -11,6 +11,6 @@ package Excepcion;
  */
 public class MultaException extends Exception{
     public MultaException (){
-        super("Se encunetra multado");
+        super("Se encunetra multado, checkIn en hora erronea");
     }
 }

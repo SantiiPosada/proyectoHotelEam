@@ -17,6 +17,7 @@ import Excepcion.anoException;
 import Excepcion.horaException;
 import Excepcion.mesException;
 import Excepcion.modificarReservaCheckIn;
+import Modelo.Administrador;
 import Modelo.Habitacion;
 import Modelo.Huesped;
 import Modelo.Recepcionista;
@@ -38,6 +39,7 @@ public class FrmCheckIn extends javax.swing.JFrame {
      * Creates new form FrmMenuRecepcionista
      */
     private Recepcionista recepcionista = null;
+    private Administrador administrador=null;
     private Huesped huesped = null;
     private ReservaHabitacion reserva = null;
     CtlCheckIn controlador;
@@ -49,13 +51,13 @@ public class FrmCheckIn extends javax.swing.JFrame {
         this.setResizable(false);
     }
 
-    public FrmCheckIn(Recepcionista recepcionista) {
+    public FrmCheckIn(Administrador administrador, Recepcionista recepcionista ) {
         this.recepcionista = recepcionista;
+        this.administrador=administrador;
         controlador = new CtlCheckIn();
         initComponents();
+        cargarInformacion();
         asignarFechaHoy();
-        lblNombre.setText(this.recepcionista.getNombrecompleto());
-        lblCedula.setText(this.recepcionista.getCedula());
         this.setLocationRelativeTo(null);
         this.setResizable(false);
 
@@ -77,7 +79,6 @@ public class FrmCheckIn extends javax.swing.JFrame {
         lblNombre = new javax.swing.JLabel();
         lblCedula = new javax.swing.JLabel();
         btnSalir = new javax.swing.JButton();
-        lblNombre1 = new javax.swing.JLabel();
         lblNombre2 = new javax.swing.JLabel();
         lblCedulahuesped = new javax.swing.JLabel();
         txtCedula = new javax.swing.JTextField();
@@ -149,11 +150,6 @@ public class FrmCheckIn extends javax.swing.JFrame {
             }
         });
 
-        lblNombre1.setBackground(new java.awt.Color(255, 255, 255));
-        lblNombre1.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-        lblNombre1.setForeground(new java.awt.Color(255, 255, 255));
-        lblNombre1.setText("RECEPCIONISTA");
-
         lblNombre2.setBackground(new java.awt.Color(255, 255, 255));
         lblNombre2.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         lblNombre2.setForeground(new java.awt.Color(255, 255, 255));
@@ -167,15 +163,15 @@ public class FrmCheckIn extends javax.swing.JFrame {
                 .addGap(64, 64, 64)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblCedula, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(lblNombre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(47, 47, 47)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblNombre1, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblNombre2, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(365, 365, 365))
+                .addGap(46, 46, 46)
+                .addComponent(lblNombre2, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(366, 366, 366))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -184,22 +180,19 @@ public class FrmCheckIn extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap(22, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addGap(0, 9, Short.MAX_VALUE)
-                        .addComponent(lblNombre2)
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(lblCedula)
+                        .addGap(18, 18, 18)
+                        .addComponent(lblNombre)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                .addComponent(lblCedula)
-                                .addGap(18, 18, 18)
-                                .addComponent(lblNombre)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnSalir)
-                                .addGap(5, 5, 5))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                .addComponent(lblNombre1)
-                                .addGap(56, 56, 56))))))
+                        .addComponent(btnSalir)
+                        .addGap(5, 5, 5))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblNombre2)
+                .addGap(59, 59, 59))
         );
 
         lblCedulahuesped.setBackground(new java.awt.Color(255, 255, 255));
@@ -491,9 +484,15 @@ public class FrmCheckIn extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
-        FrmMenuRecepcionista menu = new FrmMenuRecepcionista(recepcionista);
-        menu.setVisible(true);
-        this.dispose();
+      if (this.administrador != null) {
+            FrmAdministrador vista = new FrmAdministrador(administrador);
+            vista.setVisible(true);
+            this.dispose();
+        } else if (this.recepcionista != null) {
+            FrmMenuRecepcionista vista = new FrmMenuRecepcionista(recepcionista);
+            vista.setVisible(true);
+            this.dispose();
+        }
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
@@ -551,6 +550,21 @@ public class FrmCheckIn extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
+    
+    private void cargarInformacion(){
+        
+        if (this.recepcionista != null) {
+
+            lblCedula.setText(this.recepcionista.getCedula());
+            lblNombre.setText(this.recepcionista.getNombrecompleto());
+
+        } else if (this.administrador != null) {
+
+            lblCedula.setText(this.administrador.getCedula());
+            lblNombre.setText(this.administrador.getNombrecompleto());
+        }
+    }
+    
     private void limpiar() {
 
         txtCedula2.setText("");
@@ -649,7 +663,6 @@ public class FrmCheckIn extends javax.swing.JFrame {
     private javax.swing.JLabel lblFechasalida1;
     private javax.swing.JLabel lblImagen;
     private javax.swing.JLabel lblNombre;
-    private javax.swing.JLabel lblNombre1;
     private javax.swing.JLabel lblNombre2;
     private javax.swing.JLabel lblNombrehabitacion;
     private javax.swing.JLabel lblSeleccione;

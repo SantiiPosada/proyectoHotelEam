@@ -25,16 +25,17 @@ public class FrmCheckOut extends javax.swing.JFrame {
      */
     private Recepcionista recepcionista = null;
     private CtlCheckOut controlador;
-private Huesped huesped=null;
+    private Huesped huesped = null;
+
     public FrmCheckOut() {
         initComponents();
     }
 
     public FrmCheckOut(Recepcionista recepcionista) {
         this.recepcionista = recepcionista;
-        controlador=new CtlCheckOut();
+        controlador = new CtlCheckOut();
         initComponents();
-        
+
         asignarFechaHoy();
         lblNombre.setText(this.recepcionista.getNombrecompleto());
         lblCedula.setText(this.recepcionista.getCedula());
@@ -58,7 +59,6 @@ private Huesped huesped=null;
         lblNombre = new javax.swing.JLabel();
         lblCedula = new javax.swing.JLabel();
         btnSalir = new javax.swing.JButton();
-        lblNombre1 = new javax.swing.JLabel();
         lblNombre2 = new javax.swing.JLabel();
         lblCedulahuesped = new javax.swing.JLabel();
         txtCedula = new javax.swing.JTextField();
@@ -119,11 +119,6 @@ private Huesped huesped=null;
             }
         });
 
-        lblNombre1.setBackground(new java.awt.Color(255, 255, 255));
-        lblNombre1.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-        lblNombre1.setForeground(new java.awt.Color(255, 255, 255));
-        lblNombre1.setText("RECEPCIONISTA");
-
         lblNombre2.setBackground(new java.awt.Color(255, 255, 255));
         lblNombre2.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         lblNombre2.setForeground(new java.awt.Color(255, 255, 255));
@@ -141,11 +136,9 @@ private Huesped huesped=null;
                     .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(47, 47, 47)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblNombre1, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblNombre2, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(365, 365, 365))
+                .addGap(42, 42, 42)
+                .addComponent(lblNombre2, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(370, 370, 370))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -154,22 +147,19 @@ private Huesped huesped=null;
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap(22, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addGap(0, 9, Short.MAX_VALUE)
-                        .addComponent(lblNombre2)
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(lblCedula)
+                        .addGap(18, 18, 18)
+                        .addComponent(lblNombre)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                .addComponent(lblCedula)
-                                .addGap(18, 18, 18)
-                                .addComponent(lblNombre)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnSalir)
-                                .addGap(5, 5, 5))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                .addComponent(lblNombre1)
-                                .addGap(56, 56, 56))))))
+                        .addComponent(btnSalir)
+                        .addGap(5, 5, 5))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblNombre2)
+                .addGap(61, 61, 61))
         );
 
         lblCedulahuesped.setBackground(new java.awt.Color(255, 255, 255));
@@ -469,7 +459,7 @@ private Huesped huesped=null;
     private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
         try {
             String cedula = controlador.obtenerDatoJtextFile(txtCedula);
-             this.huesped = controlador.buscarHuesped(cedula);
+            this.huesped = controlador.buscarHuesped(cedula);
             cargarInfo(this.huesped);
         } catch (BuscarHuespedException | DatosIncompletosException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
@@ -584,7 +574,6 @@ private Huesped huesped=null;
     private javax.swing.JLabel lblFechasalida1;
     private javax.swing.JLabel lblImagen;
     private javax.swing.JLabel lblNombre;
-    private javax.swing.JLabel lblNombre1;
     private javax.swing.JLabel lblNombre2;
     private javax.swing.JLabel lblNombrehabitacion;
     private javax.swing.JLabel lblSeleccione;
