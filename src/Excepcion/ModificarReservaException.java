@@ -9,9 +9,9 @@ package Excepcion;
  *
  * @author mateo
  */
-public class ModificarInventarioException extends Exception {
+public class ModificarReservaException extends Exception {
 
-    public ModificarInventarioException() {
-        super("Error al modificar el inventario");
+    public ModificarReservaException() {
+        super("No se puede modificar reserva");
     }
 }

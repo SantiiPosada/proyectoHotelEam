@@ -9,9 +9,9 @@ package Excepcion;
  *
  * @author mateo
  */
-public class ModificarInventarioException extends Exception {
+public class BuscarCedulaHuespedException extends Exception {
 
-    public ModificarInventarioException() {
-        super("Error al modificar el inventario");
+    public BuscarCedulaHuespedException() {
+        super("No se ha llenado el campo cedula del huesped");
     }
 }

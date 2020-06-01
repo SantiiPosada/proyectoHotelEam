@@ -16,14 +16,49 @@ import java.util.ArrayList;
 public interface IDAOMulta {
 
     /**
-     * Metodo para modificar el valor a pagar de la multa
+     * Metodo para registrar multa
      *
-     * @param multa recibe el objeto de la multa
-     * @return si guardo el huesped, falso si no
+     * @param multa recibe objeto tipo multa
+     * @return si guardo la multa, falso si no
      * @throws Excepcion.DatosIncompletosException si algunos de los datos son
      * nulos
      */
-    public boolean modificarMultasDTO(Multa multa) throws DatosIncompletosException;
+    public boolean guardarMulta(Multa multa) throws DatosIncompletosException;
+
+    /**
+     * Metodo encargado de buscar a una multa
+     *
+     * @param idHuesped recibe el idHuesped
+     * @return objeto con los datos de la multa
+     */
+    public Multa buscarMulta(int idHuesped);
+
+    /**
+     * Metodo para modificar el valor a pagar de la multa
+     *
+     * @param multa recibe el objeto de la multa
+     * @return si guardo la multa, falso si no
+     * @throws Excepcion.DatosIncompletosException si algunos de los datos son
+     * nulos
+     */
+    public boolean modificarMultas(Multa multa) throws DatosIncompletosException;
+
+    /**
+     * Metodo para modificar el estado de la multa
+     *
+     * @param multa recibe el objeto de la multa
+     * @return si guardo la multa, falso si no
+     * @throws Excepcion.DatosIncompletosException si algunos de los datos son
+     * nulos
+     */
+    public boolean modificarEstadoMulta(Multa multa) throws DatosIncompletosException;
+
+    /**
+     ** Metodo para listar las multas
+     *
+     * @return una lista con las multas
+     */
+    public ArrayList<Multa> listaMulta();
 
     /**
      * Metodo encargado de consultar las multas de los huespedes

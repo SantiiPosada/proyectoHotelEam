@@ -9,9 +9,9 @@ package Excepcion;
  *
  * @author mateo
  */
-public class ModificarInventarioException extends Exception {
+public class ModificarMultaException extends Exception {
 
-    public ModificarInventarioException() {
-        super("Error al modificar el inventario");
+    public ModificarMultaException() {
+        super("Error al modificar el valor total de la multa");
     }
 }

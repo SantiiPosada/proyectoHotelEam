@@ -190,11 +190,13 @@
                           <EmptySpace min="-2" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
-                                  <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="lblNombreHabitacion" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="txtNombrehabitacion" alignment="1" min="-2" max="-2" attributes="0"/>
-                                      <Component id="lblCedulahuesped2" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="txtIdReserva" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="3" attributes="0">
+                                          <Component id="lblNombreHabitacion" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="lblCedulahuesped2" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="txtIdReserva" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      </Group>
                                   </Group>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
@@ -211,10 +213,8 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="lblEstado" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="txtEstado" alignment="0" min="-2" pref="19" max="-2" attributes="0"/>
-                              </Group>
+                              <Component id="txtEstado" alignment="0" min="-2" pref="19" max="-2" attributes="0"/>
+                              <Component id="lblEstado" min="-2" max="-2" attributes="0"/>
                               <Component id="lblFechaReserva" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>

@@ -13,6 +13,7 @@ import Excepcion.CargarImagenException;
 import Excepcion.DatosIncompletosException;
 import Excepcion.DayException;
 import Excepcion.FechaException;
+import Excepcion.GuardarCuentaPersonalException;
 import Excepcion.GuardarReservaException;
 import Excepcion.ReservaActivaException;
 import Excepcion.UsuarioMultadoException;
@@ -25,6 +26,8 @@ import Modelo.Recepcionista;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
@@ -54,11 +57,11 @@ public class frmCompraHabitacion extends javax.swing.JFrame {
     public frmCompraHabitacion(Administrador administrador, Recepcionista recepcionista) {
         this.administrador = administrador;
         this.recepsionista = recepcionista;
-     
+
         controlador = new ctlCompraHabitacion();
         controladorhabitacion = new CtlHabitacion();
         initComponents();
-           cargarInfo();
+        cargarInfo();
         asignarFechaHoy();
         llenarComboBox();
         cbxHabitacion.setEnabled(false);
@@ -473,7 +476,7 @@ public class frmCompraHabitacion extends javax.swing.JFrame {
                 limpiar();
             }
 
-        } catch (GuardarReservaException | DatosIncompletosException | anoException | mesException | FechaException | DayException | UsuarioMultadoException | ReservaActivaException ex) {
+        } catch (GuardarCuentaPersonalException | GuardarReservaException | DatosIncompletosException | anoException | mesException | FechaException | DayException | UsuarioMultadoException | ReservaActivaException ex) {
             imprimir(ex.getMessage());
         }
 

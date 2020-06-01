@@ -10,8 +10,12 @@ import Definiciones.IDAOHabitacion;
 import Definiciones.IDAOHuesped;
 import Definiciones.IDAOMulta;
 import Definiciones.IDAOReserva;
+import Excepcion.BuscarCedulaHuespedException;
+import Excepcion.BuscarHuespedException;
 import Excepcion.BuscarMultasException;
 import Excepcion.DatosIncompletosException;
+import Excepcion.ModificarMultaException;
+import Excepcion.ModificarReservaException;
 import Excepcion.MultaIdReservaException;
 import Fabrica.FactoryDAO;
 import Modelo.Habitacion;
@@ -23,6 +27,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+import Modelo.Multa;
 
 /**
  *
@@ -44,6 +49,85 @@ public class BOMultas {
         formato = DateFormat.getDateInstance();
     }
 
+    public Multa buscarMulta(int idHuesped) throws DatosIncompletosException, BuscarMultasException {
+        Integer huesped = idHuesped;
+        if (huesped == null) {
+            throw new DatosIncompletosException();
+        }
+        Multa multa = dao.buscarMulta(huesped);
+        if (multa == null) {
+            throw new BuscarMultasException();
+        }
+        return multa;
+    }
+
+    public void modificarMulta(String cedula, String valorapagar) throws BuscarCedulaHuespedException, BuscarHuespedException, DatosIncompletosException, BuscarMultasException, ModificarMultaException {
+        Huesped huesped = buscarHuespedCedula(cedula);
+
+        if (huesped == null) {
+            throw new BuscarHuespedException();
+        }
+        Multa multa = buscarMulta(huesped.getId());
+        multa.setCantidadPagar(valorapagar);
+
+        if (!dao.modificarMultas(multa)) {
+            throw new ModificarMultaException();
+        }
+
+    }
+
+    public void modificarEstadoMulta(String cedula, int idreserva) throws BuscarCedulaHuespedException, BuscarHuespedException, DatosIncompletosException, BuscarMultasException, ModificarMultaException, ModificarReservaException {
+        Huesped huesped = buscarHuespedCedula(cedula);
+
+        if (huesped == null) {
+            throw new BuscarHuespedException();
+        }
+        Multa multa = buscarMulta(huesped.getId());
+        multa.setEstado("Sin Multa");
+
+        if (!dao.modificarEstadoMulta(multa)) {
+            throw new ModificarMultaException();
+        } else {
+            if (!daoReserva.modificarReserva("Sin Multa", "inactivo", idreserva)) {
+                throw new ModificarReservaException();
+            }
+
+        }
+
+    }
+
+    public Huesped buscarHuespedCedula(String cedula) throws BuscarCedulaHuespedException {
+        if (cedula == null) {
+            throw new BuscarCedulaHuespedException();
+        }
+        ArrayList<Huesped> listahuesped = listaHuesped();
+
+        for (int i = 0; i < listahuesped.size(); i++) {
+            if (listahuesped.get(i).getCedula().equalsIgnoreCase(cedula)) {
+                return listahuesped.get(i);
+
+            }
+        }
+        return null;
+    }
+
+    public DTO.DTOMulta buscarMultaDTO(int id, String cedula) throws DatosIncompletosException, BuscarMultasException {
+        ArrayList<DTO.DTOMulta> listaMulta = listaMultasDTO(cedula);
+        DTO.DTOMulta multa = new DTOMulta();
+        for (int i = 0; i < listaMulta.size(); i++) {
+            if (listaMulta.get(i).getEstadomulta().equalsIgnoreCase("Sin Pagar") && listaMulta.get(i).getEstadoreservacion().equalsIgnoreCase("Multado")) {
+                if (listaMulta.get(i).getCedula().equalsIgnoreCase(cedula) && listaMulta.get(i).getId() == id) {
+                    return listaMulta.get(i);
+                }
+            }
+        }
+        return multa;
+    }
+
+    public ArrayList<Multa> listarMultas() {
+        return dao.listaMulta();
+    }
+
     public ArrayList<DTO.DTOMulta> listaMultasDTO(String cedula) throws DatosIncompletosException, BuscarMultasException {
         if (cedula == null) {
             throw new DatosIncompletosException();
@@ -63,17 +147,8 @@ public class BOMultas {
         return daoHabitacion.listarHabitacion();
     }
 
-    public DTO.DTOMulta buscarMultaDTO(int id, String cedula) throws DatosIncompletosException, BuscarMultasException {
-        ArrayList<DTO.DTOMulta> listaMulta = listaMultasDTO(cedula);
-        DTO.DTOMulta multa = new DTOMulta();
-        for (int i = 0; i < listaMulta.size(); i++) {
-            if (listaMulta.get(i).getEstadomulta().equalsIgnoreCase("Sin Pagar") && listaMulta.get(i).getEstadoreservacion().equalsIgnoreCase("Multado")) {
-                if (listaMulta.get(i).getCedula().equalsIgnoreCase(cedula) && listaMulta.get(i).getId() == id) {
-                    return listaMulta.get(i);
-                }
-            }
-        }
-        return multa;
+    public ArrayList<Huesped> listaHuesped() {
+        return daoHuesped.listarHuesped();
     }
 
     public DefaultTableModel listarElementosMultasDTO(String cedula) throws DatosIncompletosException, BuscarMultasException {

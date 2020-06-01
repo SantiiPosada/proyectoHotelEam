@@ -11,6 +11,7 @@ import Excepcion.CargarImagenException;
 import Excepcion.DatosIncompletosException;
 import Excepcion.DayException;
 import Excepcion.FechaException;
+import Excepcion.GuardarCuentaPersonalException;
 import Excepcion.GuardarReservaException;
 import Excepcion.ReservaActivaException;
 import Excepcion.UsuarioMultadoException;
@@ -49,7 +50,7 @@ public class ctlCompraHabitacion {
     public BufferedImage cargarImagenBufferedImage(byte[] bytes) throws CargarImagenException {
         return bo.cargarImagenBufferedImage(bytes);
     }
-      public void guardarCompra(int idHuesped, int idHabitacion, Date fechaHoraReserva, Date fechaHoraLlegada, Date fechaHoraSalida) throws GuardarReservaException, DatosIncompletosException, anoException, mesException, FechaException, DayException, UsuarioMultadoException, ReservaActivaException {
+      public void guardarCompra(int idHuesped, int idHabitacion, Date fechaHoraReserva, Date fechaHoraLlegada, Date fechaHoraSalida) throws GuardarReservaException, DatosIncompletosException, anoException, mesException, FechaException, DayException, UsuarioMultadoException, ReservaActivaException, GuardarCuentaPersonalException {
           bo.guardarCompra(idHuesped, idHabitacion, fechaHoraReserva, fechaHoraLlegada, fechaHoraSalida);
       }
 }

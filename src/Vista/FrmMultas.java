@@ -7,6 +7,7 @@ package Vista;
 
 import Controlador.CtlCheckIn;
 import Controlador.CtlMultas;
+import Excepcion.BuscarCedulaHuespedException;
 import Excepcion.BuscarHabitacionException;
 import Excepcion.BuscarHuespedException;
 import Excepcion.BuscarMultasException;
@@ -14,6 +15,8 @@ import Excepcion.CargarImagenException;
 import Excepcion.DatosIncompletosException;
 import Excepcion.DiaException;
 import Excepcion.GuardarCuentaPersonalException;
+import Excepcion.ModificarMultaException;
+import Excepcion.ModificarReservaException;
 import Excepcion.MultaIdReservaException;
 import Excepcion.anoException;
 import Excepcion.horaException;
@@ -486,11 +489,12 @@ public class FrmMultas extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(lblNombreHabitacion)
-                                    .addComponent(txtNombrehabitacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lblCedulahuesped2)
-                                    .addComponent(txtIdReserva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtNombrehabitacion, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(lblNombreHabitacion)
+                                        .addComponent(lblCedulahuesped2)
+                                        .addComponent(txtIdReserva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(lblFechaCheckin)
@@ -501,9 +505,8 @@ public class FrmMultas extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(lblEstado)
-                                .addComponent(txtEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblEstado)
                             .addComponent(lblFechaReserva))
                         .addGap(18, 18, 18)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -541,28 +544,36 @@ public class FrmMultas extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
-        try {
-            String cedula = controladormultas.obtenerDatoJtextFile(txtCedula);
-            tblMultas.setModel(controladormultas.listarElementoMultaDTO(cedula));
-        } catch (DatosIncompletosException | BuscarMultasException e) {
-            imprimir(e.toString());
-        }
+
+        String cedula = controladormultas.obtenerDatoJtextFile(txtCedula);
+        listar(cedula);
+
     }//GEN-LAST:event_btnConsultarActionPerformed
 
     private void btnGenerarValorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarValorActionPerformed
         try {
+            String cedula = controladormultas.obtenerDatoJtextFile(txtCedula);
             String idReserva = controladormultas.obtenerDatoJtextFile(txtIdReserva);
             String valor = controladormultas.valorMultaDTO(idReserva);
+            controladormultas.modificarMulta(cedula, valor);
+            listar(cedula);
             txtValorMulta.setText(valor);
-            
-        } catch (MultaIdReservaException e) {
+
+        } catch (MultaIdReservaException | BuscarCedulaHuespedException | BuscarHuespedException | DatosIncompletosException | BuscarMultasException | ModificarMultaException e) {
             imprimir(e.toString());
         }
 
     }//GEN-LAST:event_btnGenerarValorActionPerformed
 
     private void btnGenerarFacturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarFacturaActionPerformed
-      
+        try {
+            String cedula = controladormultas.obtenerDatoJtextFile(txtCedula);
+            int idReserva = Integer.parseInt(controladormultas.obtenerDatoJtextFile(txtIdReserva));
+            controladormultas.modificarEstadoMulta(cedula, idReserva);
+
+        } catch (BuscarCedulaHuespedException | BuscarHuespedException | DatosIncompletosException | ModificarMultaException | BuscarMultasException | ModificarReservaException e) {
+            imprimir(e.getMessage());
+        }
     }//GEN-LAST:event_btnGenerarFacturaActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
@@ -597,6 +608,15 @@ public class FrmMultas extends javax.swing.JFrame {
     }//GEN-LAST:event_tblMultasMouseClicked
     private void imprimir(String v) {
         JOptionPane.showMessageDialog(null, v);
+    }
+
+    private void listar(String cedula) {
+        try {
+            tblMultas.setModel(controladormultas.listarElementoMultaDTO(cedula));
+        } catch (BuscarMultasException | DatosIncompletosException e) {
+            imprimir(e.getMessage());
+        }
+
     }
 
     private void cargarinformacion(DTO.DTOMulta multa) {

@@ -6,8 +6,12 @@
 package Controlador;
 
 import Bo.BOMultas;
+import Excepcion.BuscarCedulaHuespedException;
+import Excepcion.BuscarHuespedException;
 import Excepcion.BuscarMultasException;
 import Excepcion.DatosIncompletosException;
+import Excepcion.ModificarMultaException;
+import Excepcion.ModificarReservaException;
 import Excepcion.MultaIdReservaException;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
@@ -23,6 +27,14 @@ public class CtlMultas {
     public CtlMultas() {
 
         bo = new BOMultas();
+    }
+
+    public void modificarMulta(String cedula, String valorapagar) throws BuscarCedulaHuespedException, BuscarHuespedException, DatosIncompletosException, BuscarMultasException, ModificarMultaException {
+        bo.modificarMulta(cedula, valorapagar);
+    }
+
+    public void modificarEstadoMulta(String cedula, int idReserva) throws BuscarCedulaHuespedException, BuscarHuespedException, DatosIncompletosException, ModificarMultaException, BuscarMultasException, ModificarReservaException {
+        bo.modificarEstadoMulta(cedula, idReserva);
     }
 
     public DTO.DTOMulta buscarMultaDTO(int id, String cedula) throws DatosIncompletosException, BuscarMultasException {

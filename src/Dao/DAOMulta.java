@@ -25,7 +25,58 @@ import java.util.Date;
 public class DAOMulta implements IDAOMulta {
 
     @Override
-    public boolean modificarMultasDTO(Multa multa) throws DatosIncompletosException {
+    public boolean guardarMulta(Multa multa) throws DatosIncompletosException {
+        boolean desicion = false;
+        try (Connection con = Conexion.getConnection()) {
+
+            PreparedStatement pstmt = con.prepareStatement("INSERT INTO habitacion (idHuesped,cantidadPagar,estado) values (?,?,?)");
+
+            pstmt.setInt(1, multa.getIdHuesped());
+            pstmt.setString(2, multa.getCantidadPagar());
+            pstmt.setString(3, multa.getEstado());
+            pstmt.executeUpdate();
+            desicion = true;
+
+        } catch (SQLException ex) {
+            //   ex.printStackTrace();
+            int codigo = ex.getErrorCode();
+
+            if (codigo == 1048) {
+                throw new DatosIncompletosException();
+            }
+
+            desicion = false;
+        }
+        return desicion;
+
+    }
+
+    @Override
+    public Multa buscarMulta(int idHuesped) {
+        Multa multa = new Multa();
+        try (Connection con = Conexion.getConnection()) {
+            PreparedStatement pstmt = con.prepareStatement("SELECT  id,idHuesped,cantidadPagar,estado FROM multa where idHuesped=?");
+            pstmt.setInt(1, idHuesped);
+            //Resultset guarda los datos de la busqueda
+            ResultSet respuesta = pstmt.executeQuery();
+            if (respuesta.next()) {
+
+                multa.setId(respuesta.getInt("id"));
+                multa.setIdHuesped(respuesta.getInt("idHuesped"));
+                multa.setCantidadPagar(respuesta.getString("cantidadPagar"));
+                multa.setEstado(respuesta.getString("estado"));
+
+                return multa;
+            }
+        } catch (SQLException ex) {
+            multa = null;
+
+        }
+        return null;
+    }
+
+    @Override
+    public boolean modificarMultas(Multa multa) throws DatosIncompletosException {
         boolean desicion = false;
         try (Connection con = Conexion.getConnection()) {
             PreparedStatement pstmt = con.prepareStatement("UPDATE habitacion SET  cantidadPagar=? WHERE id=?");//preparar la sentencia sql(modificar,agregar,eliminar,etc) se llena de izquierda a derecha de 1 en 1(1,2,3)
@@ -47,6 +98,64 @@ public class DAOMulta implements IDAOMulta {
         }
 
         return desicion;
+    }
+
+    @Override
+    public boolean modificarEstadoMulta(Multa multa) throws DatosIncompletosException {
+        boolean desicion = false;
+        try (Connection con = Conexion.getConnection()) {
+            PreparedStatement pstmt = con.prepareStatement("UPDATE habitacion SET  estado=? WHERE id=?");//preparar la sentencia sql(modificar,agregar,eliminar,etc) se llena de izquierda a derecha de 1 en 1(1,2,3)
+
+            pstmt.setString(1, multa.getEstado());
+            pstmt.setInt(2, multa.getId());
+            int res = pstmt.executeUpdate();
+
+            desicion = res > 0;
+
+        } catch (SQLException ex) {
+            //ex.printStackTrace();
+            int codigo = ex.getErrorCode();
+
+            if (codigo == 1048) {
+                throw new DatosIncompletosException();
+            }
+            desicion = false;
+        }
+
+        return desicion;
+    }
+
+    @Override
+    public ArrayList<Multa> listaMulta() {
+        try (Connection con = Conexion.getConnection()) {
+
+            PreparedStatement pstmt = con.prepareStatement("SELECT  id,idHuesped,cantidadPagar,estado FROM multa");
+
+            ResultSet respuesta = pstmt.executeQuery();//Me va a traer todo lo que venga como resultado
+            ArrayList<Multa> listar = new ArrayList<>();
+
+            boolean condicion = true;
+            while (condicion == true) {
+                if (respuesta.next()) {//si respuesta.next(revisa si hay un elemtento,salta al siguiente reistro) devuelve true=si encontro algo o false si no lo encontró
+                    Multa multa = new Multa();
+
+                    multa.setId(respuesta.getInt("id"));
+                    multa.setIdHuesped(respuesta.getInt("idHuesped"));
+                    multa.setCantidadPagar(respuesta.getString("cantidadPagar"));
+                    multa.setEstado(respuesta.getString("estado"));
+                    listar.add(multa);
+
+                } else {
+                    condicion = false;
+                }
+            }
+
+            return listar;
+        } catch (SQLException e) {
+            // e.printStackTrace();
+            System.err.println("Hubo un error al listar");
+        }
+        return null;
     }
 
     @Override
