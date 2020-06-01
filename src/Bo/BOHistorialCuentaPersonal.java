@@ -129,13 +129,15 @@ public class BOHistorialCuentaPersonal {
         return daoReserva.listarReserva();
     }
 
-    public DefaultComboBoxModel llenarComboBoxReservas() {
+    public DefaultComboBoxModel llenarComboBoxReservas(int idHuesped) {
         ArrayList<ReservaHabitacion> listaReservacion = listaReservas();
         DefaultComboBoxModel modelo = new DefaultComboBoxModel();
 
-        listaReservacion.stream().filter((reservacion) -> (reservacion.getEstado().equalsIgnoreCase("CheckIn"))).forEachOrdered((reservacion) -> {
-            modelo.addElement(reservacion.getId());
-        });
+        for (int i = 0; i < listaReservacion.size(); i++) {
+            if (listaReservacion.get(i).getIdHuesped() == idHuesped) {
+                modelo.addElement(listaReservacion.get(i).getId());
+            }
+        }
         return modelo;
     }
 

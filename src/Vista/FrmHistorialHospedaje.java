@@ -422,7 +422,7 @@ public class FrmHistorialHospedaje extends javax.swing.JFrame {
                     jtblHistorial.setModel(controlador.filtrar(opcion, accion));
                 } else {
                     String accion = controlador.obtenerDatoJtextFile(txtFiltrar);
-                    jtblHistorial.setModel(controlador.filtrar(opcion, opcion));
+                    jtblHistorial.setModel(controlador.filtrar(opcion, accion));
                 }
             }
 
@@ -444,7 +444,7 @@ public class FrmHistorialHospedaje extends javax.swing.JFrame {
 
             if (reserva != null) {
                 jtblProductos.setEnabled(true);
-                jtblProductos.setModel(controlador.listarElementosProductos(idreservacion));
+                jtblProductos.setModel(controlador.listarElementosProductos(idreservacion, huesped.getId()));
             } else {
                 imprimir("No se encuentra ningun producto");
             }

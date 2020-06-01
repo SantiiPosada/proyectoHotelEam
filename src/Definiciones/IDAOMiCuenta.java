@@ -6,6 +6,7 @@
 package Definiciones;
 
 import DTO.DTOProductosCuenta;
+import DTO.DTOProductosHuesped;
 import DTO.DTOReservaActiva;
 import java.util.ArrayList;
 
@@ -22,6 +23,15 @@ public interface IDAOMiCuenta {
      * @return Arreglo de objeto con los datos de los productos
      */
     public ArrayList<DTOProductosCuenta> BuscarProductosCuenta(int idReservacion);
+
+    /**
+     * Metodo encargado de consultar los productos del huesped
+     *
+     * @param idReservacion recibe el id de la reservacion del huesped
+     * @param idHuesped recibe el id del huesped
+     * @return Arreglo de objeto con los datos de los productos
+     */
+    public ArrayList<DTOProductosHuesped> BuscarProductosHuesped(int idReservacion, int idHuesped);
 
     /**
      * Metodo encargado de consultar las reservas activas del huesped

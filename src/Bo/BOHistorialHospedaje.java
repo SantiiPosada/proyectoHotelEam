@@ -22,6 +22,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
@@ -70,8 +71,8 @@ public class BOHistorialHospedaje {
     }
 //modificar
 
-    public ArrayList<DTO.DTOProductosCuenta> listaProductos(int idReservacion) {
-        return daoMicuenta.BuscarProductosCuenta(idReservacion);
+    public ArrayList<DTO.DTOProductosHuesped> listaProductos(int idReservacion, int idHuesped) {
+        return daoMicuenta.BuscarProductosHuesped(idReservacion, idHuesped);
     }
 
     public ArrayList<DTO.DTOHistorialHospedaje> listaHistorial() {
@@ -181,8 +182,8 @@ public class BOHistorialHospedaje {
         return modelo;
     }
 
-    public DefaultTableModel listarElementosProductos(int idReservacion) {
-        ArrayList<DTO.DTOProductosCuenta> lista = listaProductos(idReservacion);
+    public DefaultTableModel listarElementosProductos(int idReservacion, int idHuesped) {
+        ArrayList<DTO.DTOProductosHuesped> lista = listaProductos(idReservacion, idHuesped);
         ArrayList<Habitacion> listaHabitaciones = listaHabitacion();
         String nombreColumnas[] = {"Id Producto", "Nombre", "Cantidad", "Valor Total"};
         DefaultTableModel modelo = new DefaultTableModel(new Object[][]{}, nombreColumnas) {
@@ -229,7 +230,7 @@ public class BOHistorialHospedaje {
                 }
             }
         };
-
+        JOptionPane.showMessageDialog(null, opcion);
         switch (opcion) {
             case "Seleccione":
                 throw new ComboBoxException();

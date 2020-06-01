@@ -32,8 +32,8 @@ public class CtlHistorialHospedaje {
         return bo.listarElementosReservacion(idReservacion, idHuesped);
     }
 
-    public DefaultTableModel listarElementosProductos(int idReservacion) {
-        return bo.listarElementosProductos(idReservacion);
+    public DefaultTableModel listarElementosProductos(int idReservacion, int idHuesped) {
+        return bo.listarElementosProductos(idReservacion, idHuesped);
     }
 
     public DefaultTableModel filtrar(String opcion, String accion) throws DatosIncompletosException, NumberFormatException, ComboBoxException {

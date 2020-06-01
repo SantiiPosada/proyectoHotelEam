@@ -69,6 +69,7 @@ public class FrmProductos extends javax.swing.JFrame {
         cbxCategoria.setEnabled(false);
         cbxProductos.setEnabled(false);
         btnSolicitar.setEnabled(false);
+        cargarInfo(huesped);
     }
 
     /**
@@ -461,7 +462,7 @@ public class FrmProductos extends javax.swing.JFrame {
     private void btnSolicitar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSolicitar1ActionPerformed
         limpiar();
     }//GEN-LAST:event_btnSolicitar1ActionPerformed
-    private void cargarInfo(Recepcionista x) {
+    private void cargarInfo(Huesped x) {
         lblCedula.setText(x.getCedula());
         lblNombre.setText(x.getNombrecompleto());
 
@@ -481,7 +482,7 @@ public class FrmProductos extends javax.swing.JFrame {
     }
 
     private void llenarComboBoxReservacion() {
-        cbxReserva.setModel(controlador.llenarComboBoxReserva());
+        cbxReserva.setModel(controlador.llenarComboBoxReserva(huesped.getId()));
     }
 
     private void llenarComboBoxCategoria() {
