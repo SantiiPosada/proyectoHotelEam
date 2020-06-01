@@ -28,7 +28,9 @@ import java.util.GregorianCalendar;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import Modelo.Multa;
+import java.io.FileOutputStream;
 import javax.swing.JOptionPane;
+import javax.swing.text.Document;
 
 /**
  *
@@ -226,4 +228,100 @@ public class BOMultas {
         }
         return informacion;
     }
+
+    public ArrayList<DTOMulta> listaReporte(String cedula, int idReserva) throws DatosIncompletosException, BuscarMultasException {
+        ArrayList<DTOMulta> lista = listaMultasDTO(cedula);
+        ArrayList<DTOMulta> reporte = new ArrayList<>();
+        for (int i = 0; i < lista.size(); i++) {
+            if (lista.get(i).getIdreserva() == idReserva && lista.get(i).getEstadomulta().equalsIgnoreCase("Multado")) {
+                reporte.add(lista.get(i));
+            }
+        }
+        return reporte;
+    }
+
+    public void GenerarReporteMulta(String filePath) {
+        ArrayList<Multa> lista = dao.listaMulta();
+        String fileName = filePath;
+        //El documento que vamos a crear y empezamos a construir
+        Document document = new Document() ;
+
+        try {
+            //Tomamos la instancia del documento y el archivo donde lo guardaremos
+            PdfWriter.getInstance(document, new FileOutputStream(fileName));
+            //Abrimos el documento
+            document.open();
+            /**
+             * Cada Paragraph es equivalente a cada una de las líneas que vamos
+             * a poner en el documento
+             */
+            Paragraph p = new Paragraph("Este es un ejemplo de pdf.");
+            /*Debemos agregar al documento los Paragraph que vamos creando*/
+            document.add(p);
+            /*-----------------------------------------*/
+
+            /**
+             * Para insertar una línea en blanco
+             */
+            document.add(Chunk.NEWLINE);
+            /*-----------------------------------------*/
+
+            /**
+             * Creamos un Paragraph para agregar una imagen
+             */
+            p = new Paragraph();
+            p.add(Image.getInstance("Internet.png"));
+            document.add(p);
+            /*-----------------------------------------*/
+
+            document.add(Chunk.NEWLINE);
+            document.add(Chunk.NEWLINE);
+
+            /**
+             * Creamos un nuevo Paragraph y le configuramos el tabulado que va a
+             * tener
+             */
+            p = new Paragraph();
+            /*Se le indica la propiedad de tabulado*/
+            p.setTabSettings(new TabSettings(56f));
+            /*Se añade la línea por Chunks, es decir por trozos
+             *Aquí se añade un tabulado
+             */
+            p.add(Chunk.TABBING);
+            /*Aquí se añade un nuevo segmento a la misma línea*/
+            p.add(new Chunk("Código"));
+            p.add(Chunk.TABBING);
+            p.add(new Chunk("Nombre"));
+            p.add(Chunk.TABBING);
+            p.add(new Chunk("Teléfono"));
+            document.add(p);
+            /*-----------------------------------------*/
+
+            document.add(Chunk.NEWLINE);
+            document.add(Chunk.NEWLINE);
+
+            /**
+             * Recorremos la lista regresada por la BD y aplicamos las
+             * propiedades descritas anteriormente
+             */
+            for (Docente docente : lista) {
+                p = new Paragraph();
+                p.setTabSettings(new TabSettings(56f));
+                p.add(Chunk.TABBING);
+                p.add(new Chunk(docente.getCodigo() + ""));
+                p.add(Chunk.TABBING);
+                p.add(new Chunk(docente.getNombre()));
+                p.add(Chunk.TABBING);
+                p.add(new Chunk(docente.getTelefono()));
+                document.add(p);
+            }
+            /*-----------------------------------------*/
+
+            //Al finalizar se debe cerrar el documento para terminar
+            document.close();
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+
 }
