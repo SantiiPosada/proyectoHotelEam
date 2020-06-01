@@ -6,6 +6,7 @@
 package Controlador;
 
 import Bo.BOHabitacionDisponible;
+import Excepcion.DatosIncompletosException;
 import Excepcion.DayException;
 import Excepcion.FechaException;
 import Excepcion.anoException;
@@ -25,7 +26,7 @@ public class CtlHabitacionDisponible {
         bo = new BOHabitacionDisponible();
     }
 
-    public void verificarFecha(Date fechaHoraReserva, Date horaFechaLlegada, Date fechaHoraSalida, int idHabitacion) throws anoException, mesException, FechaException, DayException {
+    public void verificarFecha(Date fechaHoraReserva, Date horaFechaLlegada, Date fechaHoraSalida, int idHabitacion) throws anoException, mesException, FechaException, DayException, DatosIncompletosException {
         bo.verificarFecha(fechaHoraReserva, horaFechaLlegada, fechaHoraSalida, idHabitacion);
     }
 
