@@ -10,6 +10,7 @@ import Definiciones.IDAOCategoriaProductos;
 import Definiciones.IDAOCuentaPersonal;
 import Definiciones.IDAOHabitacion;
 import Definiciones.IDAOHistorialCuentaPersonal;
+import Definiciones.IDAOHistorialHospedaje;
 import Definiciones.IDAOHuesped;
 import Definiciones.IDAOInventarioProductos;
 import Definiciones.IDAOLogIn;
@@ -83,6 +84,11 @@ public class FactoryDAOJDBC implements IFabricaDAO {
     @Override
     public IDAOMulta crearDAOMulta() {
         return new DAOMulta();
+    }
+
+    @Override
+    public IDAOHistorialHospedaje crearDAOHistorialHospedaje() {
+        return new DAOHistorialHospedaje();
     }
 
 }

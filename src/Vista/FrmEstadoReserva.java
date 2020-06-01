@@ -6,11 +6,18 @@
 package Vista;
 
 import Controlador.CtlCategoriaProductos;
+import Controlador.CtlEstadoReserva;
 import Controlador.CtlHabitacion;
 import Controlador.CtlHistorialCuentaPersonal;
 import Controlador.CtlInventarioProductos;
 import Controlador.CtlMiCuenta;
+import Excepcion.BuscarHabitacionException;
+import Excepcion.CargarImagenException;
+import Excepcion.DatosIncompletosException;
+import Modelo.Habitacion;
 import Modelo.Huesped;
+import Modelo.Recepcionista;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 /**
@@ -19,24 +26,30 @@ import javax.swing.JOptionPane;
  */
 public class FrmEstadoReserva extends javax.swing.JFrame {
 
-    private Huesped huesped;
-    private CtlMiCuenta controlador;
+    private CtlEstadoReserva controlador;
+    private CtlHabitacion controladorHabitacion;
+    private Habitacion habitacion;
+    private Recepcionista recepcionista;
 
     public FrmEstadoReserva() {
         initComponents();
-        controlador = new CtlMiCuenta();
+        controlador = new CtlEstadoReserva();
+        controladorHabitacion = new CtlHabitacion();
         this.setLocationRelativeTo(null);
         this.setResizable(false);
 
     }
 
-    public FrmEstadoReserva(Huesped huesped) {
+    public FrmEstadoReserva(Recepcionista recepcionista) {
+        this.recepcionista = recepcionista;
+        habitacion = null;
         initComponents();
-        this.huesped = huesped;
-        controlador = new CtlMiCuenta();
+        controlador = new CtlEstadoReserva();
+        controladorHabitacion = new CtlHabitacion();
         this.setLocationRelativeTo(null);
         this.setResizable(false);
-
+        llenarCombobox();
+        cargarInfo(recepcionista);
     }
 
     /**
@@ -61,18 +74,18 @@ public class FrmEstadoReserva extends javax.swing.JFrame {
         lblSeleccione = new javax.swing.JLabel();
         cbxHabitacion = new javax.swing.JComboBox<>();
         lblSeleccione1 = new javax.swing.JLabel();
-        txtCedula2 = new javax.swing.JTextField();
+        txtNombreHabitacion = new javax.swing.JTextField();
         lblSeleccione2 = new javax.swing.JLabel();
         spnPiso = new javax.swing.JSpinner();
         lblSeleccione3 = new javax.swing.JLabel();
-        txtCedula3 = new javax.swing.JTextField();
+        txtValorNoche = new javax.swing.JTextField();
         lblSeleccione4 = new javax.swing.JLabel();
-        spnPiso1 = new javax.swing.JSpinner();
+        spnBano = new javax.swing.JSpinner();
         lblSeleccione5 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         txtDescripcion = new javax.swing.JTextArea();
         lblSeleccione6 = new javax.swing.JLabel();
-        spnPiso2 = new javax.swing.JSpinner();
+        spnSala = new javax.swing.JSpinner();
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
         lblmagen = new javax.swing.JLabel();
@@ -199,7 +212,7 @@ public class FrmEstadoReserva extends javax.swing.JFrame {
         lblSeleccione1.setForeground(new java.awt.Color(0, 0, 0));
         lblSeleccione1.setText("Nombre Habitacion :");
 
-        txtCedula2.setEnabled(false);
+        txtNombreHabitacion.setEnabled(false);
 
         lblSeleccione2.setBackground(new java.awt.Color(255, 255, 255));
         lblSeleccione2.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
@@ -207,20 +220,22 @@ public class FrmEstadoReserva extends javax.swing.JFrame {
         lblSeleccione2.setText("Pisos :");
 
         spnPiso.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
+        spnPiso.setEnabled(false);
 
         lblSeleccione3.setBackground(new java.awt.Color(255, 255, 255));
         lblSeleccione3.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         lblSeleccione3.setForeground(new java.awt.Color(0, 0, 0));
         lblSeleccione3.setText("Valor por Noche :");
 
-        txtCedula3.setEnabled(false);
+        txtValorNoche.setEnabled(false);
 
         lblSeleccione4.setBackground(new java.awt.Color(255, 255, 255));
         lblSeleccione4.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         lblSeleccione4.setForeground(new java.awt.Color(0, 0, 0));
         lblSeleccione4.setText("Baños :");
 
-        spnPiso1.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
+        spnBano.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
+        spnBano.setEnabled(false);
 
         lblSeleccione5.setBackground(new java.awt.Color(255, 255, 255));
         lblSeleccione5.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
@@ -231,6 +246,7 @@ public class FrmEstadoReserva extends javax.swing.JFrame {
         txtDescripcion.setColumns(20);
         txtDescripcion.setForeground(new java.awt.Color(0, 0, 0));
         txtDescripcion.setRows(5);
+        txtDescripcion.setEnabled(false);
         txtDescripcion.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtDescripcionKeyTyped(evt);
@@ -243,7 +259,8 @@ public class FrmEstadoReserva extends javax.swing.JFrame {
         lblSeleccione6.setForeground(new java.awt.Color(0, 0, 0));
         lblSeleccione6.setText("Salas:");
 
-        spnPiso2.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
+        spnSala.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
+        spnSala.setEnabled(false);
 
         lblmagen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondo blanco.gif"))); // NOI18N
         lblmagen.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -282,22 +299,22 @@ public class FrmEstadoReserva extends javax.swing.JFrame {
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addComponent(txtCedula2, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(txtNombreHabitacion, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(lblSeleccione2))
                                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addComponent(txtCedula3, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(txtValorNoche, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(lblSeleccione6)))
                                         .addGap(18, 18, 18)
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(spnPiso, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(spnPiso2, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                            .addComponent(spnSala, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                     .addComponent(jScrollPane3))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(lblSeleccione4)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(spnPiso1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(spnBano, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addContainerGap(63, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -329,17 +346,17 @@ public class FrmEstadoReserva extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblSeleccione1)
-                    .addComponent(txtCedula2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtNombreHabitacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblSeleccione2)
                     .addComponent(spnPiso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblSeleccione4)
-                    .addComponent(spnPiso1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(spnBano, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblSeleccione3)
-                    .addComponent(txtCedula3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtValorNoche, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblSeleccione6)
-                    .addComponent(spnPiso2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(spnSala, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblSeleccione5)
@@ -373,12 +390,22 @@ public class FrmEstadoReserva extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
-        FrmMenuHuesped menu = new FrmMenuHuesped(huesped);
+        FrmMenuRecepcionista menu = new FrmMenuRecepcionista(recepcionista);
         menu.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void cbxHabitacionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbxHabitacionMouseClicked
+        String nombreimagen = cbxHabitacion.getSelectedItem().toString();
+        try {
+            Habitacion habita = controladorHabitacion.buscarHabitacion(nombreimagen);
+            this.habitacion = habita;
+            llenarcampos(habitacion);
+            lblmagen.setIcon(new ImageIcon(controladorHabitacion.cargarImagenBufferedImage(habita.getImagen())));
+
+        } catch (DatosIncompletosException | BuscarHabitacionException | CargarImagenException e) {
+            imprimir(e.getMessage());
+        }
 
     }//GEN-LAST:event_cbxHabitacionMouseClicked
 
@@ -389,6 +416,24 @@ public class FrmEstadoReserva extends javax.swing.JFrame {
     private void txtDescripcionKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDescripcionKeyTyped
 
     }//GEN-LAST:event_txtDescripcionKeyTyped
+    private void llenarcampos(Habitacion habitacion) {
+        txtNombreHabitacion.setText(habitacion.getNombre());
+        txtValorNoche.setText(habitacion.getValorPorNoche());
+        txtDescripcion.setText(habitacion.getDescripcion());
+        spnBano.setValue(Integer.parseInt(habitacion.getBano()));
+        spnPiso.setValue(Integer.parseInt(habitacion.getPiso()));
+        spnSala.setValue(Integer.parseInt(habitacion.getSala()));
+    }
+
+    private void cargarInfo(Recepcionista x) {
+        lblCedula.setText(x.getCedula());
+        lblNombre.setText(x.getNombrecompleto());
+
+    }
+
+    private void llenarCombobox() {
+        cbxHabitacion.setModel(controlador.llenarComboBox());
+    }
 
     private void imprimir(String v) {
         JOptionPane.showMessageDialog(null, v);
@@ -581,11 +626,11 @@ public class FrmEstadoReserva extends javax.swing.JFrame {
     private javax.swing.JLabel lblSeleccione7;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JLabel lblmagen;
+    private javax.swing.JSpinner spnBano;
     private javax.swing.JSpinner spnPiso;
-    private javax.swing.JSpinner spnPiso1;
-    private javax.swing.JSpinner spnPiso2;
-    private javax.swing.JTextField txtCedula2;
-    private javax.swing.JTextField txtCedula3;
+    private javax.swing.JSpinner spnSala;
     private javax.swing.JTextArea txtDescripcion;
+    private javax.swing.JTextField txtNombreHabitacion;
+    private javax.swing.JTextField txtValorNoche;
     // End of variables declaration//GEN-END:variables
 }
