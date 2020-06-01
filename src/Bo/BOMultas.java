@@ -211,14 +211,14 @@ public class BOMultas {
                 int dayFechaHoraSalida = calSalida.get(Calendar.DAY_OF_MONTH);
 
                 int cantidadnoches = dayFechaHoraSalida - dayHoraFechaLlegada;
-                int valornoche = 0;
+                double valornoche = 0;
                 for (int j = 0; j < listahabitacion.size(); j++) {
                     if (listahabitacion.get(j).getId() == listareserva.get(i).getIdHabitacion()) {
-                        valornoche = Integer.parseInt(listahabitacion.get(j).getValorPorNoche());
+                        valornoche = Double.parseDouble(listahabitacion.get(j).getValorPorNoche());
                         break;
                     }
                 }
-                int valortotal = cantidadnoches * valornoche;
+                double valortotal = cantidadnoches * valornoche;
                 return valortotal + "";
             }
         }

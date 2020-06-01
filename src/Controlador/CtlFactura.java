@@ -6,6 +6,10 @@
 package Controlador;
 
 import Bo.BOfactura;
+import Excepcion.BuscarHuespedException;
+import Excepcion.DatosIncompletosException;
+import Modelo.Huesped;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -36,4 +40,10 @@ public class CtlFactura {
     public DefaultTableModel listaElementosProductos(int idReserva) {
         return bo.listarElementosProductos(idReserva);
     }
+      public Huesped buscarHuesped(String cedula) throws BuscarHuespedException, DatosIncompletosException {
+          return bo.buscarHuesped(cedula);
+      }
+       public String obtenerDatoJtextFile(JTextField x) {
+           return bo.obtenerDatoJtextFile(x);
+       }
 }
