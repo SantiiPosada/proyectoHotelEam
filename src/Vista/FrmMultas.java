@@ -506,10 +506,10 @@ public class FrmMultas extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lblEstado)
-                            .addComponent(lblFechaReserva))
-                        .addGap(18, 18, 18)
+                            .addComponent(lblFechaReserva)
+                            .addComponent(txtEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(10, 10, 10)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -589,6 +589,7 @@ public class FrmMultas extends javax.swing.JFrame {
             String cedula = controladormultas.obtenerDatoJtextFile(txtCedula);
             int idReserva = Integer.parseInt(controladormultas.obtenerDatoJtextFile(txtIdReserva));
             controladormultas.modificarEstadoMulta(cedula, idReserva);
+            limpiar();
             JOptionPane.showMessageDialog(null, "Genero la factura correctamente");
         } catch (BuscarCedulaHuespedException | BuscarHuespedException | DatosIncompletosException | ModificarMultaException | BuscarMultasException | ModificarReservaException e) {
             imprimir(e.getMessage());
@@ -596,7 +597,11 @@ public class FrmMultas extends javax.swing.JFrame {
     }//GEN-LAST:event_btnGenerarFacturaActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        // TODO add your handling code here:
+        btnGenerarValor.setEnabled(false);
+        btnGenerarFactura.setEnabled(false);
+        btnConsultar.setEnabled(true);
+        txtCedula.setEnabled(true);
+        limpiar();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void tblMultasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMultasMouseClicked
@@ -645,6 +650,22 @@ public class FrmMultas extends javax.swing.JFrame {
         txtNombreCompleto.setText(huesped.getNombrecompleto());
         txtTelefono.setText(huesped.getTelefono());
         txtCorreo.setText(huesped.getCorreo());
+    }
+
+    private void limpiar() {
+        txtCedula.setText("");
+        txtCedula2.setText("");
+        txtNombreCompleto.setText("");
+        txtTelefono.setText("");
+        txtCorreo.setText("");
+        txtIdReserva.setText("");
+        txtNombrehabitacion.setText("");
+        txtValorMulta.setText("");
+        jdtFechaReserva.setDate(null);
+        jdtFechaCheckin.setDate(null);
+        jdtFechaCheckout.setDate(null);
+        tblMultas.setModel(null);
+        txtEstado.setText("");
     }
 
     private void cargarinformacion(DTO.DTOMulta multa) {
