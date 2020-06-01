@@ -12,6 +12,7 @@ import Excepcion.CargarImagenException;
 import Excepcion.DatosIncompletosException;
 import Excepcion.DiaException;
 import Excepcion.GuardarCuentaPersonalException;
+import Excepcion.MultaException;
 import Excepcion.anoException;
 import Excepcion.horaException;
 import Excepcion.mesException;
@@ -507,13 +508,17 @@ public class FrmCheckIn extends javax.swing.JFrame {
 
     private void btnConsultar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultar1ActionPerformed
         try {
-            controlador.realizarCheckIn(dateFechaHoy.getDate(), reserva);
-            JOptionPane.showMessageDialog(null,"Se realizó el chek In correctamente");
+            controlador.realizarCheckIn(dateFechaHoy.getDate(), reserva, huesped.getId());
+            JOptionPane.showMessageDialog(null, "Se realizó el chek In correctamente");
             llenarComboBox(huesped.getId());
             limpiar();
-        } catch (GuardarCuentaPersonalException |anoException | mesException | DiaException | horaException | DatosIncompletosException | modificarReservaCheckIn ex) {
+        } catch (GuardarCuentaPersonalException | anoException | mesException | DiaException | horaException | DatosIncompletosException | modificarReservaCheckIn ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
-        } 
+        } catch (MultaException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+            llenarComboBox(huesped.getId());
+            limpiar();
+        }
 
     }//GEN-LAST:event_btnConsultar1ActionPerformed
 
@@ -558,7 +563,7 @@ public class FrmCheckIn extends javax.swing.JFrame {
         lblNombrehabitacion.setText("NOMBRE HABITACION");
         lblValor.setText("VALOR");
         lblDescripcion.setText("");
-       
+
         lblImagen.setIcon(null);
     }
 

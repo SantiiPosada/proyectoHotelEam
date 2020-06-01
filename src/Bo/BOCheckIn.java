@@ -5,19 +5,23 @@
  */
 package Bo;
 
+import Dao.DAOMulta;
 import Excepcion.BuscarHabitacionException;
 import Excepcion.BuscarHuespedException;
 import Excepcion.CargarImagenException;
 import Excepcion.DatosIncompletosException;
 import Excepcion.DiaException;
 import Excepcion.GuardarCuentaPersonalException;
+import Excepcion.MultaException;
 import Excepcion.anoException;
 import Excepcion.horaException;
 import Excepcion.mesException;
 import Excepcion.modificarReservaCheckIn;
 import Modelo.Habitacion;
 import Modelo.Huesped;
+import Modelo.Multa;
 import Modelo.ReservaHabitacion;
+import com.sun.org.apache.xpath.internal.operations.Mult;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -40,6 +44,7 @@ public class BOCheckIn {
     private final BOReserva BoReserva;
     private final BoHabitacion boHabitacion;
     private final BOCuentaPersonal boCuentaPersona;
+    private final DAOMulta daoMulta;
     private ArrayList<ReservaHabitacion> listaReserva;
 
     public BOCheckIn() {
@@ -48,6 +53,7 @@ public class BOCheckIn {
         boHabitacion = new BoHabitacion();
         boCuentaPersona = new BOCuentaPersonal();
         listaReserva = new ArrayList<>();
+        daoMulta = new DAOMulta();
     }
 
     private void listarReservas() {
@@ -131,7 +137,7 @@ public class BOCheckIn {
         }
     }
 
-    public void realizarCheckIn(Date fechaHoy, ReservaHabitacion reserva) throws anoException, mesException, DiaException, horaException, DatosIncompletosException, modificarReservaCheckIn, GuardarCuentaPersonalException {
+    public void realizarCheckIn(Date fechaHoy, ReservaHabitacion reserva, int idHuesped) throws anoException, mesException, DiaException, horaException, DatosIncompletosException, modificarReservaCheckIn, GuardarCuentaPersonalException, MultaException {
 // int idHuesped, int idReservaHabitacion, String estado, String valorApagar
         Calendar calLlegada = new GregorianCalendar();
         calLlegada.setTime(reserva.getFechaHoraCheckIn());
@@ -145,8 +151,8 @@ public class BOCheckIn {
         int monthFechaHoraReserva = calHoy.get(Calendar.MONTH);
         int dayFechaHoraReserva = calHoy.get(Calendar.DAY_OF_MONTH);
 
-        //    int hora = calHoy.get(Calendar.HOUR_OF_DAY);
-        int hora = 14;
+        int hora = calHoy.get(Calendar.HOUR_OF_DAY);
+
         int minutos = calHoy.get(Calendar.MINUTE);
         int segundos = calHoy.get(Calendar.SECOND);
 
@@ -165,8 +171,15 @@ public class BOCheckIn {
                         }
 
                     } else {
-                        throw new horaException();
-                        // aca va la multa
+                        //   throw new horaException();
+                        // aca va la multa  int id, int idHuesped, String cantidadPagar, String estado
+
+                        Multa multa = new Multa(0, idHuesped, "0", "Multado");
+
+                        if (daoMulta.guardarMulta(multa)) {
+                            throw new MultaException();
+                        }
+
                     }
 
                 } else {

@@ -12,6 +12,7 @@ import Excepcion.CargarImagenException;
 import Excepcion.DatosIncompletosException;
 import Excepcion.DiaException;
 import Excepcion.GuardarCuentaPersonalException;
+import Excepcion.MultaException;
 import Excepcion.anoException;
 import Excepcion.horaException;
 import Excepcion.mesException;
@@ -58,8 +59,8 @@ public class CtlCheckIn {
           return bo.buscarReserva(idReserva);
        }
        
-         public void realizarCheckIn(Date fechaHoy, ReservaHabitacion reserva) throws anoException, mesException, DiaException, horaException, DatosIncompletosException, modificarReservaCheckIn, GuardarCuentaPersonalException {
-              bo.realizarCheckIn(fechaHoy, reserva);
+         public void realizarCheckIn(Date fechaHoy, ReservaHabitacion reserva,int idhuesped) throws anoException, mesException, DiaException, horaException, DatosIncompletosException, modificarReservaCheckIn, GuardarCuentaPersonalException, MultaException {
+              bo.realizarCheckIn(fechaHoy, reserva,idhuesped);
          }
 
 }
