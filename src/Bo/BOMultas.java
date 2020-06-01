@@ -118,7 +118,7 @@ public class BOMultas {
         for (int i = 0; i < listaMulta.size(); i++) {
             if (listaMulta.get(i).getEstadomulta().equalsIgnoreCase("Multado") && listaMulta.get(i).getEstadoreservacion().equalsIgnoreCase("Multado")) {
                 if (listaMulta.get(i).getCedula().equalsIgnoreCase(cedula) && listaMulta.get(i).getId() == id) {
-                    JOptionPane.showMessageDialog(null, id + " " + listaMulta.get(i).getId() + "");
+
                     return listaMulta.get(i);
                 }
             }
