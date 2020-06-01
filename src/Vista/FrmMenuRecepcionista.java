@@ -358,15 +358,15 @@ public class FrmMenuRecepcionista extends javax.swing.JFrame {
     }//GEN-LAST:event_btnFacturacionActionPerformed
 
     private void btnMultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMultaActionPerformed
-        FrmMultas multas = new FrmMultas(recepcionista);
-        multas.setVisible(true);
+        FrmMultas multa = new FrmMultas(null, recepcionista);
+        multa.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnMultaActionPerformed
 
     private void btnVenderHabitacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVenderHabitacionActionPerformed
-      frmCompraHabitacion vista=new frmCompraHabitacion(null, recepcionista);
-      vista.setVisible(true);
-      this.dispose();
+        frmCompraHabitacion vista = new frmCompraHabitacion(null, recepcionista);
+        vista.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnVenderHabitacionActionPerformed
 
     private void btnRegistroHuespedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistroHuespedActionPerformed

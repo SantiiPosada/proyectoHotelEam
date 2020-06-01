@@ -16,11 +16,12 @@ public class FrmAdministrador extends javax.swing.JFrame {
     /**
      * Creates new form FrmAdministrador
      */
-    Administrador administrador = null;
+    private Administrador administrador = null;
 
     public FrmAdministrador() {
         initComponents();
         this.setLocationRelativeTo(null);
+        this.setResizable(false);
     }
 
     public FrmAdministrador(Administrador administrador) {
@@ -453,7 +454,9 @@ public class FrmAdministrador extends javax.swing.JFrame {
     }//GEN-LAST:event_btnHabitacionActionPerformed
 
     private void btnMultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMultaActionPerformed
-        // TODO add your handling code here:
+        FrmMultas vista = new FrmMultas(administrador, null);
+        vista.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnMultaActionPerformed
 
     private void btnReportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportesActionPerformed
@@ -495,14 +498,14 @@ public class FrmAdministrador extends javax.swing.JFrame {
     }//GEN-LAST:event_btnHistorialHospedaje1ActionPerformed
 
     private void btnHabitacionesdisponiblesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHabitacionesdisponiblesActionPerformed
-      frmCompraHabitacion vista=new frmCompraHabitacion(administrador, null);
-      vista.setVisible(true);
-      this.dispose();
+        frmCompraHabitacion vista = new frmCompraHabitacion(administrador, null);
+        vista.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnHabitacionesdisponiblesActionPerformed
 
     private void btnChkeckinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChkeckinActionPerformed
-     FrmCheckIn vista=new FrmCheckIn(administrador, null);
-     vista.setVisible(true);
+        FrmCheckIn vista = new FrmCheckIn(administrador, null);
+        vista.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnChkeckinActionPerformed
 

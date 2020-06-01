@@ -22,6 +22,7 @@ import Excepcion.anoException;
 import Excepcion.horaException;
 import Excepcion.mesException;
 import Excepcion.modificarReservaCheckIn;
+import Modelo.Administrador;
 import Modelo.Habitacion;
 import Modelo.Huesped;
 import Modelo.Recepcionista;
@@ -43,8 +44,9 @@ public class FrmMultas extends javax.swing.JFrame {
     /**
      * Creates new form FrmMenuRecepcionista
      */
+    private Administrador administrador = null;
+    private Recepcionista recepcionista = null;
     private CtlMultas controladormultas;
-    private Recepcionista recepcionista;
 
     public FrmMultas() {
         initComponents();
@@ -53,13 +55,15 @@ public class FrmMultas extends javax.swing.JFrame {
         this.setResizable(false);
     }
 
-    public FrmMultas(Recepcionista recepcionista) {
-        initComponents();
+    public FrmMultas(Administrador administrador, Recepcionista recepcionista) {
         this.recepcionista = recepcionista;
+        this.administrador = administrador;
+        initComponents();
+
         controladormultas = new CtlMultas();
         this.setLocationRelativeTo(null);
         this.setResizable(false);
-
+        cargarInfo();
     }
 
     /**
@@ -78,7 +82,7 @@ public class FrmMultas extends javax.swing.JFrame {
         lblNombre = new javax.swing.JLabel();
         lblCedula = new javax.swing.JLabel();
         btnSalir = new javax.swing.JButton();
-        lblNombre1 = new javax.swing.JLabel();
+        lblTitulo = new javax.swing.JLabel();
         lblNombre2 = new javax.swing.JLabel();
         lblCedulahuesped = new javax.swing.JLabel();
         txtCedula = new javax.swing.JTextField();
@@ -156,10 +160,10 @@ public class FrmMultas extends javax.swing.JFrame {
             }
         });
 
-        lblNombre1.setBackground(new java.awt.Color(255, 255, 255));
-        lblNombre1.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-        lblNombre1.setForeground(new java.awt.Color(255, 255, 255));
-        lblNombre1.setText("RECEPCIONISTA");
+        lblTitulo.setBackground(new java.awt.Color(255, 255, 255));
+        lblTitulo.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        lblTitulo.setForeground(new java.awt.Color(255, 255, 255));
+        lblTitulo.setText("RECEPCIONISTA");
 
         lblNombre2.setBackground(new java.awt.Color(255, 255, 255));
         lblNombre2.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
@@ -180,7 +184,7 @@ public class FrmMultas extends javax.swing.JFrame {
                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(47, 47, 47)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblNombre1, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(31, 31, 31)
                         .addComponent(lblNombre2, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -199,7 +203,7 @@ public class FrmMultas extends javax.swing.JFrame {
                         .addComponent(lblCedula)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblNombre1)
+                    .addComponent(lblTitulo)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(lblNombre)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -539,9 +543,18 @@ public class FrmMultas extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
-        FrmMenuRecepcionista menu = new FrmMenuRecepcionista(recepcionista);
-        menu.setVisible(true);
-        this.dispose();
+
+        if (this.administrador != null) {
+            FrmAdministrador menuadministrador = new FrmAdministrador(administrador);
+            menuadministrador.setVisible(true);
+            this.dispose();
+
+        } else if (this.recepcionista != null) {
+            FrmMenuRecepcionista menu = new FrmMenuRecepcionista(recepcionista);
+            menu.setVisible(true);
+            this.dispose();
+        }
+
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
@@ -641,6 +654,22 @@ public class FrmMultas extends javax.swing.JFrame {
 
         } catch (BuscarMultasException | DatosIncompletosException e) {
             imprimir(e.getMessage());
+        }
+
+    }
+
+    private void cargarInfo() {
+
+        if (this.recepcionista != null) {
+
+            lblCedula.setText(this.recepcionista.getCedula());
+            lblNombre.setText(this.recepcionista.getNombrecompleto());
+            lblTitulo.setText("RECEPCIONISTA");
+        } else if (this.administrador != null) {
+
+            lblCedula.setText(this.administrador.getCedula());
+            lblNombre.setText(this.administrador.getNombrecompleto());
+            lblTitulo.setText("ADMINISTRADOR");
         }
 
     }
@@ -752,11 +781,11 @@ public class FrmMultas extends javax.swing.JFrame {
     private javax.swing.JLabel lblFechaCheckout;
     private javax.swing.JLabel lblFechaReserva;
     private javax.swing.JLabel lblNombre;
-    private javax.swing.JLabel lblNombre1;
     private javax.swing.JLabel lblNombre2;
     private javax.swing.JLabel lblNombreCompleto;
     private javax.swing.JLabel lblNombreHabitacion;
     private javax.swing.JLabel lblTelefono;
+    private javax.swing.JLabel lblTitulo;
     private javax.swing.JLabel lblValorMulta;
     private javax.swing.JTable tblMultas;
     private javax.swing.JTextField txtCedula;
