@@ -22,14 +22,13 @@ public class DTOHistorialHospedaje {
     private String EstadoReserva;
     private int idHuesped;
     private String NombreHuesped;
-    private String Valortotalconsumo;
     private String ValorTotalaPagar;
 
     public DTOHistorialHospedaje() {
 
     }
 
-    public DTOHistorialHospedaje(int idReserva, int idHabitacion, String nombreHabitacion, String valorNoche, Date fechaCheckin, Date fechaCheckout, String EstadoReserva, int idHuesped, String NombreHuesped, String Valortotalconsumo, String ValorTotalaPagar) {
+    public DTOHistorialHospedaje(int idReserva, int idHabitacion, String nombreHabitacion, String valorNoche, Date fechaCheckin, Date fechaCheckout, String EstadoReserva, int idHuesped, String NombreHuesped, String ValorTotalaPagar) {
         this.idReserva = idReserva;
         this.idHabitacion = idHabitacion;
         this.nombreHabitacion = nombreHabitacion;
@@ -39,7 +38,6 @@ public class DTOHistorialHospedaje {
         this.EstadoReserva = EstadoReserva;
         this.idHuesped = idHuesped;
         this.NombreHuesped = NombreHuesped;
-        this.Valortotalconsumo = Valortotalconsumo;
         this.ValorTotalaPagar = ValorTotalaPagar;
     }
 
@@ -113,14 +111,6 @@ public class DTOHistorialHospedaje {
 
     public void setNombreHuesped(String NombreHuesped) {
         this.NombreHuesped = NombreHuesped;
-    }
-
-    public String getValortotalconsumo() {
-        return Valortotalconsumo;
-    }
-
-    public void setValortotalconsumo(String Valortotalconsumo) {
-        this.Valortotalconsumo = Valortotalconsumo;
     }
 
     public String getValorTotalaPagar() {

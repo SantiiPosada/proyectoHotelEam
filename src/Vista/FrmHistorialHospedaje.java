@@ -181,17 +181,17 @@ public class FrmHistorialHospedaje extends javax.swing.JFrame {
         jTable1.setForeground(new java.awt.Color(0, 0, 0));
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Id Reserva", "Id Habitacion", "Nombre habitacion", "Valor Por Noche", "Fecha Check-in", "Fecha Check-out", "Estado Reserva", "Cedula Huesped", "Nombre Huesped", "Valor Total Consumo", "Valor Total A Pagar"
+                "Id Reserva", "Id Habitacion", "Nombre habitacion", "Valor Por Noche", "Fecha Check-in", "Fecha Check-out", "Estado Reserva", "Cedula Huesped", "Nombre Huesped", "Valor Total A Pagar"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
