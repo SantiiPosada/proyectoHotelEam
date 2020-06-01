@@ -28,9 +28,14 @@ import java.util.GregorianCalendar;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import Modelo.Multa;
+import com.itextpdf.text.Chunk;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.TabSettings;
+import com.itextpdf.text.pdf.PdfWriter;
 import java.io.FileOutputStream;
 import javax.swing.JOptionPane;
-import javax.swing.text.Document;
 
 /**
  *
@@ -244,7 +249,7 @@ public class BOMultas {
         ArrayList<Multa> lista = dao.listaMulta();
         String fileName = filePath;
         //El documento que vamos a crear y empezamos a construir
-        Document document = new Document() ;
+        Document document = new Document();
 
         try {
             //Tomamos la instancia del documento y el archivo donde lo guardaremos
@@ -304,19 +309,18 @@ public class BOMultas {
              * Recorremos la lista regresada por la BD y aplicamos las
              * propiedades descritas anteriormente
              */
-            for (Docente docente : lista) {
-                p = new Paragraph();
-                p.setTabSettings(new TabSettings(56f));
-                p.add(Chunk.TABBING);
-                p.add(new Chunk(docente.getCodigo() + ""));
-                p.add(Chunk.TABBING);
-                p.add(new Chunk(docente.getNombre()));
-                p.add(Chunk.TABBING);
-                p.add(new Chunk(docente.getTelefono()));
-                document.add(p);
-            }
+//            for (DTOMulta multa : lista) {
+//                p = new Paragraph();
+//                p.setTabSettings(new TabSettings(56f));
+//                p.add(Chunk.TABBING);
+//                p.add(new Chunk(docente.getCodigo() + ""));
+//                p.add(Chunk.TABBING);
+//                p.add(new Chunk(docente.getNombre()));
+//                p.add(Chunk.TABBING);
+//                p.add(new Chunk(docente.getTelefono()));
+//                document.add(p);
+//            }
             /*-----------------------------------------*/
-
             //Al finalizar se debe cerrar el documento para terminar
             document.close();
         } catch (Exception ex) {
