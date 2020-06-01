@@ -119,6 +119,7 @@ public class BOHistorialHospedaje {
             for (CuentaPersonal cuentapersonal : listaCuentaPersonal) {
                 if (cuentapersonal.getIdReservaHabitacion() == historial.getIdReserva()) {
                     valortotal = cuentapersonal.getValorApagar();
+                    break;
                 }
             }
             modelo.addRow(new Object[]{historial.getIdReserva(), historial.getIdHabitacion(), habitaciones, valornoche, fechacheckin, fechacheckout, historial.getEstadoReserva(), cedula, nombre, valortotal});
