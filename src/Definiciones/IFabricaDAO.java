@@ -87,4 +87,11 @@ public interface IFabricaDAO {
      * @return Abstraccion de DAOCuentaPersonal
      */
     public IDAOCuentaPersonal crearDAOCuentaPersonal();
+
+    /**
+     * Metodo para la creacion de un DAOMulta
+     *
+     * @return Abstraccion de DAOMulta
+     */
+    public IDAOMulta crearDAOMulta();
 }

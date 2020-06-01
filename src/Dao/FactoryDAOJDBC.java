@@ -14,6 +14,7 @@ import Definiciones.IDAOHuesped;
 import Definiciones.IDAOInventarioProductos;
 import Definiciones.IDAOLogIn;
 import Definiciones.IDAOMiCuenta;
+import Definiciones.IDAOMulta;
 import Definiciones.IDAORecepcionista;
 import Definiciones.IDAOReserva;
 import Definiciones.IFabricaDAO;
@@ -77,6 +78,11 @@ public class FactoryDAOJDBC implements IFabricaDAO {
     @Override
     public IDAOCuentaPersonal crearDAOCuentaPersonal() {
         return new DAOCuentaPersonal();
+    }
+
+    @Override
+    public IDAOMulta crearDAOMulta() {
+        return new DAOMulta();
     }
 
 }
