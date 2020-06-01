@@ -6,6 +6,10 @@
 package Controlador;
 
 import Bo.BOHistorialHospedaje;
+import Excepcion.ComboBoxException;
+import Excepcion.DatosIncompletosException;
+import java.util.Date;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -22,5 +26,25 @@ public class CtlHistorialHospedaje {
 
     public DefaultTableModel listarElementosHistorial() {
         return bo.listarElementosHistorial();
+    }
+
+    public DefaultTableModel listarElementosReservacion(int idReservacion, int idHuesped) {
+        return bo.listarElementosReservacion(idReservacion, idHuesped);
+    }
+
+    public DefaultTableModel listarElementosProductos(int idReservacion) {
+        return bo.listarElementosProductos(idReservacion);
+    }
+
+    public DefaultTableModel filtrar(String opcion, String accion) throws DatosIncompletosException, NumberFormatException, ComboBoxException {
+        return bo.filtrar(opcion, accion);
+    }
+
+    public String deDateaString(Date uDate) {
+        return bo.deDateaString(uDate);
+    }
+
+    public String obtenerDatoJtextFile(JTextField x) {
+        return bo.obtenerDatoJtextFile(x);
     }
 }

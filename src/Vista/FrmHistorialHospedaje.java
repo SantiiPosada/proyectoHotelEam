@@ -6,7 +6,14 @@
 package Vista;
 
 import Controlador.CtlHistorialHospedaje;
+import Controlador.CtlHuesped;
+import Controlador.CtlMiCuenta;
+import Excepcion.BuscarHuespedException;
+import Excepcion.ComboBoxException;
+import Excepcion.DatosIncompletosException;
 import Modelo.Administrador;
+import Modelo.Huesped;
+import java.util.Date;
 import javax.swing.JOptionPane;
 
 /**
@@ -17,10 +24,15 @@ public class FrmHistorialHospedaje extends javax.swing.JFrame {
 
     private CtlHistorialHospedaje controlador;
     private Administrador administrador;
+    private CtlHuesped controladorhuesped;
+    private CtlMiCuenta controladormicuenta;
+    private Huesped huesped;
 
     public FrmHistorialHospedaje() {
         initComponents();
         controlador = new CtlHistorialHospedaje();
+        controladorhuesped = new CtlHuesped();
+        controladormicuenta = new CtlMiCuenta();
         this.setLocationRelativeTo(null);
         this.setResizable(false);
 
@@ -28,8 +40,11 @@ public class FrmHistorialHospedaje extends javax.swing.JFrame {
 
     public FrmHistorialHospedaje(Administrador administrador) {
         this.administrador = administrador;
+        this.huesped = null;
         initComponents();
         controlador = new CtlHistorialHospedaje();
+        controladorhuesped = new CtlHuesped();
+        controladormicuenta = new CtlMiCuenta();
         this.setLocationRelativeTo(null);
         this.setResizable(false);
         listar();
@@ -65,6 +80,8 @@ public class FrmHistorialHospedaje extends javax.swing.JFrame {
         lblProductos1 = new javax.swing.JLabel();
         jScrollPane6 = new javax.swing.JScrollPane();
         jtblProductos = new javax.swing.JTable();
+        jdtFecha = new com.toedter.calendar.JDateChooser();
+        btnActualizar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -140,7 +157,7 @@ public class FrmHistorialHospedaje extends javax.swing.JFrame {
 
         CbxFiltrar.setBackground(new java.awt.Color(255, 255, 255));
         CbxFiltrar.setForeground(new java.awt.Color(0, 0, 0));
-        CbxFiltrar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "Habitacion", "Fecha Checkin", "Fecha Checkout", "Cedula Cliente" }));
+        CbxFiltrar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "Nombre Habitacion", "Fecha Checkin", "Fecha Checkout", "Cedula Cliente" }));
 
         txtFiltrar.setBackground(new java.awt.Color(255, 255, 255));
         txtFiltrar.setForeground(new java.awt.Color(0, 0, 0));
@@ -294,6 +311,18 @@ public class FrmHistorialHospedaje extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
+        jdtFecha.setBackground(new java.awt.Color(255, 255, 255));
+        jdtFecha.setForeground(new java.awt.Color(0, 0, 0));
+
+        btnActualizar.setBackground(new java.awt.Color(255, 255, 255));
+        btnActualizar.setForeground(new java.awt.Color(0, 0, 0));
+        btnActualizar.setText("Actualizar");
+        btnActualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActualizarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -314,8 +343,12 @@ public class FrmHistorialHospedaje extends javax.swing.JFrame {
                                 .addComponent(CbxFiltrar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(txtFiltrar, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnFiltrar, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jdtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnFiltrar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
@@ -326,11 +359,14 @@ public class FrmHistorialHospedaje extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(CbxFiltrar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblFiltrar)
-                    .addComponent(txtFiltrar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnFiltrar))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(CbxFiltrar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblFiltrar)
+                        .addComponent(txtFiltrar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnFiltrar)
+                        .addComponent(btnActualizar))
+                    .addComponent(jdtFecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -365,36 +401,100 @@ public class FrmHistorialHospedaje extends javax.swing.JFrame {
     }//GEN-LAST:event_txtFiltrarKeyTyped
 
     private void btnFiltrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltrarActionPerformed
+        try {
 
+            String opcion = CbxFiltrar.getSelectedItem().toString();
+
+            if (opcion.equalsIgnoreCase("Fecha Checkin")) {
+                Date fechacheckin = jdtFecha.getDate();
+                fechacheckin.setHours(0);
+                fechacheckin.setMinutes(0);
+                fechacheckin.setSeconds(0);
+                String accion = controlador.deDateaString(fechacheckin);
+                jtblHistorial.setModel(controlador.filtrar(opcion, accion));
+            } else {
+                if (opcion.equalsIgnoreCase("Fecha Checkout")) {
+                    Date fechacheckout = jdtFecha.getDate();
+                    fechacheckout.setHours(0);
+                    fechacheckout.setMinutes(0);
+                    fechacheckout.setSeconds(0);
+                    String accion = controlador.deDateaString(fechacheckout);
+                    jtblHistorial.setModel(controlador.filtrar(opcion, accion));
+                } else {
+                    String accion = controlador.obtenerDatoJtextFile(txtFiltrar);
+                    jtblHistorial.setModel(controlador.filtrar(opcion, opcion));
+                }
+            }
+
+        } catch (DatosIncompletosException | NumberFormatException | ComboBoxException e) {
+            imprimir(e.getMessage());
+        }
     }//GEN-LAST:event_btnFiltrarActionPerformed
 
     private void jtblReservaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtblReservaMouseClicked
-      
+        int filaSeleccionada = jtblReserva.getSelectedRow();//selecciona la posicion de la tabla
+
+        if (filaSeleccionada == -1) {
+            imprimir("No se ha seleccionado ninguna fila");
+
+        } else {
+            //String ayuda = tabla.getValueAt(filaseleccionada, num_columna).toString()); 
+            int idreservacion = (int) jtblReserva.getValueAt(filaSeleccionada, 0);
+            DTO.DTOReservaActiva reserva = controladormicuenta.buscarReservaActiva(idreservacion, huesped.getId());
+
+            if (reserva != null) {
+                jtblProductos.setEnabled(true);
+                jtblProductos.setModel(controlador.listarElementosProductos(idreservacion));
+            } else {
+                imprimir("No se encuentra ningun producto");
+            }
+        }
     }//GEN-LAST:event_jtblReservaMouseClicked
 
     private void jtblHistorialMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtblHistorialMouseClicked
-//        int filaSeleccionada = jtblHistorial.getSelectedRow();//selecciona la posicion de la tabla
-//
-//        if (filaSeleccionada == -1) {
-//            imprimir("No se ha seleccionado ninguna fila");
-//
-//        } else {
-//            //String ayuda = tabla.getValueAt(filaseleccionada, num_columna).toString()); 
-//            int idreservacion = (int) jtblHistorial.getValueAt(filaSeleccionada, 0);
-//            // String cedulaHuesped = (String) jtblHistorial.getValueAt(filaSeleccionada, 7);
-//            JOptionPane.showMessageDialog(null, idreservacion + " ");
-////            DTO.DTOReservaActiva reserva = controlador.buscarReservaActiva(idreservacion, huesped.getId());
-////
-////            if (reserva != null) {
-////                jtblReserva.setEnabled(true);
-////                jtblReserva.setModel(controlador.listaElementosProductos(idreservacion));
-////            } else {
-////                imprimir("No se encuentra ningun producto");
-////            }
-//        }
+        try {
+            int filaSeleccionada = jtblHistorial.getSelectedRow();//selecciona la posicion de la tabla
+
+            if (filaSeleccionada == -1) {
+                imprimir("No se ha seleccionado ninguna fila");
+
+            } else {
+                //String ayuda = tabla.getValueAt(filaseleccionada, num_columna).toString()); 
+                int idreservacion = (int) jtblHistorial.getValueAt(filaSeleccionada, 0);
+                String cedulaHuespedes = (String) jtblHistorial.getValueAt(filaSeleccionada, 7);
+                Huesped huespedes = controladorhuesped.buscar(cedulaHuespedes);
+                this.huesped = huespedes;
+                DTO.DTOReservaActiva reserva = controladormicuenta.buscarReservaActiva(idreservacion, huespedes.getId());
+
+                if (reserva != null) {
+                    jtblReserva.setEnabled(true);
+                    jtblReserva.setModel(controlador.listarElementosReservacion(idreservacion, huespedes.getId()));
+                    jtblProductos.setModel(null);
+                    jtblProductos.setEnabled(false);
+                } else {
+                    imprimir("No se encuentra ninguna reserva");
+                }
+            }
+        } catch (BuscarHuespedException | DatosIncompletosException e) {
+            imprimir(e.getMessage());
+        }
+
     }//GEN-LAST:event_jtblHistorialMouseClicked
+
+    private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
+        limpiar();
+    }//GEN-LAST:event_btnActualizarActionPerformed
     private void listar() {
-        jtblReserva.setModel(controlador.listarElementosHistorial());
+        jtblHistorial.setModel(controlador.listarElementosHistorial());
+    }
+
+    private void limpiar() {
+        jtblReserva.setModel(null);
+        jtblReserva.setEnabled(false);
+        jtblProductos.setModel(null);
+        jtblProductos.setEnabled(false);
+        txtFiltrar.setText("");
+        jdtFecha.setDate(null);
     }
 
     private void imprimir(String v) {
@@ -501,6 +601,7 @@ public class FrmHistorialHospedaje extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> CbxFiltrar;
+    private javax.swing.JButton btnActualizar;
     private javax.swing.JButton btnFiltrar;
     private javax.swing.JButton btnSalir;
     private javax.swing.JLabel jLabel1;
@@ -513,6 +614,7 @@ public class FrmHistorialHospedaje extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
+    private com.toedter.calendar.JDateChooser jdtFecha;
     private javax.swing.JTable jtblHistorial;
     private javax.swing.JTable jtblProductos;
     private javax.swing.JTable jtblReserva;

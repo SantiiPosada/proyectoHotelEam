@@ -63,8 +63,12 @@
                                   <Component id="CbxFiltrar" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="txtFiltrar" min="-2" pref="203" max="-2" attributes="0"/>
-                                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="btnFiltrar" min="-2" pref="79" max="-2" attributes="0"/>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Component id="jdtFecha" min="-2" pref="160" max="-2" attributes="0"/>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Component id="btnFiltrar" min="-2" pref="90" max="-2" attributes="0"/>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Component id="btnActualizar" min="-2" pref="90" max="-2" attributes="0"/>
                                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                               </Group>
                               <Component id="jPanel6" alignment="0" max="32767" attributes="0"/>
@@ -80,12 +84,16 @@
               <Component id="jPanel2" max="32767" attributes="0"/>
               <Group type="102" alignment="0" attributes="0">
                   <Component id="jPanel3" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="CbxFiltrar" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="lblFiltrar" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="txtFiltrar" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
-                      <Component id="btnFiltrar" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="CbxFiltrar" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblFiltrar" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtFiltrar" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
+                          <Component id="btnFiltrar" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnActualizar" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <Component id="jdtFecha" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
                   <Component id="jScrollPane1" min="-2" pref="238" max="-2" attributes="0"/>
@@ -233,7 +241,7 @@
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
               <StringArray count="5">
                 <StringItem index="0" value="Seleccione"/>
-                <StringItem index="1" value="Habitacion"/>
+                <StringItem index="1" value="Nombre Habitacion"/>
                 <StringItem index="2" value="Fecha Checkin"/>
                 <StringItem index="3" value="Fecha Checkout"/>
                 <StringItem index="4" value="Cedula Cliente"/>
@@ -528,6 +536,30 @@
             </Container>
           </SubComponents>
         </Container>
+        <Component class="com.toedter.calendar.JDateChooser" name="jdtFecha">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="0" green="0" red="0" type="rgb"/>
+            </Property>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnActualizar">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="0" green="0" red="0" type="rgb"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Actualizar"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnActualizarActionPerformed"/>
+          </Events>
+        </Component>
       </SubComponents>
     </Container>
   </SubComponents>
