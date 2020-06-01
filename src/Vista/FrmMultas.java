@@ -46,7 +46,7 @@ public class FrmMultas extends javax.swing.JFrame {
      */
     private Administrador administrador = null;
     private Recepcionista recepcionista = null;
-    private CtlMultas controladormultas;
+    private final CtlMultas controladormultas;
 
     public FrmMultas() {
         initComponents();
@@ -56,11 +56,10 @@ public class FrmMultas extends javax.swing.JFrame {
     }
 
     public FrmMultas(Administrador administrador, Recepcionista recepcionista) {
-        this.recepcionista = recepcionista;
         this.administrador = administrador;
-        initComponents();
-
+        this.recepcionista = recepcionista;
         controladormultas = new CtlMultas();
+        initComponents();
         this.setLocationRelativeTo(null);
         this.setResizable(false);
         cargarInfo();

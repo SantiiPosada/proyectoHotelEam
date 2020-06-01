@@ -5,6 +5,7 @@
  */
 package Vista;
 
+import Modelo.Administrador;
 import Modelo.Recepcionista;
 
 /**
@@ -17,6 +18,7 @@ public class FrmMenuRecepcionista extends javax.swing.JFrame {
      * Creates new form FrmMenuRecepcionista
      */
     private Recepcionista recepcionista = null;
+    private Administrador administrador = null;
 
     public FrmMenuRecepcionista() {
         initComponents();
@@ -26,6 +28,7 @@ public class FrmMenuRecepcionista extends javax.swing.JFrame {
 
     public FrmMenuRecepcionista(Recepcionista recepcionista) {
         this.recepcionista = recepcionista;
+        this.administrador = null;
         initComponents();
         this.setLocationRelativeTo(null);
         this.setResizable(false);
@@ -358,8 +361,8 @@ public class FrmMenuRecepcionista extends javax.swing.JFrame {
     }//GEN-LAST:event_btnFacturacionActionPerformed
 
     private void btnMultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMultaActionPerformed
-        FrmMultas multa = new FrmMultas(null, recepcionista);
-        multa.setVisible(true);
+        FrmMultas vista = new FrmMultas(administrador, null);
+        vista.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnMultaActionPerformed
 

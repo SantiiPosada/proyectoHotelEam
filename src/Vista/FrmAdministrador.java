@@ -6,6 +6,7 @@
 package Vista;
 
 import Modelo.Administrador;
+import Modelo.Recepcionista;
 
 /**
  *
@@ -17,6 +18,7 @@ public class FrmAdministrador extends javax.swing.JFrame {
      * Creates new form FrmAdministrador
      */
     private Administrador administrador = null;
+    private Recepcionista recepcionista = null;
 
     public FrmAdministrador() {
         initComponents();
@@ -26,6 +28,7 @@ public class FrmAdministrador extends javax.swing.JFrame {
 
     public FrmAdministrador(Administrador administrador) {
         this.administrador = administrador;
+        this.recepcionista = null;
         initComponents();
         this.setLocationRelativeTo(null);
         this.setResizable(false);
@@ -454,7 +457,7 @@ public class FrmAdministrador extends javax.swing.JFrame {
     }//GEN-LAST:event_btnHabitacionActionPerformed
 
     private void btnMultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMultaActionPerformed
-        FrmMultas vista = new FrmMultas(administrador, null);
+        FrmMultas vista = new FrmMultas(null, recepcionista);
         vista.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnMultaActionPerformed
