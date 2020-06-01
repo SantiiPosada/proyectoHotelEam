@@ -5,26 +5,8 @@
  */
 package Vista;
 
-import Controlador.CtlCategoriaProductos;
-import Controlador.CtlHabitacion;
-import Controlador.CtlHistorialCuentaPersonal;
-import Controlador.CtlInventarioProductos;
-import Controlador.CtlMiCuenta;
-import Controlador.CtlReserva;
-import Excepcion.BuscarCategoriaException;
-import Excepcion.BuscarInventarioException;
-import Excepcion.CargarImagenException;
-import Excepcion.DatosIncompletosException;
-import Excepcion.GuardarHistorialCuentaPersonalException;
-import Excepcion.ModificarCantidadException;
-import Excepcion.ModificarInventarioException;
-import Excepcion.NombreProductoException;
-import Modelo.CategoriaProducto;
-import Modelo.Habitacion;
-import Modelo.Huesped;
-import Modelo.Producto;
-import Modelo.Recepcionista;
-import javax.swing.ImageIcon;
+import Controlador.CtlHistorialHospedaje;
+import Modelo.Administrador;
 import javax.swing.JOptionPane;
 
 /**
@@ -33,24 +15,24 @@ import javax.swing.JOptionPane;
  */
 public class FrmHistorialHospedaje extends javax.swing.JFrame {
 
-    private Huesped huesped;
-    private CtlMiCuenta controlador;
+    private CtlHistorialHospedaje controlador;
+    private Administrador administrador;
 
     public FrmHistorialHospedaje() {
         initComponents();
-        controlador = new CtlMiCuenta();
+        controlador = new CtlHistorialHospedaje();
         this.setLocationRelativeTo(null);
         this.setResizable(false);
 
     }
 
-    public FrmHistorialHospedaje(Huesped huesped) {
+    public FrmHistorialHospedaje(Administrador administrador) {
         initComponents();
-        this.huesped = huesped;
-        controlador = new CtlMiCuenta();
+        this.administrador = administrador;
+        controlador = new CtlHistorialHospedaje();
         this.setLocationRelativeTo(null);
         this.setResizable(false);
-
+        listar();
     }
 
     /**
@@ -75,11 +57,11 @@ public class FrmHistorialHospedaje extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jtblHistorial = new javax.swing.JTable();
         jPanel6 = new javax.swing.JPanel();
         lblReservas1 = new javax.swing.JLabel();
         jScrollPane5 = new javax.swing.JScrollPane();
-        jtblReserva1 = new javax.swing.JTable();
+        jtblReserva = new javax.swing.JTable();
         lblProductos1 = new javax.swing.JLabel();
         jScrollPane6 = new javax.swing.JScrollPane();
         jtblProductos1 = new javax.swing.JTable();
@@ -158,7 +140,7 @@ public class FrmHistorialHospedaje extends javax.swing.JFrame {
 
         CbxFiltrar.setBackground(new java.awt.Color(255, 255, 255));
         CbxFiltrar.setForeground(new java.awt.Color(0, 0, 0));
-        CbxFiltrar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "Nombre", "Piso", "Bano", "Sala", "Estado", "Descripcion", "Valor por noche" }));
+        CbxFiltrar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "Habitacion", "Fecha Checkin", "Fecha Checkout", "Cedula Cliente" }));
 
         txtFiltrar.setBackground(new java.awt.Color(255, 255, 255));
         txtFiltrar.setForeground(new java.awt.Color(0, 0, 0));
@@ -177,9 +159,9 @@ public class FrmHistorialHospedaje extends javax.swing.JFrame {
             }
         });
 
-        jTable1.setBackground(new java.awt.Color(255, 255, 255));
-        jTable1.setForeground(new java.awt.Color(0, 0, 0));
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jtblHistorial.setBackground(new java.awt.Color(255, 255, 255));
+        jtblHistorial.setForeground(new java.awt.Color(0, 0, 0));
+        jtblHistorial.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null, null, null},
@@ -198,7 +180,12 @@ public class FrmHistorialHospedaje extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane2.setViewportView(jTable1);
+        jtblHistorial.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jtblHistorialMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(jtblHistorial);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -223,9 +210,9 @@ public class FrmHistorialHospedaje extends javax.swing.JFrame {
         lblReservas1.setForeground(new java.awt.Color(0, 0, 0));
         lblReservas1.setText("RESERVAS");
 
-        jtblReserva1.setBackground(new java.awt.Color(255, 255, 255));
-        jtblReserva1.setForeground(new java.awt.Color(0, 0, 0));
-        jtblReserva1.setModel(new javax.swing.table.DefaultTableModel(
+        jtblReserva.setBackground(new java.awt.Color(255, 255, 255));
+        jtblReserva.setForeground(new java.awt.Color(0, 0, 0));
+        jtblReserva.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -244,12 +231,13 @@ public class FrmHistorialHospedaje extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jtblReserva1.addMouseListener(new java.awt.event.MouseAdapter() {
+        jtblReserva.setEnabled(false);
+        jtblReserva.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jtblReserva1MouseClicked(evt);
+                jtblReservaMouseClicked(evt);
             }
         });
-        jScrollPane5.setViewportView(jtblReserva1);
+        jScrollPane5.setViewportView(jtblReserva);
 
         lblProductos1.setBackground(new java.awt.Color(255, 255, 255));
         lblProductos1.setForeground(new java.awt.Color(0, 0, 0));
@@ -276,6 +264,7 @@ public class FrmHistorialHospedaje extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        jtblProductos1.setEnabled(false);
         jScrollPane6.setViewportView(jtblProductos1);
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
@@ -364,7 +353,7 @@ public class FrmHistorialHospedaje extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
-        FrmMenuHuesped menu = new FrmMenuHuesped(huesped);
+        FrmAdministrador menu = new FrmAdministrador(administrador);
         menu.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
@@ -377,9 +366,52 @@ public class FrmHistorialHospedaje extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnFiltrarActionPerformed
 
-    private void jtblReserva1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtblReserva1MouseClicked
+    private void jtblReservaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtblReservaMouseClicked
+//        int filaSeleccionada = jtblHistorial.getSelectedRow();//selecciona la posicion de la tabla
+//
+//        if (filaSeleccionada == -1) {
+//            imprimir("No se ha seleccionado ninguna fila");
+//
+//        } else {
+//            //String ayuda = tabla.getValueAt(filaseleccionada, num_columna).toString()); 
+//            int idreservacion = (int) jtblHistorial.getValueAt(filaSeleccionada, 0);
+//            DTO.DTOReservaActiva reserva = controlador.buscarReservaActiva(idreservacion, huesped.getId());
+//
+//            if (reserva != null) {
+//                jtblProductos1.setEnabled(true);
+//                jtblProductos1.setModel(controlador.listaElementosProductos(idreservacion));
+//            } else {
+//                imprimir("No se encuentra ningun producto");
+//            }
+//        }
+    }//GEN-LAST:event_jtblReservaMouseClicked
 
-    }//GEN-LAST:event_jtblReserva1MouseClicked
+    private void jtblHistorialMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtblHistorialMouseClicked
+//        int filaSeleccionada = jtblHistorial.getSelectedRow();//selecciona la posicion de la tabla
+//
+//        if (filaSeleccionada == -1) {
+//            imprimir("No se ha seleccionado ninguna fila");
+//
+//        } else {
+//            //String ayuda = tabla.getValueAt(filaseleccionada, num_columna).toString()); 
+//            int idreservacion = (int) jtblHistorial.getValueAt(filaSeleccionada, 0);
+//            DTO.DTOReservaActiva reserva = controlador.buscarReservaActiva(idreservacion, huesped.getId());
+//
+//            if (reserva != null) {
+//                jtblReserva.setEnabled(true);
+//                jtblReserva.setModel(controlador.listaElementosProductos(idreservacion));
+//            } else {
+//                imprimir("No se encuentra ningun producto");
+//            }
+//        }
+    }//GEN-LAST:event_jtblHistorialMouseClicked
+    private void listar() {
+        jtblHistorial.setModel(controlador.listarElementosHistorial());
+    }
+
+    private void imprimir(String v) {
+        JOptionPane.showMessageDialog(null, v);
+    }
 
     /**
      * @param args the command line arguments
@@ -488,24 +520,17 @@ public class FrmHistorialHospedaje extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jtblProductos;
+    private javax.swing.JTable jtblHistorial;
     private javax.swing.JTable jtblProductos1;
     private javax.swing.JTable jtblReserva;
-    private javax.swing.JTable jtblReserva1;
     private javax.swing.JLabel lblFiltrar;
     private javax.swing.JLabel lblLogo;
-    private javax.swing.JLabel lblProductos;
     private javax.swing.JLabel lblProductos1;
-    private javax.swing.JLabel lblReservas;
     private javax.swing.JLabel lblReservas1;
     private javax.swing.JTextField txtFiltrar;
     // End of variables declaration//GEN-END:variables
