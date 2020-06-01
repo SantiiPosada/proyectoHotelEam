@@ -230,6 +230,8 @@ public class frmCompraHabitacion extends javax.swing.JFrame {
         lblFechallegada.setForeground(new java.awt.Color(0, 0, 0));
         lblFechallegada.setText("Fecha llegada :");
 
+        dateFechaLlegada.setEnabled(false);
+
         lblFechasalida.setBackground(new java.awt.Color(255, 255, 255));
         lblFechasalida.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         lblFechasalida.setForeground(new java.awt.Color(0, 0, 0));
@@ -425,9 +427,6 @@ public class frmCompraHabitacion extends javax.swing.JFrame {
             this.dispose();
         }
 
-        FrmMenuHuesped menuhuesped = new FrmMenuHuesped(huesped);
-        menuhuesped.setVisible(true);
-        this.dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void cbxHabitacionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbxHabitacionMouseClicked
@@ -517,6 +516,7 @@ public class frmCompraHabitacion extends javax.swing.JFrame {
 
         Calendar hoy = new GregorianCalendar();
         dateFechaHoy.setCalendar(hoy);
+        dateFechaLlegada.setCalendar(hoy);
         fechaMinima();
     }
 

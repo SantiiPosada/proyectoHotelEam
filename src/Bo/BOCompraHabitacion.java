@@ -16,6 +16,7 @@ import Excepcion.CargarImagenException;
 import Excepcion.DatosIncompletosException;
 import Excepcion.DayException;
 import Excepcion.FechaException;
+import Excepcion.GuardarCuentaPersonalException;
 import Excepcion.GuardarReservaException;
 import Excepcion.ReservaActivaException;
 import Excepcion.UsuarioMultadoException;
@@ -43,16 +44,19 @@ import javax.swing.JTextField;
  */
 public class BOCompraHabitacion {
 
-    private final IDAOCompraHabitacion daoCompraHabitacion;
     private final DAOHabitacion daoHabitacion;
+    private final BOReserva boReserva;
     private final DAOReserva daoReserva;
     private final DaoHuesped daoHuesped;
+    private final BOCuentaPersonal boCuentaPersonal;
 
     public BOCompraHabitacion() {
-        daoCompraHabitacion = new DAOcompraHabitacion();
+
         daoHuesped = new DaoHuesped();
         daoHabitacion = new DAOHabitacion();
+        boReserva = new BOReserva();
         daoReserva = new DAOReserva();
+        boCuentaPersonal = new BOCuentaPersonal();
     }
 
     public Huesped buscar(String cedula) throws BuscarHuespedException, DatosIncompletosException {
@@ -114,12 +118,8 @@ public class BOCompraHabitacion {
 
     }
 
-    public ArrayList<CompraHabitacion> listarCompras() {
-        return daoCompraHabitacion.listarCompra();
-    }
-
     public ArrayList<ReservaHabitacion> listarReserva() {
-        return daoReserva.listarReserva();
+        return boReserva.listarReserva();
     }
 
     private void verificarSiTieneReserva(int idHuesped, int idHabitacion) throws UsuarioMultadoException, ReservaActivaException {
@@ -168,8 +168,9 @@ public class BOCompraHabitacion {
 
     }
 
-    public void guardarCompra(int idHuesped, int idHabitacion, Date fechaHoraReserva, Date fechaHoraLlegada, Date fechaHoraSalida) throws GuardarReservaException, DatosIncompletosException, anoException, mesException, FechaException, DayException, UsuarioMultadoException, ReservaActivaException {
+    public void guardarCompra(int idHuesped, int idHabitacion, Date fechaHoraReserva, Date fechaHoraLlegada, Date fechaHoraSalida) throws GuardarReservaException, DatosIncompletosException, anoException, mesException, FechaException, DayException, UsuarioMultadoException, ReservaActivaException, GuardarCuentaPersonalException {
         validarDatos(fechaHoraReserva, fechaHoraLlegada, fechaHoraSalida);
+        fechaHoraReserva = fechaHoraLlegada;
         fechaHoraLlegada.setHours(0);
         fechaHoraLlegada.setMinutes(0);
         fechaHoraLlegada.setSeconds(0);
@@ -183,10 +184,30 @@ public class BOCompraHabitacion {
 
         }
         verificarFecha(fechaHoraReserva, fechaHoraLlegada, fechaHoraSalida, idHabitacion);
-        CompraHabitacion compra = new CompraHabitacion(0, idHuesped, idHabitacion, fechaHoraReserva, fechaHoraLlegada, fechaHoraSalida, fechaHoraLlegada, fechaHoraSalida, "Prestado", "inactivo");
-        if (!daoCompraHabitacion.guardarCompra(compra)) {
+        ReservaHabitacion compra = new ReservaHabitacion(0, idHuesped, idHabitacion, fechaHoraReserva, fechaHoraReserva, fechaHoraSalida, fechaHoraReserva, fechaHoraSalida, "Prestado", "inactivo");
+        if (!daoReserva.guardarReserva(compra)) {
             throw new GuardarReservaException();
+        }else{
+            guardarCuentaPersonal(compra);
         }
+    }
+
+    private void guardarCuentaPersonal(ReservaHabitacion rese) throws DatosIncompletosException, GuardarCuentaPersonalException {
+        ArrayList<ReservaHabitacion> listaReserva =daoReserva.listarReserva();
+
+        for (ReservaHabitacion reserva : listaReserva) {
+            if (reserva.getIdHabitacion() == rese.getIdHabitacion() && reserva.getIdHuesped() == rese.getIdHuesped() && reserva.getEstado().equals(rese.getEstado()) && reserva.getEstadoServicio().equals(rese.getEstadoServicio())) {
+                //
+
+                if (boReserva.modificarReserva("CheckIn", "Activo", reserva.getId())) {
+                    boCuentaPersonal.guardarCuentaPersonal(reserva.getIdHuesped(), reserva.getId(), "CheckIn", "0");
+                    break;
+                }
+
+            }
+
+        }
+
     }
 
     private void verificarFecha(Date fechaHoraReserva, Date horaFechaLlegada, Date fechaHoraSalida, int idHabitacion) throws anoException, mesException, FechaException, DayException {
@@ -212,61 +233,24 @@ public class BOCompraHabitacion {
             if (monthFechaHoraReserva == monthHoraFechaLlegada && monthFechaHoraReserva == monthFechaHoraSalida) {// si es el mismo mes
 
                 if (dayFechaHoraReserva == dayHoraFechaLlegada) {
-                    throw new DayException();
-                } else if (dayFechaHoraSalida <= dayHoraFechaLlegada) {
-                    throw new DayException();
-                } else {
-                    ArrayList<ReservaHabitacion> lista = listarReserva();//todas las reservas
-                    ArrayList<CompraHabitacion> listaCompraHabitacion = listarCompras();
-                    if (!lista.isEmpty()) {
-                        for (ReservaHabitacion reservaHabitacion : lista) {
-                            if (idHabitacion == reservaHabitacion.getIdHabitacion()) {
+                    if (dayFechaHoraSalida <= dayHoraFechaLlegada) {
+                        throw new DayException();
+                    } else {
+                        ArrayList<ReservaHabitacion> lista = listarReserva();//todas las reservas
+                        if (!lista.isEmpty()) {
+                            for (ReservaHabitacion reservaHabitacion : lista) {
+                                if (idHabitacion == reservaHabitacion.getIdHabitacion()) {
 
-                                if (reservaHabitacion.getEstado().equals("Prestado") || reservaHabitacion.getEstado().equalsIgnoreCase("CheckIn")) {
-
-                                    Calendar calCheckIn = new GregorianCalendar();
-                                    calCheckIn.setTime(reservaHabitacion.getFechaHoraCheckIn());
-                                    int yearCheckIn = calCheckIn.get(Calendar.YEAR);
-                                    int monthCheckIn = calCheckIn.get(Calendar.MONTH);
-                                    int dayCheckIn = calCheckIn.get(Calendar.DAY_OF_MONTH);
-
-                                    Calendar calCheckOut = new GregorianCalendar();
-                                    calCheckOut.setTime(reservaHabitacion.getFechaHoraCheckOut());
-                                    int yearCheckOut = calCheckOut.get(Calendar.YEAR);
-                                    int monthCheckOut = calCheckOut.get(Calendar.MONTH);
-                                    int dayCheckOut = calCheckOut.get(Calendar.DAY_OF_MONTH);
-
-                                    if (yearFechaHoraReserva == yearCheckIn && yearFechaHoraReserva == yearCheckOut) {// si es el mismo año
-                                        if (monthFechaHoraReserva == monthCheckIn && monthFechaHoraReserva == monthCheckOut) {// si es el mismo mes
-
-                                            if (dayHoraFechaLlegada >= dayCheckOut) {
-
-                                            } else {
-                                                throw new FechaException();
-                                            }
-
-                                        }
-
-                                    }
-                                }
-                            }
-
-                        }
-
-                        if (!listaCompraHabitacion.isEmpty()) {
-                            for (CompraHabitacion compraHabitacion : listaCompraHabitacion) {
-                                if (idHabitacion == compraHabitacion.getIdHabitacion()) {
-
-                                    if (compraHabitacion.getEstado().equals("Prestado") || compraHabitacion.getEstado().equalsIgnoreCase("CheckIn")) {
+                                    if (reservaHabitacion.getEstado().equals("Prestado") || reservaHabitacion.getEstado().equalsIgnoreCase("CheckIn")) {
 
                                         Calendar calCheckIn = new GregorianCalendar();
-                                        calCheckIn.setTime(compraHabitacion.getFechaHoraCheckIn());
+                                        calCheckIn.setTime(reservaHabitacion.getFechaHoraCheckIn());
                                         int yearCheckIn = calCheckIn.get(Calendar.YEAR);
                                         int monthCheckIn = calCheckIn.get(Calendar.MONTH);
                                         int dayCheckIn = calCheckIn.get(Calendar.DAY_OF_MONTH);
 
                                         Calendar calCheckOut = new GregorianCalendar();
-                                        calCheckOut.setTime(compraHabitacion.getFechaHoraCheckOut());
+                                        calCheckOut.setTime(reservaHabitacion.getFechaHoraCheckOut());
                                         int yearCheckOut = calCheckOut.get(Calendar.YEAR);
                                         int monthCheckOut = calCheckOut.get(Calendar.MONTH);
                                         int dayCheckOut = calCheckOut.get(Calendar.DAY_OF_MONTH);
@@ -287,10 +271,12 @@ public class BOCompraHabitacion {
                                 }
 
                             }
+
                         }
 
                     }
-
+                } else {
+                    throw new DayException();
                 }
 
             } else {
