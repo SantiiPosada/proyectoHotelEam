@@ -133,6 +133,11 @@ public class FrmAdministrador extends javax.swing.JFrame {
 
         btnHabitacionesdisponibles.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/habitaciondisponible.jpg"))); // NOI18N
         btnHabitacionesdisponibles.setBorder(null);
+        btnHabitacionesdisponibles.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHabitacionesdisponiblesActionPerformed(evt);
+            }
+        });
 
         jLabel7.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(0, 0, 0));
@@ -483,6 +488,12 @@ public class FrmAdministrador extends javax.swing.JFrame {
         categoriaproductos.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnHistorialHospedaje1ActionPerformed
+
+    private void btnHabitacionesdisponiblesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHabitacionesdisponiblesActionPerformed
+      frmCompraHabitacion vista=new frmCompraHabitacion(administrador, null);
+      vista.setVisible(true);
+      this.dispose();
+    }//GEN-LAST:event_btnHabitacionesdisponiblesActionPerformed
 
     /**
      * @param args the command line arguments

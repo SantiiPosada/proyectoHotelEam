@@ -364,7 +364,9 @@ public class FrmMenuRecepcionista extends javax.swing.JFrame {
     }//GEN-LAST:event_btnMultaActionPerformed
 
     private void btnVenderHabitacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVenderHabitacionActionPerformed
-        // TODO add your handling code here:
+      frmCompraHabitacion vista=new frmCompraHabitacion(null, recepcionista);
+      vista.setVisible(true);
+      this.dispose();
     }//GEN-LAST:event_btnVenderHabitacionActionPerformed
 
     private void btnRegistroHuespedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistroHuespedActionPerformed

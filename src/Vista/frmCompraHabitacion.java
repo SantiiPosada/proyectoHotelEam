@@ -5,8 +5,28 @@
  */
 package Vista;
 
+import Controlador.CtlHabitacion;
 import Controlador.ctlCompraHabitacion;
+import Excepcion.BuscarHabitacionException;
+import Excepcion.BuscarHuespedException;
+import Excepcion.CargarImagenException;
+import Excepcion.DatosIncompletosException;
+import Excepcion.DayException;
+import Excepcion.FechaException;
+import Excepcion.GuardarReservaException;
+import Excepcion.ReservaActivaException;
+import Excepcion.UsuarioMultadoException;
+import Excepcion.anoException;
+import Excepcion.mesException;
+import Modelo.Administrador;
+import Modelo.Habitacion;
 import Modelo.Huesped;
+import Modelo.Recepcionista;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -17,13 +37,31 @@ public class frmCompraHabitacion extends javax.swing.JFrame {
     /**
      * Creates new form frmCompraHabitacion
      */
-    
-    private final Huesped huesped=null;
+    private Administrador administrador = null;
+    private Recepcionista recepsionista = null;
+    private Huesped huesped = null;
+    private Habitacion habitacion = null;
     private final ctlCompraHabitacion controlador;
-    
+    private final CtlHabitacion controladorhabitacion;
+
     public frmCompraHabitacion() {
-        controlador=new ctlCompraHabitacion();
+        controlador = new ctlCompraHabitacion();
+        controladorhabitacion = new CtlHabitacion();
         initComponents();
+
+    }
+
+    public frmCompraHabitacion(Administrador administrador, Recepcionista recepcionista) {
+        this.administrador = administrador;
+        this.recepsionista = recepcionista;
+     
+        controlador = new ctlCompraHabitacion();
+        controladorhabitacion = new CtlHabitacion();
+        initComponents();
+           cargarInfo();
+        asignarFechaHoy();
+        llenarComboBox();
+        cbxHabitacion.setEnabled(false);
     }
 
     /**
@@ -98,7 +136,7 @@ public class frmCompraHabitacion extends javax.swing.JFrame {
 
         lblCedula1.setBackground(new java.awt.Color(255, 255, 255));
         lblCedula1.setForeground(new java.awt.Color(255, 255, 255));
-        lblCedula1.setText("Recepsionista");
+        lblCedula1.setText("Compra habitación");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -210,7 +248,7 @@ public class frmCompraHabitacion extends javax.swing.JFrame {
 
         btnReservar.setBackground(new java.awt.Color(255, 255, 255));
         btnReservar.setForeground(new java.awt.Color(102, 0, 0));
-        btnReservar.setText("RESERVAR");
+        btnReservar.setText("Comprar");
         btnReservar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnReservarActionPerformed(evt);
@@ -376,13 +414,44 @@ public class frmCompraHabitacion extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+
+        if (this.administrador != null) {
+            FrmAdministrador vista = new FrmAdministrador(administrador);
+            vista.setVisible(true);
+            this.dispose();
+        } else if (this.recepsionista != null) {
+            FrmMenuRecepcionista vista = new FrmMenuRecepcionista(recepsionista);
+            vista.setVisible(true);
+            this.dispose();
+        }
+
         FrmMenuHuesped menuhuesped = new FrmMenuHuesped(huesped);
         menuhuesped.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void cbxHabitacionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbxHabitacionMouseClicked
-     
+        String nombreHabitacion = cbxHabitacion.getSelectedItem().toString();
+
+        try {
+
+            if (cbxHabitacion.isEnabled()) {
+                Habitacion habita = controladorhabitacion.buscarHabitacion(nombreHabitacion);
+                this.habitacion = habita;
+                lblNombrehabitacion.setText(habitacion.getNombre());
+                lblValor.setText(habitacion.getValorPorNoche());
+                lblDescripcion.setText(habitacion.getDescripcion());
+                txtNombrecompleto.setText(huesped.getNombrecompleto());
+                txtCedula.setText(huesped.getCedula());
+                lblImagen.setIcon(new ImageIcon(controlador.cargarImagenBufferedImage(habitacion.getImagen())));
+            } else {
+                imprimir("Busque el huesped antes de seleccionar la habitacion a comprar");
+            }
+
+        } catch (DatosIncompletosException | BuscarHabitacionException | CargarImagenException e) {
+            imprimir(e.getMessage());
+        }
+
     }//GEN-LAST:event_cbxHabitacionMouseClicked
 
     private void cbxHabitacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxHabitacionActionPerformed
@@ -390,16 +459,90 @@ public class frmCompraHabitacion extends javax.swing.JFrame {
     }//GEN-LAST:event_cbxHabitacionActionPerformed
 
     private void btnReservarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReservarActionPerformed
-       
+
+        try {
+
+            Date fechaReserva = dateFechaHoy.getDate();
+            Date fechaLleaga = dateFechaLlegada.getDate();
+            Date fechaSalida = dateFechaSalida.getDate();
+            if (habitacion == null) {
+                imprimir("Seleccione una habitacion a reservar");
+            } else {
+
+                controlador.guardarCompra(huesped.getId(), habitacion.getId(), fechaReserva, fechaLleaga, fechaSalida);
+                imprimir("Se compró la habitación correctamente");
+                limpiar();
+            }
+
+        } catch (GuardarReservaException | DatosIncompletosException | anoException | mesException | FechaException | DayException | UsuarioMultadoException | ReservaActivaException ex) {
+            imprimir(ex.getMessage());
+        }
+
+
     }//GEN-LAST:event_btnReservarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        
+        limpiar();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
-     
+        try {
+            huesped = controlador.buscar(controlador.obtenerDatoJtextFile(txtCedula1));
+            cbxHabitacion.setEnabled(true);
+            imprimir(huesped.getNombrecompleto() + " Encontrado correctamente");
+        } catch (BuscarHuespedException | DatosIncompletosException ex) {
+            imprimir(ex.getMessage());
+        }
     }//GEN-LAST:event_btnConsultarActionPerformed
+    private void llenarComboBox() {
+        cbxHabitacion.setModel(controlador.llenarComboBox());
+    }
+
+    private void cargarInfo() {
+
+        if (this.recepsionista != null) {
+
+            lblCedula.setText(this.recepsionista.getCedula());
+            lblNombre.setText(this.recepsionista.getNombrecompleto());
+
+        } else if (this.administrador != null) {
+
+            lblCedula.setText(this.administrador.getCedula());
+            lblNombre.setText(this.administrador.getNombrecompleto());
+        }
+
+    }
+
+    private void asignarFechaHoy() {
+
+        Calendar hoy = new GregorianCalendar();
+        dateFechaHoy.setCalendar(hoy);
+        fechaMinima();
+    }
+
+    private void fechaMinima() {
+        Date date = new Date();
+        dateFechaLlegada.setMinSelectableDate(date);
+        dateFechaSalida.setMinSelectableDate(date);
+
+    }
+
+    private void limpiar() {
+        txtCedula.setText("");
+        txtNombrecompleto.setText("");
+        dateFechaLlegada.setDate(null);
+        dateFechaSalida.setDate(null);
+        lblNombrehabitacion.setText("NOMBRE HABITACION");
+        lblValor.setText("VALOR");
+        lblDescripcion.setText("");
+        cbxHabitacion.setSelectedIndex(0);
+        lblImagen.setIcon(null);
+        cbxHabitacion.setEnabled(false);
+    }
+
+    private void imprimir(String v) {
+        JOptionPane.showMessageDialog(null, v);
+    }
 
     /**
      * @param args the command line arguments

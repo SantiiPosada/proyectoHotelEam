@@ -23,6 +23,7 @@ import java.util.Date;
  */
 public class DAOcompraHabitacion implements IDAOCompraHabitacion{
 
+    @Override
     public boolean guardarCompra(CompraHabitacion compra) throws DatosIncompletosException {
         boolean desicion = false;
         try (Connection con = Conexion.getConnection()) {
@@ -53,6 +54,7 @@ public class DAOcompraHabitacion implements IDAOCompraHabitacion{
         return desicion;
     }
     
+    @Override
       public ArrayList<CompraHabitacion> listarCompra() {
         try (Connection con = Conexion.getConnection()) {
 
@@ -91,6 +93,7 @@ public class DAOcompraHabitacion implements IDAOCompraHabitacion{
         }
         return null;
     }
+    @Override
         public boolean modificarCompraHabitacion(String estado, String estadoServicio, int id) throws DatosIncompletosException {
         boolean desicion = false;
         try (Connection con = Conexion.getConnection()) {
