@@ -457,9 +457,7 @@ public class FrmAdministrador extends javax.swing.JFrame {
     }//GEN-LAST:event_btnHabitacionActionPerformed
 
     private void btnMultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMultaActionPerformed
-        FrmMultas vista = new FrmMultas(null, recepcionista);
-        vista.setVisible(true);
-        this.dispose();
+
     }//GEN-LAST:event_btnMultaActionPerformed
 
     private void btnReportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportesActionPerformed

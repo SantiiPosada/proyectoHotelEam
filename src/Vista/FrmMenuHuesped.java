@@ -285,7 +285,9 @@ public class FrmMenuHuesped extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnHabitacionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHabitacionesActionPerformed
-
+        FrmHabitacionDisponible habitaciondisponible = new FrmHabitacionDisponible(huesped);
+        habitaciondisponible.setVisible(true);
+        this.dispose();
 
     }//GEN-LAST:event_btnHabitacionesActionPerformed
 

@@ -361,9 +361,7 @@ public class FrmMenuRecepcionista extends javax.swing.JFrame {
     }//GEN-LAST:event_btnFacturacionActionPerformed
 
     private void btnMultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMultaActionPerformed
-        FrmMultas vista = new FrmMultas(administrador, null);
-        vista.setVisible(true);
-        this.dispose();
+
     }//GEN-LAST:event_btnMultaActionPerformed
 
     private void btnVenderHabitacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVenderHabitacionActionPerformed
@@ -379,9 +377,7 @@ public class FrmMenuRecepcionista extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRegistroHuespedActionPerformed
 
     private void btnHabitacionDisponibleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHabitacionDisponibleActionPerformed
-        FrmHabitacionDisponible habitaciondisponible = new FrmHabitacionDisponible(recepcionista);
-        habitaciondisponible.setVisible(true);
-        this.dispose();
+
     }//GEN-LAST:event_btnHabitacionDisponibleActionPerformed
 
     private void btnCheckinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCheckinActionPerformed
