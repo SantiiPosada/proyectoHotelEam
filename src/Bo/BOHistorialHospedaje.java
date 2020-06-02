@@ -213,7 +213,7 @@ public class BOHistorialHospedaje {
         if (accion == null) {
             throw new DatosIncompletosException();
         }
-
+        JOptionPane.showMessageDialog(null, opcion + " " + accion);
         ArrayList<DTOHistorialHospedaje> lista = listaHistorial();
         ArrayList<Habitacion> listaHabitaciones = listaHabitacion();
         ArrayList<Huesped> listaHuesped = listaHuesped();
@@ -230,7 +230,7 @@ public class BOHistorialHospedaje {
                 }
             }
         };
-        JOptionPane.showMessageDialog(null, opcion);
+
         switch (opcion) {
             case "Seleccione":
                 throw new ComboBoxException();

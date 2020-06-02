@@ -9,6 +9,7 @@ import Bo.BOHistorialHospedaje;
 import Excepcion.ComboBoxException;
 import Excepcion.DatosIncompletosException;
 import java.util.Date;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
@@ -38,6 +39,7 @@ public class CtlHistorialHospedaje {
 
     public DefaultTableModel filtrar(String opcion, String accion) throws DatosIncompletosException, NumberFormatException, ComboBoxException {
         return bo.filtrar(opcion, accion);
+
     }
 
     public String deDateaString(Date uDate) {

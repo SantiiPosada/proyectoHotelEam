@@ -420,9 +420,6 @@ public class FrmHistorialHospedaje extends javax.swing.JFrame {
                     fechacheckout.setSeconds(0);
                     String accion = controlador.deDateaString(fechacheckout);
                     jtblHistorial.setModel(controlador.filtrar(opcion, accion));
-                } else {
-                    String accion = controlador.obtenerDatoJtextFile(txtFiltrar);
-                    jtblHistorial.setModel(controlador.filtrar(opcion, accion));
                 }
             }
 
