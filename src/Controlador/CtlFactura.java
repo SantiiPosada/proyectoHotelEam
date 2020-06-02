@@ -17,14 +17,13 @@ import javax.swing.table.DefaultTableModel;
  * @author santiago
  */
 public class CtlFactura {
-    
+
     BOfactura bo;
-    
-    public CtlFactura(){
-        bo=new BOfactura();
+
+    public CtlFactura() {
+        bo = new BOfactura();
     }
-    
-    
+
     public DefaultTableModel listaElementosReservaInactiva(int idHuesped) {
         return bo.listarElementosReservacionInactiva(idHuesped);
     }
@@ -40,10 +39,16 @@ public class CtlFactura {
     public DefaultTableModel listaElementosProductos(int idReserva) {
         return bo.listarElementosProductos(idReserva);
     }
-      public Huesped buscarHuesped(String cedula) throws BuscarHuespedException, DatosIncompletosException {
-          return bo.buscarHuesped(cedula);
-      }
-       public String obtenerDatoJtextFile(JTextField x) {
-           return bo.obtenerDatoJtextFile(x);
-       }
+
+    public Huesped buscarHuesped(String cedula) throws BuscarHuespedException, DatosIncompletosException {
+        return bo.buscarHuesped(cedula);
+    }
+
+    public String obtenerDatoJtextFile(JTextField x) {
+        return bo.obtenerDatoJtextFile(x);
+    }
+
+    public String generarValorAPagar(int idReserva) {
+        return bo.generarValorAPagar(idReserva);
+    }
 }

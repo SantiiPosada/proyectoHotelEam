@@ -10,6 +10,7 @@ import Excepcion.BuscarHabitacionException;
 import Excepcion.BuscarHuespedException;
 import Excepcion.CargarImagenException;
 import Excepcion.DatosIncompletosException;
+import Excepcion.DayException;
 import Excepcion.DiaException;
 import Excepcion.GuardarCuentaPersonalException;
 import Excepcion.ModificarCuentaPersonalException;
@@ -493,9 +494,9 @@ public class FrmCheckOut extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Se realizó el Check Out correctamente");
             llenarComboBox(huesped.getId());
             limpiar();
-        } catch (ModificarCuentaPersonalException | GuardarCuentaPersonalException | anoException | mesException | DiaException | horaException | DatosIncompletosException | modificarReservaCheckIn ex) {
+        } catch (DayException|ModificarCuentaPersonalException | GuardarCuentaPersonalException | anoException | mesException | DiaException | horaException | DatosIncompletosException | modificarReservaCheckIn ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
-        }
+        } 
     }//GEN-LAST:event_btnConsultar1ActionPerformed
 
     private void cbxReservaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbxReservaMouseClicked

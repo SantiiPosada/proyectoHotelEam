@@ -10,6 +10,7 @@ import Excepcion.BuscarHabitacionException;
 import Excepcion.BuscarHuespedException;
 import Excepcion.CargarImagenException;
 import Excepcion.DatosIncompletosException;
+import Excepcion.DayException;
 import Excepcion.DiaException;
 import Excepcion.GuardarCuentaPersonalException;
 import Excepcion.ModificarCuentaPersonalException;
@@ -61,7 +62,7 @@ public class CtlCheckOut {
     public DefaultComboBoxModel llenarComboBox(int idHuesped) {
         return bo.llenarComboBox(idHuesped);
     }
-        public void realizarCheckOut(Date fechaHoy, ReservaHabitacion reserva, int idHuesped) throws anoException, mesException, DiaException, horaException, DatosIncompletosException, modificarReservaCheckIn, GuardarCuentaPersonalException, ModificarCuentaPersonalException {
+        public void realizarCheckOut(Date fechaHoy, ReservaHabitacion reserva, int idHuesped) throws anoException, mesException, DiaException, horaException, DatosIncompletosException, modificarReservaCheckIn, GuardarCuentaPersonalException, ModificarCuentaPersonalException, DayException {
             bo.realizarCheckOut(fechaHoy, reserva, idHuesped);
         }
 

@@ -27,6 +27,7 @@ public class FrmFacturacion extends javax.swing.JFrame {
     private Huesped huesped=null;
     private CtlFactura controlador;
 int idReservacion=0;
+String valorPgar=null;
     public FrmFacturacion() {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -375,7 +376,8 @@ int idReservacion=0;
     private void btnSalir2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalir2ActionPerformed
        if(idReservacion==0){
            JOptionPane.showMessageDialog(null, "Seleccione una reserva para generarle el total a pagar");
-           
+       String x=controlador.generarValorAPagar(idReservacion);
+       JOptionPane.showMessageDialog(null, "valor a pagar "+x);
           
            
            
