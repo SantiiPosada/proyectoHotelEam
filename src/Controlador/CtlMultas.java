@@ -13,6 +13,8 @@ import Excepcion.DatosIncompletosException;
 import Excepcion.ModificarMultaException;
 import Excepcion.ModificarReservaException;
 import Excepcion.MultaIdReservaException;
+import Modelo.Huesped;
+import Modelo.Multa;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
@@ -35,6 +37,14 @@ public class CtlMultas {
 
     public void modificarEstadoMulta(String cedula, int idReserva) throws BuscarCedulaHuespedException, BuscarHuespedException, DatosIncompletosException, ModificarMultaException, BuscarMultasException, ModificarReservaException {
         bo.modificarEstadoMulta(cedula, idReserva);
+    }
+
+    public Multa buscarMulta(int idHuesped) throws DatosIncompletosException, BuscarMultasException {
+        return bo.buscarMulta(idHuesped);
+    }
+
+    public Huesped buscarHuespedCedula(String cedula) throws BuscarCedulaHuespedException {
+        return bo.buscarHuespedCedula(cedula);
     }
 
     public DTO.DTOMulta buscarMultaDTO(int id, String cedula) throws DatosIncompletosException, BuscarMultasException {

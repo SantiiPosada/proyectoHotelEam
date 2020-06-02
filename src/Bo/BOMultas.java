@@ -28,6 +28,7 @@ import java.util.GregorianCalendar;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import Modelo.Multa;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -115,8 +116,9 @@ public class BOMultas {
         ArrayList<DTO.DTOMulta> listaMulta = listaMultasDTO(cedula);
         DTO.DTOMulta multa = new DTOMulta();
         for (int i = 0; i < listaMulta.size(); i++) {
-            if (listaMulta.get(i).getEstadomulta().equalsIgnoreCase("Sin Pagar") && listaMulta.get(i).getEstadoreservacion().equalsIgnoreCase("Multado")) {
+            if (listaMulta.get(i).getEstadomulta().equalsIgnoreCase("Multado") && listaMulta.get(i).getEstadoreservacion().equalsIgnoreCase("Multado")) {
                 if (listaMulta.get(i).getCedula().equalsIgnoreCase(cedula) && listaMulta.get(i).getId() == id) {
+                    JOptionPane.showMessageDialog(null, id + " " + listaMulta.get(i).getId() + "");
                     return listaMulta.get(i);
                 }
             }
@@ -168,7 +170,7 @@ public class BOMultas {
         };
 
         for (DTO.DTOMulta multa : lista) {
-            if (multa.getEstadomulta().equalsIgnoreCase("Sin Pagar") && multa.getEstadoreservacion().equalsIgnoreCase("Multado")) {
+            if (multa.getEstadomulta().equalsIgnoreCase("Multado") && multa.getEstadoreservacion().equalsIgnoreCase("Multado")) {
                 String fechacheckin = formato.format(multa.getFechaHoraCheckIn());
                 String fechacheckout = formato.format(multa.getFechaHoraCheckOut());
                 String fechareservacion = formato.format(multa.getFechaHoraReserva());

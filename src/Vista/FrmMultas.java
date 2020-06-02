@@ -32,6 +32,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 
 /**
  *
@@ -544,10 +545,27 @@ public class FrmMultas extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
+        try {
+            String cedula = controladormultas.obtenerDatoJtextFile(txtCedula);
+            Huesped huesped = controladormultas.buscarHuespedCedula(cedula);
+            if (huesped != null) {
 
-        String cedula = controladormultas.obtenerDatoJtextFile(txtCedula);
-        listar(cedula);
-        JOptionPane.showMessageDialog(null, "Tiene registrado multa(s)");
+                listar(huesped.getCedula());
+                if (this.tblMultas.getRowCount() == 0 && this.tblMultas.getSelectedRow() == -1) {
+                    JOptionPane.showMessageDialog(null, "No tiene multas");
+                    txtCedula.setText("");
+                } else {
+                    cargarinformacionHuesped(huesped);
+                }
+
+            } else {
+
+            }
+
+        } catch (BuscarCedulaHuespedException e) {
+            imprimir(e.getMessage());
+        }
+
     }//GEN-LAST:event_btnConsultarActionPerformed
 
     private void btnGenerarValorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarValorActionPerformed
@@ -558,6 +576,7 @@ public class FrmMultas extends javax.swing.JFrame {
             controladormultas.modificarMulta(cedula, valor);
             listar(cedula);
             txtValorMulta.setText(valor);
+            btnGenerarFactura.setEnabled(true);
             JOptionPane.showMessageDialog(null, "Su valor de la multa es " + valor);
         } catch (MultaIdReservaException | BuscarCedulaHuespedException | BuscarHuespedException | DatosIncompletosException | BuscarMultasException | ModificarMultaException e) {
             imprimir(e.toString());
@@ -570,7 +589,7 @@ public class FrmMultas extends javax.swing.JFrame {
             String cedula = controladormultas.obtenerDatoJtextFile(txtCedula);
             int idReserva = Integer.parseInt(controladormultas.obtenerDatoJtextFile(txtIdReserva));
             controladormultas.modificarEstadoMulta(cedula, idReserva);
-
+            JOptionPane.showMessageDialog(null, "Genero la factura correctamente");
         } catch (BuscarCedulaHuespedException | BuscarHuespedException | DatosIncompletosException | ModificarMultaException | BuscarMultasException | ModificarReservaException e) {
             imprimir(e.getMessage());
         }
@@ -590,6 +609,7 @@ public class FrmMultas extends javax.swing.JFrame {
             } else {
                 //String ayuda = tabla.getValueAt(filaseleccionada, num_columna).toString()); 
                 int idmulta = (int) tblMultas.getValueAt(filaSeleccionada, 0);
+
                 DTO.DTOMulta multa = controladormultas.buscarMultaDTO(idmulta, controladormultas.obtenerDatoJtextFile(txtCedula));
 
                 if (multa != null) {
@@ -613,10 +633,18 @@ public class FrmMultas extends javax.swing.JFrame {
     private void listar(String cedula) {
         try {
             tblMultas.setModel(controladormultas.listarElementoMultaDTO(cedula));
+
         } catch (BuscarMultasException | DatosIncompletosException e) {
             imprimir(e.getMessage());
         }
 
+    }
+
+    private void cargarinformacionHuesped(Huesped huesped) {
+        txtCedula2.setText(huesped.getCedula());
+        txtNombreCompleto.setText(huesped.getNombrecompleto());
+        txtTelefono.setText(huesped.getTelefono());
+        txtCorreo.setText(huesped.getCorreo());
     }
 
     private void cargarinformacion(DTO.DTOMulta multa) {
@@ -642,16 +670,24 @@ public class FrmMultas extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrmMultas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmMultas.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrmMultas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmMultas.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrmMultas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmMultas.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrmMultas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmMultas.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>

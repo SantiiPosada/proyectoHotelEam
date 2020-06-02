@@ -29,7 +29,7 @@ public class DAOMulta implements IDAOMulta {
         boolean desicion = false;
         try (Connection con = Conexion.getConnection()) {
 
-            PreparedStatement pstmt = con.prepareStatement("INSERT INTO habitacion (idHuesped,cantidadPagar,estado) values (?,?,?)");
+            PreparedStatement pstmt = con.prepareStatement("INSERT INTO multa (idHuesped,cantidadPagar,estado) values (?,?,?)");
 
             pstmt.setInt(1, multa.getIdHuesped());
             pstmt.setString(2, multa.getCantidadPagar());
@@ -79,7 +79,7 @@ public class DAOMulta implements IDAOMulta {
     public boolean modificarMultas(Multa multa) throws DatosIncompletosException {
         boolean desicion = false;
         try (Connection con = Conexion.getConnection()) {
-            PreparedStatement pstmt = con.prepareStatement("UPDATE habitacion SET  cantidadPagar=? WHERE id=?");//preparar la sentencia sql(modificar,agregar,eliminar,etc) se llena de izquierda a derecha de 1 en 1(1,2,3)
+            PreparedStatement pstmt = con.prepareStatement("UPDATE multa SET  cantidadPagar=? WHERE id=?");//preparar la sentencia sql(modificar,agregar,eliminar,etc) se llena de izquierda a derecha de 1 en 1(1,2,3)
 
             pstmt.setString(1, multa.getCantidadPagar());
             pstmt.setInt(2, multa.getId());
@@ -104,7 +104,7 @@ public class DAOMulta implements IDAOMulta {
     public boolean modificarEstadoMulta(Multa multa) throws DatosIncompletosException {
         boolean desicion = false;
         try (Connection con = Conexion.getConnection()) {
-            PreparedStatement pstmt = con.prepareStatement("UPDATE habitacion SET  estado=? WHERE id=?");//preparar la sentencia sql(modificar,agregar,eliminar,etc) se llena de izquierda a derecha de 1 en 1(1,2,3)
+            PreparedStatement pstmt = con.prepareStatement("UPDATE multa SET  estado=? WHERE id=?");//preparar la sentencia sql(modificar,agregar,eliminar,etc) se llena de izquierda a derecha de 1 en 1(1,2,3)
 
             pstmt.setString(1, multa.getEstado());
             pstmt.setInt(2, multa.getId());
