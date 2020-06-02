@@ -92,7 +92,7 @@ public class BOHistorialHospedaje {
         ArrayList<Habitacion> listaHabitaciones = listaHabitacion();
         ArrayList<Huesped> listaHuesped = listaHuesped();
         ArrayList<CuentaPersonal> listaCuentaPersonal = listaCuentaPersonal();
-        String nombreColumnas[] = {"Id Reserva", "Id Habitacion", "Nombre habitacion", "Valor Por Noche", "Fecha Check-in", "Fecha Check-out", "Estado Reserva", "Cedula Huesped", "Nombre Huesped", "Valor Total A Pagar"};
+        String nombreColumnas[] = {"Id Reserva", "Id Habitacion", "Nombre", "Valor Por Noche", "FechaCheck-in", "FechaCheck-out", "EstadoReserva", "CedulaHuesped", "NombreHuesped", "ValorTotalAPagar"};
         DefaultTableModel modelo = new DefaultTableModel(new Object[][]{}, nombreColumnas) {
             @Override
             public boolean isCellEditable(int filas, int columnas) {
@@ -218,7 +218,7 @@ public class BOHistorialHospedaje {
         ArrayList<Habitacion> listaHabitaciones = listaHabitacion();
         ArrayList<Huesped> listaHuesped = listaHuesped();
         ArrayList<CuentaPersonal> listaCuentaPersonal = listaCuentaPersonal();
-        String nombreColumnas[] = {"Id Reserva", "Id Habitacion", "Nombre", "Valor Por Noche", "Fecha Check-in", "Fecha Check-out", "Estado Reserva", "Cedula Huesped", "Nombre Huesped", "Valor Total A Pagar"};
+        String nombreColumnas[] = {"Id Reserva", "Id Habitacion", "Nombre", "Valor Por Noche", "FechaCheck-in", "Fecha Check-out", "Estado Reserva", "Cedula Huesped", "Nombre Huesped", "Valor Total A Pagar"};
         DefaultTableModel modelo = new DefaultTableModel(new Object[][]{}, nombreColumnas) {
             @Override
             public boolean isCellEditable(int filas, int columnas) {
@@ -236,7 +236,7 @@ public class BOHistorialHospedaje {
                 throw new ComboBoxException();
 
             case "Nombre":
-                JOptionPane.showMessageDialog(null, opcion + " " + accion + " " + "estoy aqui");
+
                 lista.forEach((historial) -> {
                     if (historial.getNombreHabitacion().equalsIgnoreCase(accion)) {
                         String fechacheckin = formato.format(historial.getFechaCheckin());
@@ -280,7 +280,8 @@ public class BOHistorialHospedaje {
                 });
                 return modelo;
 
-            case "Fecha Check-in":
+            case "FechaCheck-in":
+                JOptionPane.showMessageDialog(null, opcion + " " + accion + " " + "estoy aqui");
                 lista.forEach((historial) -> {
                     if (historial.getFechaCheckin() == convertirDeDatetimeUtilaDate(accion)) {
                         String fechacheckin = formato.format(historial.getFechaCheckin());
