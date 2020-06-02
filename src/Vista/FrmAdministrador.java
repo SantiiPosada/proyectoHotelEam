@@ -447,7 +447,9 @@ public class FrmAdministrador extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCheckoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCheckoutActionPerformed
-        // TODO add your handling code here:
+        FrmCheckOut vista = new FrmCheckOut(null, administrador);
+        vista.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnCheckoutActionPerformed
 
     private void btnHabitacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHabitacionActionPerformed

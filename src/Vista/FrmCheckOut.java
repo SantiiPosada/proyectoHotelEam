@@ -14,6 +14,7 @@ import Modelo.Administrador;
 import Modelo.Habitacion;
 import Modelo.Huesped;
 import Modelo.Recepcionista;
+import Modelo.ReservaHabitacion;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import javax.swing.ImageIcon;
@@ -32,12 +33,13 @@ public class FrmCheckOut extends javax.swing.JFrame {
     private CtlCheckOut controlador;
     private Huesped huesped = null;
     private Administrador administrador = null;
+    private ReservaHabitacion reserva = null;
 
     public FrmCheckOut() {
         initComponents();
     }
 
-    public FrmCheckOut( Recepcionista recepcionista) {
+    public FrmCheckOut(Recepcionista recepcionista, Administrador administrador) {
         this.recepcionista = recepcionista;
         this.administrador = administrador;
         controlador = new CtlCheckOut();
@@ -407,7 +409,7 @@ public class FrmCheckOut extends javax.swing.JFrame {
                             .addComponent(lblValornoche)
                             .addComponent(lblValor)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(cbxReserva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lblSeleccione))))
@@ -455,9 +457,15 @@ public class FrmCheckOut extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
-        FrmMenuRecepcionista menu = new FrmMenuRecepcionista(recepcionista);
-        menu.setVisible(true);
-        this.dispose();
+        if (this.administrador != null) {
+            FrmAdministrador vista = new FrmAdministrador(administrador);
+            vista.setVisible(true);
+            this.dispose();
+        } else if (this.recepcionista != null) {
+            FrmMenuRecepcionista vista = new FrmMenuRecepcionista(recepcionista);
+            vista.setVisible(true);
+            this.dispose();
+        }
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
@@ -475,23 +483,23 @@ public class FrmCheckOut extends javax.swing.JFrame {
     }//GEN-LAST:event_btnConsultar1ActionPerformed
 
     private void cbxReservaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbxReservaMouseClicked
-//  try {
-//            Habitacion habitacion = controlador.buscarHabitacion(Integer.parseInt(cbxReserva.getSelectedItem().toString()));
-//
-//            lblNombrehabitacion.setText(habitacion.getNombre());
-//            lblValor.setText(habitacion.getValorPorNoche());
-//            lblDescripcion.setText(habitacion.getDescripcion());
-//            lblImagen.setIcon(new ImageIcon(controlador.cargarImagenBufferedImage(habitacion.getImagen())));
-//
-//            reserva = controlador.buscarReserva(Integer.parseInt(cbxReserva.getSelectedItem().toString()));
-//            dateFechaLlegada1.setDate(reserva.getFechaHoraCheckIn());
-//            dateFechaSalida.setDate(reserva.getFechaHoraCheckOut());
-//            btnConsultar1.setEnabled(true);
-//        } catch (BuscarHabitacionException | CargarImagenException ex) {
-//            JOptionPane.showMessageDialog(null, ex.getMessage());
-//        } catch (NumberFormatException | NullPointerException ex) {
-//            JOptionPane.showMessageDialog(null, "Seleccione una reserva");
-//        }
+        try {
+            Habitacion habitacion = controlador.buscarHabitacion(Integer.parseInt(cbxReserva.getSelectedItem().toString()));
+
+            lblNombrehabitacion.setText(habitacion.getNombre());
+            lblValor.setText(habitacion.getValorPorNoche());
+            lblDescripcion.setText(habitacion.getDescripcion());
+            lblImagen.setIcon(new ImageIcon(controlador.cargarImagenBufferedImage(habitacion.getImagen())));
+
+            reserva = controlador.buscarReserva(Integer.parseInt(cbxReserva.getSelectedItem().toString()));
+            dateFechaLlegada1.setDate(reserva.getFechaHoraCheckIn());
+            dateFechaSalida.setDate(reserva.getFechaHoraCheckOut());
+            btnConsultar1.setEnabled(true);
+        } catch (BuscarHabitacionException | CargarImagenException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+        } catch (NumberFormatException | NullPointerException ex) {
+            JOptionPane.showMessageDialog(null, "Seleccione una reserva");
+        }
 
 
     }//GEN-LAST:event_cbxReservaMouseClicked
@@ -539,8 +547,12 @@ public class FrmCheckOut extends javax.swing.JFrame {
         txtNombreCompleto.setText(x.getNombrecompleto());
         txtCorreo.setText(x.getCorreo());
         txtTelefono.setText(x.getTelefono());
-        //  llenarComboBox(x.getId());
+        llenarComboBox(x.getId());
 
+    }
+
+    private void llenarComboBox(int idHuesped) {
+        cbxReserva.setModel(controlador.llenarComboBox(idHuesped));
     }
 
     private void asignarFechaHoy() {

@@ -349,9 +349,9 @@ public class FrmMenuRecepcionista extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void btnCheckoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCheckoutActionPerformed
-        FrmCheckOut checkOut = new FrmCheckOut(recepcionista);
-        checkOut.setVisible(true);
-        this.dispose();
+      FrmCheckOut vista=new FrmCheckOut(recepcionista, null);
+      vista.setVisible(true);
+      this.dispose();
     }//GEN-LAST:event_btnCheckoutActionPerformed
 
     private void btnFacturacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFacturacionActionPerformed

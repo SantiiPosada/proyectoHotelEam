@@ -6,9 +6,15 @@
 package Controlador;
 
 import Bo.BOCheckOut;
+import Excepcion.BuscarHabitacionException;
 import Excepcion.BuscarHuespedException;
+import Excepcion.CargarImagenException;
 import Excepcion.DatosIncompletosException;
+import Modelo.Habitacion;
 import Modelo.Huesped;
+import Modelo.ReservaHabitacion;
+import java.awt.image.BufferedImage;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTextField;
 
 /**
@@ -29,6 +35,22 @@ public class CtlCheckOut {
 
     public String obtenerDatoJtextFile(JTextField x) {
         return bo.obtenerDatoJtextFile(x);
+    }
+
+    public Habitacion buscarHabitacion(int idReserva) throws BuscarHabitacionException {
+        return bo.buscarHabitacion(idReserva);
+    }
+
+    public BufferedImage cargarImagenBufferedImage(byte[] bytes) throws CargarImagenException {
+        return bo.cargarImagenBufferedImage(bytes);
+    }
+
+    public ReservaHabitacion buscarReserva(int idReserva) {
+        return bo.buscarReserva(idReserva);
+    }
+
+    public DefaultComboBoxModel llenarComboBox(int idHuesped) {
+        return bo.llenarComboBox(idHuesped);
     }
 
 }
