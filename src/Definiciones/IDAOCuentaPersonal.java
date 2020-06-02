@@ -37,8 +37,9 @@ public interface IDAOCuentaPersonal {
      *
      * @param cuentapersonal recibe el un objeto tipo Cuenta personal
      * @return verdadero si se modifico la habitacion,falso si no
+     * @throws DatosIncompletosException en caso de ingresar datos nulos
      */
-    public boolean modificarCuentaPersonal(CuentaPersonal cuentapersonal);
+    public boolean modificarCuentaPersonal(CuentaPersonal cuentapersonal)throws DatosIncompletosException;
 
     /**
      ** Metodo para listar la cuenta personal

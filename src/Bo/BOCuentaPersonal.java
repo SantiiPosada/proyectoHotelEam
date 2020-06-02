@@ -9,6 +9,7 @@ import Definiciones.IDAOCuentaPersonal;
 import Excepcion.BuscarCuentaPersonalException;
 import Excepcion.DatosIncompletosException;
 import Excepcion.GuardarCuentaPersonalException;
+import Excepcion.ModificarCuentaPersonalException;
 import Fabrica.FactoryDAO;
 import Modelo.CuentaPersonal;
 
@@ -45,5 +46,10 @@ public class BOCuentaPersonal {
         }
 
     }
+      public void modificarCuentaPersonal(CuentaPersonal cuentapersonal) throws DatosIncompletosException, ModificarCuentaPersonalException{
+          if(!dao.modificarCuentaPersonal(cuentapersonal)){
+              throw new ModificarCuentaPersonalException();
+          }
+      }
 
 }

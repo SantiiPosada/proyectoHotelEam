@@ -207,7 +207,7 @@ public class BOReserva {
                                     if (yearFechaHoraReserva == yearCheckIn && yearFechaHoraReserva == yearCheckOut) {// si es el mismo año
                                         if (monthFechaHoraReserva == monthCheckIn && monthFechaHoraReserva == monthCheckOut) {// si es el mismo mes
 
-                                            if (dayHoraFechaLlegada >= dayCheckOut) {
+                                            if (dayHoraFechaLlegada > dayCheckIn) {
 
                                             } else {
                                                 throw new FechaException();

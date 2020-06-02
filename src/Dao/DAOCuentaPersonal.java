@@ -73,8 +73,29 @@ public class DAOCuentaPersonal implements IDAOCuentaPersonal {
     }
 
     @Override
-    public boolean modificarCuentaPersonal(CuentaPersonal cuentapersonal) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean modificarCuentaPersonal(CuentaPersonal cuentapersonal) throws DatosIncompletosException{
+     boolean desicion = false;
+        try (Connection con = Conexion.getConnection()) {
+
+            PreparedStatement pstmt = con.prepareStatement("UPDATE  cuentaPersonal SET estado=?, valorApagar=? WHERE idReservaHabitacion=?");
+
+            pstmt.setString(1, cuentapersonal.getEstado());
+            pstmt.setString(2, cuentapersonal.getValorApagar());
+            pstmt.setInt(3, cuentapersonal.getIdReservaHabitacion());
+          
+            pstmt.executeUpdate();
+            desicion = true;
+
+        } catch (SQLException ex) {
+            //   ex.printStackTrace();
+            int codigo = ex.getErrorCode();
+            if (codigo == 1048) {
+                throw new DatosIncompletosException();
+            }
+
+            desicion = false;
+        }
+        return desicion;
     }
 
     @Override

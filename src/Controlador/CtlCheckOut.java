@@ -10,10 +10,19 @@ import Excepcion.BuscarHabitacionException;
 import Excepcion.BuscarHuespedException;
 import Excepcion.CargarImagenException;
 import Excepcion.DatosIncompletosException;
+import Excepcion.DiaException;
+import Excepcion.GuardarCuentaPersonalException;
+import Excepcion.ModificarCuentaPersonalException;
+import Excepcion.MultaException;
+import Excepcion.anoException;
+import Excepcion.horaException;
+import Excepcion.mesException;
+import Excepcion.modificarReservaCheckIn;
 import Modelo.Habitacion;
 import Modelo.Huesped;
 import Modelo.ReservaHabitacion;
 import java.awt.image.BufferedImage;
+import java.util.Date;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTextField;
 
@@ -52,5 +61,8 @@ public class CtlCheckOut {
     public DefaultComboBoxModel llenarComboBox(int idHuesped) {
         return bo.llenarComboBox(idHuesped);
     }
+        public void realizarCheckOut(Date fechaHoy, ReservaHabitacion reserva, int idHuesped) throws anoException, mesException, DiaException, horaException, DatosIncompletosException, modificarReservaCheckIn, GuardarCuentaPersonalException, ModificarCuentaPersonalException {
+            bo.realizarCheckOut(fechaHoy, reserva, idHuesped);
+        }
 
 }
