@@ -494,7 +494,9 @@ public class FrmAdministrador extends javax.swing.JFrame {
     }//GEN-LAST:event_btnReportesActionPerformed
 
     private void btnFacturacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFacturacionActionPerformed
-        // TODO add your handling code here:
+     FrmFacturacion vista=new FrmFacturacion(administrador, null);
+     vista.setVisible(true);
+     this.dispose();
     }//GEN-LAST:event_btnFacturacionActionPerformed
 
     private void btnRecepcionistaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRecepcionistaActionPerformed

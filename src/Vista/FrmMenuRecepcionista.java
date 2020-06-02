@@ -360,7 +360,7 @@ public class FrmMenuRecepcionista extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCheckoutActionPerformed
 
     private void btnFacturacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFacturacionActionPerformed
-        FrmFacturacion facturacion = new FrmFacturacion(recepcionista);
+        FrmFacturacion facturacion = new FrmFacturacion(null, recepcionista);
         facturacion.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnFacturacionActionPerformed
