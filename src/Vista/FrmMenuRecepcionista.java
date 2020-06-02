@@ -191,6 +191,11 @@ public class FrmMenuRecepcionista extends javax.swing.JFrame {
 
         btnEstadoreseva.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/estadoreserva.jpg"))); // NOI18N
         btnEstadoreseva.setBorder(null);
+        btnEstadoreseva.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEstadoresevaActionPerformed(evt);
+            }
+        });
 
         lblEstadoReserva.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         lblEstadoReserva.setForeground(new java.awt.Color(0, 0, 0));
@@ -349,9 +354,9 @@ public class FrmMenuRecepcionista extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void btnCheckoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCheckoutActionPerformed
-      FrmCheckOut vista=new FrmCheckOut(recepcionista, null);
-      vista.setVisible(true);
-      this.dispose();
+        FrmCheckOut vista = new FrmCheckOut(recepcionista, null);
+        vista.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnCheckoutActionPerformed
 
     private void btnFacturacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFacturacionActionPerformed
@@ -385,6 +390,12 @@ public class FrmMenuRecepcionista extends javax.swing.JFrame {
         vista.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnCheckinActionPerformed
+
+    private void btnEstadoresevaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEstadoresevaActionPerformed
+        FrmEstadoReserva estado = new FrmEstadoReserva(recepcionista);
+        estado.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnEstadoresevaActionPerformed
 
     /**
      * @param args the command line arguments

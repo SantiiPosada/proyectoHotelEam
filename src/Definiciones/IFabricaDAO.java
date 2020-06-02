@@ -94,4 +94,11 @@ public interface IFabricaDAO {
      * @return Abstraccion de DAOMulta
      */
     public IDAOMulta crearDAOMulta();
+
+    /**
+     * Metodo para la creacion de un DAOHistorialHospedaje
+     *
+     * @return Abstraccion de DAOHistorialHospedaje
+     */
+    public IDAOHistorialHospedaje crearDAOHistorialHospedaje();
 }

@@ -5,10 +5,22 @@
  */
 package Controlador;
 
+import Bo.BOEstadoReserva;
+import javax.swing.DefaultComboBoxModel;
+
 /**
  *
  * @author mateo
  */
 public class CtlEstadoReserva {
-    
+
+    BOEstadoReserva bo;
+
+    public CtlEstadoReserva() {
+        bo = new BOEstadoReserva();
+    }
+
+    public DefaultComboBoxModel llenarComboBox() {
+        return bo.llenarComboBox();
+    }
 }

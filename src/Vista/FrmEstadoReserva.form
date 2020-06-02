@@ -73,12 +73,12 @@
                                       <Group type="102" attributes="0">
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Group type="102" alignment="0" attributes="0">
-                                                  <Component id="txtCedula2" min="-2" pref="142" max="-2" attributes="0"/>
+                                                  <Component id="txtNombreHabitacion" min="-2" pref="142" max="-2" attributes="0"/>
                                                   <EmptySpace max="-2" attributes="0"/>
                                                   <Component id="lblSeleccione2" min="-2" max="-2" attributes="0"/>
                                               </Group>
                                               <Group type="102" alignment="0" attributes="0">
-                                                  <Component id="txtCedula3" min="-2" pref="142" max="-2" attributes="0"/>
+                                                  <Component id="txtValorNoche" min="-2" pref="142" max="-2" attributes="0"/>
                                                   <EmptySpace max="-2" attributes="0"/>
                                                   <Component id="lblSeleccione6" min="-2" max="-2" attributes="0"/>
                                               </Group>
@@ -86,7 +86,7 @@
                                           <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Component id="spnPiso" min="-2" pref="42" max="-2" attributes="0"/>
-                                              <Component id="spnPiso2" min="-2" pref="42" max="-2" attributes="0"/>
+                                              <Component id="spnSala" min="-2" pref="42" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
                                       <Component id="jScrollPane3" max="32767" attributes="0"/>
@@ -94,7 +94,7 @@
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                   <Component id="lblSeleccione4" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="spnPiso1" min="-2" pref="42" max="-2" attributes="0"/>
+                                  <Component id="spnBano" min="-2" pref="42" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace pref="63" max="32767" attributes="0"/>
@@ -137,18 +137,18 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="lblSeleccione1" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="txtCedula2" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txtNombreHabitacion" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="lblSeleccione2" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="spnPiso" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="lblSeleccione4" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="spnPiso1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="spnBano" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="lblSeleccione3" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="txtCedula3" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txtValorNoche" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="lblSeleccione6" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="spnPiso2" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="spnSala" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
@@ -391,7 +391,7 @@
             <Property name="text" type="java.lang.String" value="Nombre Habitacion :"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="txtCedula2">
+        <Component class="javax.swing.JTextField" name="txtNombreHabitacion">
           <Properties>
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
@@ -415,6 +415,7 @@
             <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
               <SpinnerModel initial="0" minimum="0" numberType="java.lang.Integer" stepSize="1" type="number"/>
             </Property>
+            <Property name="enabled" type="boolean" value="false"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="lblSeleccione3">
@@ -431,7 +432,7 @@
             <Property name="text" type="java.lang.String" value="Valor por Noche :"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="txtCedula3">
+        <Component class="javax.swing.JTextField" name="txtValorNoche">
           <Properties>
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
@@ -450,11 +451,12 @@
             <Property name="text" type="java.lang.String" value="Ba&#xf1;os :"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JSpinner" name="spnPiso1">
+        <Component class="javax.swing.JSpinner" name="spnBano">
           <Properties>
             <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
               <SpinnerModel initial="0" minimum="0" numberType="java.lang.Integer" stepSize="1" type="number"/>
             </Property>
+            <Property name="enabled" type="boolean" value="false"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="lblSeleccione5">
@@ -488,6 +490,7 @@
                   <Color blue="0" green="0" red="0" type="rgb"/>
                 </Property>
                 <Property name="rows" type="int" value="5"/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
                 <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtDescripcionKeyTyped"/>
@@ -509,11 +512,12 @@
             <Property name="text" type="java.lang.String" value="Salas:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JSpinner" name="spnPiso2">
+        <Component class="javax.swing.JSpinner" name="spnSala">
           <Properties>
             <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
               <SpinnerModel initial="0" minimum="0" numberType="java.lang.Integer" stepSize="1" type="number"/>
             </Property>
+            <Property name="enabled" type="boolean" value="false"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JSeparator" name="jSeparator1">
