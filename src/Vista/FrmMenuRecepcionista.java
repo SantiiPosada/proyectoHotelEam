@@ -366,7 +366,9 @@ public class FrmMenuRecepcionista extends javax.swing.JFrame {
     }//GEN-LAST:event_btnFacturacionActionPerformed
 
     private void btnMultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMultaActionPerformed
-
+        FrmMultas vista = new FrmMultas(null, recepcionista);
+        vista.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnMultaActionPerformed
 
     private void btnVenderHabitacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVenderHabitacionActionPerformed

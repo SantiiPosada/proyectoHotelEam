@@ -5,35 +5,19 @@
  */
 package Vista;
 
-import Controlador.CtlCheckIn;
 import Controlador.CtlMultas;
 import Excepcion.BuscarCedulaHuespedException;
-import Excepcion.BuscarHabitacionException;
 import Excepcion.BuscarHuespedException;
 import Excepcion.BuscarMultasException;
-import Excepcion.CargarImagenException;
 import Excepcion.DatosIncompletosException;
-import Excepcion.DiaException;
-import Excepcion.GuardarCuentaPersonalException;
 import Excepcion.ModificarMultaException;
 import Excepcion.ModificarReservaException;
 import Excepcion.MultaIdReservaException;
-import Excepcion.anoException;
-import Excepcion.horaException;
-import Excepcion.mesException;
-import Excepcion.modificarReservaCheckIn;
 import Modelo.Administrador;
-import Modelo.Habitacion;
 import Modelo.Huesped;
 import Modelo.Recepcionista;
-import Modelo.ReservaHabitacion;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
+
 
 /**
  *
