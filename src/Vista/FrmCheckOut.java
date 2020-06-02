@@ -6,12 +6,17 @@
 package Vista;
 
 import Controlador.CtlCheckOut;
+import Excepcion.BuscarHabitacionException;
 import Excepcion.BuscarHuespedException;
+import Excepcion.CargarImagenException;
 import Excepcion.DatosIncompletosException;
+import Modelo.Administrador;
+import Modelo.Habitacion;
 import Modelo.Huesped;
 import Modelo.Recepcionista;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 /**
@@ -26,20 +31,19 @@ public class FrmCheckOut extends javax.swing.JFrame {
     private Recepcionista recepcionista = null;
     private CtlCheckOut controlador;
     private Huesped huesped = null;
+    private Administrador administrador = null;
 
     public FrmCheckOut() {
         initComponents();
     }
 
-    public FrmCheckOut(Recepcionista recepcionista) {
+    public FrmCheckOut( Recepcionista recepcionista) {
         this.recepcionista = recepcionista;
+        this.administrador = administrador;
         controlador = new CtlCheckOut();
         initComponents();
-
+        cargarInformacion();
         asignarFechaHoy();
-        lblNombre.setText(this.recepcionista.getNombrecompleto());
-        lblCedula.setText(this.recepcionista.getCedula());
-
         this.setLocationRelativeTo(null);
         this.setResizable(false);
     }
@@ -471,6 +475,23 @@ public class FrmCheckOut extends javax.swing.JFrame {
     }//GEN-LAST:event_btnConsultar1ActionPerformed
 
     private void cbxReservaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbxReservaMouseClicked
+//  try {
+//            Habitacion habitacion = controlador.buscarHabitacion(Integer.parseInt(cbxReserva.getSelectedItem().toString()));
+//
+//            lblNombrehabitacion.setText(habitacion.getNombre());
+//            lblValor.setText(habitacion.getValorPorNoche());
+//            lblDescripcion.setText(habitacion.getDescripcion());
+//            lblImagen.setIcon(new ImageIcon(controlador.cargarImagenBufferedImage(habitacion.getImagen())));
+//
+//            reserva = controlador.buscarReserva(Integer.parseInt(cbxReserva.getSelectedItem().toString()));
+//            dateFechaLlegada1.setDate(reserva.getFechaHoraCheckIn());
+//            dateFechaSalida.setDate(reserva.getFechaHoraCheckOut());
+//            btnConsultar1.setEnabled(true);
+//        } catch (BuscarHabitacionException | CargarImagenException ex) {
+//            JOptionPane.showMessageDialog(null, ex.getMessage());
+//        } catch (NumberFormatException | NullPointerException ex) {
+//            JOptionPane.showMessageDialog(null, "Seleccione una reserva");
+//        }
 
 
     }//GEN-LAST:event_cbxReservaMouseClicked
@@ -482,6 +503,20 @@ public class FrmCheckOut extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
+    private void cargarInformacion() {
+
+        if (this.recepcionista != null) {
+
+            lblCedula.setText(this.recepcionista.getCedula());
+            lblNombre.setText(this.recepcionista.getNombrecompleto());
+
+        } else if (this.administrador != null) {
+
+            lblCedula.setText(this.administrador.getCedula());
+            lblNombre.setText(this.administrador.getNombrecompleto());
+        }
+    }
+
     private void limpiar() {
 
         txtCedula2.setText("");

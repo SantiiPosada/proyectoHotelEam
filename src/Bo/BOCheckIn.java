@@ -160,7 +160,9 @@ public class BOCheckIn {
             if (monthFechaHoraReserva == monthHoraFechaLlegada) {// si es el mismo mes
 
                 if (dayHoraFechaLlegada == dayFechaHoraReserva) {
-
+                    if (hora < 14) {
+                        throw new horaException();
+                    }
                     if (hora >= 14 && hora <= 16) {
 
                         if (BoReserva.modificarReserva("CheckIn", "Activo", reserva.getId())) {
