@@ -158,7 +158,7 @@ public class BOMiCuenta {
         };
 
         lista.forEach((producto) -> {
-            int valortotal = Integer.parseInt(producto.getCantidad()) * Integer.parseInt(producto.getValortotal());
+            double valortotal = Double.parseDouble(producto.getCantidad()) * Double.parseDouble(producto.getValortotal());
             modelo.addRow(new Object[]{producto.getIdProducto(), producto.getNombre(), producto.getCantidad(), valortotal});
 
         });

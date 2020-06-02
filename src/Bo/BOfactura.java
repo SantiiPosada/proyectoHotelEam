@@ -5,15 +5,25 @@
  */
 package Bo;
 
+import DTO.DTOProductosCuenta;
 import DTO.DTOReservaActiva;
 import Definiciones.IDAOHabitacion;
+import Definiciones.IDAOHuesped;
 import Definiciones.IDAOMiCuenta;
 import Definiciones.IDAOReserva;
+import Excepcion.BuscarHuespedException;
+import Excepcion.DatosIncompletosException;
+import Excepcion.MultaIdReservaException;
 import Fabrica.FactoryDAO;
 import Modelo.Habitacion;
+import Modelo.Huesped;
+import Modelo.Producto;
 import Modelo.ReservaHabitacion;
 import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -26,17 +36,25 @@ public class BOfactura {
     private final DateFormat formato;
     private final IDAOHabitacion daoHabitacion;
     private final IDAOReserva daoReserva;
+    private final BoHuesped boHuesped;
 
     public BOfactura() {
         dao = FactoryDAO.getFabrica().crearDAOMiCuenta();
         daoHabitacion = FactoryDAO.getFabrica().crearDAOHabitacIon();
         daoReserva = FactoryDAO.getFabrica().crearDAOReserva();
+        boHuesped = new BoHuesped();
         formato = DateFormat.getDateInstance();
     }
+
     public ArrayList<ReservaHabitacion> listareservas() {
         return daoReserva.listarReserva();
     }
-     public DefaultTableModel listarElementosReservacionInactiva(int idHuesped) {
+
+    public ArrayList<ReservaHabitacion> listaReservas() {
+        return daoReserva.listarReserva();
+    }
+
+    public DefaultTableModel listarElementosReservacionInactiva(int idHuesped) {
         ArrayList<ReservaHabitacion> lista = listareservas();
         ArrayList<Habitacion> listaHabitaciones = listaHabitacion();
         String nombreColumnas[] = {"Id Reserva", "Fecha Reservacion", "Habitacion", "Estado", "Estado Servicio"};
@@ -72,7 +90,63 @@ public class BOfactura {
 
         return modelo;
     }
-       public DefaultTableModel listarElementosReservacion(int idHuesped) {
+
+    public String generarValorAPagar(int idReserva) {
+
+        double valorTotal;
+
+        double valorProductos = calcularTotalProductos(0);
+        double valorHabitacion = valorHabitacion(0);
+
+        valorTotal = valorProductos + valorHabitacion;
+
+        return String.valueOf(valorTotal);
+    }
+
+    private double calcularTotalProductos(int idReservacion) {
+        ArrayList<DTO.DTOProductosCuenta> lista = listaProductos(idReservacion);
+        ArrayList<Habitacion> listaHabitaciones = listaHabitacion();
+        double valorProductos = 0;
+        for (DTOProductosCuenta producto : lista) {
+            valorProductos = Double.parseDouble(producto.getCantidad()) * Double.parseDouble(producto.getValortotal());
+        }
+return valorProductos;
+    }
+
+    public double valorHabitacion(int idReserva)  {
+
+        ArrayList<ReservaHabitacion> listareserva = listaReservas();
+        ArrayList<Habitacion> listahabitacion = listaHabitacion();
+        for (int i = 0; i < listareserva.size(); i++) {
+            if (listareserva.get(i).getId() == idReserva) {
+                Calendar calLlegada = new GregorianCalendar();
+                calLlegada.setTime(listareserva.get(i).getFechaHoraCheckIn());
+                int yearHoraFechaLlegada = calLlegada.get(Calendar.YEAR);
+                int monthHoraFechaLlegada = calLlegada.get(Calendar.MONTH);
+                int dayHoraFechaLlegada = calLlegada.get(Calendar.DAY_OF_MONTH);
+
+                Calendar calSalida = new GregorianCalendar();
+                calSalida.setTime(listareserva.get(i).getFechaHoraCheckOut());
+                int yearFechaHoraSalida = calSalida.get(Calendar.YEAR);
+                int monthFechaHoraSalida = calSalida.get(Calendar.MONTH);
+                int dayFechaHoraSalida = calSalida.get(Calendar.DAY_OF_MONTH);
+
+                int cantidadnoches = dayFechaHoraSalida - dayHoraFechaLlegada;
+                double valornoche = 0;
+                for (int j = 0; j < listahabitacion.size(); j++) {
+                    if (listahabitacion.get(j).getId() == listareserva.get(i).getIdHabitacion()) {
+                        valornoche = Double.parseDouble(listahabitacion.get(j).getValorPorNoche());
+                        break;
+                    }
+                }
+                return cantidadnoches * valornoche;
+               
+            }
+        }
+       return 0;
+    }
+
+    public DefaultTableModel listarElementosReservacion(int idHuesped) {
         ArrayList<DTO.DTOReservaActiva> lista = listaReservas(idHuesped);
         ArrayList<Habitacion> listaHabitaciones = listaHabitacion();
         String nombreColumnas[] = {"Id Reserva", "Fecha Reservacion", "Habitacion", "Estado", "Valor"};
@@ -89,7 +163,7 @@ public class BOfactura {
         };
         String habitaciones = "";
         for (DTO.DTOReservaActiva reserva : lista) {
-            if (reserva.getEstado().equalsIgnoreCase("CheckIn")) {
+            if (reserva.getEstado().equalsIgnoreCase("CheckOut")) {
                 String fecha = formato.format(reserva.getFechareservacion());
                 for (Habitacion habitacion : listaHabitaciones) {
 
@@ -108,7 +182,7 @@ public class BOfactura {
 
         return modelo;
     }
-       
+
     public DTO.DTOReservaActiva buscarReserva(int idReserva, int idHuesped) {
         ArrayList<DTOReservaActiva> listasreserva = listaReservas(idHuesped);
         DTOReservaActiva reserva = new DTOReservaActiva();
@@ -154,13 +228,25 @@ public class BOfactura {
         };
 
         lista.forEach((producto) -> {
-            int valortotal = Integer.parseInt(producto.getCantidad()) * Integer.parseInt(producto.getValortotal());
+            double valortotal = Double.parseDouble(producto.getCantidad()) * Double.parseDouble(producto.getValortotal());
             modelo.addRow(new Object[]{producto.getIdProducto(), producto.getNombre(), producto.getCantidad(), valortotal});
 
         });
 
         return modelo;
 
+    }
+
+    public Huesped buscarHuesped(String cedula) throws BuscarHuespedException, DatosIncompletosException {
+        return boHuesped.buscar(cedula);
+    }
+
+    public String obtenerDatoJtextFile(JTextField x) {
+        String informacion = x.getText();
+        if (informacion.equals("")) {
+            informacion = null;
+        }
+        return informacion;
     }
 
 }

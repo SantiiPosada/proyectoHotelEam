@@ -6,8 +6,12 @@
 package Vista;
 
 import Controlador.CtlFactura;
+import Excepcion.BuscarHuespedException;
+import Excepcion.DatosIncompletosException;
 import Modelo.Administrador;
+import Modelo.Huesped;
 import Modelo.Recepcionista;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -20,7 +24,9 @@ public class FrmFacturacion extends javax.swing.JFrame {
      */
     private Recepcionista recepcionista = null;
     private Administrador administrador = null;
-private CtlFactura controlador;
+    private Huesped huesped=null;
+    private CtlFactura controlador;
+int idReservacion=0;
     public FrmFacturacion() {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -31,11 +37,11 @@ private CtlFactura controlador;
         this.recepcionista = recepcionista;
         this.administrador = administrador;
         initComponents();
-        this.controlador=new CtlFactura();
+        this.controlador = new CtlFactura();
         this.setLocationRelativeTo(null);
         this.setResizable(false);
         cargarInfo();
-       
+
     }
 
     /**
@@ -56,7 +62,7 @@ private CtlFactura controlador;
         btnSalir = new javax.swing.JButton();
         lblCedulahuesped = new javax.swing.JLabel();
         txtCedula = new javax.swing.JTextField();
-        btnSalir1 = new javax.swing.JButton();
+        btnBuscar = new javax.swing.JButton();
         lblCedulahuesped2 = new javax.swing.JLabel();
         txtCedula1 = new javax.swing.JTextField();
         btnSalir2 = new javax.swing.JButton();
@@ -139,14 +145,12 @@ private CtlFactura controlador;
         lblCedulahuesped.setForeground(new java.awt.Color(0, 0, 0));
         lblCedulahuesped.setText("Cedula Huesped :");
 
-        txtCedula.setEnabled(false);
-
-        btnSalir1.setBackground(new java.awt.Color(255, 255, 255));
-        btnSalir1.setForeground(new java.awt.Color(102, 0, 0));
-        btnSalir1.setText("Buscar");
-        btnSalir1.addActionListener(new java.awt.event.ActionListener() {
+        btnBuscar.setBackground(new java.awt.Color(255, 255, 255));
+        btnBuscar.setForeground(new java.awt.Color(102, 0, 0));
+        btnBuscar.setText("Buscar");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSalir1ActionPerformed(evt);
+                btnBuscarActionPerformed(evt);
             }
         });
 
@@ -279,10 +283,10 @@ private CtlFactura controlador;
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(lblCedulahuesped, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtCedula, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnSalir1, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(447, 447, 447))
+                        .addComponent(txtCedula, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(8, 8, 8)
                         .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -314,7 +318,7 @@ private CtlFactura controlador;
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblCedulahuesped)
                             .addComponent(txtCedula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnSalir1))
+                            .addComponent(btnBuscar))
                         .addGap(33, 33, 33)
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(24, Short.MAX_VALUE))
@@ -347,7 +351,7 @@ private CtlFactura controlador;
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
-       if (this.administrador != null) {
+        if (this.administrador != null) {
             FrmAdministrador vista = new FrmAdministrador(administrador);
             vista.setVisible(true);
             this.dispose();
@@ -358,16 +362,46 @@ private CtlFactura controlador;
         }
     }//GEN-LAST:event_btnSalirActionPerformed
 
-    private void btnSalir1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalir1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnSalir1ActionPerformed
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+      try {
+            huesped = controlador.buscarHuesped(controlador.obtenerDatoJtextFile(txtCedula));
+           listarReserva(huesped);
+            imprimir(huesped.getNombrecompleto() + " Encontrado correctamente");
+        } catch (BuscarHuespedException | DatosIncompletosException ex) {
+            imprimir(ex.getMessage());
+        }
+    }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnSalir2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalir2ActionPerformed
-        // TODO add your handling code here:
+       if(idReservacion==0){
+           JOptionPane.showMessageDialog(null, "Seleccione una reserva para generarle el total a pagar");
+           
+          
+           
+           
+       }else{
+        //    String valorTotal=controlador.;
+       }
     }//GEN-LAST:event_btnSalir2ActionPerformed
 
     private void jtblReservaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtblReservaMouseClicked
+     int filaSeleccionada = jtblReserva.getSelectedRow();//selecciona la posicion de la tabla
 
+        if (filaSeleccionada == -1) {
+            imprimir("No se ha seleccionado ninguna fila");
+
+        } else {
+            //String ayuda = tabla.getValueAt(filaseleccionada, num_columna).toString()); 
+            int idreservacion = (int) jtblReserva.getValueAt(filaSeleccionada, 0);
+            this.idReservacion=idreservacion;
+            DTO.DTOReservaActiva reserva = controlador.buscarReservaActiva(idreservacion, huesped.getId());
+
+            if (reserva != null) {
+                jtblProductos.setModel(controlador.listaElementosProductos(idreservacion));
+            } else {
+                imprimir("No se encuentra ningun producto");
+            }
+        }
     }//GEN-LAST:event_jtblReservaMouseClicked
 
     private void btnSalir3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalir3ActionPerformed
@@ -386,6 +420,13 @@ private CtlFactura controlador;
         }
 
     }
+    private void imprimir(String v) {
+        JOptionPane.showMessageDialog(null, v);
+    }
+     private void listarReserva(Huesped huesped) {
+        jtblReserva.setModel(controlador.listaElementosReserva(huesped.getId()));
+    }
+  
 
     /**
      * @param args the command line arguments
@@ -424,8 +465,8 @@ private CtlFactura controlador;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnSalir;
-    private javax.swing.JButton btnSalir1;
     private javax.swing.JButton btnSalir2;
     private javax.swing.JButton btnSalir3;
     private javax.swing.JLabel jLabel5;
