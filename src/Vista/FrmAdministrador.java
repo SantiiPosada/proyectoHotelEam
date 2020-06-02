@@ -79,6 +79,8 @@ public class FrmAdministrador extends javax.swing.JFrame {
         btnHistorialHospedaje1 = new javax.swing.JButton();
         btnHistorialHospedaje2 = new javax.swing.JButton();
         jLabel15 = new javax.swing.JLabel();
+        lblHabitacionesDisponible = new javax.swing.JLabel();
+        btnHabitacionDisponible = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -259,6 +261,18 @@ public class FrmAdministrador extends javax.swing.JFrame {
         jLabel15.setForeground(new java.awt.Color(0, 0, 0));
         jLabel15.setText("Huesped");
 
+        lblHabitacionesDisponible.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        lblHabitacionesDisponible.setForeground(new java.awt.Color(0, 0, 0));
+        lblHabitacionesDisponible.setText("Habitaciones disponibles");
+
+        btnHabitacionDisponible.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/hospedaje.jpg"))); // NOI18N
+        btnHabitacionDisponible.setBorder(null);
+        btnHabitacionDisponible.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHabitacionDisponibleActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -323,7 +337,13 @@ public class FrmAdministrador extends javax.swing.JFrame {
                                         .addComponent(jLabel12))))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(1, 1, 1)
-                                .addComponent(jLabel14)))))
+                                .addComponent(jLabel14)
+                                .addGap(33, 33, 33)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblHabitacionesDisponible)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(29, 29, 29)
+                                        .addComponent(btnHabitacionDisponible, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(65, 65, 65)
@@ -421,14 +441,21 @@ public class FrmAdministrador extends javax.swing.JFrame {
                     .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(23, 23, 23)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnHuesped, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnHistorialHospedaje1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(23, 23, 23)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnHuesped, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnHistorialHospedaje1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnHabitacionDisponible, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lblHabitacionesDisponible, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
@@ -512,6 +539,12 @@ public class FrmAdministrador extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnChkeckinActionPerformed
 
+    private void btnHabitacionDisponibleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHabitacionDisponibleActionPerformed
+        FrmHabitacionDisponible vista = new FrmHabitacionDisponible(null, administrador, null);
+        vista.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnHabitacionDisponibleActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -553,6 +586,7 @@ public class FrmAdministrador extends javax.swing.JFrame {
     private javax.swing.JButton btnEstadoreseva;
     private javax.swing.JButton btnFacturacion;
     private javax.swing.JButton btnHabitacion;
+    private javax.swing.JButton btnHabitacionDisponible;
     private javax.swing.JButton btnHabitacionesdisponibles;
     private javax.swing.JButton btnHistorialHospedaje1;
     private javax.swing.JButton btnHistorialHospedaje2;
@@ -580,6 +614,7 @@ public class FrmAdministrador extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblCedula;
+    private javax.swing.JLabel lblHabitacionesDisponible;
     private javax.swing.JLabel lblNombre;
     // End of variables declaration//GEN-END:variables
 }

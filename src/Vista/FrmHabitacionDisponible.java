@@ -18,6 +18,7 @@ import Excepcion.ReservaActivaException;
 import Excepcion.UsuarioMultadoException;
 import Excepcion.anoException;
 import Excepcion.mesException;
+import Modelo.Administrador;
 import Modelo.Habitacion;
 import Modelo.Huesped;
 import Modelo.Recepcionista;
@@ -34,6 +35,8 @@ import javax.swing.JOptionPane;
 public class FrmHabitacionDisponible extends javax.swing.JFrame {
 
     private Huesped huesped;
+    private Administrador administrador;
+    private Recepcionista recepsionista;
     private CtlHabitacionDisponible controlador;
     private CtlHabitacion controladorhabitacion;
     private Habitacion habitacion;
@@ -45,8 +48,10 @@ public class FrmHabitacionDisponible extends javax.swing.JFrame {
 
     }
 
-    public FrmHabitacionDisponible(Huesped huesped) {
+    public FrmHabitacionDisponible(Huesped huesped, Administrador administrador, Recepcionista recepcionista) {
         this.huesped = huesped;
+        this.administrador = administrador;
+        this.recepsionista = recepcionista;
         habitacion = null;
         initComponents();
         controlador = new CtlHabitacionDisponible();
@@ -56,7 +61,8 @@ public class FrmHabitacionDisponible extends javax.swing.JFrame {
         dateFechaHoy.setVisible(false);
         listar();
         asignarFechaHoy();
-        cargarInfo(huesped);
+        cargarInfo();
+
     }
 
     /**
@@ -387,9 +393,19 @@ public class FrmHabitacionDisponible extends javax.swing.JFrame {
     }//GEN-LAST:event_btnConsultarActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
-        FrmMenuHuesped menu = new FrmMenuHuesped(huesped);
-        menu.setVisible(true);
-        this.dispose();
+        if (this.administrador != null) {
+            FrmAdministrador vista = new FrmAdministrador(administrador);
+            vista.setVisible(true);
+            this.dispose();
+        } else if (this.recepsionista != null) {
+            FrmMenuRecepcionista vista = new FrmMenuRecepcionista(recepsionista);
+            vista.setVisible(true);
+            this.dispose();
+        } else if (this.huesped != null) {
+            FrmMenuHuesped vista = new FrmMenuHuesped(huesped);
+            vista.setVisible(true);
+            this.dispose();
+        }
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
@@ -398,9 +414,21 @@ public class FrmHabitacionDisponible extends javax.swing.JFrame {
         dateFechaSalida.setEnabled(false);
         limpiar();
     }//GEN-LAST:event_btnCancelarActionPerformed
-    private void cargarInfo(Huesped x) {
-        lblCedula.setText(x.getCedula());
-        lblNombre.setText(x.getNombrecompleto());
+    private void cargarInfo() {
+        if (this.recepsionista != null) {
+
+            lblCedula.setText(this.recepsionista.getCedula());
+            lblNombre.setText(this.recepsionista.getNombrecompleto());
+
+        } else if (this.administrador != null) {
+
+            lblCedula.setText(this.administrador.getCedula());
+            lblNombre.setText(this.administrador.getNombrecompleto());
+        } else if (this.huesped != null) {
+
+            lblCedula.setText(this.huesped.getCedula());
+            lblNombre.setText(this.huesped.getNombrecompleto());
+        }
 
     }
 

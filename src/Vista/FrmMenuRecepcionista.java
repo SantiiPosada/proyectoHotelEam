@@ -382,7 +382,9 @@ public class FrmMenuRecepcionista extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRegistroHuespedActionPerformed
 
     private void btnHabitacionDisponibleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHabitacionDisponibleActionPerformed
-
+        FrmHabitacionDisponible vista = new FrmHabitacionDisponible(null, null, recepcionista);
+        vista.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnHabitacionDisponibleActionPerformed
 
     private void btnCheckinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCheckinActionPerformed
