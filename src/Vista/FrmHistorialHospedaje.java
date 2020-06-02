@@ -157,7 +157,7 @@ public class FrmHistorialHospedaje extends javax.swing.JFrame {
 
         CbxFiltrar.setBackground(new java.awt.Color(255, 255, 255));
         CbxFiltrar.setForeground(new java.awt.Color(0, 0, 0));
-        CbxFiltrar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "Nombre Habitacion", "Fecha Checkin", "Fecha Checkout", "Cedula Cliente" }));
+        CbxFiltrar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "Nombre", "Fecha Checkin", "Fecha Checkout", "Cedula Cliente" }));
 
         txtFiltrar.setBackground(new java.awt.Color(255, 255, 255));
         txtFiltrar.setForeground(new java.awt.Color(0, 0, 0));
@@ -186,7 +186,7 @@ public class FrmHistorialHospedaje extends javax.swing.JFrame {
                 {null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Id Reserva", "Id Habitacion", "Nombre habitacion", "Valor Por Noche", "Fecha Check-in", "Fecha Check-out", "Estado Reserva", "Cedula Huesped", "Nombre Huesped", "Valor Total A Pagar"
+                "Id Reserva", "Id Habitacion", "Nombre", "Valor Por Noche", "Fecha Check-in", "Fecha Check-out", "Estado Reserva", "Cedula Huesped", "Nombre Huesped", "Valor Total A Pagar"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -419,6 +419,9 @@ public class FrmHistorialHospedaje extends javax.swing.JFrame {
                     fechacheckout.setMinutes(0);
                     fechacheckout.setSeconds(0);
                     String accion = controlador.deDateaString(fechacheckout);
+                    jtblHistorial.setModel(controlador.filtrar(opcion, accion));
+                } else {
+                    String accion = controlador.obtenerDatoJtextFile(txtFiltrar);
                     jtblHistorial.setModel(controlador.filtrar(opcion, accion));
                 }
             }

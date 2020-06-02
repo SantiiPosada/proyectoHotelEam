@@ -213,12 +213,12 @@ public class BOHistorialHospedaje {
         if (accion == null) {
             throw new DatosIncompletosException();
         }
-        JOptionPane.showMessageDialog(null, opcion + " " + accion);
+        JOptionPane.showMessageDialog(null, opcion + " " + accion + " " + "estoy aqui");
         ArrayList<DTOHistorialHospedaje> lista = listaHistorial();
         ArrayList<Habitacion> listaHabitaciones = listaHabitacion();
         ArrayList<Huesped> listaHuesped = listaHuesped();
         ArrayList<CuentaPersonal> listaCuentaPersonal = listaCuentaPersonal();
-        String nombreColumnas[] = {"Id Reserva", "Id Habitacion", "Nombre habitacion", "Valor Por Noche", "Fecha Check-in", "Fecha Check-out", "Estado Reserva", "Cedula Huesped", "Nombre Huesped", "Valor Total A Pagar"};
+        String nombreColumnas[] = {"Id Reserva", "Id Habitacion", "Nombre", "Valor Por Noche", "Fecha Check-in", "Fecha Check-out", "Estado Reserva", "Cedula Huesped", "Nombre Huesped", "Valor Total A Pagar"};
         DefaultTableModel modelo = new DefaultTableModel(new Object[][]{}, nombreColumnas) {
             @Override
             public boolean isCellEditable(int filas, int columnas) {
@@ -235,7 +235,8 @@ public class BOHistorialHospedaje {
             case "Seleccione":
                 throw new ComboBoxException();
 
-            case "Nombre habitacion":
+            case "Nombre":
+                JOptionPane.showMessageDialog(null, opcion + " " + accion + " " + "estoy aqui");
                 lista.forEach((historial) -> {
                     if (historial.getNombreHabitacion().equalsIgnoreCase(accion)) {
                         String fechacheckin = formato.format(historial.getFechaCheckin());
