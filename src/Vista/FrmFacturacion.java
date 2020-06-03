@@ -24,10 +24,11 @@ public class FrmFacturacion extends javax.swing.JFrame {
      */
     private Recepcionista recepcionista = null;
     private Administrador administrador = null;
-    private Huesped huesped=null;
+    private Huesped huesped = null;
     private CtlFactura controlador;
-int idReservacion=0;
-String valorPgar=null;
+    int idReservacion = 0;
+    String valorPgar = null;
+
     public FrmFacturacion() {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -325,7 +326,7 @@ String valorPgar=null;
                         .addContainerGap(24, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(121, 121, 121)
-                        .addComponent(btnSalir2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnSalir2, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(lblCedulahuesped2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -364,9 +365,10 @@ String valorPgar=null;
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-      try {
+        try {
             huesped = controlador.buscarHuesped(controlador.obtenerDatoJtextFile(txtCedula));
-           listarReserva(huesped);
+            listarReserva(huesped);
+            jtblProductos.setModel(null);
             imprimir(huesped.getNombrecompleto() + " Encontrado correctamente");
         } catch (BuscarHuespedException | DatosIncompletosException ex) {
             imprimir(ex.getMessage());
@@ -374,20 +376,18 @@ String valorPgar=null;
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnSalir2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalir2ActionPerformed
-       if(idReservacion==0){
-           JOptionPane.showMessageDialog(null, "Seleccione una reserva para generarle el total a pagar");
-       String x=controlador.generarValorAPagar(idReservacion);
-       JOptionPane.showMessageDialog(null, "valor a pagar "+x);
-          
-           
-           
-       }else{
-        //    String valorTotal=controlador.;
-       }
+        if (idReservacion == 0) {
+            JOptionPane.showMessageDialog(null, "Seleccione una reserva para generarle el total a pagar");
+            String x = controlador.generarValorAPagar(idReservacion);
+            JOptionPane.showMessageDialog(null, "valor a pagar " + x);
+
+        } else {
+            //    String valorTotal=controlador.;
+        }
     }//GEN-LAST:event_btnSalir2ActionPerformed
 
     private void jtblReservaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtblReservaMouseClicked
-     int filaSeleccionada = jtblReserva.getSelectedRow();//selecciona la posicion de la tabla
+        int filaSeleccionada = jtblReserva.getSelectedRow();//selecciona la posicion de la tabla
 
         if (filaSeleccionada == -1) {
             imprimir("No se ha seleccionado ninguna fila");
@@ -395,7 +395,7 @@ String valorPgar=null;
         } else {
             //String ayuda = tabla.getValueAt(filaseleccionada, num_columna).toString()); 
             int idreservacion = (int) jtblReserva.getValueAt(filaSeleccionada, 0);
-            this.idReservacion=idreservacion;
+            this.idReservacion = idreservacion;
             DTO.DTOReservaActiva reserva = controlador.buscarReservaActiva(idreservacion, huesped.getId());
 
             if (reserva != null) {
@@ -422,13 +422,14 @@ String valorPgar=null;
         }
 
     }
+
     private void imprimir(String v) {
         JOptionPane.showMessageDialog(null, v);
     }
-     private void listarReserva(Huesped huesped) {
+
+    private void listarReserva(Huesped huesped) {
         jtblReserva.setModel(controlador.listaElementosReserva(huesped.getId()));
     }
-  
 
     /**
      * @param args the command line arguments

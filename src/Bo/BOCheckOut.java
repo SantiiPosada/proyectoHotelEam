@@ -170,7 +170,7 @@ public class BOCheckOut {
                 if (dayHoy >= dayHoraFechaLlegada) {
                     JOptionPane.showMessageDialog(null, "Entra");
                     if (hora >= 10 && hora <= 12) {
-                           JOptionPane.showMessageDialog(null, "Entra hora");
+                        JOptionPane.showMessageDialog(null, "Entra hora");
                         CuentaPersonal cuentaPersonal = new CuentaPersonal(0, 0, reserva.getId(), "CheckOut", "0");
                         if (BoReserva.modificarReserva("CheckOut", "Inactivo", reserva.getId())) {
                             boCuentaPersona.modificarCuentaPersonal(cuentaPersonal);
@@ -180,7 +180,7 @@ public class BOCheckOut {
                         }
 
                     } else {
- throw new horaException();
+                        throw new horaException();
                     }
 
                 } else {
